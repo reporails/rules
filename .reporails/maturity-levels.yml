@@ -1,0 +1,41 @@
+tracks:
+  foundation: [L1, L2, L3, L4]  # Everyone
+  governed: [L5]                 # Teams 20+
+  adaptive: [L6]                 # Monorepos (implies governed)
+
+levels:
+  L1:
+    name: Absent/Generated
+    required_rules: []
+
+  L2:
+    name: Basic
+    includes: [L1]
+    required_rules: [S1, C1, C2, C4, C7, C8, C9, C10, C12, M5]
+
+  L3:
+    name: Structured
+    includes: [L2]
+    required_rules: [S2, S3, S7, C3, C6, C11, E6, E7, M1, M2]
+
+  L4:
+    name: Modular
+    includes: [L3]
+    required_rules: [S4, S5, E1, E3, E4, E5, E8, M7]
+
+  L5:
+    name: Governed
+    includes: [L4]
+    required_rules: [G1, G2, G3, G4, G8, M3, M4]
+
+  L6:
+    name: Adaptive
+    includes: [L5]
+    required_rules: [S6, C5, E2, G5, G6, G7, M6]
+
+scoring:
+  structure: 20
+  content: 35
+  maintenance: 15
+  governance: 15
+  efficiency: 15

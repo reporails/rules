@@ -1,0 +1,129 @@
+# Reporails Framework Backbone
+# Central navigation index for the framework documentation
+
+# Category definitions with weights
+categories:
+  structure:
+    weight: 20
+    prefix: S
+    path: rules/structure/
+  content:
+    weight: 35
+    prefix: C
+    path: rules/content/
+  maintenance:
+    weight: 15
+    prefix: M
+    path: rules/maintenance/
+  governance:
+    weight: 15
+    prefix: G
+    path: rules/governance/
+  efficiency:
+    weight: 15
+    prefix: E
+    path: rules/efficiency/
+
+# Antipattern severity definitions
+severities:
+  critical: -25
+  high: -15
+  medium: -10
+
+# Source references (full citations in README.md)
+sources:
+  1: Claude Code Best Practices
+  2: Memory Documentation
+  3: Hooks Guide
+  4: Settings
+  5: Context Windows
+  6: Using CLAUDE.md Files
+  7: How Anthropic Teams Use Claude Code
+  8: Claude 4 Best Practices
+  9: Issue #13579
+  10: Organizing CLAUDE.md in a Monorepo
+  11: Writing a Good CLAUDE.md
+  12: CLAUDE.md Optimization Study
+  13: How I Use Every Claude Code Feature
+  14: Claude MD Guide
+  15: Claude Rules Directory Mechanics
+  16: How to Write a Good Spec for AI Agents
+  17: AGENTS.md Specification
+  18: OpenAI Codex AGENTS.md Guide
+  19: Cursor Rules for AI
+  20: GitHub Copilot Custom Instructions
+  21: JetBrains AI Agent Guidelines
+  22: Keep a Changelog
+  23: CMMI Maturity Levels
+  24: Cloud Native Maturity Model
+  25: Reporails Empirical Data
+  26: Advanced Context Engineering
+
+# Navigation maps
+navigation_maps:
+  maturity_model: maturity-model.md
+  maturity_levels: .reporails/maturity-levels.yml
+  rules:
+    structure: rules/structure/
+    content: rules/content/
+    maintenance: rules/maintenance/
+    governance: rules/governance/
+    efficiency: rules/efficiency/
+  meta:
+    readme: README.md
+    changelog: CHANGELOG.md
+    unreleased: UNRELEASED.md
+
+# High-risk areas requiring extra caution
+high_risk_areas:
+  - maturity-model.md      # Central definitions - changes cascade
+  - README.md              # Public-facing, scoring weights
+  - rules/**/*.md          # Rule definitions affect assessments
+
+# Rule index by detection type
+rule_index:
+  deterministic:
+    - S1   # Size Limits
+    - S3   # No Embedded Code
+    - S6   # YAML Backbone
+    - C9   # Has Project Description
+    - C11  # Links Valid
+    - C12  # Has Version/Date
+    - E6   # Code Block Line Limit
+    - E7   # @import Count
+    - M1   # Version Control
+    - M6   # Map Staleness Prevention
+    - M7   # Rule Snippet Length
+    - G1   # Organization Policies
+    - G7   # Architecture Tests
+  heuristic:
+    - S2   # Progressive Disclosure
+    - S5   # Path-Scoped Rules
+    - S7   # Clear Markdown Structure
+    - C1   # Core Sections
+    - C5   # MUST/MUST NOT with Context
+    - C7   # Emphasis Discipline
+    - C10  # Has NEVER Statements (with alternatives)
+    - E1   # Deterministic Tools for Style
+    - M4   # No Conflicting Rules
+    - G5   # Contract Registry
+    - G6   # Component-Contract Binding
+    - G8   # Metrics and CI/CD
+  semantic:
+    - S4   # Hierarchical Memory
+    - C2   # Explicit Over Implicit
+    - C3   # Context-Specific Content
+    - C4   # Anti-pattern Documentation
+    - C6   # Single Source of Truth
+    - C8   # Instructions Over Philosophy
+    - E2   # Session Start Ritual
+    - E3   # Purpose-Based File Reading
+    - E4   # Memory Reference
+    - E5   # Grep Efficiency
+    - E8   # Context Window Awareness
+    - M2   # Review Process
+    - M3   # Change Management
+    - M5   # Auto-Generated Content Review
+    - G2   # Team Governance Structure
+    - G3   # Security Rules Ownership
+    - G4   # Ownership Assignment
