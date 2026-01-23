@@ -4,7 +4,7 @@ Instructions:
 1. Check git diff or recent file modifications
 2. Determine the area from the file path:
    - rules/*.md → [RULES]
-   - capability-model.md with L1-L6 changes → [L1]-[L6]
+   - capability-levels.md with L1-L6 changes → [L1]-[L6]
    - README.md → [DOCS]
    - CLAUDE.md, backbone.yml, .claude/, .reporails/ → [META]
 3. Determine the category:

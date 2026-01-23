@@ -18,7 +18,7 @@ Optional fields: scoring, antipatterns, see_also, validation
 - MUST update `see_also` when adding cross-references
 - MUST update `.reporails/backbone.yml` rule_index if type changes
 - MUST update `.reporails/capability-levels.yml` if level changes
-- MUST update `capability-model.md` Capability Matrix if rule added/removed
+- MUST update `capability-levels.md` Capability Matrix if rule added/removed
 
 ## Format
 - One-line summary after title

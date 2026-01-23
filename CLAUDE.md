@@ -19,7 +19,7 @@ Documentation repository for the AI context file capability model.
 See `.reporails/backbone.yml` for file map.
 
 Key paths:
-- @capability-model.md — Level definitions and assessment
+- @capability-levels.md — Level definitions and assessment
 - @rules/structure/ — S1-S7 structure rules
 - @rules/content/ — C1-C12 content rules
 - @rules/maintenance/ — M1-M7 maintenance rules
@@ -36,7 +36,7 @@ Key paths:
 
 ## Constraints
 
-- NEVER duplicate level definitions — reference @capability-model.md instead
+- NEVER duplicate level definitions — reference @capability-levels.md instead
 - NEVER add implementation details — describe patterns abstractly
 - NEVER read CHANGELOG.md — use UNRELEASED.md instead
 - ALWAYS update UNRELEASED.md when modifying rules

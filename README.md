@@ -9,7 +9,7 @@
 This framework provides a structured approach to evaluating, creating, and maintaining CLAUDE.md files.
 
 **Contents:**
-- [Capability Model](capability-model.md) – L1-L6 level definitions and assessment
+- [Capability Model](capability-levels.md) – L1-L6 level definitions and assessment
 - [Structure Rules](rules/structure/) – S1-S7 file organization and size (20 pts)
 - [Content Rules](rules/content/) – C1-C12 what to include and how (35 pts)
 - [Maintenance Rules](rules/maintenance/) – M1-M7 version control and review (15 pts)
