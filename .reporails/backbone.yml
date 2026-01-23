@@ -61,8 +61,8 @@ sources:
 
 # Navigation maps
 navigation_maps:
-  maturity_model: maturity-model.md
-  maturity_levels: .reporails/maturity-levels.yml
+  capability_model: capability-model.md
+  capability_levels: .reporails/capability-levels.yml
   rules:
     structure: rules/structure/
     content: rules/content/
@@ -76,7 +76,7 @@ navigation_maps:
 
 # High-risk areas requiring extra caution
 high_risk_areas:
-  - maturity-model.md      # Central definitions - changes cascade
+  - capability-model.md    # Central definitions - changes cascade
   - README.md              # Public-facing, scoring weights
   - rules/**/*.md          # Rule definitions affect assessments
 

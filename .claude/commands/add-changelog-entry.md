@@ -4,8 +4,7 @@ Instructions:
 1. Check git diff or recent file modifications
 2. Determine the area from the file path:
    - rules/*.md → [RULES]
-   - maturity-model.md with L1-L6 changes → [L1]-[L6]
-   - templates/*.md → [TEMPLATES]
+   - capability-model.md with L1-L6 changes → [L1]-[L6]
    - README.md → [DOCS]
    - CLAUDE.md, backbone.yml, .claude/, .reporails/ → [META]
 3. Determine the category:
@@ -28,7 +27,6 @@ Categories: Added, Changed, Deprecated, Removed, Fixed, Security
 Areas:
 - [RULES] – Rule definitions (S, C, M, G, E)
 - [L1]-[L6] – Level-specific changes
-- [TEMPLATES] – Template files
 - [DOCS] – README, general documentation
 - [META] – CLAUDE.md, backbone.yml, repo structure
 
@@ -36,7 +34,6 @@ Example:
 ### Added
 - [RULES]: S5 rule for import depth validation
 - [L4]: Added hooks requirement to level definition
-- [TEMPLATES]: L4 modular template
 
 ### Changed
 - [DOCS]: Updated README with CLI link

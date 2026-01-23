@@ -9,7 +9,7 @@
 This framework provides a structured approach to evaluating, creating, and maintaining CLAUDE.md files.
 
 **Contents:**
-- [Maturity Model](maturity-model.md) – L1-L6 level definitions and assessment
+- [Capability Model](capability-model.md) – L1-L6 level definitions and assessment
 - [Structure Rules](rules/structure/) – S1-S7 file organization and size (20 pts)
 - [Content Rules](rules/content/) – C1-C12 what to include and how (35 pts)
 - [Maintenance Rules](rules/maintenance/) – M1-M7 version control and review (15 pts)
@@ -250,13 +250,13 @@ This validates the need for:
 22. **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/)**
     Changelog format specification. Used for UNRELEASED.md structure.
 
-### Maturity Model Foundations
+### Capability Model Foundations
 
 23. **[CMMI Maturity Levels](https://cmmiinstitute.com/learning/appraisals/levels)**
     Capability Maturity Model Integration. Inspired the L1-L6 progression structure.
 
 24. **[Cloud Native Maturity Model](https://maturitymodel.cncf.io/)**
-    CNCF maturity model. Similar tiered approach for infrastructure maturity.
+    CNCF capability model. Similar tiered approach for infrastructure capability.
 
 ### Original Research
 

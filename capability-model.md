@@ -1,4 +1,4 @@
-# CLAUDE.md Maturity Model
+# CLAUDE.md Capability Model
 
 ## 6-Level Scale
 
@@ -11,7 +11,9 @@
 | **L5** | Governed | Enterprise policies, PR-based changes, metrics | Org policies deployed, compliance tracking |
 | **L6** | Adaptive | Map-first navigation, contract registry | YAML backbone, component-contract binding |
 
-> **Validation Note:** L1-L4 patterns are well-documented in official sources and community practice. L5-L6 patterns are theoretical, derived from limited empirical data and extrapolation from enterprise software maturity models. Independent validation is ongoing.
+> **Validation Note:** L1-L4 patterns are well-documented in official sources and community practice. L5-L6 patterns are theoretical, derived from limited empirical data and extrapolation from enterprise capability models. Independent validation is ongoing.
+
+> **Key Insight:** Levels describe **capability**, not **maturity**. L2 is correct for a solo project. L6 is correct for a complex monorepo. The goal is compliance at the level appropriate for your context.
 
 ---
 
@@ -90,7 +92,7 @@
 
 ---
 
-## Maturity Assessment Matrix
+## Capability Matrix
 
 | Criteria | Rule | L1 | L2 | L3 | L4 | L5 | L6 |
 |----------|------|----|----|----|----|----|----|
@@ -167,25 +169,51 @@
 
 ---
 
-## Assessment Scoring
+## Assessment Process
 
-### Quick Assessment (5 minutes)
+### Step 1: Detect Level
 
-| Check | Rule | Pass |
-|-------|------|------|
-| File exists and manually reviewed | M5 | Y/N |
-| < 200 lines | S1 | Y/N |
-| Has project context (1-liner) | C9 | Y/N |
-| Has commands section | C1 | Y/N |
-| No embedded code snippets | S3 | Y/N |
-| No code style rules | E1 | Y/N |
-| Version controlled | M1 | Y/N |
+Level is determined by **features present**, not by score:
 
-**Score:** 7/7 = L2+, < 5/7 = L1
+| Feature | Detected Level |
+|---------|---------------|
+| YAML backbone (`.reporails/`) | L6 |
+| Org policies deployed | L5 |
+| `.claude/rules/` directory | L4 |
+| Uses `@imports` | L3 |
+| Core sections present | L2 |
+| No file or unreviewed | L1 |
+
+**Detection order:** Check from L6 down. First match = detected level.
+
+### Step 2: Score Compliance (0-10)
+
+Score measures compliance with rules **at your detected level**:
+
+```
+Score = (rules passed / rules required at level) × 10
+```
+
+| Level | Required Rules | Count |
+|-------|---------------|-------|
+| L2 | S1, C1, C2, C4, C7, C8, C9, C10, C12, M5 | 10 |
+| L3 | L2 rules + S2, S3, S7, C3, C6, C11, E6, E7, M1, M2 | 20 |
+| L4 | L3 rules + S4, S5, E1, E3, E4, E5, E8, M7 | 28 |
+| L5 | L4 rules + G1, G2, G3, G4, G8, M3, M4 | 35 |
+| L6 | L5 rules + S6, C5, E2, G5, G6, G7, M6 | 42 |
+
+### Step 3: Report
+
+Example output:
+```
+Level: L4 (Modular)
+Compliance: 8.5/10
+Missing: E5, M7
+```
 
 ### Deep Validation Checklist
 
-Quick Assessment checks presence. This checklist validates quality and patterns.
+Quick detection checks features. This checklist validates quality and patterns.
 
 | Check | Rule | How to Verify |
 |-------|------|---------------|
@@ -197,27 +225,7 @@ Quick Assessment checks presence. This checklist validates quality and patterns.
 | MUST/MUST NOT have context | C5 | Each rule includes source or rationale in parentheses |
 | No stale references | M6 | Map paths match actual file structure |
 
-**When to use:** After Quick Assessment passes, before declaring a level.
-
-### Full Assessment Rubric
-
-| Category | Max | Criteria | Rules |
-|----------|-----|----------|-------|
-| Structure | 20 | Lines < 100 (+10), < 200 (+5); @imports (+5); headings (+5) | [S rules](rules/structure/) |
-| Content | 35 | Universal (+10); Specific (+10); Antipatterns (+10); Description (+5) | [C rules](rules/content/) |
-| Maintenance | 15 | Version control (+5); Review process (+5); No conflicts (+5) | [M rules](rules/maintenance/) |
-| Governance | 15 | Org policy (+5); Security rules (+5); Ownership (+5) | [G rules](rules/governance/) |
-| Efficiency | 15 | No linting (+5); Disclosure (+5); Code block limit (+5) | [E rules](rules/efficiency/) |
-
-**Total: /100**
-
-| Score | Grade | Level |
-|-------|-------|-------|
-| 90-100 | A | L5-L6 |
-| 80-89 | B | L4 |
-| 70-79 | C | L3 |
-| 50-69 | D | L2 |
-| < 50 | F | L1 |
+**When to use:** After level detection, before finalizing compliance score.
 
 ---
 
@@ -225,7 +233,7 @@ Quick Assessment checks presence. This checklist validates quality and patterns.
 
 | Concept | Primary Sources |
 |---------|-----------------|
-| Maturity model structure | [23] CMMI Maturity Levels, [24] Cloud Native Maturity Model |
+| Capability model structure | [23] CMMI Maturity Levels, [24] Cloud Native Maturity Model |
 | L1-L2 basics | [1] Claude Code Best Practices, [6] Using CLAUDE.md Files |
 | L3 @imports | [2] Memory Documentation, [10] Monorepo case study |
 | L4 .claude/rules/ | [4] Settings, [15] Rules Directory Mechanics |
