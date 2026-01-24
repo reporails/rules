@@ -1,0 +1,9 @@
+rules:
+  - id: C9-no-description
+    message: "First line after title is empty or heading"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "^#\\s+[^\\n]+\\n\\s*\\n##"
+    paths:
+      include:
+        - "{{instruction_files}}"

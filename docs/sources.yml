@@ -1,0 +1,164 @@
+# Source Registry
+# Schema: schemas/sources.schema.yml
+#
+# For Agents:
+#   See .claude/rules/sources.md for usage instructions
+#
+# For Contributors:
+#   Adding a new source:
+#   1. Determine which agent(s) it applies to
+#   2. Add to "generic" if principles apply to all instruction files
+#   3. Add to specific agent section if vendor-specific
+#   4. Use id that reflects content, not source title
+#   5. Write description of what principles/patterns it covers
+#   6. Verify URL is accessible
+
+# =============================================================================
+# GENERIC - Applies to all agents
+# =============================================================================
+
+generic:
+  - id: agents-md-spec
+    url: "https://agents.md/"
+    type: official
+    description: "Open standard for agent instructions, cascading rules, discovery precedence"
+
+  - id: keepachangelog
+    url: "https://keepachangelog.com/en/1.1.0/"
+    type: official
+    description: "Changelog format specification, UNRELEASED section structure"
+
+  - id: advanced-context-engineering
+    url: "https://github.com/humanlayer/advanced-context-engineering-for-coding-agents"
+    type: research
+    description: "Frequent Intentional Compaction, 40-60% context target, 300k LOC projects"
+
+  - id: instruction-limits-principles
+    url: "https://www.humanlayer.dev/blog/writing-a-good-claude-md"
+    type: community
+    description: "150-200 instruction limit for frontier LLMs, <300 lines, progressive disclosure"
+
+  - id: spec-writing-for-agents
+    url: "https://addyosmani.com/blog/good-spec/"
+    type: community
+    description: "PRD-style structure, three-tier boundaries (Always/Ask First/Never), modular prompts"
+
+  - id: jetbrains-junie-guidelines
+    url: "https://blog.jetbrains.com/idea/2025/05/coding-guidelines-for-your-ai-agents/"
+    type: official
+    description: ".junie/guidelines.md structure, IDE-specific agent configuration"
+
+# =============================================================================
+# REPORAILS - Framework methodology
+# =============================================================================
+
+reporails:
+  - id: capability-levels
+    url: "docs/capability-levels.md"
+    type: methodology
+    description: "L1-L6 capability model, L5-L6 governance patterns, assessment matrix"
+
+# =============================================================================
+# CLAUDE - Claude Code specific
+# =============================================================================
+
+claude:
+  - id: claude-code-best-practices
+    url: "https://www.anthropic.com/engineering/claude-code-best-practices"
+    type: official
+    description: "CLAUDE.md structure, what to include, instruction limits, emphasis usage"
+
+  - id: claude-code-memory
+    url: "https://code.claude.com/docs/en/memory"
+    type: official
+    description: "CLAUDE.md hierarchy, @imports, .claude/rules/, CLAUDE.local.md, file loading"
+
+  - id: claude-code-hooks
+    url: "https://code.claude.com/docs/en/hooks-guide"
+    type: official
+    description: "Pre-commit hooks, post-tool hooks, custom hook configuration"
+
+  - id: claude-code-settings
+    url: "https://code.claude.com/docs/en/settings"
+    type: official
+    description: ".claude/rules/ configuration, path scoping, settings hierarchy"
+
+  - id: claude-context-windows
+    url: "https://platform.claude.com/docs/en/build-with-claude/context-windows"
+    type: official
+    description: "Token limits, context optimization, window management"
+
+  - id: using-claude-md-files
+    url: "https://claude.com/blog/using-claude-md-files"
+    type: official
+    description: "CLAUDE.md usage patterns, practical examples"
+
+  - id: anthropic-teams-claude-code
+    url: "https://claude.com/blog/how-anthropic-teams-use-claude-code"
+    type: official
+    description: "Team usage patterns, onboarding, continuous improvement, # shortcut"
+
+  - id: claude-4-best-practices
+    url: "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-4-best-practices"
+    type: official
+    description: "Instruction-following behavior, emphasis usage, context for rules"
+
+  - id: claude-code-issue-13579
+    url: "https://github.com/anthropics/claude-code/issues/13579"
+    type: research
+    description: "7 token-wasting patterns, 700K+ tokens measured waste, compaction issues"
+
+  - id: claude-md-optimization-study
+    url: "https://arize.com/blog/claude-md-best-practices-learned-from-optimizing-claude-code-with-prompt-learning/"
+    type: research
+    description: "Empirical: +5.19% general improvement, +10.87% repo-specific from optimization"
+
+  - id: monorepo-claude-md-organization
+    url: "https://dev.to/anvodev/how-i-organized-my-claudemd-in-a-monorepo-with-too-many-contexts-37k7"
+    type: community
+    description: "Reduced 47k to 9k words (~80%), hierarchical structure, service-specific files"
+
+  - id: enterprise-claude-usage
+    url: "https://blog.sshh.io/p/how-i-use-every-claude-code-feature"
+    type: community
+    description: "13KB limit, 30% engineer threshold, NEVER with positive alternatives"
+
+  - id: claude-md-guide
+    url: "https://www.builder.io/blog/claude-md-guide"
+    type: community
+    description: "File placement, .claude/rules/, path-scoped rules, practical examples"
+
+  - id: rules-directory-mechanics
+    url: "https://claudefa.st/blog/guide/mechanics/rules-directory"
+    type: community
+    description: ".claude/rules/ mechanics, path scoping, YAML frontmatter, loading behavior"
+
+# =============================================================================
+# COPILOT - GitHub Copilot specific
+# =============================================================================
+
+copilot:
+  - id: copilot-custom-instructions
+    url: "https://docs.github.com/en/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot"
+    type: official
+    description: "copilot-instructions.md setup, path-specific instructions, agent personas"
+
+# =============================================================================
+# CODEX - OpenAI Codex specific
+# =============================================================================
+
+codex:
+  - id: codex-agents-md
+    url: "https://developers.openai.com/codex/guides/agents-md"
+    type: official
+    description: "AGENTS.md structure, 32KB limit, override hierarchy"
+
+# =============================================================================
+# CURSOR - Cursor specific
+# =============================================================================
+
+cursor:
+  - id: cursor-rules
+    url: "https://cursor.com/docs/context/rules"
+    type: official
+    description: ".cursor/rules/ structure, glob patterns, team rules"

@@ -6,23 +6,23 @@ categories:
   structure:
     weight: 20
     prefix: S
-    path: rules/structure/
+    path: core/structure/
   content:
     weight: 35
     prefix: C
-    path: rules/content/
+    path: core/content/
   maintenance:
     weight: 15
     prefix: M
-    path: rules/maintenance/
+    path: core/maintenance/
   governance:
     weight: 15
     prefix: G
-    path: rules/governance/
+    path: core/governance/
   efficiency:
     weight: 15
     prefix: E
-    path: rules/efficiency/
+    path: core/efficiency/
 
 # Severity definitions (weights for scoring)
 severities:
@@ -67,28 +67,27 @@ sources:
 # Navigation maps
 navigation_maps:
   capability_model: capability-levels.md
-  capability_levels: .reporails/capability-levels.yml
+  capability_levels: docs/capability-levels.md
   rules:
-    structure: rules/structure/
-    content: rules/content/
-    maintenance: rules/maintenance/
-    governance: rules/governance/
-    efficiency: rules/efficiency/
+    structure: core/structure/
+    content: core/content/
+    maintenance: core/maintenance/
+    governance: core/governance/
+    efficiency: core/efficiency/
   meta:
     readme: README.md
-    changelog: CHANGELOG.md
     unreleased: UNRELEASED.md
 
 # High-risk areas requiring extra caution
 high_risk_areas:
   - capability-levels.md    # Central definitions - changes cascade
   - README.md              # Public-facing, scoring weights
-  - rules/**/*.md          # Rule definitions affect assessments
+  - core/**/*.md           # Rule definitions affect assessments
 
 # Rule index by detection type
 rule_index:
   deterministic:
-    # 20 rules - OpenGrep pattern/structure detection
+    # 23 rules - OpenGrep pattern/structure detection
     - S1   # Size Limits (line count)
     - S4   # Hierarchical Memory (directory existence)
     - S5   # Path-Scoped Rules (YAML frontmatter)
@@ -100,6 +99,9 @@ rule_index:
     - C10  # Has NEVER Statements (pattern + alternative)
     - C11  # Links Valid (path existence)
     - C12  # Has Version/Date (pattern match)
+    - E3   # Purpose-Based File Reading (reading strategy keywords)
+    - E4   # Memory Reference (memory instruction keywords)
+    - E5   # Grep Efficiency (files_with_matches/head_limit keywords)
     - E6   # Code Block Line Limit (line count)
     - E7   # @import Count (pattern count)
     - M6   # Map Staleness Prevention (path validation)
@@ -110,13 +112,18 @@ rule_index:
     - G7   # Architecture Tests (file existence)
     - G8   # Metrics and CI/CD (workflow file check)
   heuristic:
-    # 12 rules - pattern detection with <95% confidence
+    # 17 rules - OpenGrep gate + LLM confirmation
     - S2   # Progressive Disclosure (may miss custom formats)
+    - S3   # No Embedded Code Snippets (``` gate)
     - S7   # Clear Markdown Structure (orphan detection weak)
     - C1   # Core Sections (heading wording varies)
+    - C2   # Explicit Over Implicit (inline code gate)
     - C3   # Context-Specific Content (false positives)
     - C6   # Single Source of Truth (cross-file similarity)
+    - C8   # Instructions Over Philosophy (philosophy keywords gate)
     - E1   # Deterministic Tools for Style (false positives)
+    - E2   # Session Start Ritual (ritual keywords gate)
+    - M1   # Version Control (external refs gate)
     - M2   # Review Process (process-based)
     - M3   # Change Management (format varies)
     - M4   # No Conflicting Rules (cross-file)
@@ -124,16 +131,8 @@ rule_index:
     - G2   # Team Governance Structure (format varies)
     - G4   # Ownership Assignment (format varies)
   semantic:
-    # 6 rules require LLM judgment
-    - C2   # Explicit Over Implicit
-    - C8   # Instructions Over Philosophy
-    - E2   # Session Start Ritual
-    - G3   # Security Rules Ownership
-    - M1   # Version Control
-    - S3   # No Embedded Code Snippets
+    # 1 rule requires full LLM judgment (no pattern gate)
+    - G3   # Security Rules Ownership (needs organizational context)
   behavioral:
-    # 4 rules - runtime behavior, not detectable from file content
-    - E3   # Purpose-Based File Reading
-    - E4   # Memory Reference
-    - E5   # Grep Efficiency
-    - E8   # Context Window Awareness
+    # 1 rule - runtime behavior, not detectable from file content
+    - E8   # Context Window Awareness (model's native tracking)

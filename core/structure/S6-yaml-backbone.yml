@@ -1,0 +1,20 @@
+rules:
+  - id: S6-backbone-missing
+    message: "L6 project missing .reporails/backbone.yml"
+    severity: ERROR
+    languages: [generic]
+    pattern-regex: "^$"
+    paths:
+      include:
+        - ".reporails/backbone.yml"
+
+  - id: S6-backbone-no-maps
+    message: "Backbone lacks navigation maps"
+    severity: WARNING
+    languages: [yaml]
+    patterns:
+      - pattern-not: |
+          maps: $VALUE
+    paths:
+      include:
+        - ".reporails/backbone.yml"

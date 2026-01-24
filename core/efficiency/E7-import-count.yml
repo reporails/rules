@@ -1,0 +1,9 @@
+rules:
+  - id: E7-too-many-imports
+    message: "More than 10 @imports in root file"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?s)(@[a-zA-Z0-9_/.-]+\\.md.*){10,}"
+    paths:
+      include:
+        - "{{instruction_files}}"

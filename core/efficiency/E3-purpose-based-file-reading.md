@@ -1,0 +1,23 @@
+---
+id: E3
+title: Purpose-Based File Reading
+category: efficiency
+type: deterministic
+checks:
+  - id: E3-no-reading-strategy
+    name: No file reading strategy documented
+    severity: low
+sources:
+  - "https://www.anthropic.com/engineering/claude-code-best-practices"
+  - "https://github.com/anthropics/claude-code/issues/13579"
+see_also: [E4, E8]
+---
+
+# Purpose-Based File Reading
+
+Instructions document reading strategies (full vs partial).
+
+## Pattern
+
+**Good:** "Read full for EDIT, partial for UNDERSTAND"
+**Bad:** No guidance on context-efficient reading

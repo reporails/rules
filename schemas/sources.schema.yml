@@ -1,0 +1,73 @@
+# Schema definition for sources registry
+# Used by: agents writing/updating rules, contributors
+
+schema_version: 1
+
+# =============================================================================
+# SOURCE REGISTRY STRUCTURE
+# =============================================================================
+# Sources are grouped by agent for efficient lookup.
+# Top-level keys are agent identifiers or "generic".
+# =============================================================================
+
+structure:
+  description: |
+    Top-level keys are agent identifiers:
+    - "generic": Sources applicable to all agents
+    - "claude", "copilot", "codex", etc.: Agent-specific sources
+    
+    Each source is an object with id, url, type, description.
+
+  example: |
+    generic:
+      - id: source-id
+        url: "https://..."
+        type: official
+        description: "What it covers"
+    
+    claude:
+      - id: another-source
+        url: "https://..."
+        type: community
+        description: "What it covers"
+
+# =============================================================================
+# SOURCE FIELDS
+# =============================================================================
+
+fields:
+  id:
+    required: true
+    type: string
+    pattern: "^[a-z][a-z0-9-]*$"
+    description: "Unique identifier (lowercase, hyphens). Reflects content, not source title."
+
+  url:
+    required: true
+    type: string
+    format: url
+    description: "Canonical URL to the source"
+
+  type:
+    required: true
+    type: enum
+    values: [official, research, community]
+    description: |
+      official: Vendor documentation (Anthropic, GitHub, OpenAI, etc.)
+      research: Empirical studies, measured data
+      community: Blog posts, guides, tutorials
+
+  description:
+    required: true
+    type: string
+    max_length: 200
+    description: "What the source covers. Used by agents to find relevant sources."
+
+# =============================================================================
+# VALIDATION
+# =============================================================================
+
+validation:
+  - rule: "id must be unique across ALL sections (not just within an agent)"
+  - rule: "url must be valid and accessible"
+  - rule: "top-level keys must be 'generic' or known agent identifiers"

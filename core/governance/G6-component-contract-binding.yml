@@ -1,0 +1,13 @@
+rules:
+  - id: G6-component-no-binding
+    message: "Component definition lacks contracts/rules/tests"
+    severity: WARNING
+    languages: [yaml]
+    patterns:
+      - pattern: |
+          components:
+            ...
+      - pattern-not-regex: "(contracts|rules|tests):"
+    paths:
+      include:
+        - ".reporails/backbone.yml"

@@ -1,0 +1,9 @@
+rules:
+  - id: E5-no-grep-guidance
+    message: "No grep efficiency guidance"
+    severity: WARNING
+    languages: [generic]
+    pattern-not-regex: "(?i)(files_with_matches|head_limit|grep.*limit|search.*efficient)"
+    paths:
+      include:
+        - "{{instruction_files}}"

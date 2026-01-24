@@ -1,0 +1,11 @@
+rules:
+  - id: CLAUDE_S5-no-paths-frontmatter
+    message: "Rule file missing paths key in frontmatter"
+    severity: WARNING
+    languages: [yaml]
+    patterns:
+      - pattern-not: |
+          paths: $VALUE
+    paths:
+      include:
+        - ".claude/rules/*.md"

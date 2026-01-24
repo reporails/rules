@@ -1,0 +1,137 @@
+# Schema definition for agent configuration
+# Used by: ails validate, agents, contributors
+
+schema_version: 1
+
+# =============================================================================
+# AGENT CONFIG
+# =============================================================================
+# Each agent defines:
+# - Identity (agent, prefix, name)
+# - File patterns (vars)
+# - What core rules don't apply (excludes)
+# - Adjustments to rules (overrides)
+# =============================================================================
+
+# Reference: reserved_agent_prefixes defined in rule.schema.yml
+# Agents must use a prefix from that list.
+
+fields:
+  agent:
+    required: true
+    type: string
+    pattern: "^[a-z]+$"
+    description: "Agent identifier (lowercase)"
+
+  prefix:
+    required: true
+    type: string
+    pattern: "^[A-Z]+$"
+    description: "Rule ID prefix for agent-specific rules. Must be in reserved_agent_prefixes (see rule.schema.yml)"
+
+  name:
+    required: true
+    type: string
+    max_length: 64
+    description: "Human-readable agent name (max 64 chars)"
+
+  vars:
+    required: true
+    type: object
+    description: "Template variables for rule patterns. Extensible - any key allowed."
+    properties:
+      instruction_files:
+        required: true
+        type: string
+        description: "Glob pattern for instruction file(s)"
+    additionalProperties:
+      type: string
+      description: "Additional variables for OpenGrep pattern templates"
+
+  excludes:
+    required: false
+    type: array
+    items:
+      type: string
+      pattern: "^[SCEGM][0-9]+$"
+    description: "Core rule IDs that don't apply to this agent"
+
+  overrides:
+    required: false
+    type: object
+    description: "Per-check overrides (key = check ID)"
+    additionalProperties:
+      type: object
+      properties:
+        severity:
+          type: enum
+          values: [critical, high, medium, low]
+          description: "Override default severity"
+        disabled:
+          type: boolean
+          description: "Disable this check for this agent"
+
+# =============================================================================
+# VALIDATION
+# =============================================================================
+
+validation:
+  # Identity
+  - rule: "agent must be lowercase letters only"
+  - rule: "prefix must be UPPERCASE letters only"
+  - rule: "prefix must be in reserved_agent_prefixes (see rule.schema.yml)"
+
+  # Vars
+  - rule: "vars.instruction_files is required"
+  - rule: "vars values must be strings"
+
+  # Excludes
+  - rule: "excludes items must be valid core rule IDs"
+
+  # Overrides
+  - rule: "overrides keys must be valid check IDs"
+  - rule: "overrides severity must be valid severity value"
+
+# =============================================================================
+# EXAMPLES
+# =============================================================================
+
+examples:
+  claude: |
+    agent: claude
+    prefix: CLAUDE
+    name: Claude Code
+
+    vars:
+      instruction_files: "**/CLAUDE.md"
+      rules_dir: ".claude/rules"
+
+  copilot: |
+    agent: copilot
+    prefix: COPILOT
+    name: GitHub Copilot
+
+    vars:
+      instruction_files: ".github/copilot-instructions.md"
+
+    excludes:
+      - S4   # Hierarchical Memory (no rules_dir)
+      - S5   # Path-Scoped Rules (no rules_dir)
+      - M7   # Rule Snippet Length (no rules_dir)
+
+    overrides:
+      S1-root-too-long:
+        severity: high   # Copilot files tend to be longer
+
+  codex: |
+    agent: codex
+    prefix: CODEX
+    name: OpenAI Codex
+
+    vars:
+      instruction_files: "**/AGENTS.md"
+
+    excludes:
+      - S4
+      - S5
+      - M7

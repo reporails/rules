@@ -1,0 +1,10 @@
+rules:
+  - id: C11-broken-import
+    message: "@import reference to validate"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "@[a-zA-Z0-9_/.-]+\\.(md|yml|yaml|json)"
+    paths:
+      include:
+        - "{{instruction_files}}"
+        - "{{rules_dir}}/**/*.md"

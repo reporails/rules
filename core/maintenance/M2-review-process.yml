@@ -1,0 +1,11 @@
+rules:
+  - id: M2-no-review-process
+    message: "Review process indicators"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?i)(review|approval|CODEOWNERS|pull request)"
+    paths:
+      include:
+        - "{{instruction_files}}"
+        - "CODEOWNERS"
+        - ".github/CODEOWNERS"

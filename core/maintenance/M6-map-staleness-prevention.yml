@@ -1,0 +1,9 @@
+rules:
+  - id: M6-stale-path
+    message: "Path reference to validate"
+    severity: WARNING
+    languages: [yaml]
+    pattern-regex: "path:\\s*['\"]?[a-zA-Z0-9_/.-]+['\"]?"
+    paths:
+      include:
+        - ".reporails/backbone.yml"

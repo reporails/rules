@@ -1,0 +1,19 @@
+# Claude Code Agent Configuration
+# Schema: schemas/agent.schema.yml
+
+agent: claude
+prefix: CLAUDE
+name: Claude Code
+
+vars:
+  instruction_files: "**/CLAUDE.md"
+  rules_dir: ".claude/rules"
+  skills_dir: ".claude/skills"
+  local_file: "CLAUDE.local.md"
+  managed_settings_linux: "/etc/claude-code/managed-settings.json"
+  managed_settings_macos: "/Library/Application Support/ClaudeCode/managed-settings.json"
+  managed_settings_windows: "C:/Program Files/ClaudeCode/managed-settings.json"
+
+# No core rules excluded — Claude supports all features
+
+# No overrides — use default severities

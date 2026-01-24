@@ -1,0 +1,11 @@
+rules:
+  - id: G4-no-owner
+    message: "Ownership indicators"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?i)(owner|maintainer|contact|@[a-z]+-team)"
+    paths:
+      include:
+        - "{{instruction_files}}"
+        - "CODEOWNERS"
+        - ".github/CODEOWNERS"

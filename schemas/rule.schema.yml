@@ -1,0 +1,223 @@
+# Schema definition for rule frontmatter
+# Used by: ails check, ails validate, agents, contributors
+
+schema_version: 1
+
+# =============================================================================
+# RULE TYPES
+# =============================================================================
+# deterministic: OpenGrep decides. No LLM.
+# semantic: OpenGrep first, LLM fills gaps.
+# =============================================================================
+
+types:
+  - deterministic
+  - semantic
+
+categories:
+  - structure
+  - content
+  - efficiency
+  - governance
+  - maintenance
+
+severities:
+  - critical
+  - high
+  - medium
+  - low
+
+# =============================================================================
+# FIELDS
+# =============================================================================
+
+reserved_agent_prefixes:
+  - CLAUDE
+  - COPILOT
+  - CODEX
+  - CURSOR
+  - WINDSURF
+  - CLINE
+  - AIDER
+  - CONTINUE
+
+fields:
+  id:
+    required: true
+    type: string
+    pattern:
+      core: "^[SCEGM][0-9]+$"
+      agent: "^[A-Z]+_[SCEGM][0-9]+$"
+      custom: "^[A-Z]{3,}_[SCEGM][0-9]+$"
+    description: |
+      Core: category + number (S1)
+      Agent: reserved prefix + category + number (CLAUDE_S1, COPILOT_E1)
+      Custom: 3+ letter prefix + category + number (ACME_S1, USR_G3)
+      Note: Agent prefix must be in reserved_agent_prefixes. Custom prefix must not.
+
+  title:
+    required: true
+    type: string
+    max_length: 64
+    description: "Human-readable name (max 64 chars)"
+
+  category:
+    required: true
+    type: enum
+    values: [structure, content, efficiency, governance, maintenance]
+
+  type:
+    required: true
+    type: enum
+    values: [deterministic, semantic]
+
+  checks:
+    required: true
+    type: array
+    description: "What OpenGrep detects"
+    items:
+      id:
+        required: true
+        type: string
+        description: "Must match rules[].id in corresponding .yml. Format: {rule_id}-{suffix}"
+      name:
+        required: true
+        type: string
+        description: "Human-readable description"
+      severity:
+        required: true
+        type: enum
+        values: [critical, high, medium, low]
+
+  question:
+    required_if: "type == semantic"
+    type: string
+    description: "What LLM evaluates after OpenGrep runs"
+
+  criteria:
+    required_if: "type == semantic"
+    type: array
+    items:
+      type: string
+    description: "How LLM decides (list of conditions)"
+
+  sources:
+    required: false
+    type: array
+    items:
+      type: string
+      format: url
+    description: "URLs to supporting references (docs, articles, research papers, resources)"
+
+  see_also:
+    required: false
+    type: array
+    items:
+      type: string
+      pattern: "^([A-Z]+_)?[SCEGM][0-9]+$"
+    description: "Related rule IDs"
+
+# =============================================================================
+# VALIDATION
+# =============================================================================
+
+validation:
+  # Contract between .md and .yml
+  - rule: "Every checks[].id must match a rules[].id in the .yml file"
+  - rule: "Every rules[].id in .yml must match a checks[].id in the .md file"
+  - rule: "checks[].id must start with the rule ID followed by hyphen"
+
+  # Type-specific requirements
+  - rule: "Semantic rules must have question + criteria"
+  - rule: "Deterministic rules must not have question + criteria"
+
+  # Source of truth
+  - rule: "Severity in .md is source of truth (overrides .yml)"
+
+  # Field constraints
+  - rule: "title must be max 64 characters"
+
+  # ID format
+  - rule: "Core rule IDs must match pattern ^[SCEGM][0-9]+$"
+  - rule: "Agent rule IDs must match pattern ^[A-Z]+_[SCEGM][0-9]+$"
+  - rule: "Custom rule IDs must match pattern ^[A-Z]{3,}_[SCEGM][0-9]+$"
+  - rule: "Agent rule prefix must be in reserved_agent_prefixes"
+  - rule: "Custom rule prefix must NOT be in reserved_agent_prefixes"
+
+  # References
+  - rule: "see_also must reference valid rule IDs"
+  - rule: "sources must be valid URLs"
+
+# =============================================================================
+# EXAMPLES
+# =============================================================================
+
+examples:
+  deterministic: |
+    ---
+    id: S1
+    title: Size Limits
+    category: structure
+    type: deterministic
+    checks:
+      - id: S1-root-too-long
+        name: Root file > 200 lines
+        severity: critical
+      - id: S1-many-sections
+        name: 6+ sections in large file
+        severity: high
+    sources:
+      - "https://docs.anthropic.com/en/docs/claude-code/best-practices"
+      - "https://dev.to/example/organizing-claude-md-in-monorepo"
+    see_also: [M7, C1]
+    ---
+
+  semantic: |
+    ---
+    id: G3
+    title: Security Rules Ownership
+    category: governance
+    type: semantic
+    checks:
+      - id: G3-ownership-patterns
+        name: Security ownership indicators
+        severity: high
+    question: "Given what was found, are security rules properly owned?"
+    criteria:
+      - Security rules have designated owners
+      - Owners have relevant expertise
+      - Review process exists for security changes
+    sources:
+      - "https://docs.anthropic.com/en/docs/claude-code/security"
+    see_also: [G1, G2]
+    ---
+
+  agent_specific: |
+    ---
+    id: CLAUDE_S1
+    title: Memory Block Format
+    category: structure
+    type: deterministic
+    checks:
+      - id: CLAUDE_S1-invalid-memory
+        name: Invalid memory block syntax
+        severity: medium
+    sources:
+      - "https://docs.anthropic.com/en/docs/claude-code/memory"
+    see_also: [S1]
+    ---
+
+  custom: |
+    ---
+    id: ACME_S1
+    title: Internal Doc Size Limits
+    category: structure
+    type: deterministic
+    checks:
+      - id: ACME_S1-too-long
+        name: Internal docs > 150 lines
+        severity: medium
+    sources:
+      - "https://wiki.acme.corp/engineering/claude-guidelines"
+    see_also: [S1]
+    ---

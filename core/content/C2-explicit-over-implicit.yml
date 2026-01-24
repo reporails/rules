@@ -1,0 +1,10 @@
+rules:
+  - id: C2-vague-instruction
+    message: "Vague instruction without specifics"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?i)\\b(properly|correctly|appropriately|suitable|adequate)\\b(?![^\\n]*:)"
+    paths:
+      include:
+        - "{{instruction_files}}"
+        - "{{rules_dir}}/**/*.md"

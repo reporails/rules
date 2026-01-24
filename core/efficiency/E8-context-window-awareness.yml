@@ -1,0 +1,10 @@
+rules:
+  - id: E8-redundant-token-warning
+    message: "Redundant token management instruction"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?i)(watch|mindful|careful|aware).*(token|context).*(limit|window|usage)"
+    paths:
+      include:
+        - "{{instruction_files}}"
+        - "{{rules_dir}}/**/*.md"

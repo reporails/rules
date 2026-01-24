@@ -1,0 +1,11 @@
+rules:
+  - id: CLAUDE_G1-no-managed-policy
+    message: "Organization-level managed settings file"
+    severity: WARNING
+    languages: [json]
+    pattern-regex: "."
+    paths:
+      include:
+        - "{{managed_settings_linux}}"
+        - "{{managed_settings_macos}}"
+        - "{{managed_settings_windows}}"

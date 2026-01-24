@@ -1,30 +1,80 @@
 ---
-paths: ["rules/**/*.md"]
+paths:
+  - "core/**/*.md"
+  - "core/**/*.yml"
+  - "agents/**/rules/*.md"
+  - "agents/**/rules/*.yml"
 ---
 
 # Rule File Instructions
 
-When editing files in `rules/`:
+## References
 
-## Frontmatter
+- **Schema:** `schemas/rule.schema.yml` (fields, validation, examples)
+- **OpenGrep:** `.claude/rules/opengrep.md` (patterns, type decision)
+- **Agent config:** `schemas/agent.schema.yml` (template variables)
+- **Sources:** `.claude/rules/sources.md` (how to cite)
 
-Required fields: id, title, category, type, detection, level, sources
+## File Pairing
 
-Optional fields: antipatterns, see_also, validation
+Every rule needs TWO files:
 
-**Type values:** deterministic, heuristic, semantic, behavioral
+```
+{id}-{slug}.md    →  Rule definition (frontmatter + body)
+{id}-{slug}.yml   →  OpenGrep patterns
+```
 
-**Severity values:** critical (5.5), high (4.0), medium (2.5), low (1.0)
+**Contract:** `checks[].id` in .md must match `rules[].id` in .yml
+
+## Type Decision
+
+| Question | Type |
+|----------|------|
+| Can OpenGrep fully decide? | deterministic |
+| OpenGrep partial, LLM fills gaps? | semantic |
+
+Default to deterministic. See `opengrep.md` for decision guide.
 
 ## Constraints
 
-- MUST keep rule under 40 lines (M7)
-- MUST update `see_also` when adding cross-references
-- MUST update `.reporails/backbone.yml` rule_index if type changes
-- MUST update `.reporails/capability-levels.yml` if level changes
-- MUST update `capability-levels.md` Capability Matrix if rule added/removed
+When creating or editing rules:
 
-## Format
-- One-line summary after title
-- Pattern section with Good/Bad examples
-- No code blocks over 10 lines (E6)
+- MUST create matching .yml file — OpenGrep needs patterns to run
+- MUST keep body under 40 lines — prevents context bloat
+- MUST update `see_also` when cross-referencing — enables navigation
+- MUST update `docs/capability-levels.md` if affects detection — keeps assessment accurate
+- MUST NOT duplicate schema info — reference `schemas/` instead
+
+## Body Format
+
+After frontmatter:
+
+```markdown
+# {Title}
+
+{One sentence: why this matters}
+
+## Pattern
+
+**Good:** {example}
+**Bad:** {example}
+```
+
+No code blocks over 10 lines.
+
+## Quick Frontmatter
+
+```yaml
+id: S1                    # Required
+title: Size Limits        # ≤64 chars
+category: structure       # structure|content|efficiency|governance|maintenance
+type: deterministic       # deterministic|semantic
+checks:
+  - id: S1-check-name     # Must start with rule ID
+    name: Description
+    severity: critical    # critical|high|medium|low
+```
+
+Semantic adds: `question: "..."` and `criteria: [...]`
+
+For full field reference → `schemas/rule.schema.yml`

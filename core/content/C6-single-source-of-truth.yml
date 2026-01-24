@@ -1,0 +1,10 @@
+rules:
+  - id: C6-duplicate-instruction
+    message: "Potential duplicate instruction"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?i)(NEVER|ALWAYS|MUST)\\s+[^\\n]{10,50}"
+    paths:
+      include:
+        - "{{instruction_files}}"
+        - "{{rules_dir}}/**/*.md"

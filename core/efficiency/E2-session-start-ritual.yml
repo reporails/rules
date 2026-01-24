@@ -1,0 +1,9 @@
+rules:
+  - id: E2-no-ritual
+    message: "No session start ritual documented"
+    severity: WARNING
+    languages: [generic]
+    pattern-not-regex: "(?i)(session start|start.*session|ritual|1\\.[^\\n]+2\\.[^\\n]+)"
+    paths:
+      include:
+        - "{{instruction_files}}"

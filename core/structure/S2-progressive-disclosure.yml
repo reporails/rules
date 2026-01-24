@@ -1,0 +1,11 @@
+rules:
+  - id: S2-large-file-no-imports
+    message: "File over 100 lines without @imports or external references"
+    severity: WARNING
+    languages: [generic]
+    patterns:
+      - pattern-regex: "(?s)(?:[^\\n]*\\n){100,}"
+      - pattern-not-regex: "@[a-zA-Z0-9_/.-]+\\.(md|yml|yaml)|[Ss]ee\\s+[A-Z][a-zA-Z0-9_.-]+\\s+for"
+    paths:
+      include:
+        - "{{instruction_files}}"

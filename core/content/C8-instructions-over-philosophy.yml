@@ -1,0 +1,10 @@
+rules:
+  - id: C8-philosophy-detected
+    message: "May contain explanatory prose instead of instructions"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?i)(is important because|helps to|allows you to|enables|the reason|philosophy)"
+    paths:
+      include:
+        - "{{instruction_files}}"
+        - "{{rules_dir}}/**/*.md"

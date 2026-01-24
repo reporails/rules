@@ -1,0 +1,9 @@
+rules:
+  - id: CLAUDE_S1-skill-too-long
+    message: "SKILL.md file exceeds 100 lines"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?s)(?:[^\\n]*\\n){100,}"
+    paths:
+      include:
+        - "{{skills_dir}}/**/SKILL.md"

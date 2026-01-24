@@ -1,0 +1,9 @@
+rules:
+  - id: C3-domain-in-root
+    message: "Domain-specific content may belong in @imports"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?i)(endpoint|api route|database schema|query|mutation).*\\n.*\\n.*\\1"
+    paths:
+      include:
+        - "{{instruction_files}}"

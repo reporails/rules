@@ -1,0 +1,9 @@
+rules:
+  - id: E3-no-reading-strategy
+    message: "No file reading strategy documented"
+    severity: WARNING
+    languages: [generic]
+    pattern-not-regex: "(?i)(read|reading).*(purpose|strategy|full|partial|EDIT|UNDERSTAND)"
+    paths:
+      include:
+        - "{{instruction_files}}"

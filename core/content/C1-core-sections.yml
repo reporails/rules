@@ -1,0 +1,11 @@
+rules:
+  - id: C1-missing-sections
+    message: "Large file may be missing core sections"
+    severity: WARNING
+    languages: [generic]
+    patterns:
+      - pattern-regex: "(?s)(?:[^\\n]*\\n){100,}"
+      - pattern-not-regex: "(?i)##?\\s*(stack|tech|commands?|scripts?|constraints?|rules)"
+    paths:
+      include:
+        - "{{instruction_files}}"

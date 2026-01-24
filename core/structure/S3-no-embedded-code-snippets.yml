@@ -1,0 +1,10 @@
+rules:
+  - id: S3-code-block-too-long
+    message: "Code block exceeds 10 lines"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "```[^\\n]*\\n(?:[^\\n]*\\n){10,}```"
+    paths:
+      include:
+        - "{{instruction_files}}"
+        - "{{rules_dir}}/**/*.md"

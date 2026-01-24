@@ -1,0 +1,9 @@
+rules:
+  - id: C4-no-antipatterns
+    message: "No NEVER or AVOID statements found"
+    severity: WARNING
+    languages: [generic]
+    pattern-not-regex: "(?i)\\b(NEVER|AVOID|DO NOT|DON'T)\\b"
+    paths:
+      include:
+        - "{{instruction_files}}"

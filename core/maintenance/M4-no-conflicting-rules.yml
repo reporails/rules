@@ -1,0 +1,10 @@
+rules:
+  - id: M4-potential-conflict
+    message: "Potential rule to check for conflicts"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "\\b(MUST|MUST NOT|NEVER|ALWAYS)\\b"
+    paths:
+      include:
+        - "{{instruction_files}}"
+        - "{{rules_dir}}/**/*.md"

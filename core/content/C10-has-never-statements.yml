@@ -1,0 +1,12 @@
+rules:
+  - id: C10-never-no-alternative
+    message: "NEVER statement without positive alternative"
+    severity: WARNING
+    languages: [generic]
+    patterns:
+      - pattern-regex: "\\bNEVER\\b"
+      - pattern-not-regex: "NEVER[^\\n]*([—–-]|instead|use|prefer)"
+    paths:
+      include:
+        - "{{instruction_files}}"
+        - "{{rules_dir}}/**/*.md"

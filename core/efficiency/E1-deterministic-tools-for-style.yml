@@ -1,0 +1,10 @@
+rules:
+  - id: E1-formatting-in-instructions
+    message: "Formatting rules should use hooks/linters instead"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?i)(indent|indentation|tab|space|line length|max.*(char|column)|trailing whitespace)"
+    paths:
+      include:
+        - "{{instruction_files}}"
+        - "{{rules_dir}}/**/*.md"

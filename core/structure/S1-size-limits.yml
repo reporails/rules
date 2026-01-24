@@ -1,0 +1,18 @@
+rules:
+  - id: S1-root-too-long
+    message: "Root instruction file exceeds 200 lines"
+    severity: ERROR
+    languages: [generic]
+    pattern-regex: "(?s)(?:[^\\n]*\\n){200,}"
+    paths:
+      include:
+        - "{{instruction_files}}"
+
+  - id: S1-rule-too-long
+    message: "Rule file exceeds 40 lines"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?s)(?:[^\\n]*\\n){40,}"
+    paths:
+      include:
+        - "{{rules_dir}}/**/*.md"
