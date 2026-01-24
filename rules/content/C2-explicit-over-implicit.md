@@ -11,7 +11,6 @@ antipatterns:
   - id: A10
     name: Vague instructions
     severity: high
-    points: -15
 ---
 
 # Explicit Over Implicit

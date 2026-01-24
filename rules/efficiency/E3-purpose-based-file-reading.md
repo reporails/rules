@@ -2,8 +2,8 @@
 id: E3
 title: Purpose-Based File Reading
 category: efficiency
-type: semantic
-detection: Behavioral rule about AI usage patterns
+type: behavioral
+detection: Runtime behavior — not detectable from file content
 level: L4+
 sources: [5, 25]
 ---

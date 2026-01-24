@@ -2,15 +2,14 @@
 id: C7
 title: Emphasis Discipline
 category: content
-type: heuristic
-detection: Count IMPORTANT/CRITICAL occurrences; appropriateness is subjective
+type: deterministic
+detection: pattern-regex count for IMPORTANT|CRITICAL (threshold: ≤5 per file)
 level: L2+
 sources: [1, 8]
 antipatterns:
   - id: A9
     name: Everything emphasized
     severity: high
-    points: -15
 ---
 
 # Emphasis Discipline

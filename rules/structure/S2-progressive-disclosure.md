@@ -3,9 +3,10 @@ id: S2
 title: Progressive Disclosure
 category: structure
 type: heuristic
-detection: Detect @imports or "See ..." patterns; may miss custom pointer formats
+detection: pattern-regex for @path or "See.*for" in files > 100 lines
+question: Does this file use progressive disclosure (pointers to external docs)?
+criteria: Pass if file has @imports or "See X for Y" patterns; fail if > 100 lines with no external references
 level: L3+
-scoring: 5
 sources: [2, 10]
 ---
 

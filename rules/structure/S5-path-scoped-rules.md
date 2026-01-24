@@ -2,10 +2,9 @@
 id: S5
 title: Path-Scoped Rules
 category: structure
-type: heuristic
-detection: YAML frontmatter with "paths:" key; cannot verify paths are meaningful
+type: deterministic
+detection: YAML frontmatter parse for "paths:" key in .claude/rules/*.md
 level: L4+
-scoring: 5
 sources: [2, 4, 15]
 ---
 

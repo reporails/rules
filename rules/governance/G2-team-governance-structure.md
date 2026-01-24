@@ -2,8 +2,10 @@
 id: G2
 title: Team Governance Structure
 category: governance
-type: semantic
-detection: Organizational process, not detectable from content
+type: heuristic
+detection: pattern-regex for roles table or responsibility list in governance docs
+question: Is there documented team governance structure for instruction files?
+criteria: Pass if roles and responsibilities are defined; fail if no governance documentation
 level: L5+
 sources: [7]
 ---

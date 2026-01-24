@@ -2,8 +2,8 @@
 id: G5
 title: Contract Registry
 category: governance
-type: heuristic
-detection: YAML structure validation; cannot verify contracts are meaningful
+type: deterministic
+detection: YAML parse for quick_ref and contracts keys in registry file
 level: L6
 sources: [25]
 validation: first-party

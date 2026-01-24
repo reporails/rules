@@ -3,16 +3,19 @@ id: C1
 title: Core Sections
 category: content
 type: heuristic
-detection: Section heading grep; cannot verify content quality
+detection: pattern-regex for section headings in files ≥ 100 lines
+question: Does this file contain the required core sections?
+criteria: Pass if has Project Context, Tech Stack, Commands, Constraints; fail if missing required sections
 level: L2+
-scoring: 10
 sources: [1, 6, 11]
-see_also: [E1]
+see_also: [E1, S1]
 ---
 
 # Core Sections
 
 Ensures minimum viable instruction set.
+
+**Note:** Files under 100 lines are exempt from this rule (see S1).
 
 ## Required Sections
 

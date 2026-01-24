@@ -5,7 +5,6 @@ category: efficiency
 type: deterministic
 detection: Count @imports relative to file line count
 level: L3+
-scoring: 5
 sources: [2]
 see_also: [S2]
 ---

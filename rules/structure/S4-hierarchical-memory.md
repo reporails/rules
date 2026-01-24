@@ -2,8 +2,8 @@
 id: S4
 title: Hierarchical Memory
 category: structure
-type: semantic
-detection: Requires AI to assess proper organization of information
+type: deterministic
+detection: Directory existence (.claude/rules/) and file glob (**/CLAUDE.md)
 level: L4+
 sources: [2, 4, 14, 15]
 ---

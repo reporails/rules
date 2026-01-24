@@ -2,10 +2,11 @@
 id: M2
 title: Review Process
 category: maintenance
-type: semantic
-detection: Process-based, not detectable from file content alone
+type: heuristic
+detection: Git history check for PR-based changes to CLAUDE.md files
+question: Are changes to instruction files going through code review?
+criteria: Pass if CLAUDE.md changes have PR approval history; fail if direct commits without review
 level: L3+
-scoring: 5
 sources: [7]
 ---
 

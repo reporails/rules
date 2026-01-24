@@ -5,7 +5,6 @@ category: content
 type: deterministic
 detection: First line after # heading is non-empty
 level: L2+
-scoring: 5
 sources: [1, 6]
 ---
 

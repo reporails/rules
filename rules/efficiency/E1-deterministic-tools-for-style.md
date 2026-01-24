@@ -3,16 +3,16 @@ id: E1
 title: Deterministic Tools for Style
 category: efficiency
 type: heuristic
-detection: Grep for indentation/style patterns; may have false positives
+detection: pattern-regex for style keywords (indent, spaces, tabs, line length, semicolon)
+question: Does this file contain code style enforcement rules that belong in linters?
+criteria: Pass if style rules are guidance; fail if prescribing specific formatting (indentation, line length)
 level: L3+
-scoring: 5
 sources: [3, 1]
 see_also: [C1]
 antipatterns:
   - id: A2
     name: Code style enforcement rules
     severity: critical
-    points: -25
 ---
 
 # Deterministic Tools for Style

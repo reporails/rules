@@ -2,8 +2,8 @@
 id: C5
 title: MUST/MUST NOT with Context
 category: content
-type: heuristic
-detection: Grep for SHOULD vs MUST; context presence validation
+type: deterministic
+detection: pattern-regex for SHOULD(?! NOT) violations; MUST.*— for context
 level: L6
 sources: [8, 9, 16]
 see_also: [C2]
@@ -11,7 +11,6 @@ antipatterns:
   - id: A15
     name: SHOULD instead of MUST
     severity: medium
-    points: -10
 ---
 
 # MUST/MUST NOT with Context

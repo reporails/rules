@@ -169,25 +169,69 @@ Capability levels describe what your AI instruction setup enables — not how "m
 
 ---
 
-## Assessment Scoring
+## Assessment
 
-### Quick Assessment (5 minutes)
+**Score** and **Level** are independent metrics:
 
-| Check | Rule | Pass |
-|-------|------|------|
-| File exists and manually reviewed | M5 | Y/N |
-| < 200 lines | S1 | Y/N |
-| Has project context (1-liner) | C9 | Y/N |
-| Has commands section | C1 | Y/N |
-| No embedded code snippets | S3 | Y/N |
-| No code style rules | E1 | Y/N |
-| Version controlled | M1 | Y/N |
+- **Level (L1-L6)**: Capability tier — determined by detected features
+- **Score (0-10)**: Compliance — how well you follow rules at your level
 
-**Score:** 7/7 = L2+, < 5/7 = L1
+A simple CLAUDE.md project (L2) can score 10/10 if it follows all L2 rules perfectly.
+
+### Step 1: Detect Level
+
+Level is determined by **features present**, not by score:
+
+| Feature | Detected Level |
+|---------|---------------|
+| backbone.yml present | L6 (Adaptive) |
+| 3+ components or shared files | L5 (Governed) |
+| `.claude/rules/` directory | L4 (Modular) |
+| @imports or multiple instruction files | L3 (Structured) |
+| CLAUDE.md exists | L2 (Basic) |
+| No CLAUDE.md | L1 (Absent) |
+
+**Detection order:** Check from L6 down. First match = detected level.
+
+### Step 2: Calculate Score (0-10)
+
+Weighted pass-rate scoring:
+
+```
+Score = (earned / possible) × 10
+```
+
+- `possible = rules_checked × 2.5` (default weight per rule)
+- `earned = possible - violation_weights` (floored at 0)
+
+**Severity Weights:**
+
+| Severity | Weight | Impact |
+|----------|--------|--------|
+| Critical | 5.5 | Clarification loop + partial redo |
+| High | 4.0 | Clarification loop |
+| Medium | 2.5 | Brief clarification |
+| Low | 1.0 | Minor friction |
+
+**Example:** 10 rules checked, 1 critical violation
+- Possible: 10 × 2.5 = 25 points
+- Lost: 5.5 (one critical)
+- Earned: 25 - 5.5 = 19.5
+- Score: (19.5 / 25) × 10 = **7.8**
+
+### Step 3: Estimate Friction
+
+Friction estimates rework time from re-explanation loops:
+
+| Level | Total Time | Meaning |
+|-------|------------|---------|
+| High | ≥20 min | Significant rework expected |
+| Medium | 10-19 min | Moderate rework |
+| Low | 5-9 min | Minor friction |
 
 ### Deep Validation Checklist
 
-Quick Assessment checks presence. This checklist validates quality and patterns.
+After detecting level, validate quality and patterns:
 
 | Check | Rule | How to Verify |
 |-------|------|---------------|
@@ -199,27 +243,108 @@ Quick Assessment checks presence. This checklist validates quality and patterns.
 | MUST/MUST NOT have context | C5 | Each rule includes source or rationale in parentheses |
 | No stale references | M6 | Map paths match actual file structure |
 
-**When to use:** After Quick Assessment passes, before declaring a level.
+---
 
-### Full Assessment Rubric
+## Rule Detection Types
 
-| Category | Max | Criteria | Rules |
-|----------|-----|----------|-------|
-| Structure | 20 | Lines < 100 (+10), < 200 (+5); @imports (+5); headings (+5) | [S rules](rules/structure/) |
-| Content | 35 | Universal (+10); Specific (+10); Antipatterns (+10); Description (+5) | [C rules](rules/content/) |
-| Maintenance | 15 | Version control (+5); Review process (+5); No conflicts (+5) | [M rules](rules/maintenance/) |
-| Governance | 15 | Org policy (+5); Security rules (+5); Ownership (+5) | [G rules](rules/governance/) |
-| Efficiency | 15 | No linting (+5); Disclosure (+5); Code block limit (+5) | [E rules](rules/efficiency/) |
+Rules are classified by detection method, optimizing for accuracy and cost:
 
-**Total: /100**
+| Type | Count | Detection Method | LLM Cost |
+|------|-------|------------------|----------|
+| Deterministic | 20 | OpenGrep pattern match | None |
+| Heuristic | 12 | OpenGrep gate + LLM confirmation | ~5% of checks |
+| Semantic | 6 | LLM judgment only | 100% of checks |
+| Behavioral | 4 | Runtime observation | N/A |
 
-| Score | Grade | Level |
-|-------|-------|-------|
-| 90-100 | A | L5-L6 |
-| 80-89 | B | L4 |
-| 70-79 | C | L3 |
-| 50-69 | D | L2 |
-| < 50 | F | L1 |
+### Deterministic Rules (20)
+
+100% certainty via OpenGrep pattern matching:
+
+- **Structure:** S1, S4, S5, S6
+- **Content:** C4, C5, C7, C9, C10, C11, C12
+- **Efficiency:** E6, E7
+- **Maintenance:** M6, M7
+- **Governance:** G1, G5, G6, G7, G8
+
+### Heuristic Rules (12)
+
+Two-stage validation minimizes LLM cost:
+
+```
+OpenGrep pattern match (gate)
+    │
+    ├── No match → Pass (95% of files, zero LLM cost)
+    │
+    └── Match → JudgmentRequest
+                    │
+                    └── LLM evaluates question + criteria
+                            │
+                            ├── Confirmed → Violation
+                            └── Dismissed → Pass
+```
+
+Each heuristic rule has:
+- `detection`: OpenGrep pattern that gates LLM calls
+- `question`: What to ask when pattern matches
+- `criteria`: Pass/fail definition
+
+**Heuristic rules:** S2, S7, C1, C3, C6, E1, M2, M3, M4, M5, G2, G4
+
+### Semantic Rules (6)
+
+Require LLM judgment — no pattern gate possible:
+
+| Rule | What It Checks |
+|------|----------------|
+| C2 | Explicit over implicit — are instructions actionable? |
+| C8 | Instructions over philosophy — is it guidance, not explanation? |
+| E2 | Session start ritual — is the ritual documented and specific? |
+| G3 | Security rules ownership — is ownership clearly assigned? |
+| M1 | Version control — is the file actually tracked? |
+| S3 | No embedded code snippets — are examples minimal and necessary? |
+
+### Behavioral Rules (4)
+
+Runtime behavior — not detectable from file content:
+
+| Rule | What It Observes |
+|------|------------------|
+| E3 | Purpose-based file reading patterns |
+| E4 | Memory reference vs re-reading |
+| E5 | Grep efficiency (output modes, limits) |
+| E8 | Context window awareness |
+
+---
+
+## OpenGrep Detection
+
+Rules are validated using [OpenGrep](https://github.com/opengrep/opengrep), a semantic grep engine supporting 30+ languages including generic mode for markdown.
+
+### Capabilities
+
+| Feature | Use Case |
+|---------|----------|
+| `pattern-regex` | PCRE patterns for keyword detection |
+| `languages: generic` | Markdown file analysis |
+| YAML parsing | Frontmatter validation |
+| Metavariables | Capture and reference patterns |
+| Cross-file analysis | Duplicate/conflict detection |
+
+### Example Patterns
+
+```yaml
+# C10: NEVER with alternative
+pattern-regex: "NEVER.*[—–-]|NEVER.*instead"
+
+# C7: Emphasis count
+pattern-regex: "IMPORTANT|CRITICAL"
+
+# S5: Path-scoped rules
+languages: [yaml]
+pattern: "paths: $VALUE"
+```
+
+See [docs/opengrep-research.md](docs/opengrep-research.md) for full capability analysis.
 
 ---
 
@@ -227,7 +352,7 @@ Quick Assessment checks presence. This checklist validates quality and patterns.
 
 | Concept | Primary Sources |
 |---------|-----------------|
-| Maturity model structure | [23] CMMI Maturity Levels, [24] Cloud Native Maturity Model |
+| Capability model structure | [23] CMMI Maturity Levels, [24] Cloud Native Maturity Model |
 | L1-L2 basics | [1] Claude Code Best Practices, [6] Using CLAUDE.md Files |
 | L3 @imports | [2] Memory Documentation, [10] Monorepo case study |
 | L4 .claude/rules/ | [4] Settings, [15] Rules Directory Mechanics |

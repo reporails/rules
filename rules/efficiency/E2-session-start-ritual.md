@@ -11,7 +11,6 @@ antipatterns:
   - id: A12
     name: Skipping session ritual
     severity: medium
-    points: -10
 ---
 
 # Session Start Ritual

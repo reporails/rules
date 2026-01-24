@@ -11,7 +11,6 @@ antipatterns:
   - id: A5
     name: Philosophy instead of instructions
     severity: critical
-    points: -25
 ---
 
 # Instructions Over Philosophy

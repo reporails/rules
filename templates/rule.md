@@ -14,12 +14,10 @@ category: structure
 type: deterministic
 detection: Line count, depth counting
 level: L2+
-scoring: 10
 antipatterns:
   - id: A3
     name: Root file > 200 lines
     severity: critical
-    points: -25
 sources: [1, 10]
 see_also: [M7]
 ---
@@ -34,10 +32,10 @@ Prevents instruction degradation from token bloat.
 |--------|--------|---------|----------|
 | Root CLAUDE.md lines | < 100 | 100-200 | > 200 |
 
-## Scoring
+## Pattern
 
-- Lines < 100: +10 points
-- Lines < 200: +5 points
+**Good:** Root file under 100 lines with @imports
+**Bad:** 300-line monolithic CLAUDE.md
 ```
 
 ---
@@ -49,10 +47,11 @@ Prevents instruction degradation from token bloat.
 | id           | Yes      | string   | Category letter + number (e.g., C9, S3, M2)         |
 | title        | Yes      | string   | Short descriptive name                              |
 | category     | Yes      | string   | One of: structure, content, maintenance, governance, efficiency |
-| type         | Yes      | string   | One of: deterministic, heuristic, semantic          |
+| type         | Yes      | string   | One of: deterministic, heuristic, semantic, behavioral |
 | detection    | Yes      | string   | How to detect (method for D/H, reason for Semantic) |
-| level        | No       | string   | Minimum maturity level (e.g., L2+, L4+, L6)         |
-| scoring      | No       | number   | Points awarded for compliance                       |
+| level        | No       | string   | Minimum capability level (e.g., L2+, L4+, L6)       |
+| question     | Heuristic| string   | LLM confirmation question (required for heuristic)  |
+| criteria     | Heuristic| string   | Pass/fail criteria for LLM judgment                 |
 | antipatterns | No       | array    | Related antipattern definitions                     |
 | sources      | No       | array    | Source reference numbers (see README.md)            |
 | see_also     | No       | array    | Related rule IDs                                    |
@@ -63,24 +62,47 @@ Prevents instruction degradation from token bloat.
 |----------|----------|--------|------------------------------------------|
 | id       | Yes      | string | Antipattern ID (e.g., A3, A7)            |
 | name     | Yes      | string | Short description of the antipattern     |
-| severity | Yes      | string | One of: critical, high, medium           |
-| points   | Yes      | number | Penalty points (negative)                |
+| severity | Yes      | string | One of: critical, high, medium, low      |
+| weight   | No       | number | Override default weight (default: severity weight) |
 
 ## Type Categories
 
 | Type          | Definition                          | Example                                        |
 |---------------|-------------------------------------|------------------------------------------------|
 | deterministic | 100% certainty via regexp/counting  | Line count, file exists, keyword count         |
-| heuristic     | Deterministic with confidence level | Pattern matching that may have false positives |
-| semantic      | Requires AI judgment                | Quality assessment, intent detection           |
+| heuristic     | OpenGrep gate + LLM confirmation    | Pattern match → LLM validates                  |
+| semantic      | LLM judgment only (no pattern gate) | Quality assessment, intent detection           |
+| behavioral    | Runtime behavior, not file content  | Memory reference, purpose-based reading        |
+
+## Heuristic Validation Flow
+
+Heuristic rules use a two-stage filter to minimize LLM cost:
+
+```
+OpenGrep pattern match (gate)
+    │
+    ├── No match → Pass (95% of files, zero LLM cost)
+    │
+    └── Match → JudgmentRequest
+                    │
+                    └── LLM evaluates question + criteria
+                            │
+                            ├── Confirmed → Violation
+                            └── Dismissed → Pass
+```
+
+**Required frontmatter for heuristic rules:**
+- `question`: What to ask the LLM when pattern matches
+- `criteria`: How to determine pass/fail
 
 ## Severity Definitions
 
-| Severity | Points  | Meaning                  |
-|----------|---------|--------------------------|
-| critical | -25 pts | Breaks AI understanding  |
-| high     | -15 pts | Significant inefficiency |
-| medium   | -10 pts | Minor issue              |
+| Severity | Weight | Impact                              |
+|----------|--------|-------------------------------------|
+| critical | 5.5    | Clarification loop + partial redo   |
+| high     | 4.0    | Clarification loop                  |
+| medium   | 2.5    | Brief clarification                 |
+| low      | 1.0    | Minor friction                      |
 
 ## Body Content Guidelines
 
@@ -100,6 +122,6 @@ Keep body content concise (< 40 lines recommended).
 - [ ] ID follows sequence in category
 - [ ] Frontmatter parses as valid YAML
 - [ ] Type category is accurate
-- [ ] If heuristic, noted confidence level in detection
+- [ ] If heuristic, includes question + criteria fields
 - [ ] Sources reference numbers from README.md
 - [ ] Updated UNRELEASED.md

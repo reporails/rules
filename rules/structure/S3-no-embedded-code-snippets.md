@@ -2,14 +2,13 @@
 id: S3
 title: No Embedded Code Snippets
 category: structure
-type: deterministic
-detection: Regexp for markdown code blocks (triple backticks)
+type: semantic
+detection: Requires LLM to judge if code blocks are necessary minimal examples vs embedded snippets
 level: L2+
 antipatterns:
   - id: A4
     name: Embedded code snippets
     severity: critical
-    points: -25
 sources: [1]
 see_also: [E6]
 ---

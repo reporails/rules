@@ -11,7 +11,6 @@ antipatterns:
   - id: A14
     name: Rule snippets > 40 lines
     severity: medium
-    points: -10
 ---
 
 # Rule Snippet Length Enforcement

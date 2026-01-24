@@ -3,16 +3,16 @@ id: M4
 title: No Conflicting Rules
 category: maintenance
 type: heuristic
-detection: Text similarity detection; true conflicts require semantic understanding
+detection: Cross-file text similarity for contradictory keywords (MUST vs MUST NOT on same topic)
+question: Are there conflicting rules across instruction files?
+criteria: Pass if rules are consistent; fail if same topic has contradictory instructions
 level: L3+
-scoring: 10
 sources: [9]
 see_also: [C6]
 antipatterns:
   - id: A8
     name: Conflicting rules
     severity: high
-    points: -15
 ---
 
 # No Conflicting Rules

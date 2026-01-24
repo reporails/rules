@@ -9,7 +9,6 @@ antipatterns:
   - id: A13
     name: Hard-linking rules
     severity: medium
-    points: -10
 sources: [25]
 validation: first-party
 see_also: [M6]

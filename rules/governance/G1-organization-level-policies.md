@@ -5,7 +5,6 @@ category: governance
 type: deterministic
 detection: File existence check at policy paths
 level: L5+
-scoring: 5
 sources: [2, 4]
 ---
 

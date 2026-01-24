@@ -2,16 +2,16 @@
 id: C3
 title: Context-Specific Content
 category: content
-type: semantic
-detection: Requires AI to determine what content belongs in root vs imports
+type: heuristic
+detection: pattern-regex for domain keywords (api/, tests/, components/) in root CLAUDE.md
+question: Does the root file contain context-specific content that belongs in @imports?
+criteria: Pass if root is general; fail if contains domain-specific rules (>5 lines about specific paths)
 level: L3+
-scoring: 10
 sources: [2, 15]
 antipatterns:
   - id: A6
     name: Context-specific content in root file
     severity: high
-    points: -15
 ---
 
 # Context-Specific Content

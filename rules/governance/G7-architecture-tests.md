@@ -11,7 +11,6 @@ antipatterns:
   - id: A16
     name: Missing architecture tests
     severity: medium
-    points: -10
 ---
 
 # Architecture Tests

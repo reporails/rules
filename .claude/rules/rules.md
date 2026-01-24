@@ -10,7 +10,11 @@ When editing files in `rules/`:
 
 Required fields: id, title, category, type, detection, level, sources
 
-Optional fields: scoring, antipatterns, see_also, validation
+Optional fields: antipatterns, see_also, validation
+
+**Type values:** deterministic, heuristic, semantic, behavioral
+
+**Severity values:** critical (5.5), high (4.0), medium (2.5), low (1.0)
 
 ## Constraints
 

@@ -5,7 +5,6 @@ category: content
 type: deterministic
 detection: Regex for version pattern or date in frontmatter/header
 level: L2+
-scoring: 5
 sources: [1]
 ---
 

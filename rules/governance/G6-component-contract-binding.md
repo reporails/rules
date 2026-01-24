@@ -2,8 +2,8 @@
 id: G6
 title: Component-Contract Binding
 category: governance
-type: heuristic
-detection: YAML structure validation; cannot verify bindings are correct
+type: deterministic
+detection: YAML parse for contracts, rules, tests keys in component definitions
 level: L6
 sources: [25]
 validation: first-party

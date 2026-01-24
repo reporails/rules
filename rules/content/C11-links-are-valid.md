@@ -10,7 +10,6 @@ antipatterns:
   - id: A17
     name: Broken file references
     severity: high
-    points: -15
 ---
 
 # Links Are Valid

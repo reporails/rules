@@ -2,10 +2,9 @@
 id: C4
 title: Anti-Pattern Documentation
 category: content
-type: semantic
-detection: Requires AI to assess quality/completeness of antipattern documentation
+type: deterministic
+detection: pattern-regex count for NEVER|AVOID keywords (≥1 required)
 level: L2+
-scoring: 10
 sources: [1, 13, 25]
 validation: first-party
 see_also: [C10]

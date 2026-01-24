@@ -2,8 +2,8 @@
 id: G8
 title: Metrics and CI/CD Checks
 category: governance
-type: heuristic
-detection: Check for workflow files containing reporails or CLAUDE.md reference
+type: deterministic
+detection: File existence check for .github/workflows/*.yml with CLAUDE.md or reporails pattern
 level: L5+
 sources: [25]
 validation: first-party

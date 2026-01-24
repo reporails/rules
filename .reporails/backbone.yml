@@ -24,11 +24,16 @@ categories:
     prefix: E
     path: rules/efficiency/
 
-# Antipattern severity definitions
+# Severity definitions (weights for scoring)
 severities:
-  critical: -25
-  high: -15
-  medium: -10
+  critical:
+    weight: 5.5
+  high:
+    weight: 4.0
+  medium:
+    weight: 2.5
+  low:
+    weight: 1.0
 
 # Source references (full citations in README.md)
 sources:
@@ -83,47 +88,52 @@ high_risk_areas:
 # Rule index by detection type
 rule_index:
   deterministic:
-    - S1   # Size Limits
-    - S3   # No Embedded Code
-    - S6   # YAML Backbone
-    - C9   # Has Project Description
-    - C11  # Links Valid
-    - C12  # Has Version/Date
-    - E6   # Code Block Line Limit
-    - E7   # @import Count
-    - M1   # Version Control
-    - M6   # Map Staleness Prevention
-    - M7   # Rule Snippet Length
-    - G1   # Organization Policies
-    - G7   # Architecture Tests
+    # 20 rules - OpenGrep pattern/structure detection
+    - S1   # Size Limits (line count)
+    - S4   # Hierarchical Memory (directory existence)
+    - S5   # Path-Scoped Rules (YAML frontmatter)
+    - S6   # YAML Backbone (file existence)
+    - C4   # Anti-pattern Documentation (NEVER/AVOID count)
+    - C5   # MUST/MUST NOT with Context (pattern detection)
+    - C7   # Emphasis Discipline (IMPORTANT/CRITICAL count)
+    - C9   # Has Project Description (first line check)
+    - C10  # Has NEVER Statements (pattern + alternative)
+    - C11  # Links Valid (path existence)
+    - C12  # Has Version/Date (pattern match)
+    - E6   # Code Block Line Limit (line count)
+    - E7   # @import Count (pattern count)
+    - M6   # Map Staleness Prevention (path validation)
+    - M7   # Rule Snippet Length (line count)
+    - G1   # Organization Policies (file existence)
+    - G5   # Contract Registry (YAML structure)
+    - G6   # Component-Contract Binding (YAML structure)
+    - G7   # Architecture Tests (file existence)
+    - G8   # Metrics and CI/CD (workflow file check)
   heuristic:
-    - S2   # Progressive Disclosure
-    - S5   # Path-Scoped Rules
-    - S7   # Clear Markdown Structure
-    - C1   # Core Sections
-    - C5   # MUST/MUST NOT with Context
-    - C7   # Emphasis Discipline
-    - C10  # Has NEVER Statements (with alternatives)
-    - E1   # Deterministic Tools for Style
-    - M4   # No Conflicting Rules
-    - G5   # Contract Registry
-    - G6   # Component-Contract Binding
-    - G8   # Metrics and CI/CD
+    # 12 rules - pattern detection with <95% confidence
+    - S2   # Progressive Disclosure (may miss custom formats)
+    - S7   # Clear Markdown Structure (orphan detection weak)
+    - C1   # Core Sections (heading wording varies)
+    - C3   # Context-Specific Content (false positives)
+    - C6   # Single Source of Truth (cross-file similarity)
+    - E1   # Deterministic Tools for Style (false positives)
+    - M2   # Review Process (process-based)
+    - M3   # Change Management (format varies)
+    - M4   # No Conflicting Rules (cross-file)
+    - M5   # Auto-Generated Content Review (quality unverifiable)
+    - G2   # Team Governance Structure (format varies)
+    - G4   # Ownership Assignment (format varies)
   semantic:
-    - S4   # Hierarchical Memory
+    # 6 rules require LLM judgment
     - C2   # Explicit Over Implicit
-    - C3   # Context-Specific Content
-    - C4   # Anti-pattern Documentation
-    - C6   # Single Source of Truth
     - C8   # Instructions Over Philosophy
     - E2   # Session Start Ritual
+    - G3   # Security Rules Ownership
+    - M1   # Version Control
+    - S3   # No Embedded Code Snippets
+  behavioral:
+    # 4 rules - runtime behavior, not detectable from file content
     - E3   # Purpose-Based File Reading
     - E4   # Memory Reference
     - E5   # Grep Efficiency
     - E8   # Context Window Awareness
-    - M2   # Review Process
-    - M3   # Change Management
-    - M5   # Auto-Generated Content Review
-    - G2   # Team Governance Structure
-    - G3   # Security Rules Ownership
-    - G4   # Ownership Assignment

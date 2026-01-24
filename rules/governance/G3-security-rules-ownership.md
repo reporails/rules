@@ -5,7 +5,6 @@ category: governance
 type: semantic
 detection: Requires organizational context to verify ownership
 level: L5+
-scoring: 5
 sources: [7]
 validation: theoretical
 see_also: [G4]

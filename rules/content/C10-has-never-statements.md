@@ -2,10 +2,9 @@
 id: C10
 title: Has NEVER Statements
 category: content
-type: heuristic
-detection: Count NEVER keywords > 0, then verify each has alternative (— or "instead" or "use X")
+type: deterministic
+detection: pattern-regex for NEVER (≥1), then NEVER.*[—–-]|NEVER.*instead for alternatives
 level: L2+
-scoring: 5
 sources: [1, 9, 13]
 see_also: [C4]
 ---

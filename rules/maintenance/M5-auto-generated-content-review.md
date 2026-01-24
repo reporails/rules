@@ -2,15 +2,16 @@
 id: M5
 title: Auto-Generated Content Review
 category: maintenance
-type: semantic
-detection: Requires understanding if content was customized vs left as-is
+type: heuristic
+detection: pattern-regex for /init boilerplate signatures (auto-detected, generated)
+question: Has the auto-generated content been reviewed and customized?
+criteria: Pass if file shows customization; fail if contains unmodified /init boilerplate
 level: L2+
 sources: [1, 7]
 antipatterns:
   - id: A1
     name: Auto-generated without review
     severity: critical
-    points: -25
 ---
 
 # Auto-Generated Content Review

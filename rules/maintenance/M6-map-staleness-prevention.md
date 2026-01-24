@@ -11,7 +11,6 @@ antipatterns:
   - id: A11
     name: Stale navigation maps
     severity: medium
-    points: -10
 ---
 
 # Map Staleness Prevention

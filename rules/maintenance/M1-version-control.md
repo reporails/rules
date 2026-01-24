@@ -2,10 +2,9 @@
 id: M1
 title: Version Control
 category: maintenance
-type: deterministic
-detection: git ls-files check
+type: semantic
+detection: Requires understanding if file is tracked and commits are meaningful
 level: L2+
-scoring: 5
 sources: [7]
 ---
 
