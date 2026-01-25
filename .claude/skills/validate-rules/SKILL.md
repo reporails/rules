@@ -10,9 +10,20 @@ Validate rules against their sources and schema.
 ## Usage
 
 ```
-/validate-rules              # Validate all rules
-/validate-rules S1           # Validate single rule
-/validate-rules --category structure   # Validate category
+/validate-rules [id] [options]
+```
+
+**Options:**
+- `--agent <name>`: Agent for template resolution (default: `claude`)
+- `--category <cat>`: Validate only rules in category
+- `--source-check`: Deep source validation
+
+**Examples:**
+```
+/validate-rules                        # All rules, claude agent
+/validate-rules S1                     # Single rule
+/validate-rules --agent cursor         # All rules, cursor agent
+/validate-rules --category structure   # Category filter
 /validate-rules --source-check         # Deep source validation
 ```
 
@@ -48,12 +59,24 @@ For each rule:
 3. OpenGrep validation (pattern validity)
 4. Source validation (if --source-check)
 
+### Template Resolution
+
+Before OpenGrep validation, resolve `{{var}}` placeholders:
+
+1. Load agent config: `agents/{agent}/config.yml`
+2. Replace variables from `vars:` section:
+   - `{{instruction_files}}` → file patterns
+   - `{{rules_dir}}` → rules directory
+   - `{{skills_dir}}` → skills directory
+3. Create temp resolved file for validation
+
 ### OpenGrep Validation
 
-Check every .yml file:
+Check every .yml file (after template resolution):
 - Has positive pattern (`pattern-regex` or `pattern`)
+- `pattern-not-regex` is inside `patterns:` block
 - Core rules use only `{{instruction_files}}`
-- Test: `opengrep --config <file> . --dry-run`
+- Test: `~/.reporails/bin/opengrep scan --config <resolved-file> .`
 
 ### Step 3: Report Results
 

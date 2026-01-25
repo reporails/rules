@@ -1,11 +1,66 @@
 rules:
-  - id: E2-no-ritual
-    message: "No session start ritual documented"
+  - id: E2-no-ritual-section
+    message: "No session start ritual section in instructions"
+    severity: ERROR
+    languages: [generic]
+    patterns:
+      - pattern-regex: "^#"
+      - pattern-not-regex: "(?i)^##?#?\\s*(session\\s*start|start\\s*ritual|initialization|before\\s*you\\s*begin)"
+    paths:
+      include:
+        - "{{instruction_files}}"
+
+  - id: E2-ritual-no-backbone-ref
+    message: "Session ritual does not reference backbone.yml"
+    severity: WARNING
+    languages: [generic]
+    patterns:
+      - pattern-regex: "(?i)(session\\s*start|start\\s*ritual|initialization)"
+      - pattern-not-regex: "(?i)(backbone\\.ya?ml|\\.reporails/backbone)"
+    paths:
+      include:
+        - "{{instruction_files}}"
+
+  - id: E2-ritual-no-numbered-steps
+    message: "Session ritual lacks numbered steps (1. 2. 3.)"
+    severity: WARNING
+    languages: [generic]
+    patterns:
+      - pattern-regex: "(?i)(session\\s*start|start\\s*ritual|initialization)"
+      - pattern-not-regex: "1\\.[^\\n]+\\n.*2\\.[^\\n]+\\n.*3\\."
+    paths:
+      include:
+        - "{{instruction_files}}"
+
+  - id: E2-ritual-no-map-reference
+    message: "Session ritual does not mention maps or navigation"
+    severity: WARNING
+    languages: [generic]
+    patterns:
+      - pattern-regex: "(?i)(session\\s*start|start\\s*ritual|initialization)"
+      - pattern-not-regex: "(?i)(\\bmaps?\\b|navigation|component.*map|platform.*map)"
+    paths:
+      include:
+        - "{{instruction_files}}"
+
+  - id: E2-ritual-no-before-searching
+    message: "Session ritual missing 'before searching' or 'read first' guidance"
+    severity: INFO
+    languages: [generic]
+    patterns:
+      - pattern-regex: "(?i)(session\\s*start|start\\s*ritual|initialization)"
+      - pattern-not-regex: "(?i)(before\\s*(searching|coding|you\\s*start)|read\\s*first|start\\s*by\\s*reading)"
+    paths:
+      include:
+        - "{{instruction_files}}"
+
+  - id: E2-no-context-loading
+    message: "No context loading instructions for session start"
     severity: WARNING
     languages: [generic]
     patterns:
       - pattern-regex: "^#"
-      - pattern-not-regex: "(?i)(session start|start.*session|ritual|1\\.[^\\n]+2\\.[^\\n]+)"
+      - pattern-not-regex: "(?i)(load\\s*context|context\\s*load|read.*before|understand.*first)"
     paths:
       include:
         - "{{instruction_files}}"

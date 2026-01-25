@@ -42,8 +42,9 @@ rules:
     message: "Maps section missing 'components:' key"
     severity: WARNING
     languages: [generic]
-    pattern-regex: "^maps:\\s*$"
-    pattern-not-regex: "^\\s+components:"
+    patterns:
+      - pattern-regex: "^maps:\\s*$"
+      - pattern-not-regex: "^\\s+components:"
     paths:
       include:
         - ".reporails/backbone.yml"
@@ -52,8 +53,9 @@ rules:
     message: "Maps section missing 'platform:' key"
     severity: INFO
     languages: [generic]
-    pattern-regex: "^maps:\\s*$"
-    pattern-not-regex: "^\\s+platform:"
+    patterns:
+      - pattern-regex: "^maps:\\s*$"
+      - pattern-not-regex: "^\\s+platform:"
     paths:
       include:
         - ".reporails/backbone.yml"
@@ -62,8 +64,9 @@ rules:
     message: "Backbone file appears empty or minimal"
     severity: ERROR
     languages: [generic]
-    pattern-regex: "^\\s*$"
-    pattern-not-regex: "^[a-z_]+:"
+    patterns:
+      - pattern-regex: "^\\s*$"
+      - pattern-not-regex: "^[a-z_]+:"
     paths:
       include:
         - ".reporails/backbone.yml"

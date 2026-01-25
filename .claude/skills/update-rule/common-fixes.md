@@ -17,6 +17,28 @@ patterns:
   - pattern-not-regex: "EXCLUDE"
 ```
 
+## Schema Error: pattern-not-regex at Top Level
+
+**Problem:** `pattern-not-regex` outside `patterns:` wrapper.
+
+```yaml
+# INVALID - top level
+rules:
+  - id: rule-id
+    pattern-not-regex: "..."     # ❌ wrong location
+```
+
+**Fix:** Move inside `patterns:` block with positive pattern first.
+
+```yaml
+# VALID - inside patterns:
+rules:
+  - id: rule-id
+    patterns:
+      - pattern-regex: "^#"      # ✅ positive first
+      - pattern-not-regex: "..." # ✅ inside patterns:
+```
+
 ## Exit Code 2: Syntax Error
 
 **Problem:** Invalid YAML or regex syntax.

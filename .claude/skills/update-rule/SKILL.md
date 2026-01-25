@@ -10,11 +10,12 @@ Update an existing rule's OpenGrep patterns based on user instruction.
 ## Usage
 
 ```
-/update-rule <id> <instruction>
+/update-rule <id> <instruction> [--agent <name>]
 ```
 
 - `<id>`: Rule ID (e.g., S6, C1, CLAUDE_S4)
 - `<instruction>`: What to change (e.g., "fix invalid pattern", "more aggressive")
+- `--agent <name>`: Agent name for template resolution (default: `claude`)
 
 ## Workflow
 
@@ -47,10 +48,35 @@ Based on user instruction:
 - Filenames (e.g., S6-yaml-backbone.yml stays S6-yaml-backbone.yml)
 - Category or type
 
-### Step 4: Validate Before Saving
+### Step 4: Resolve Template Variables
+
+Before validation, replace `{{var}}` placeholders with values from agent config.
+
+1. Read agent config: `agents/{agent}/config.yml` (default: `claude`)
+2. Extract `vars:` section
+3. Replace in .yml file:
+   - `{{instruction_files}}` → glob patterns from config
+   - `{{rules_dir}}` → rules directory path
+   - `{{skills_dir}}` → skills directory path
+
+**Example resolution (claude agent):**
+```yaml
+# Before (template)
+paths:
+  include:
+    - "{{instruction_files}}"
+
+# After (resolved)
+paths:
+  include:
+    - "**/CLAUDE.md"
+    - ".claude/rules/**/*.md"
+```
+
+### Step 5: Validate Before Saving
 
 ```bash
-~/.reporails/bin/opengrep scan --config {new.yml} .
+~/.reporails/bin/opengrep scan --config {resolved.yml} .
 ```
 
 Exit codes:
@@ -60,17 +86,19 @@ Exit codes:
 
 See [validation.md](validation.md) for details.
 
-### Step 5: Check Conflicts
+### Step 6: Check Conflicts
 
 - Rule ID must be unique
 - Check IDs must not collide with other rules
 - Run full validation if needed
 
-### Step 6: Save
+### Step 7: Save
 
-- Write updated .yml
+- Write updated .yml (with original `{{var}}` templates, NOT resolved values)
 - Update .md if checks changed
 - Report what changed
+
+**Important:** Save files with template variables intact. Resolution is only for validation.
 
 ## Reference Files
 

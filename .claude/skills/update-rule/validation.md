@@ -1,9 +1,45 @@
 # OpenGrep Validation
 
-## Before Saving Any .yml
+## Template Resolution (Required for Validation)
+
+Rules use template variables that must be resolved before OpenGrep can scan.
+
+### Step 1: Load Agent Config
+
+```
+agents/{agent}/config.yml   # default: claude
+```
+
+### Step 2: Replace Variables
+
+| Template | Config Key | Example Value (claude) |
+|----------|------------|------------------------|
+| `{{instruction_files}}` | `vars.instruction_files` | `**/CLAUDE.md`, `.claude/rules/**/*.md` |
+| `{{rules_dir}}` | `vars.rules_dir` | `.claude/rules` |
+| `{{skills_dir}}` | `vars.skills_dir` | `.claude/skills` |
+| `{{local_file}}` | `vars.local_file` | `CLAUDE.local.md` |
+
+### Step 3: Create Resolved File
+
+For validation, create a temp file with resolved paths:
+
+```yaml
+# Original (keep in repo)
+paths:
+  include:
+    - "{{instruction_files}}"
+
+# Resolved (temp, for validation only)
+paths:
+  include:
+    - "**/CLAUDE.md"
+    - ".claude/rules/**/*.md"
+```
+
+## Validation Command
 
 ```bash
-~/.reporails/bin/opengrep scan --config {file} .
+~/.reporails/bin/opengrep scan --config {resolved-file} .
 echo $?
 ```
 
@@ -16,6 +52,24 @@ echo $?
 | 2 | Syntax error | Fix YAML/regex syntax |
 | 7 | No runnable patterns | Add positive pattern |
 
+## Required Schema Structure
+
+```yaml
+rules:
+  - id: RULE-check-name
+    message: "Human-readable description"
+    severity: ERROR | WARNING | INFO
+    languages: [generic]
+    patterns:                     # ← REQUIRED wrapper
+      - pattern-regex: "..."      # ← positive pattern FIRST
+      - pattern-not-regex: "..."  # ← exclusions INSIDE patterns:
+    paths:
+      include:
+        - "{{instruction_files}}"
+```
+
+**INVALID:** `pattern-not-regex` at top level (causes exit 7 or schema error)
+
 ## Required Fields
 
 Every rule in .yml must have:
@@ -23,7 +77,7 @@ Every rule in .yml must have:
 - `message` — Human-readable description
 - `severity` — ERROR, WARNING, or INFO
 - `languages` — Array (usually `[generic]` or `[yaml]`)
-- Positive pattern — `pattern-regex` or `pattern`
+- Positive pattern — `pattern-regex` or `pattern` (FIRST in `patterns:`)
 
 ## Pattern Requirements
 

@@ -7,14 +7,11 @@ checks:
   - id: S1-root-too-long
     name: Root instruction file exceeds 200 lines
     severity: critical
-  - id: S1-rule-too-long
-    name: Rule file exceeds 40 lines
-    severity: high
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://www.humanlayer.dev/blog/writing-a-good-claude-md"
   - "docs/methodology-thresholds.md"
-see_also: [S2, CLAUDE_M7]
+see_also: [S2]
 ---
 
 # Size Limits
