@@ -6,4 +6,4 @@ rules:
     pattern-regex: "^#\\s+[^\\n]+\\n\\s*\\n##"
     paths:
       include:
-        - "{{instruction_files}}"
+        - "{{main_instruction_file}}"

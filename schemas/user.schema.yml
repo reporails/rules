@@ -1,0 +1,95 @@
+# Schema for ~/.reporails/config.yml
+# User/global configuration — not committed, personal preferences
+schema_version: 1
+
+fields:
+  schema_version:
+    required: true
+    type: integer
+    default: 1
+
+  defaults:
+    required: false
+    type: object
+    description: "Default values applied when project config is missing fields"
+    properties:
+      agent:
+        type: string
+        default: "claude"
+        description: "Default agent when project doesn't specify"
+
+  display:
+    required: false
+    type: object
+    description: "Output display preferences"
+    properties:
+      ascii:
+        type: boolean
+        default: false
+        description: "Use ASCII box drawing instead of Unicode"
+      color:
+        type: boolean
+        default: true
+        description: "Enable colored terminal output"
+      compact:
+        type: boolean
+        default: false
+        description: "Use compact output format by default"
+
+  framework_path:
+    required: false
+    type: string
+    description: "Local framework path — for framework developers only"
+
+  analytics:
+    required: false
+    type: object
+    properties:
+      enabled:
+        type: boolean
+        default: true
+        description: "Track scan history in ~/.reporails/analytics/"
+
+defaults:
+  schema_version: 1
+  defaults:
+    agent: "claude"
+  display:
+    ascii: false
+    color: true
+    compact: false
+  analytics:
+    enabled: true
+
+validation:
+  - rule: "schema_version must be supported (currently: 1)"
+  - rule: "Unknown fields should warn, not error (forward compatibility)"
+  - rule: "Invalid patterns should error with clear message"
+
+examples:
+  default: |
+    # Typical user config
+    schema_version: 1
+
+    display:
+      color: true
+
+  developer: |
+    # Framework developer
+    schema_version: 1
+
+    display:
+      ascii: false
+      color: true
+
+    # Point to local framework for testing
+    framework_path: /home/dev/reporails/framework
+
+  minimal_output: |
+    # CI-friendly or accessibility
+    schema_version: 1
+
+    display:
+      ascii: true
+      color: false
+      compact: true

@@ -38,15 +38,39 @@ fields:
   vars:
     required: true
     type: object
-    description: "Template variables for rule patterns. Extensible - any key allowed."
+    description: "Template variables for rule patterns. Universal vars required, agent-specific optional."
     properties:
+      # Universal variables (REQUIRED for all agents)
+      main_instruction_file:
+        required: true
+        type: array
+        items:
+          type: string
+        description: "Primary instruction file(s) — document-level rules check only these"
       instruction_files:
         required: true
+        type: array
+        items:
+          type: string
+        description: "All instruction files (main + supplementary) — content rules check all"
+      # Agent-specific variables (optional, only if agent supports the feature)
+      supplementary_files:
+        required: false
+        type: array
+        items:
+          type: string
+        description: "Rule snippet files (excludes main) — for agents with rules directory"
+      rules_dir:
+        required: false
         type: string
-        description: "Glob pattern for instruction file(s)"
+        description: "Rules directory path — for agents with hierarchical rules"
+      skills_dir:
+        required: false
+        type: string
+        description: "Skills directory path — for agents with skills support"
     additionalProperties:
       type: string
-      description: "Additional variables for OpenGrep pattern templates"
+      description: "Additional agent-specific variables"
 
   excludes:
     required: false
@@ -81,12 +105,15 @@ validation:
   - rule: "prefix must be UPPERCASE letters only"
   - rule: "prefix must be in reserved_agent_prefixes (see rule.schema.yml)"
 
-  # Vars
+  # Vars - Universal (required)
+  - rule: "vars.main_instruction_file is required"
   - rule: "vars.instruction_files is required"
-  - rule: "vars values must be strings"
+
+  # Vars - Agent-specific (optional)
+  - rule: "supplementary_files, rules_dir, skills_dir only needed if agent supports them"
 
   # Excludes
-  - rule: "excludes items must be valid core rule IDs"
+  - rule: "excludes items must be valid core rule IDs or agent-specific rule IDs"
 
   # Overrides
   - rule: "overrides keys must be valid check IDs"
@@ -98,40 +125,53 @@ validation:
 
 examples:
   claude: |
+    # Full-featured agent with rules directory
     agent: claude
     prefix: CLAUDE
     name: Claude Code
 
     vars:
-      instruction_files: "**/CLAUDE.md"
+      # Universal (required)
+      main_instruction_file:
+        - "**/CLAUDE.md"
+      instruction_files:
+        - "**/CLAUDE.md"
+        - ".claude/rules/**/*.md"
+      # Agent-specific (Claude supports rules directory)
+      supplementary_files:
+        - ".claude/rules/**/*.md"
       rules_dir: ".claude/rules"
+      skills_dir: ".claude/skills"
 
   copilot: |
+    # Minimal agent with single file
     agent: copilot
     prefix: COPILOT
     name: GitHub Copilot
 
     vars:
-      instruction_files: ".github/copilot-instructions.md"
+      # Universal only — no rules directory support
+      main_instruction_file:
+        - ".github/copilot-instructions.md"
+      instruction_files:
+        - ".github/copilot-instructions.md"
 
     excludes:
-      - S4   # Hierarchical Memory (no rules_dir)
-      - S5   # Path-Scoped Rules (no rules_dir)
-      - M7   # Rule Snippet Length (no rules_dir)
+      - CLAUDE_S4  # Hierarchical Memory (no rules_dir)
+      - CLAUDE_S5  # Path-Scoped Rules (no rules_dir)
 
-    overrides:
-      S1-root-too-long:
-        severity: high   # Copilot files tend to be longer
-
-  codex: |
-    agent: codex
-    prefix: CODEX
-    name: OpenAI Codex
+  cursor: |
+    # Agent with rules directory support
+    agent: cursor
+    prefix: CURSOR
+    name: Cursor
 
     vars:
-      instruction_files: "**/AGENTS.md"
-
-    excludes:
-      - S4
-      - S5
-      - M7
+      main_instruction_file:
+        - "**/.cursorrules"
+      instruction_files:
+        - "**/.cursorrules"
+        - ".cursor/rules/**/*.md"
+      supplementary_files:
+        - ".cursor/rules/**/*.md"
+      rules_dir: ".cursor/rules"

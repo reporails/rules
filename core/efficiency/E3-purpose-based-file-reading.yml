@@ -8,4 +8,4 @@ rules:
       - pattern-not-regex: "(?i)(read|reading).*(purpose|strategy|full|partial|EDIT|UNDERSTAND)"
     paths:
       include:
-        - "{{instruction_files}}"
+        - "{{main_instruction_file}}"

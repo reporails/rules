@@ -1,0 +1,174 @@
+# Schema for .reporails/config.yml
+# Project-level configuration — committed to git
+schema_version: 1
+
+fields:
+  schema_version:
+    required: true
+    type: integer
+    default: 1
+    description: "Config schema version for forward compatibility"
+
+  agent:
+    required: false
+    type: string
+    default: "claude"
+    description: "Primary agent to check against (matches agents/{agent}/config.yml)"
+
+  instruction_files:
+    required: false
+    type: object
+    description: "Defines which files are analyzed and their roles"
+    properties:
+      main:
+        type: string
+        default: "**/CLAUDE.md"
+        description: "Main instruction file — document-level rules apply here only"
+      supplementary:
+        type: string
+        default: ".claude/rules/**/*.md"
+        description: "Supplementary files — content rules apply, not document-level"
+      exclude:
+        type: array
+        items:
+          type: string
+        description: "Glob patterns to exclude from all analysis"
+
+  components:
+    required: false
+    type: array
+    description: "Monorepo component definitions (optional)"
+    items:
+      type: object
+      properties:
+        path:
+          required: true
+          type: string
+          description: "Glob pattern or path to component root"
+        main:
+          type: string
+          default: "CLAUDE.md"
+          description: "Main instruction file relative to component root"
+        expected_level:
+          type: string
+          pattern: "^L[1-5]$"
+          description: "Expected capability level — violations if below"
+        role:
+          type: enum
+          values: [orchestrator, component, library, docs]
+          default: component
+          description: "Affects which rules apply"
+
+  rules:
+    required: false
+    type: object
+    description: "Rule customizations for this project"
+    properties:
+      disabled:
+        type: array
+        items:
+          type: string
+          pattern: "^[SCEGM][0-9]+$"
+        description: "Rule IDs to skip entirely"
+      overrides:
+        type: object
+        additionalProperties:
+          type: object
+          properties:
+            severity:
+              type: enum
+              values: [critical, high, medium, low]
+            disabled:
+              type: boolean
+        description: "Per-check overrides keyed by check ID"
+
+  scoring:
+    required: false
+    type: object
+    properties:
+      scope:
+        type: enum
+        values: [main, all, aggregate]
+        default: main
+        description: |
+          main: Score only main instruction file(s)
+          all: Score all files as one unit
+          aggregate: Separate score per component (monorepo)
+
+defaults:
+  schema_version: 1
+  agent: "claude"
+  instruction_files:
+    main: "**/CLAUDE.md"
+    supplementary: ".claude/rules/**/*.md"
+  scoring:
+    scope: main
+
+validation:
+  - rule: "schema_version must be supported (currently: 1)"
+  - rule: "Unknown fields should warn, not error (forward compatibility)"
+  - rule: "Invalid patterns should error with clear message"
+
+examples:
+  minimal: |
+    # Simplest config — all defaults
+    schema_version: 1
+
+  single_repo: |
+    # Standard single-repo setup
+    schema_version: 1
+    agent: claude
+
+    instruction_files:
+      main: "CLAUDE.md"
+      supplementary: ".claude/rules/**/*.md"
+
+  monorepo: |
+    # Monorepo with orchestrator + components
+    schema_version: 1
+    agent: claude
+
+    instruction_files:
+      main: "CLAUDE.md"  # Root orchestrator
+      supplementary: ".claude/rules/**/*.md"
+      exclude:
+        - "**/node_modules/**"
+        - "**/dist/**"
+
+    components:
+      - path: "packages/api"
+        role: component
+        expected_level: L3
+      - path: "packages/web"
+        role: component
+        expected_level: L3
+      - path: "packages/shared"
+        role: library
+        expected_level: L2
+      - path: "docs"
+        role: docs
+        expected_level: L1
+
+    scoring:
+      scope: aggregate
+
+  with_overrides: |
+    # Customized rules
+    schema_version: 1
+    agent: claude
+
+    rules:
+      disabled:
+        - E5  # We don't use grep guidance pattern
+        - E4  # Memory handled differently
+      overrides:
+        S1-root-too-long:
+          severity: medium  # We allow longer root files
+        C12-no-version:
+          disabled: true    # We use git tags instead
+
+  multi_agent: |
+    # Checking multiple agents (future)
+    schema_version: 1
+    agent: claude  # Primary
+    # Additional agents would need separate check runs

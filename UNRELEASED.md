@@ -37,3 +37,4 @@
 - [RULES]: All 17 heuristic rules now have question + criteria for LLM confirmation
 - [TEMPLATES]: Rule template documents heuristic two-stage validation flow
 - [DOCS]: capability-levels.md updated with detection types (17 heuristic, 1 semantic)
+- [AGENTS]: Claude config adds overrides for E2, E4, E5 (severity adjustments for Claude-specific behavior)

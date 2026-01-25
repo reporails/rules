@@ -12,7 +12,7 @@ Every rule .md file must have a matching .yml file with OpenGrep patterns.
 - [ ] OpenGrep severity matches rule severity mapping
 - [ ] Has positive pattern (`pattern-regex` or `pattern`)
 - [ ] `pattern-not-regex` is inside `patterns:` block, NOT at top level
-- [ ] Core rules use only `{{instruction_files}}`
+- [ ] Core rules use only `{{main_instruction_file}}` or `{{instruction_files}}`
 - [ ] Paths use template variables, not hardcoded paths
 
 ## Required .yml Schema
@@ -65,12 +65,13 @@ For each `.md` rule file:
 
 ## Template Variables
 
-| Variable | Core rules | Agent rules |
-|----------|------------|-------------|
-| `{{instruction_files}}` | ✓ | ✓ |
-| `{{rules_dir}}` | ✗ | ✓ |
-| `{{skills_dir}}` | ✗ | ✓ |
-| `{{local_file}}` | ✗ | ✓ |
+| Variable | Core rules | Agent rules | Use case |
+|----------|------------|-------------|----------|
+| `{{main_instruction_file}}` | ✓ | ✓ | Document-level rules (main file only) |
+| `{{instruction_files}}` | ✓ | ✓ | Content rules (all instruction files) |
+| `{{supplementary_files}}` | ✗ | ✓ | Rule snippet checks |
+| `{{rules_dir}}` | ✗ | ✓ | Agent-specific paths |
+| `{{skills_dir}}` | ✗ | ✓ | Agent-specific paths |
 
 Variables defined in `agents/{agent}/config.yml`.
 

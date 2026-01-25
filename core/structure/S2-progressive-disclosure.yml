@@ -8,4 +8,4 @@ rules:
       - pattern-not-regex: "@[a-zA-Z0-9_/.-]+\\.(md|yml|yaml)|[Ss]ee\\s+[A-Z][a-zA-Z0-9_.-]+\\s+for"
     paths:
       include:
-        - "{{instruction_files}}"
+        - "{{main_instruction_file}}"

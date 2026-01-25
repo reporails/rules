@@ -8,4 +8,4 @@ rules:
       - pattern-not-regex: "(?i)(memory|re-read|reread|unchanged|already read)"
     paths:
       include:
-        - "{{instruction_files}}"
+        - "{{main_instruction_file}}"

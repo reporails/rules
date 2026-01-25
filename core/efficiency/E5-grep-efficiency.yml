@@ -8,4 +8,4 @@ rules:
       - pattern-not-regex: "(?i)(files_with_matches|head_limit|grep.*limit|search.*efficient)"
     paths:
       include:
-        - "{{instruction_files}}"
+        - "{{main_instruction_file}}"

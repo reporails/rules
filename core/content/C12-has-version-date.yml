@@ -8,4 +8,4 @@ rules:
       - pattern-not-regex: "(?i)(v[0-9]+\\.[0-9]+|version|\\d{4}-\\d{2}-\\d{2}|last updated)"
     paths:
       include:
-        - "{{instruction_files}}"
+        - "{{main_instruction_file}}"

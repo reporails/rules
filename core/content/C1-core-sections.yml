@@ -8,4 +8,4 @@ rules:
       - pattern-not-regex: "(?i)##?\\s*(stack|tech|commands?|scripts?|constraints?|rules)"
     paths:
       include:
-        - "{{instruction_files}}"
+        - "{{main_instruction_file}}"

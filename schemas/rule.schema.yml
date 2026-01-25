@@ -118,6 +118,37 @@ fields:
     description: "Related rule IDs"
 
 # =============================================================================
+# TEMPLATE VARIABLES
+# =============================================================================
+
+template_variables:
+  universal:
+    description: "Required for ALL agents — core rules may only use these"
+    variables:
+      main_instruction_file:
+        description: "Primary instruction file (document-level rules apply here)"
+        example: "**/CLAUDE.md"
+      instruction_files:
+        description: "All instruction files (main + supplementary)"
+        example: ["**/CLAUDE.md", ".claude/rules/**/*.md"]
+
+  agent_specific:
+    description: "Only agents that support them — requires rule in agents/{agent}/rules/"
+    variables:
+      supplementary_files:
+        description: "Rule snippet files (excludes main)"
+        example: ".claude/rules/**/*.md"
+      rules_dir:
+        description: "Rules directory path"
+        example: ".claude/rules"
+      skills_dir:
+        description: "Skills directory path"
+        example: ".claude/skills"
+      local_file:
+        description: "Local/personal instruction file"
+        example: "CLAUDE.local.md"
+
+# =============================================================================
 # VALIDATION
 # =============================================================================
 
@@ -147,6 +178,10 @@ validation:
   # References
   - rule: "see_also must reference valid rule IDs"
   - rule: "sources must be valid URLs"
+
+  # Template variable restrictions
+  - rule: "Core rules (in core/) may only use {{main_instruction_file}} or {{instruction_files}}"
+  - rule: "Agent-specific variables (supplementary_files, rules_dir, skills_dir) require rule in agents/{agent}/rules/"
 
 # =============================================================================
 # EXAMPLES
