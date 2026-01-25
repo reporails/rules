@@ -2,6 +2,9 @@
 
 | Mistake | Fix |
 |---------|-----|
+| Negative-only patterns (exit 7) | Add positive pattern before `pattern-not-regex` |
+| Missing required fields (exit 2) | Add id, message, severity, languages |
+| Using `{{rules_dir}}` in core rules | Core uses only `{{instruction_files}}` |
 | Using source IDs | Use full URLs |
 | Missing .yml file | Always create both files |
 | Wrong check ID format | Must be `{rule_id}-{suffix}` |
@@ -11,4 +14,4 @@
 | Title > 64 characters | Shorten or abbreviate |
 | Body > 40 lines | Extract to supporting docs |
 | Missing severity mapping | critical→ERROR, others→WARNING |
-| Citing L5-L6 patterns as Anthropic docs | Use docs/capability-levels.md |
+| Citing L5-L6 as Anthropic docs | Use docs/capability-levels.md |

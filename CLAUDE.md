@@ -64,3 +64,6 @@ Add entry to UNRELEASED.md after making changes.
 
 ### /generate-all-rules [--scope core|claude]
 Batch generate or regenerate all rules from specification.
+
+### /update-rule <id> <instruction>
+Update an existing rule's OpenGrep patterns based on instruction.

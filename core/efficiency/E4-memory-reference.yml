@@ -3,7 +3,9 @@ rules:
     message: "No memory reference instruction found"
     severity: WARNING
     languages: [generic]
-    pattern-not-regex: "(?i)(memory|re-read|reread|unchanged|already read)"
+    patterns:
+      - pattern-regex: "^#"
+      - pattern-not-regex: "(?i)(memory|re-read|reread|unchanged|already read)"
     paths:
       include:
         - "{{instruction_files}}"

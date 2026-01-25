@@ -6,7 +6,9 @@ prefix: CLAUDE
 name: Claude Code
 
 vars:
-  instruction_files: "**/CLAUDE.md"
+  instruction_files:
+    - "**/CLAUDE.md"
+    - ".claude/rules/**/*.md"
   rules_dir: ".claude/rules"
   skills_dir: ".claude/skills"
   local_file: "CLAUDE.local.md"

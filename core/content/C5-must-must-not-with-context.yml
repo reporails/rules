@@ -9,4 +9,3 @@ rules:
     paths:
       include:
         - "{{instruction_files}}"
-        - "{{rules_dir}}/**/*.md"

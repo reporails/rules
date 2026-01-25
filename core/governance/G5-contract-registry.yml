@@ -4,6 +4,8 @@ rules:
     severity: WARNING
     languages: [yaml]
     patterns:
+      - pattern: |
+          $KEY: $VALUE
       - pattern-not: |
           contracts: $VALUE
     paths:

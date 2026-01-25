@@ -3,7 +3,9 @@ rules:
     message: "No session start ritual documented"
     severity: WARNING
     languages: [generic]
-    pattern-not-regex: "(?i)(session start|start.*session|ritual|1\\.[^\\n]+2\\.[^\\n]+)"
+    patterns:
+      - pattern-regex: "^#"
+      - pattern-not-regex: "(?i)(session start|start.*session|ritual|1\\.[^\\n]+2\\.[^\\n]+)"
     paths:
       include:
         - "{{instruction_files}}"

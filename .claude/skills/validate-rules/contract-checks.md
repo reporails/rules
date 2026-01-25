@@ -10,6 +10,8 @@ Every rule .md file must have a matching .yml file with OpenGrep patterns.
 - [ ] Every `checks[].id` in .md has matching `rules[].id` in .yml
 - [ ] Every `rules[].id` in .yml has matching `checks[].id` in .md
 - [ ] OpenGrep severity matches rule severity mapping
+- [ ] Has positive pattern (`pattern-regex` or `pattern`)
+- [ ] Core rules use only `{{instruction_files}}`
 - [ ] Paths use template variables, not hardcoded paths
 
 ## Validation Logic
@@ -31,13 +33,11 @@ For each `.md` rule file:
 
 ## Template Variables
 
-Use these instead of hardcoded paths:
+| Variable | Core rules | Agent rules |
+|----------|------------|-------------|
+| `{{instruction_files}}` | ✓ | ✓ |
+| `{{rules_dir}}` | ✗ | ✓ |
+| `{{skills_dir}}` | ✗ | ✓ |
+| `{{local_file}}` | ✗ | ✓ |
 
-| Variable | Description |
-|----------|-------------|
-| `{{instruction_files}}` | Main instruction files (e.g., `**/CLAUDE.md`) |
-| `{{rules_dir}}` | Rules directory (e.g., `.claude/rules`) |
-| `{{skills_dir}}` | Skills directory (e.g., `.claude/skills`) |
-| `{{local_file}}` | Local preferences file |
-
-Variables are defined in `agents/{agent}/config.yml`.
+Variables defined in `agents/{agent}/config.yml`.

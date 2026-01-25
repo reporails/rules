@@ -1,20 +1,69 @@
 rules:
-  - id: S6-backbone-missing
-    message: "L6 project missing .reporails/backbone.yml"
+  - id: S6-backbone-no-maps
+    message: "Backbone missing 'maps:' section"
     severity: ERROR
-    languages: [generic]
-    pattern-regex: "^$"
+    languages: [yaml]
+    patterns:
+      - pattern: |
+          $KEY: $VALUE
+      - pattern-not: |
+          maps: $VALUE
     paths:
       include:
         - ".reporails/backbone.yml"
 
-  - id: S6-backbone-no-maps
-    message: "Backbone lacks navigation maps"
+  - id: S6-backbone-no-contracts
+    message: "Backbone missing 'contracts:' section"
     severity: WARNING
     languages: [yaml]
     patterns:
+      - pattern: |
+          $KEY: $VALUE
       - pattern-not: |
-          maps: $VALUE
+          contracts: $VALUE
+    paths:
+      include:
+        - ".reporails/backbone.yml"
+
+  - id: S6-backbone-no-quick-ref
+    message: "Backbone missing 'quick_ref:' section"
+    severity: WARNING
+    languages: [yaml]
+    patterns:
+      - pattern: |
+          $KEY: $VALUE
+      - pattern-not: |
+          quick_ref: $VALUE
+    paths:
+      include:
+        - ".reporails/backbone.yml"
+
+  - id: S6-maps-no-components
+    message: "Maps section missing 'components:' key"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "^maps:\\s*$"
+    pattern-not-regex: "^\\s+components:"
+    paths:
+      include:
+        - ".reporails/backbone.yml"
+
+  - id: S6-maps-no-platform
+    message: "Maps section missing 'platform:' key"
+    severity: INFO
+    languages: [generic]
+    pattern-regex: "^maps:\\s*$"
+    pattern-not-regex: "^\\s+platform:"
+    paths:
+      include:
+        - ".reporails/backbone.yml"
+
+  - id: S6-empty-backbone
+    message: "Backbone file appears empty or minimal"
+    severity: ERROR
+    languages: [generic]
+    pattern-regex: "^\\s*$"
+    pattern-not-regex: "^[a-z_]+:"
     paths:
       include:
         - ".reporails/backbone.yml"

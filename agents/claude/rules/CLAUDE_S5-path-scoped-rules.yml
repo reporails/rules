@@ -4,8 +4,10 @@ rules:
     severity: WARNING
     languages: [yaml]
     patterns:
+      - pattern: |
+          $KEY: $VALUE
       - pattern-not: |
           paths: $VALUE
     paths:
       include:
-        - ".claude/rules/*.md"
+        - "{{rules_dir}}/*.md"

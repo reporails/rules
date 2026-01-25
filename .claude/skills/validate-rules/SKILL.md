@@ -45,7 +45,15 @@ Find all .md files in:
 For each rule:
 1. Schema validation (required fields, type consistency)
 2. Contract validation (.md ↔ .yml matching)
-3. Source validation (if --source-check)
+3. OpenGrep validation (pattern validity)
+4. Source validation (if --source-check)
+
+### OpenGrep Validation
+
+Check every .yml file:
+- Has positive pattern (`pattern-regex` or `pattern`)
+- Core rules use only `{{instruction_files}}`
+- Test: `opengrep --config <file> . --dry-run`
 
 ### Step 3: Report Results
 

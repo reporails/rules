@@ -1,5 +1,11 @@
 # OpenGrep Pattern Examples
 
+## Requirements
+
+- Every rule MUST have a positive pattern (`pattern-regex` or `pattern`)
+- Use `pattern-not-regex` only to filter false positives from a positive pattern
+- Core rules use only `{{instruction_files}}` — agent vars go in agent rules
+
 ## Line Count Detection
 
 ```yaml
@@ -56,24 +62,36 @@ pattern-regex: "(?i)files_with_matches|head_limit"       # Grep efficiency
 ## Combining Patterns
 
 ```yaml
-# AND: all must match
+# AND: all must match (first MUST be positive)
 patterns:
-  - pattern-regex: "PATTERN1"
-  - pattern-regex: "PATTERN2"
+  - pattern-regex: "POSITIVE"
+  - pattern-not-regex: "EXCLUDE"
 
 # OR: any can match
 pattern-either:
-  - pattern-regex: "PATTERN1"
-  - pattern-regex: "PATTERN2"
+  - pattern-regex: "OPTION1"
+  - pattern-regex: "OPTION2"
+```
+
+## Absence Detection
+
+To detect missing content, combine positive + negative patterns:
+
+```yaml
+patterns:
+  - pattern-regex: "^#"              # Match markdown files
+  - pattern-not-regex: "REQUIRED"    # Flag if REQUIRED absent
 ```
 
 ## Template Variables
 
-Use in paths (defined in `agents/{agent}/config.yml`):
+| Variable | Use in | Description |
+|----------|--------|-------------|
+| `{{instruction_files}}` | Core + agent | Main instruction files |
+| `{{rules_dir}}` | Agent only | Rules directory |
+| `{{skills_dir}}` | Agent only | Skills directory |
 
-- `{{instruction_files}}` — Main instruction files
-- `{{rules_dir}}` — Rules directory
-- `{{skills_dir}}` — Skills directory
+Core rules must only use `{{instruction_files}}`.
 
 ## Source Selection
 

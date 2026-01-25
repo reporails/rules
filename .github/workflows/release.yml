@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Create tarball
+        run: |
+          VERSION=${{ steps.version.outputs.VERSION }}
+          
+          # Create tarball with framework contents
+          tar -czvf reporails-rules-${VERSION}.tar.gz \
+            core/ \
+            agents/ \
+            schemas/ \
+            docs/capability-levels.md \
+            docs/methodology-thresholds.md \
+            docs/sources.yml
+          
+          # Generate checksums
+          sha256sum reporails-rules-${VERSION}.tar.gz > checksums.txt
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+          files: |
+            reporails-rules-*.tar.gz
+            checksums.txt
