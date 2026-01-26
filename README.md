@@ -1,6 +1,7 @@
 # Reporails Rules
 
-Community-maintained rules for linting AI coding agent instruction files.
+Gathered rules for linting AI coding agent instruction files.
+Aims to become community-maintained.
 
 **Version:** 0.0.1
 
@@ -8,6 +9,11 @@ Community-maintained rules for linting AI coding agent instruction files.
 ```
 # Add the MCP and restart Claude
 claude mcp add reporails -- uvx --from reporails-cli ails-mcp
+```
+
+Then ask Claude: 
+```
+❯ What ails claude?
 ```
 
 ## What's here
@@ -30,9 +36,9 @@ docs/           # Detailed documentation
   sources.yml
 ```
 
-## Usage
+## How it works
 
-These rules are automatically downloaded when you install the CLI:
+These rules are automatically downloaded when you install the MCP/CLI:
 ```bash
 uvx reporails-cli init
 ails check .
