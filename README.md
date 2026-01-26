@@ -4,6 +4,12 @@ Community-maintained rules for linting AI coding agent instruction files.
 
 **Version:** 0.0.1
 
+## Quickstart (requires [uvx](https://docs.astral.sh/uv/getting-started/installation/))
+```
+# Add the MCP and restart Claude
+claude mcp add reporails -- uvx --from reporails-cli ails-mcp
+```
+
 ## What's here
 ```
 core/
