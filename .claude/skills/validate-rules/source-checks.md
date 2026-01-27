@@ -44,6 +44,25 @@ Flag for review if:
 - Source mentions different thresholds than rule
 - Source no longer mentions the pattern rule enforces
 
+## Weight-Based Validation
+
+For each rule:
+
+1. **Load sources** from rule's `sources:` field
+2. **Look up weights** from `docs/sources.yml`
+3. **Validate confidence level:**
+
+| Rule confidence | Required source weight |
+|-----------------|------------------------|
+| high | At least one source with weight >= 0.8 |
+| medium | At least one source with weight >= 0.6 OR 2+ sources with weight >= 0.4 |
+| low | Any source |
+
+4. **Flag mismatches:**
+   - confidence: high but no weight >= 0.8 source → ERROR
+   - confidence: high but source doesn't explicitly state pattern → WARNING
+   - confidence: low but has weight >= 0.8 source → SUGGESTION (upgrade confidence?)
+
 ## Reporails Methodology Rules
 
 Rules sourcing from Reporails docs (L5-L6 patterns):

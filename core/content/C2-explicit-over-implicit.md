@@ -3,6 +3,12 @@ id: C2
 title: Explicit Over Implicit
 category: content
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-memory
+    claim: be-specific
+  - source: claude-4-best-practices
+    claim: be-explicit
 checks:
   - id: C2-vague-instruction
     name: Vague instruction without specifics

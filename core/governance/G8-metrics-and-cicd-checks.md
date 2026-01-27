@@ -3,6 +3,10 @@ id: G8
 title: Metrics and CI/CD Checks
 category: governance
 type: deterministic
+confidence: high
+backed_by:
+  - source: anthropic-teams-claude-code
+    claim: automated-pr-comments
 checks:
   - id: G8-no-ci-checks
     name: No CI workflow with instruction file checks

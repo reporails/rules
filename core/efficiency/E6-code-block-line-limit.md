@@ -3,6 +3,10 @@ id: E6
 title: Code Block Line Limit
 category: efficiency
 type: deterministic
+confidence: high
+backed_by:
+  - source: capability-levels
+    claim: methodology-threshold-code-blocks
 checks:
   - id: E6-code-block-too-long
     name: Code block exceeds 10 lines

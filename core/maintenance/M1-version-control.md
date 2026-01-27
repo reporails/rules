@@ -3,6 +3,12 @@ id: M1
 title: Version Control
 category: maintenance
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-best-practices
+    claim: root-placement
+  - source: claude-code-best-practices
+    claim: version-control
 checks:
   - id: M1-not-tracked
     name: Instruction file not in git

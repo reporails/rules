@@ -3,6 +3,14 @@ id: M2
 title: Review Process
 category: maintenance
 type: semantic
+confidence: high
+backed_by:
+  - source: claude-code-best-practices
+    claim: iterative-refinement
+  - source: claude-code-memory
+    claim: review-periodically
+  - source: anthropic-teams-claude-code
+    claim: review-process
 checks:
   - id: M2-no-review-process
     name: No PR review process documented

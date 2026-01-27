@@ -3,6 +3,10 @@ id: S3
 title: No Embedded Code Snippets
 category: structure
 type: deterministic
+confidence: high
+backed_by:
+  - source: capability-levels
+    claim: methodology-threshold-code-blocks
 checks:
   - id: S3-code-block-too-long
     name: Code block exceeds 10 lines

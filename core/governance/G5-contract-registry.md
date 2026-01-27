@@ -3,6 +3,10 @@ id: G5
 title: Contract Registry
 category: governance
 type: deterministic
+confidence: low
+backed_by:
+  - source: capability-levels
+    claim: l6-contracts
 checks:
   - id: G5-no-contracts
     name: Backbone lacks contracts key

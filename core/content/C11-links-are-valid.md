@@ -3,6 +3,10 @@ id: C11
 title: Links Are Valid
 category: content
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-memory
+    claim: imports-syntax
 checks:
   - id: C11-broken-import
     name: "@import references non-existent file"

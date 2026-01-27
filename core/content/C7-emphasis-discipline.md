@@ -3,6 +3,14 @@ id: C7
 title: Emphasis Discipline
 category: content
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-best-practices
+    claim: emphasis-words
+  - source: instruction-limits-principles
+    claim: instruction-capacity
+  - source: capability-levels
+    claim: methodology-threshold-emphasis
 checks:
   - id: C7-too-many-emphasis
     name: More than 5 IMPORTANT/CRITICAL per file

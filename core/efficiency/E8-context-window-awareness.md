@@ -3,6 +3,14 @@ id: E8
 title: Context Window Awareness
 category: efficiency
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-context-windows
+    claim: context-awareness
+  - source: claude-context-windows
+    claim: avoid-token-warnings
+  - source: claude-code-issue-13579
+    claim: token-waste-measured
 checks:
   - id: E8-redundant-token-warning
     name: Redundant token management instruction

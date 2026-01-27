@@ -3,6 +3,12 @@ id: CLAUDE_G1
 title: Organization-Level Policies
 category: governance
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-settings
+    claim: settings-hierarchy
+  - source: claude-code-memory
+    claim: memory-hierarchy
 checks:
   - id: CLAUDE_G1-no-managed-policy
     name: No organization-level policy file

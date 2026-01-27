@@ -3,6 +3,10 @@ id: CLAUDE_M5
 title: Auto-Generated Content Review
 category: maintenance
 type: deterministic
+confidence: high
+backed_by:
+  - source: using-claude-md-files
+    claim: customized-content
 checks:
   - id: CLAUDE_M5-init-boilerplate
     name: Unmodified /init boilerplate detected

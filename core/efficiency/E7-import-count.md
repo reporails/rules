@@ -3,6 +3,12 @@ id: E7
 title: Import Count
 category: efficiency
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-memory
+    claim: import-max-depth
+  - source: capability-levels
+    claim: methodology-threshold-imports
 checks:
   - id: E7-too-many-imports
     name: More than 10 @imports in root file

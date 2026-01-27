@@ -3,6 +3,10 @@ id: G3
 title: Security Rules Ownership
 category: governance
 type: semantic
+confidence: high
+backed_by:
+  - source: anthropic-teams-claude-code
+    claim: governance-roles
 checks:
   - id: G3-security-unowned
     name: Security rules lack qualified owners

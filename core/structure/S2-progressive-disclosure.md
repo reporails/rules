@@ -3,6 +3,14 @@ id: S2
 title: Progressive Disclosure
 category: structure
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-memory
+    claim: imports-syntax
+  - source: claude-code-memory
+    claim: recursive-discovery
+  - source: instruction-limits-principles
+    claim: progressive-files
 checks:
   - id: S2-large-file-no-imports
     name: File over 100 lines without @imports or references

@@ -47,6 +47,91 @@ Before generating, collect:
 
 Refer to `.claude/rules/opengrep.md` for decision guide.
 
+### Step 2b: Source-Claim Linking
+
+Link rules to specific claims in `docs/sources.yml`:
+
+1. **Find backing claims** — Search sources.yml for claims that support this rule
+2. **Add `backed_by`** — Reference source ID + claim ID pairs in frontmatter
+3. **Update source claims** — Add rule ID to claim's `rules:` array if not present
+
+```yaml
+# In rule frontmatter
+backed_by:
+  - source: claude-code-best-practices
+    claim: keep-concise
+  - source: instruction-limits-principles
+    claim: line-limit
+```
+
+**Bidirectional consistency required:**
+- Rule's `backed_by` must reference existing source + claim
+- Source's claim `rules:` array must include this rule ID
+
+### Step 2c: Determine Confidence
+
+Based on backing source weights from `docs/sources.yml`:
+
+| Weight | Authority | Rule Extraction |
+|--------|-----------|-----------------|
+| 1.0 | Official | MUST include if source explicitly states pattern |
+| 0.8 | Research | SHOULD include if data supports pattern |
+| 0.6 | Methodology | Include as Reporails recommendation |
+| 0.4 | Community | MAY include if corroborated by weight >= 0.6 source |
+
+Set `confidence` in frontmatter based on `backed_by` sources:
+
+**Confidence Levels (v2):**
+
+| Level | Requirements | Example |
+|-------|--------------|---------|
+| confirmed | Official (1.0) + Research validates (0.8+) | S1: Anthropic says + Arize measured |
+| high | Official source (1.0) | C9: Anthropic recommends |
+| medium | Research (0.8+) OR 2+ community (0.4+) | Pattern from multiple blogs |
+| low | Methodology only or no backing | G5: Reporails pattern |
+
+**Confidence Decision Tree:**
+
+```
+Has official backing (weight 1.0)?
+├── Yes
+│   └── Has research validation (weight 0.8+)?
+│       ├── Yes → confirmed
+│       └── No → high
+└── No
+    └── Has research backing (weight 0.8+)?
+        ├── Yes → medium
+        └── No
+            └── Has 2+ community sources (weight 0.4+)?
+                ├── Yes → medium
+                └── No → low
+```
+
+**Confidence Level Details:**
+
+**confirmed:**
+- Has official backing (weight 1.0) that STATES the recommendation
+- Has research backing (weight 0.8+) that VALIDATES it works
+- Research must measure impact, not just repeat the official claim
+- Example: "Keep under 300 lines" (official) + "+5.19% improvement" (research)
+
+**high:**
+- Has `backed_by` with at least one official source (weight 1.0)
+- Source claim explicitly states the pattern/threshold
+- No contradicting sources
+- Does NOT require research validation
+
+**medium:**
+- Has `backed_by` with at least one research source (weight 0.8+)
+- OR multiple community sources (weight 0.4+) agree
+- Pattern is inferred but reasonable
+
+**low:**
+- Based primarily on methodology sources (weight 0.6)
+- OR Reporails methodology without external validation
+- OR pattern is extrapolated beyond source claims
+- OR no `backed_by` references (methodology-only rule)
+
 ### Step 3: Generate Files
 
 Create both .md and .yml files. For templates, see [templates.md](templates.md).
@@ -83,3 +168,4 @@ See [opengrep-patterns.md](opengrep-patterns.md) for validation details.
 - [templates.md](templates.md) — Frontmatter and file templates
 - [opengrep-patterns.md](opengrep-patterns.md) — OpenGrep pattern examples
 - [common-mistakes.md](common-mistakes.md) — Common mistakes and fixes
+- [evidence-chain.md](evidence-chain.md) — Source-claim linking guide

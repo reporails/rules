@@ -3,6 +3,12 @@ id: C9
 title: Has Project Description
 category: content
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-best-practices
+    claim: include-core-files
+  - source: anthropic-teams-claude-code
+    claim: team-onboarding
 checks:
   - id: C9-no-description
     name: First line after title is empty

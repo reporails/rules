@@ -1,6 +1,31 @@
 # Unreleased
 
+### Added (Pass 4)
+- [SCHEMA]: `confirmed` confidence level (official + research validated)
+- [SCHEMA]: Source admission criteria with quality gates (minimum_weight 0.4)
+- [SCHEMA]: Project confidence filtering (confidence.minimum, profile presets)
+- [SKILLS]: Admission check step in /extract-claims skill
+- [SKILLS]: Confirmed confidence logic in /generate-rule skill
+- [SKILLS]: Trust score calculation in evidence-chain-checks
+
+### Changed (Pass 4)
+- [SCHEMA]: sources.schema.yml v2 - added admission_criteria section
+- [SCHEMA]: rule.schema.yml v2 - added confirmed level, updated validation rules
+- [SCHEMA]: project.schema.yml v2 - added confidence section, profile presets
+- [SKILLS]: Updated /validate-rules evidence-chain-checks for confirmed validation
+
 ### Added
+- [SCHEMA]: Source weight field (0.0-1.0) for authority-based rule extraction
+- [SCHEMA]: Rule confidence field (high/medium/low) based on source weights
+- [SCHEMA]: Sources schema v2 with claims structure (id, text, rules[], quote, section)
+- [SCHEMA]: Rule backed_by field for source-claim references
+- [SOURCES]: Added weight to all 21 sources (official=1.0, research=0.8, methodology=0.6, community=0.4)
+- [SOURCES]: Extracted claims from 8 official/research sources with bidirectional rule links
+- [SKILLS]: Source weighting logic in generate-rule skill
+- [SKILLS]: Weight-based validation in validate-rules skill
+- [SKILLS]: Source-claim linking section in generate-rule skill
+- [SKILLS]: Level 4 Evidence Chain Validation in validate-rules skill
+- [SKILLS]: /extract-claims skill for extracting claims from source URLs
 - [META]: Repository structure with CLAUDE.md, backbone.yml
 - [META]: .claude/rules/ for path-scoped rule editing
 - [META]: Add-changelog-entry command
@@ -16,6 +41,9 @@
 - [DOCS]: OpenGrep research for rule detection capabilities
 
 ### Changed
+- [RULES]: All 43 rules now have confidence field (32 high, 11 low based on source weights)
+- [RULES]: All 43 rules now have backed_by field linking to source claims
+- [SOURCES]: Refactored sources.yml from bibliography to evidence chain format (schema v2)
 - [DOCS]: Moved capability-levels.md to docs/
 - [RULES]: L6 rules (S6, E2, M6, G5, G6, G7) now source from docs/capability-levels.md
 - [SOURCES]: Added reporails section with capability-levels as methodology source

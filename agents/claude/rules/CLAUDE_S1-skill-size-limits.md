@@ -3,6 +3,10 @@ id: CLAUDE_S1
 title: Skill Size Limits
 category: structure
 type: deterministic
+confidence: low
+backed_by:
+  - source: capability-levels
+    claim: methodology-skill-size
 checks:
   - id: CLAUDE_S1-skill-too-long
     name: SKILL.md file exceeds 100 lines

@@ -3,6 +3,12 @@ id: E4
 title: Memory Reference
 category: efficiency
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-issue-13579
+    claim: memory-reference
+  - source: claude-4-best-practices
+    claim: investigate-before-answering
 checks:
   - id: E4-no-memory-instruction
     name: No memory reference instruction

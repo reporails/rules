@@ -3,6 +3,10 @@ id: CLAUDE_M7
 title: Rule Snippet Length
 category: maintenance
 type: semantic
+confidence: low
+backed_by:
+  - source: capability-levels
+    claim: methodology-rule-body
 checks:
   - id: CLAUDE_M7-body-too-long
     name: Rule file body exceeds 40 lines (excluding frontmatter)

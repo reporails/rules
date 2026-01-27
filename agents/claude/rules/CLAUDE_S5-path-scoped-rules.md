@@ -3,6 +3,12 @@ id: CLAUDE_S5
 title: Path-Scoped Rules
 category: structure
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-memory
+    claim: path-scoped-rules
+  - source: claude-code-settings
+    claim: rules-dir-config
 checks:
   - id: CLAUDE_S5-no-paths-frontmatter
     name: Rule file missing paths key in frontmatter

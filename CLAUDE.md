@@ -67,3 +67,6 @@ Batch generate or regenerate all rules from specification.
 
 ### /update-rule <id> <instruction>
 Update an existing rule's OpenGrep patterns based on instruction.
+
+### /extract-claims <url>
+Extract claims from a source URL for sources.yml evidence chain.

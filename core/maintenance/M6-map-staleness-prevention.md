@@ -3,6 +3,10 @@ id: M6
 title: Map Staleness Prevention
 category: maintenance
 type: deterministic
+confidence: low
+backed_by:
+  - source: capability-levels
+    claim: l6-staleness
 checks:
   - id: M6-stale-path
     name: Path in backbone.yml may not exist

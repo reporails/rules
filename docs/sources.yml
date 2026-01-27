@@ -1,17 +1,8 @@
-# Source Registry
-# Schema: schemas/sources.schema.yml
+# Source Registry with Evidence Claims
+# Schema: schemas/sources.schema.yml (v2)
 #
-# For Agents:
-#   See .claude/rules/sources.md for usage instructions
-#
-# For Contributors:
-#   Adding a new source:
-#   1. Determine which agent(s) it applies to
-#   2. Add to "generic" if principles apply to all instruction files
-#   3. Add to specific agent section if vendor-specific
-#   4. Use id that reflects content, not source title
-#   5. Write description of what principles/patterns it covers
-#   6. Verify URL is accessible
+# Each source contains specific claims that back specific rules.
+# This creates an auditable evidence chain: source → claim → rule
 
 # =============================================================================
 # GENERIC - Applies to all agents
@@ -21,32 +12,89 @@ generic:
   - id: agents-md-spec
     url: "https://agents.md/"
     type: official
-    description: "Open standard for agent instructions, cascading rules, discovery precedence"
+    weight: 1.0
+    claims:
+      - id: standard-format
+        text: "Open standard for agent instruction files with cascading rules"
+        rules: [S2]
+      - id: discovery-precedence
+        text: "Instruction files follow discovery precedence hierarchy"
+        rules: [S2, C3]
 
   - id: keepachangelog
     url: "https://keepachangelog.com/en/1.1.0/"
     type: official
-    description: "Changelog format specification, UNRELEASED section structure"
+    weight: 1.0
+    claims:
+      - id: unreleased-section
+        text: "Use UNRELEASED section for changes not yet in a release"
+        rules: []
 
   - id: advanced-context-engineering
     url: "https://github.com/humanlayer/advanced-context-engineering-for-coding-agents"
     type: research
-    description: "Frequent Intentional Compaction, 40-60% context target, 300k LOC projects"
+    weight: 0.8
+    claims:
+      - id: context-target
+        text: "Target 40-60% context utilization for optimal performance"
+        rules: [E8]
+      - id: frequent-compaction
+        text: "Use Frequent Intentional Compaction for large codebases"
+        rules: [E8]
 
   - id: instruction-limits-principles
     url: "https://www.humanlayer.dev/blog/writing-a-good-claude-md"
     type: community
-    description: "150-200 instruction limit for frontier LLMs, <300 lines, progressive disclosure"
+    weight: 0.4
+    claims:
+      - id: instruction-capacity
+        text: "Frontier LLMs follow ~150-200 instructions with reasonable consistency"
+        quote: true
+        rules: [S1, C7]
+      - id: line-limit
+        text: "Less than 300 lines is optimal; shorter performs better"
+        rules: [S1]
+      - id: less-is-more
+        text: "Less instructions is more - excessive instructions degrade quality uniformly"
+        rules: [S1, C7]
+      - id: use-linters
+        text: "Exclude code style guidelines - use linters instead"
+        rules: [E1]
+      - id: progressive-files
+        text: "Separate task-specific instructions into discrete markdown files"
+        rules: [S2, C3]
 
   - id: spec-writing-for-agents
     url: "https://addyosmani.com/blog/good-spec/"
     type: community
-    description: "PRD-style structure, three-tier boundaries (Always/Ask First/Never), modular prompts"
+    weight: 0.4
+    claims:
+      - id: three-tier-boundaries
+        text: "Use three-tier boundaries: Always do, Ask first, Never do"
+        rules: [C4, C10]
+      - id: commands-early
+        text: "Put executable commands early - full commands with flags"
+        quote: true
+        rules: [C1]
+      - id: code-snippet-beats-prose
+        text: "One real code snippet showing your style beats three paragraphs"
+        quote: true
+        rules: [C8]
+      - id: curse-of-instructions
+        text: "Performance degrades when too many rules compete for attention"
+        rules: [S1, C7]
+      - id: modularity
+        text: "Break specs into focused sections rather than monolithic prompts"
+        rules: [S2, C3]
 
   - id: jetbrains-junie-guidelines
     url: "https://blog.jetbrains.com/idea/2025/05/coding-guidelines-for-your-ai-agents/"
     type: official
-    description: ".junie/guidelines.md structure, IDE-specific agent configuration"
+    weight: 1.0
+    claims:
+      - id: guidelines-structure
+        text: "Use .junie/guidelines.md for IDE-specific agent configuration"
+        rules: []
 
 # =============================================================================
 # REPORAILS - Framework methodology
@@ -56,7 +104,41 @@ reporails:
   - id: capability-levels
     url: "docs/capability-levels.md"
     type: methodology
-    description: "L1-L6 capability model, L5-L6 governance patterns, assessment matrix"
+    weight: 0.6
+    claims:
+      - id: l6-backbone
+        text: "L6 projects require backbone.yml with maps, contracts, quick_ref sections"
+        rules: [S6]
+      - id: l6-session-ritual
+        text: "L6 requires explicit session start ritual with numbered steps"
+        rules: [E2]
+      - id: l6-contracts
+        text: "L6 backbone includes contracts section for architecture enforcement"
+        rules: [G5, G6]
+      - id: l6-maps
+        text: "L6 maps section includes components and platform keys"
+        rules: [S6]
+      - id: l6-staleness
+        text: "L6 requires map staleness prevention - paths must exist"
+        rules: [M6]
+      - id: l6-arch-tests
+        text: "L6 requires architecture tests for contract enforcement"
+        rules: [G7]
+      - id: methodology-threshold-emphasis
+        text: "Limit IMPORTANT/CRITICAL to 5 per file to maintain impact"
+        rules: [C7]
+      - id: methodology-threshold-code-blocks
+        text: "Code blocks should stay under 10 lines"
+        rules: [E6, S3]
+      - id: methodology-threshold-imports
+        text: "Root file should have under 10 @imports"
+        rules: [E7]
+      - id: methodology-skill-size
+        text: "SKILL.md files should stay under 100 lines"
+        rules: [CLAUDE_S1]
+      - id: methodology-rule-body
+        text: "Rule file body should stay under 40 lines"
+        rules: [CLAUDE_M7]
 
 # =============================================================================
 # CLAUDE - Claude Code specific
@@ -66,72 +148,294 @@ claude:
   - id: claude-code-best-practices
     url: "https://www.anthropic.com/engineering/claude-code-best-practices"
     type: official
-    description: "CLAUDE.md structure, what to include, instruction limits, emphasis usage"
+    weight: 1.0
+    claims:
+      - id: keep-concise
+        text: "Keep CLAUDE.md files concise and human-readable"
+        quote: true
+        section: "Create CLAUDE.md files"
+        rules: [S1]
+      - id: no-required-format
+        text: "There's no required format for CLAUDE.md files"
+        quote: true
+        section: "Create CLAUDE.md files"
+        rules: [C1]
+      - id: iterative-refinement
+        text: "Treat as frequently-used prompts requiring optimization"
+        section: "Tune your CLAUDE.md files"
+        rules: [M2]
+      - id: emphasis-words
+        text: "Use emphasis with IMPORTANT or YOU MUST to improve adherence"
+        quote: true
+        section: "Tune your CLAUDE.md files"
+        rules: [C7]
+      - id: include-commands
+        text: "Include bash commands with descriptions"
+        section: "Create CLAUDE.md files"
+        rules: [C1]
+      - id: include-core-files
+        text: "Include core files and utility functions"
+        section: "Create CLAUDE.md files"
+        rules: [C1, C9]
+      - id: root-placement
+        text: "Place in root directory and check into git for team access"
+        section: "Create CLAUDE.md files"
+        rules: [M1]
+      - id: version-control
+        text: "Check CLAUDE.md into version control for team sharing"
+        section: "Create CLAUDE.md files"
+        rules: [M1]
 
   - id: claude-code-memory
     url: "https://code.claude.com/docs/en/memory"
     type: official
-    description: "CLAUDE.md hierarchy, @imports, .claude/rules/, CLAUDE.local.md, file loading"
+    weight: 1.0
+    claims:
+      - id: memory-hierarchy
+        text: "Four memory locations in hierarchical structure: managed, project, rules, user"
+        section: "Determine memory type"
+        rules: [CLAUDE_S4]
+      - id: rules-directory
+        text: "Use .claude/rules/ for modular, topic-specific project instructions"
+        quote: true
+        section: "Modular rules"
+        rules: [CLAUDE_S4, CLAUDE_S5]
+      - id: path-scoped-rules
+        text: "Rules can be scoped to specific files using YAML frontmatter with paths field"
+        section: "Path-specific rules"
+        rules: [CLAUDE_S5]
+      - id: imports-syntax
+        text: "CLAUDE.md files can import additional files using @path/to/import syntax"
+        section: "CLAUDE.md imports"
+        rules: [S2, C11]
+      - id: import-max-depth
+        text: "Imported files can recursively import with max-depth of 5 hops"
+        section: "CLAUDE.md imports"
+        rules: [E7]
+      - id: local-md-gitignore
+        text: "CLAUDE.local.md files are automatically added to .gitignore"
+        section: "Determine memory type"
+        rules: []
+      - id: recursive-discovery
+        text: "Claude reads memories recursively from cwd up to root"
+        section: "How Claude looks up memories"
+        rules: [S2]
+      - id: be-specific
+        text: "Be specific: Use 2-space indentation is better than Format code properly"
+        quote: true
+        section: "Memory best practices"
+        rules: [C2]
+      - id: use-structure
+        text: "Format memories as bullet points grouped under descriptive headings"
+        section: "Memory best practices"
+        rules: [S7, C1]
+      - id: review-periodically
+        text: "Review memories periodically as your project evolves"
+        section: "Memory best practices"
+        rules: [M2]
+      - id: keep-rules-focused
+        text: "Keep rules focused: Each file should cover one topic"
+        quote: true
+        section: "Best practices"
+        rules: [C3, C6]
 
   - id: claude-code-hooks
     url: "https://code.claude.com/docs/en/hooks-guide"
     type: official
-    description: "Pre-commit hooks, post-tool hooks, custom hook configuration"
+    weight: 1.0
+    claims:
+      - id: hooks-for-formatting
+        text: "Use hooks for automatic formatting - run prettier, gofmt after file edits"
+        section: "Example use cases"
+        rules: [E1]
+      - id: hooks-deterministic
+        text: "Hooks provide deterministic control ensuring actions always happen"
+        section: "Introduction"
+        rules: [E1]
+      - id: app-level-code
+        text: "Encode rules as hooks rather than prompting instructions for guaranteed execution"
+        section: "Introduction"
+        rules: [E1]
 
   - id: claude-code-settings
     url: "https://code.claude.com/docs/en/settings"
     type: official
-    description: ".claude/rules/ configuration, path scoping, settings hierarchy"
+    weight: 1.0
+    claims:
+      - id: rules-dir-config
+        text: ".claude/rules/ directory configuration for path scoping"
+        rules: [CLAUDE_S4, CLAUDE_S5]
+      - id: settings-hierarchy
+        text: "Settings follow hierarchy with managed settings taking precedence"
+        rules: [CLAUDE_G1]
 
   - id: claude-context-windows
     url: "https://platform.claude.com/docs/en/build-with-claude/context-windows"
     type: official
-    description: "Token limits, context optimization, window management"
+    weight: 1.0
+    claims:
+      - id: context-awareness
+        text: "Claude can track remaining context window throughout conversation"
+        section: "Context awareness"
+        rules: [E8]
+      - id: avoid-token-warnings
+        text: "Model handles context automatically - avoid redundant token warnings"
+        rules: [E8]
 
   - id: using-claude-md-files
     url: "https://claude.com/blog/using-claude-md-files"
     type: official
-    description: "CLAUDE.md usage patterns, practical examples"
+    weight: 1.0
+    claims:
+      - id: usage-patterns
+        text: "CLAUDE.md usage patterns and practical examples"
+        rules: [C1, C9]
+      - id: customized-content
+        text: "Customize CLAUDE.md with project-specific content"
+        rules: [CLAUDE_M5]
 
   - id: anthropic-teams-claude-code
     url: "https://claude.com/blog/how-anthropic-teams-use-claude-code"
     type: official
-    description: "Team usage patterns, onboarding, continuous improvement, # shortcut"
+    weight: 1.0
+    claims:
+      - id: team-onboarding
+        text: "New hires feed Claude codebase to get productive quickly via CLAUDE.md files"
+        rules: [C9]
+      - id: automated-pr-comments
+        text: "Automated PR comments through GitHub Actions with Claude handling formatting"
+        rules: [G8]
+      - id: test-driven-guidance
+        text: "Guide Claude through test-driven development with periodic checkpoints"
+        rules: [M2]
+      - id: governance-roles
+        text: "Teams need clear roles and responsibilities for instruction files"
+        rules: [G2, G4]
+      - id: review-process
+        text: "Implement review process for instruction file changes"
+        rules: [M2, M3]
 
   - id: claude-4-best-practices
     url: "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-4-best-practices"
     type: official
-    description: "Instruction-following behavior, emphasis usage, context for rules"
+    weight: 1.0
+    claims:
+      - id: be-explicit
+        text: "Be explicit with instructions - specify desired output clearly"
+        section: "Be explicit"
+        rules: [C2]
+      - id: context-improves
+        text: "Add context or motivation behind instructions to improve performance"
+        section: "Add context"
+        rules: [C5, C8]
+      - id: never-with-context
+        text: "NEVER use ellipses is less effective than explaining why (TTS engine)"
+        section: "Add context"
+        rules: [C10, C5]
+      - id: avoid-overengineering
+        text: "Avoid over-engineering - only make changes directly requested"
+        section: "Minimize overengineering"
+        rules: []
+      - id: investigate-before-answering
+        text: "Never speculate about code you have not opened"
+        quote: true
+        section: "Code exploration"
+        rules: [E3, E4]
+      - id: instructions-not-philosophy
+        text: "Frame instructions with actionable modifiers, not abstract principles"
+        rules: [C8]
 
   - id: claude-code-issue-13579
     url: "https://github.com/anthropics/claude-code/issues/13579"
     type: research
-    description: "7 token-wasting patterns, 700K+ tokens measured waste, compaction issues"
+    weight: 0.8
+    claims:
+      - id: token-waste-measured
+        text: "700K+ tokens wasted across 2M token project from 7 patterns"
+        section: "Analysis Results"
+        rules: [E8, S1]
+      - id: check-first-build-second
+        text: "CHECK FIRST, BUILD SECOND - grep costs 100 tokens vs 70K rebuild"
+        section: "Golden Rules"
+        rules: [E5]
+      - id: grep-over-agent
+        text: "grep -r costs 100 tokens, 2 sec vs Explore-Agent 40K tokens, 5 min"
+        quote: true
+        section: "Golden Rules"
+        rules: [E5]
+      - id: test-immediately
+        text: "Write 1 file, test, continue (10K) vs Write 10 files, test (124K)"
+        section: "Golden Rules"
+        rules: []
+      - id: purpose-based-reading
+        text: "Read files based on purpose to minimize token usage"
+        rules: [E3]
+      - id: memory-reference
+        text: "Reference from memory instead of re-reading unchanged files"
+        rules: [E4]
 
   - id: claude-md-optimization-study
     url: "https://arize.com/blog/claude-md-best-practices-learned-from-optimizing-claude-code-with-prompt-learning/"
     type: research
-    description: "Empirical: +5.19% general improvement, +10.87% repo-specific from optimization"
+    weight: 0.8
+    claims:
+      - id: optimization-improvement
+        text: "+5.19% general improvement, +10.87% repo-specific from optimization"
+        rules: [S1, C1]
+      - id: iterative-tuning
+        text: "CLAUDE.md files benefit from iterative refinement and testing"
+        rules: [M2]
 
   - id: monorepo-claude-md-organization
     url: "https://dev.to/anvodev/how-i-organized-my-claudemd-in-a-monorepo-with-too-many-contexts-37k7"
     type: community
-    description: "Reduced 47k to 9k words (~80%), hierarchical structure, service-specific files"
+    weight: 0.4
+    claims:
+      - id: reduction-achieved
+        text: "Reduced 47k to 9k words (~80%) through hierarchical structure"
+        rules: [S1, S2]
+      - id: service-specific-files
+        text: "Use service-specific instruction files in monorepos"
+        rules: [C3, S2]
 
   - id: enterprise-claude-usage
     url: "https://blog.sshh.io/p/how-i-use-every-claude-code-feature"
     type: community
-    description: "13KB limit, 30% engineer threshold, NEVER with positive alternatives"
+    weight: 0.4
+    claims:
+      - id: kb-limit
+        text: "13KB limit observed for effective instruction following"
+        rules: [S1]
+      - id: never-with-alternative
+        text: "NEVER statements should include positive alternatives"
+        rules: [C10]
+      - id: engineer-threshold
+        text: "30% engineer threshold - Claude handles implementation, human reviews"
+        rules: []
 
   - id: claude-md-guide
     url: "https://www.builder.io/blog/claude-md-guide"
     type: community
-    description: "File placement, .claude/rules/, path-scoped rules, practical examples"
+    weight: 0.4
+    claims:
+      - id: file-placement
+        text: "CLAUDE.md placement affects scope and team access"
+        rules: [S2, M1]
+      - id: practical-examples
+        text: "Include practical examples in instruction files"
+        rules: [C1]
 
   - id: rules-directory-mechanics
     url: "https://claudefa.st/blog/guide/mechanics/rules-directory"
     type: community
-    description: ".claude/rules/ mechanics, path scoping, YAML frontmatter, loading behavior"
+    weight: 0.4
+    claims:
+      - id: rules-mechanics
+        text: ".claude/rules/ mechanics with path scoping and YAML frontmatter"
+        rules: [CLAUDE_S4, CLAUDE_S5]
+      - id: loading-behavior
+        text: "Rules load based on path matching during file operations"
+        rules: [CLAUDE_S5]
 
 # =============================================================================
 # COPILOT - GitHub Copilot specific
@@ -141,7 +445,14 @@ copilot:
   - id: copilot-custom-instructions
     url: "https://docs.github.com/en/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot"
     type: official
-    description: "copilot-instructions.md setup, path-specific instructions, agent personas"
+    weight: 1.0
+    claims:
+      - id: copilot-instructions-setup
+        text: "copilot-instructions.md setup for custom instructions"
+        rules: []
+      - id: path-specific
+        text: "Path-specific instructions for different code areas"
+        rules: []
 
 # =============================================================================
 # CODEX - OpenAI Codex specific
@@ -151,7 +462,14 @@ codex:
   - id: codex-agents-md
     url: "https://developers.openai.com/codex/guides/agents-md"
     type: official
-    description: "AGENTS.md structure, 32KB limit, override hierarchy"
+    weight: 1.0
+    claims:
+      - id: agents-md-structure
+        text: "AGENTS.md structure with 32KB limit"
+        rules: [S1]
+      - id: override-hierarchy
+        text: "Override hierarchy for nested instruction files"
+        rules: [S2]
 
 # =============================================================================
 # CURSOR - Cursor specific
@@ -161,4 +479,11 @@ cursor:
   - id: cursor-rules
     url: "https://cursor.com/docs/context/rules"
     type: official
-    description: ".cursor/rules/ structure, glob patterns, team rules"
+    weight: 1.0
+    claims:
+      - id: cursor-rules-structure
+        text: ".cursor/rules/ structure with glob patterns"
+        rules: []
+      - id: team-rules
+        text: "Team rules sharing mechanism"
+        rules: []

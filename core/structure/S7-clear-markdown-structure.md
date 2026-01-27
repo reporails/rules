@@ -3,6 +3,10 @@ id: S7
 title: Clear Markdown Structure
 category: structure
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-memory
+    claim: use-structure
 checks:
   - id: S7-heading-hierarchy-skip
     name: Heading level skipped (e.g., # to ###)

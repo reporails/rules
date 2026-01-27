@@ -3,6 +3,12 @@ id: E5
 title: Grep Efficiency
 category: efficiency
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-issue-13579
+    claim: check-first-build-second
+  - source: claude-code-issue-13579
+    claim: grep-over-agent
 checks:
   - id: E5-no-grep-guidance
     name: No grep efficiency guidance

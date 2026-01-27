@@ -3,6 +3,10 @@ id: C12
 title: Has Version/Date
 category: content
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-memory
+    claim: review-periodically
 checks:
   - id: C12-no-version
     name: No version or date marker

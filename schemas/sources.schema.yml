@@ -1,35 +1,99 @@
 # Schema definition for sources registry
 # Used by: agents writing/updating rules, contributors
 
-schema_version: 1
+schema_version: 2
+
+# Migration from v1:
+#   - description field replaced by claims[]
+#   - weight field now required
+#   - Added admission_criteria section
+#   - minimum weight 0.4 for source admission
+
+# =============================================================================
+# ADMISSION CRITERIA
+# =============================================================================
+# Quality gates for source admission. Sources below minimum_weight are rejected.
+
+admission_criteria:
+  minimum_weight: 0.4
+  description: "Sources below this weight are rejected"
+
+  requirements_by_type:
+    official:
+      weight_range: [1.0, 1.0]
+      criteria:
+        - "Vendor documentation or official announcement"
+        - "Published on vendor domain or official channel"
+
+    research:
+      weight_range: [0.8, 0.9]
+      criteria:
+        - "Has measured data or empirical results"
+        - "Methodology is described"
+        - "Results are specific and reproducible"
+        - "Author credentials verifiable"
+
+    community:
+      weight_range: [0.4, 0.5]
+      criteria:
+        - "Author has verifiable identity/credibility"
+        - "Claims are specific, not vague advice"
+        - "Preferably corroborated by another source"
+        - "Published on recognized platform"
+
+    methodology:
+      weight_range: [0.6, 0.6]
+      criteria:
+        - "Internal Reporails patterns only"
+        - "Rationale documented"
+        - "Explicitly acknowledges lack of external validation"
+
+  rejection:
+    weight_below: 0.4
+    auto_reject:
+      - "Anonymous or unverifiable author"
+      - "No specific claims (vague advice only)"
+      - "Single anecdote without supporting data"
+      - "Contradicts official sources without evidence"
+      - "Self-promotional without substance"
+      - "Outdated (>2 years without validation)"
 
 # =============================================================================
 # SOURCE REGISTRY STRUCTURE
 # =============================================================================
 # Sources are grouped by agent for efficient lookup.
-# Top-level keys are agent identifiers or "generic".
+# Each source contains specific claims that back specific rules.
 # =============================================================================
 
 structure:
   description: |
     Top-level keys are agent identifiers:
     - "generic": Sources applicable to all agents
+    - "reporails": Internal methodology sources
     - "claude", "copilot", "codex", etc.: Agent-specific sources
-    
-    Each source is an object with id, url, type, description.
+
+    Each source has id, url, type, weight, and claims array.
 
   example: |
     generic:
       - id: source-id
         url: "https://..."
         type: official
-        description: "What it covers"
-    
+        weight: 1.0
+        claims:
+          - id: claim-id
+            text: "The specific claim"
+            rules: [S1, C2]
+
     claude:
       - id: another-source
         url: "https://..."
         type: community
-        description: "What it covers"
+        weight: 0.4
+        claims:
+          - id: another-claim
+            text: "Another claim"
+            rules: [E1]
 
 # =============================================================================
 # SOURCE FIELDS
@@ -40,7 +104,7 @@ fields:
     required: true
     type: string
     pattern: "^[a-z][a-z0-9-]*$"
-    description: "Unique identifier (lowercase, hyphens). Reflects content, not source title."
+    description: "Unique identifier (lowercase, hyphens)"
 
   url:
     required: true
@@ -51,23 +115,112 @@ fields:
   type:
     required: true
     type: enum
-    values: [official, research, community]
+    values: [official, research, community, methodology]
     description: |
       official: Vendor documentation (Anthropic, GitHub, OpenAI, etc.)
       research: Empirical studies, measured data
       community: Blog posts, guides, tutorials
+      methodology: Reporails internal patterns
 
-  description:
+  weight:
     required: true
-    type: string
-    max_length: 200
-    description: "What the source covers. Used by agents to find relevant sources."
+    type: number
+    min: 0.0
+    max: 1.0
+    description: |
+      Authority weight for rule extraction:
+      - 1.0: Official vendor documentation
+      - 0.8: Research with measured data
+      - 0.6: Framework methodology
+      - 0.4: Community blog posts, tutorials
+
+  claims:
+    required: true
+    type: array
+    min_items: 1
+    description: "Specific claims extracted from this source"
+    items:
+      id:
+        required: true
+        type: string
+        pattern: "^[a-z][a-z0-9-]*$"
+        description: "Claim identifier (unique within source)"
+
+      text:
+        required: true
+        type: string
+        max_length: 200
+        description: "The actual claim (quote or close paraphrase)"
+
+      rules:
+        required: true
+        type: array
+        items:
+          type: string
+          pattern: "^([A-Z]+_)?[SCEGM][0-9]+$"
+        description: "Rule IDs that this claim backs"
+
+      quote:
+        required: false
+        type: boolean
+        default: false
+        description: "True if text is a direct quote"
+
+      section:
+        required: false
+        type: string
+        description: "Section/heading in source where claim appears"
 
 # =============================================================================
 # VALIDATION
 # =============================================================================
 
 validation:
-  - rule: "id must be unique across ALL sections (not just within an agent)"
-  - rule: "url must be valid and accessible"
-  - rule: "top-level keys must be 'generic' or known agent identifiers"
+  - rule: "id must be unique across ALL sources"
+  - rule: "claim.id must be unique within source"
+  - rule: "claim.rules must reference valid rule IDs"
+  - rule: "url must be accessible"
+  - rule: "Every rule in claim.rules should have backed_by reference back"
+
+# =============================================================================
+# EXAMPLES
+# =============================================================================
+
+examples:
+  official_source: |
+    - id: claude-code-best-practices
+      url: "https://www.anthropic.com/engineering/claude-code-best-practices"
+      type: official
+      weight: 1.0
+      claims:
+        - id: size-limit
+          text: "Keep CLAUDE.md under 300 lines"
+          quote: true
+          section: "File Organization"
+          rules: [S1]
+
+        - id: use-imports
+          text: "Use @imports for detailed documentation"
+          quote: false
+          section: "Progressive disclosure"
+          rules: [S2]
+
+        - id: no-style-rules
+          text: "Avoid putting code style rules in CLAUDE.md"
+          quote: true
+          section: "What Not to Include"
+          rules: [E1]
+
+  methodology_source: |
+    - id: capability-levels
+      url: "docs/capability-levels.md"
+      type: methodology
+      weight: 0.6
+      claims:
+        - id: l6-backbone
+          text: "L6 projects require backbone.yml for navigation"
+          rules: [S6, E2]
+
+        - id: l6-contracts
+          text: "L6 backbone includes contracts section"
+          rules: [G5, G6]

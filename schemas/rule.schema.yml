@@ -1,7 +1,12 @@
 # Schema definition for rule frontmatter
 # Used by: ails check, ails validate, agents, contributors
 
-schema_version: 1
+schema_version: 2
+
+# Migration from v1:
+#   - confidence now includes 'confirmed' level
+#   - backed_by field required for confirmed/high confidence
+#   - Confidence validation rules updated
 
 # =============================================================================
 # RULE TYPES
@@ -70,6 +75,43 @@ fields:
     required: true
     type: enum
     values: [deterministic, semantic]
+
+  confidence:
+    required: true
+    type: enum
+    values: [confirmed, high, medium, low]
+    description: |
+      Evidence-based confidence levels:
+
+      - confirmed: Official claim EXISTS + Research VALIDATES it works
+                   Requires: backed_by with official (weight 1.0) AND research (weight >= 0.8)
+                   Example: "Anthropic says keep under 300 lines" + "Study measured improvement"
+
+      - high: Official source states the recommendation
+              Requires: backed_by with official source (weight >= 1.0)
+              Example: "Anthropic recommends using @imports"
+
+      - medium: Community consensus or research without official backing
+                Requires: backed_by with research (weight >= 0.8) OR 2+ community (weight >= 0.4)
+                Example: "Multiple community posts agree on this pattern"
+
+      - low: Reporails methodology without external validation
+             Requires: backed_by is empty OR only methodology sources
+             Example: "We believe this is good practice based on experience"
+
+  backed_by:
+    required: false
+    type: array
+    description: "Source claims that back this rule"
+    items:
+      source:
+        required: true
+        type: string
+        description: "Source ID from sources.yml"
+      claim:
+        required: true
+        type: string
+        description: "Claim ID within that source"
 
   checks:
     required: true
@@ -167,6 +209,7 @@ validation:
 
   # Field constraints
   - rule: "title must be max 64 characters"
+  - rule: "confidence is required"
 
   # ID format
   - rule: "Core rule IDs must match pattern ^[SCEGM][0-9]+$"
@@ -179,6 +222,28 @@ validation:
   - rule: "see_also must reference valid rule IDs"
   - rule: "sources must be valid URLs"
 
+  # Evidence chain
+  - rule: "backed_by[].source must exist in sources.yml"
+  - rule: "backed_by[].claim must exist in that source's claims"
+
+  # Confidence validation (updated for v2)
+  - rule: |
+      confidence: confirmed requires:
+        - At least one backed_by source with weight >= 1.0 (official)
+        - At least one backed_by source with weight >= 0.8 AND type = research
+  - rule: |
+      confidence: high requires:
+        - At least one backed_by source with weight >= 1.0 (official)
+        - Does NOT require research validation
+  - rule: |
+      confidence: medium requires:
+        - At least one backed_by source with weight >= 0.8 (research)
+        - OR two or more backed_by sources with weight >= 0.4 (community)
+  - rule: |
+      confidence: low requires:
+        - backed_by is empty
+        - OR all backed_by sources are type: methodology
+
   # Template variable restrictions
   - rule: "Core rules (in core/) may only use {{main_instruction_file}} or {{instruction_files}}"
   - rule: "Agent-specific variables (supplementary_files, rules_dir, skills_dir) require rule in agents/{agent}/rules/"
@@ -188,12 +253,19 @@ validation:
 # =============================================================================
 
 examples:
-  deterministic: |
+  confirmed: |
     ---
+    # Confirmed = official source + research validation
     id: S1
     title: Size Limits
     category: structure
     type: deterministic
+    confidence: confirmed
+    backed_by:
+      - source: claude-code-best-practices  # official, weight 1.0
+        claim: keep-concise
+      - source: claude-md-optimization-study  # research, weight 0.8
+        claim: optimization-improvement
     checks:
       - id: S1-root-too-long
         name: Root file > 200 lines
@@ -203,8 +275,26 @@ examples:
         severity: high
     sources:
       - "https://docs.anthropic.com/en/docs/claude-code/best-practices"
-      - "https://dev.to/example/organizing-claude-md-in-monorepo"
-    see_also: [M7, C1]
+    see_also: [CLAUDE_M7, C1]
+    ---
+
+  deterministic: |
+    ---
+    id: C9
+    title: Has Project Description
+    category: content
+    type: deterministic
+    confidence: high
+    backed_by:
+      - source: claude-code-best-practices
+        claim: include-core-files
+    checks:
+      - id: C9-no-description
+        name: Missing project description section
+        severity: high
+    sources:
+      - "https://docs.anthropic.com/en/docs/claude-code/best-practices"
+    see_also: [C1]
     ---
 
   semantic: |
@@ -213,6 +303,7 @@ examples:
     title: Security Rules Ownership
     category: governance
     type: semantic
+    confidence: medium
     checks:
       - id: G3-ownership-patterns
         name: Security ownership indicators
@@ -233,6 +324,7 @@ examples:
     title: Memory Block Format
     category: structure
     type: deterministic
+    confidence: high
     checks:
       - id: CLAUDE_S1-invalid-memory
         name: Invalid memory block syntax
@@ -248,6 +340,7 @@ examples:
     title: Internal Doc Size Limits
     category: structure
     type: deterministic
+    confidence: medium
     checks:
       - id: ACME_S1-too-long
         name: Internal docs > 150 lines

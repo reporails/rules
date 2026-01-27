@@ -3,6 +3,12 @@ id: E3
 title: Purpose-Based File Reading
 category: efficiency
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-issue-13579
+    claim: purpose-based-reading
+  - source: claude-4-best-practices
+    claim: investigate-before-answering
 checks:
   - id: E3-no-reading-strategy
     name: No file reading strategy documented

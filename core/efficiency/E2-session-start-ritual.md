@@ -3,6 +3,10 @@ id: E2
 title: Session Start Ritual
 category: efficiency
 type: deterministic
+confidence: low
+backed_by:
+  - source: capability-levels
+    claim: l6-session-ritual
 checks:
   - id: E2-no-ritual-section
     name: No session start ritual section in instructions

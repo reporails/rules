@@ -41,6 +41,27 @@ Check .md ↔ .yml pairing. See [contract-checks.md](contract-checks.md) for det
 
 Deep validation against source URLs. See [source-checks.md](source-checks.md) for details.
 
+### Level 4: Evidence Chain Validation
+
+Verify source-claim-rule integrity:
+
+1. **backed_by references exist**
+   - Each `backed_by[].source` exists in `docs/sources.yml`
+   - Each `backed_by[].claim` exists in that source's `claims[]` array
+
+2. **Bidirectional consistency**
+   - Rule's `backed_by` → source claim's `rules[]` must include rule ID
+   - Source claim's `rules[]` → each rule must have matching `backed_by`
+
+3. **Confidence alignment**
+   - `confidence: high` requires `backed_by` with source weight >= 0.8
+   - `confidence: medium` requires `backed_by` with source weight >= 0.6
+   - Rules without `backed_by` must have `confidence: low`
+
+4. **No orphaned claims**
+   - Every claim in sources.yml should be referenced by at least one rule
+   - Flag claims with empty `rules[]` arrays
+
 ## Quick Process
 
 ### Step 1: Collect Rules
@@ -106,3 +127,4 @@ S1: ✓  S2: ✗ schema  C1: ✗ contract  E3: ⚠ drift
 - [schema-checks.md](schema-checks.md) — Schema validation details
 - [contract-checks.md](contract-checks.md) — Contract validation details
 - [source-checks.md](source-checks.md) — Source validation details
+- [evidence-chain-checks.md](evidence-chain-checks.md) — Evidence chain validation details

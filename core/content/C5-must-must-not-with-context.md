@@ -3,6 +3,12 @@ id: C5
 title: MUST/MUST NOT with Context
 category: content
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-4-best-practices
+    claim: context-improves
+  - source: claude-4-best-practices
+    claim: never-with-context
 checks:
   - id: C5-binary-rule-no-context
     name: Binary rule without rationale

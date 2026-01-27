@@ -3,6 +3,10 @@ id: G4
 title: Ownership Assignment
 category: governance
 type: semantic
+confidence: high
+backed_by:
+  - source: anthropic-teams-claude-code
+    claim: governance-roles
 checks:
   - id: G4-no-owner
     name: File has no designated owner

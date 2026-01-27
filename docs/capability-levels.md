@@ -267,6 +267,46 @@ Each semantic rule has:
 
 ---
 
+## Rule Confidence Levels
+
+Rules have confidence levels based on evidence backing:
+
+| Level | Requirements | Count | Meaning |
+|-------|--------------|-------|---------|
+| **confirmed** | Official (1.0) + Research (0.8+) | TBD | Vendor says + study validates |
+| **high** | Official source (1.0) | ~20 | Vendor recommendation |
+| **medium** | Research or 2+ community | ~10 | Community consensus |
+| **low** | Methodology only | ~12 | Reporails pattern |
+
+### Confidence Filtering
+
+Projects can filter rules by confidence via `.reporails/config.yml`:
+
+```yaml
+# Only enforce proven rules
+profile: strict  # minimum = confirmed
+
+# Official recommendations
+confidence:
+  minimum: high
+
+# Trust Reporails methodology (default)
+profile: all  # minimum = low
+```
+
+### Trust Score
+
+Confidence levels contribute to a weighted trust score:
+
+```
+weights = {confirmed: 1.0, high: 0.8, medium: 0.5, low: 0.2}
+trust_score = sum(weights[rule.confidence]) / total_rules * 100
+```
+
+A framework with more `confirmed` rules has higher trust — recommendations backed by both vendor guidance and measured impact data.
+
+---
+
 ## Sources
 
 | Concept | Source |

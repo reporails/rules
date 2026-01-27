@@ -3,6 +3,16 @@ id: C1
 title: Core Sections
 category: content
 type: semantic
+confidence: high
+backed_by:
+  - source: claude-code-best-practices
+    claim: include-commands
+  - source: claude-code-best-practices
+    claim: include-core-files
+  - source: claude-code-memory
+    claim: use-structure
+  - source: spec-writing-for-agents
+    claim: commands-early
 checks:
   - id: C1-missing-sections
     name: Large file missing core sections

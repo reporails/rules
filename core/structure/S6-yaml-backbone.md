@@ -3,6 +3,12 @@ id: S6
 title: YAML Backbone
 category: structure
 type: deterministic
+confidence: low
+backed_by:
+  - source: capability-levels
+    claim: l6-backbone
+  - source: capability-levels
+    claim: l6-maps
 checks:
   - id: S6-backbone-no-maps
     name: Backbone missing 'maps:' section

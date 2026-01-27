@@ -3,6 +3,12 @@ id: S1
 title: Size Limits
 category: structure
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-best-practices
+    claim: keep-concise
+  - source: instruction-limits-principles
+    claim: line-limit
 checks:
   - id: S1-root-too-long
     name: Root instruction file exceeds 200 lines

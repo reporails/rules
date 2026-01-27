@@ -3,6 +3,10 @@ id: M4
 title: No Conflicting Rules
 category: maintenance
 type: semantic
+confidence: high
+backed_by:
+  - source: claude-code-memory
+    claim: keep-rules-focused
 checks:
   - id: M4-potential-conflict
     name: Potential conflicting MUST/MUST NOT

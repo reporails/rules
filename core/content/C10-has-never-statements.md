@@ -3,6 +3,14 @@ id: C10
 title: NEVER with Alternative
 category: content
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-4-best-practices
+    claim: never-with-context
+  - source: enterprise-claude-usage
+    claim: never-with-alternative
+  - source: spec-writing-for-agents
+    claim: three-tier-boundaries
 checks:
   - id: C10-never-no-alternative
     name: NEVER statement without positive alternative

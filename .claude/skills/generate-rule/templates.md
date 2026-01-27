@@ -8,6 +8,7 @@ id: {ID}
 title: {Title}                    # ≤64 chars
 category: structure|content|efficiency|governance|maintenance
 type: deterministic|semantic
+confidence: high|medium|low       # Based on source weight
 checks:
   - id: {ID}-{check-slug}
     name: {Description}
@@ -58,6 +59,7 @@ rules:
 - [ ] `title` ≤ 64 characters
 - [ ] `category` is valid (structure, content, efficiency, governance, maintenance)
 - [ ] `type` is valid (deterministic, semantic)
+- [ ] `confidence` is valid (high, medium, low)
 - [ ] `checks` array exists and is non-empty
 - [ ] Each `checks[].id` starts with rule ID + hyphen
 - [ ] Each `checks[].severity` is valid (critical, high, medium, low)

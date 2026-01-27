@@ -1,6 +1,10 @@
 # Schema for .reporails/config.yml
 # Project-level configuration — committed to git
-schema_version: 1
+schema_version: 2
+
+# Migration from v1:
+#   - Added confidence section for filtering rules by confidence level
+#   - Added profile presets (strict, recommended, balanced, all)
 
 fields:
   schema_version:
@@ -95,28 +99,61 @@ fields:
           all: Score all files as one unit
           aggregate: Separate score per component (monorepo)
 
+  confidence:
+    required: false
+    type: object
+    description: "Filter rules by confidence level"
+    properties:
+      minimum:
+        type: enum
+        values: [confirmed, high, medium, low]
+        default: low
+        description: |
+          Minimum confidence level to enforce.
+          Rules below this level are skipped.
+
+          - confirmed: Only proven rules (official + research validated)
+          - high: Official recommendations and above
+          - medium: Community consensus and above
+          - low: All rules including methodology (default)
+
+  profile:
+    required: false
+    type: enum
+    values: [strict, recommended, balanced, all]
+    description: |
+      Preset confidence profiles:
+      - strict: minimum = confirmed (only validated rules)
+      - recommended: minimum = high (official recommendations)
+      - balanced: minimum = medium (+ community consensus)
+      - all: minimum = low (everything, default)
+
 defaults:
-  schema_version: 1
+  schema_version: 2
   agent: "claude"
   instruction_files:
     main: "**/CLAUDE.md"
     supplementary: ".claude/rules/**/*.md"
   scoring:
     scope: main
+  confidence:
+    minimum: low
+  profile: all
 
 validation:
-  - rule: "schema_version must be supported (currently: 1)"
+  - rule: "schema_version must be supported (currently: 1 or 2)"
   - rule: "Unknown fields should warn, not error (forward compatibility)"
   - rule: "Invalid patterns should error with clear message"
+  - rule: "If both profile and confidence.minimum set, profile takes precedence"
 
 examples:
   minimal: |
     # Simplest config — all defaults
-    schema_version: 1
+    schema_version: 2
 
   single_repo: |
     # Standard single-repo setup
-    schema_version: 1
+    schema_version: 2
     agent: claude
 
     instruction_files:
@@ -125,7 +162,7 @@ examples:
 
   monorepo: |
     # Monorepo with orchestrator + components
-    schema_version: 1
+    schema_version: 2
     agent: claude
 
     instruction_files:
@@ -154,7 +191,7 @@ examples:
 
   with_overrides: |
     # Customized rules
-    schema_version: 1
+    schema_version: 2
     agent: claude
 
     rules:
@@ -169,6 +206,25 @@ examples:
 
   multi_agent: |
     # Checking multiple agents (future)
-    schema_version: 1
+    schema_version: 2
     agent: claude  # Primary
     # Additional agents would need separate check runs
+
+  enterprise_strict: |
+    # Only enforce validated rules (official + research)
+    schema_version: 2
+    agent: claude
+    profile: strict
+
+  team_recommended: |
+    # Official recommendations only
+    schema_version: 2
+    agent: claude
+    confidence:
+      minimum: high
+
+  early_adopter: |
+    # Trust Reporails methodology
+    schema_version: 2
+    agent: claude
+    profile: all

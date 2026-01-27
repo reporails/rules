@@ -3,6 +3,10 @@ id: G7
 title: Architecture Tests
 category: governance
 type: deterministic
+confidence: low
+backed_by:
+  - source: capability-levels
+    claim: l6-arch-tests
 checks:
   - id: G7-no-arch-tests
     name: No architecture test files found

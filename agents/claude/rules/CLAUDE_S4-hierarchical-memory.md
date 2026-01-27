@@ -3,6 +3,12 @@ id: CLAUDE_S4
 title: Hierarchical Memory
 category: structure
 type: deterministic
+confidence: high
+backed_by:
+  - source: claude-code-memory
+    claim: memory-hierarchy
+  - source: claude-code-memory
+    claim: rules-directory
 checks:
   - id: CLAUDE_S4-rules-dir-missing
     name: .claude/rules/ directory does not exist
