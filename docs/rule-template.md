@@ -43,7 +43,7 @@ One sentence explaining the impact of violating this rule.
 
 | Scope | Pattern | Example |
 |-------|---------|---------|
-| Core | `{category}{number}` | `S1`, `C2`, `G3` |
+| Core | `{category}{number}` | `S1`, `C2`, `G2` |
 | Agent | `{AGENT}_{category}{number}` | `CLAUDE_S1`, `COPILOT_E1` |
 | Custom | `{PREFIX}_{category}{number}` | `ACME_S1`, `MYTEAM_G1` |
 
@@ -94,7 +94,7 @@ OpenGrep runs first, LLM evaluates what patterns can't determine.
 ```yaml
 type: semantic
 checks:
-  - id: G3-ownership-patterns
+  - id: G2-ownership-patterns
     name: Security ownership indicators
     severity: high
 question: "Given what was found, are security rules properly owned?"
@@ -121,16 +121,22 @@ criteria:
 
 ## File Structure
 
-Each rule needs two files:
+Each rule lives in its own directory with tests:
 
 ```
 core/
   structure/
-    S1-size-limits.md      # Rule definition (frontmatter + docs)
-    S1-size-limits.yml     # OpenGrep patterns
+    S1-size-limits/
+      S1-size-limits.md      # Rule definition (frontmatter + docs)
+      S1-size-limits.yml     # OpenGrep patterns
+      tests/
+        fail.md              # Should trigger (true positive)
+        pass.md              # Should not trigger (true negative)
 ```
 
-**Naming:** `{id}-{slug}.md` and `{id}-{slug}.yml`
+**Directory:** `{id}-{slug}/`
+**Files:** `{id}-{slug}.md` and `{id}-{slug}.yml`
+**Tests:** `tests/fail.md` and `tests/pass.md`
 
 **The `checks[].id` in `.md` must match `rules[].id` in `.yml`**
 

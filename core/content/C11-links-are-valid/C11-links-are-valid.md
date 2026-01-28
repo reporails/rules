@@ -13,7 +13,7 @@ checks:
     severity: high
 sources:
   - "https://code.claude.com/docs/en/memory"
-see_also: [S2, M6]
+see_also: [S2, M5]
 ---
 
 # Links Are Valid

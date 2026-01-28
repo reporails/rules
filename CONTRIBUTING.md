@@ -40,11 +40,11 @@ This checks:
 ## Rule structure
 ```
 core/
-  structure/     # S1-S7
+  structure/     # S1-S5
   content/       # C1-C12
   efficiency/    # E1-E8
-  governance/    # G1-G8
-  maintenance/   # M1-M7
+  governance/    # G1-G7
+  maintenance/   # M1-M5
 
 agents/
   claude/rules/  # CLAUDE_* rules

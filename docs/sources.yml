@@ -25,16 +25,16 @@ generic:
         text: "AGENTS.md is just standard Markdown. Use any headings you like"
         quote: true
         section: "FAQ"
-        rules: [S7]
+        rules: [S5]
       - id: nested-monorepo
         text: "Create nested AGENTS.md files for subprojects in monorepos"
         section: "Monorepos"
-        rules: [S2, CLAUDE_S4]
+        rules: [S2, CLAUDE_S2]
       - id: nearest-precedence
         text: "Agents automatically read the nearest file in the directory tree, so the closest one takes precedence"
         quote: true
         section: "Monorepos"
-        rules: [CLAUDE_S5]
+        rules: [CLAUDE_S3]
       - id: chat-overrides
         text: "Explicit user chat prompts override everything"
         quote: true
@@ -140,22 +140,22 @@ reporails:
     claims:
       - id: l6-backbone
         text: "L6 projects require backbone.yml with maps, contracts, quick_ref sections"
-        rules: [S6]
+        rules: [S4]
       - id: l6-session-ritual
         text: "L6 requires explicit session start ritual with numbered steps"
         rules: [E2]
       - id: l6-contracts
         text: "L6 backbone includes contracts section for architecture enforcement"
-        rules: [G5, G6]
+        rules: [G4, G5]
       - id: l6-maps
         text: "L6 maps section includes components and platform keys"
-        rules: [S6]
+        rules: [S4]
       - id: l6-staleness
         text: "L6 requires map staleness prevention - paths must exist"
-        rules: [M6]
+        rules: [M5]
       - id: l6-arch-tests
         text: "L6 requires architecture tests for contract enforcement"
-        rules: [G7]
+        rules: [G6]
       - id: methodology-threshold-emphasis
         text: "Limit IMPORTANT/CRITICAL to 5 per file to maintain impact"
         rules: [C7]
@@ -170,7 +170,7 @@ reporails:
         rules: [CLAUDE_S1]
       - id: methodology-rule-body
         text: "Rule file body should stay under 40 lines"
-        rules: [CLAUDE_M7]
+        rules: [CLAUDE_M2]
 
 # =============================================================================
 # CLAUDE - Claude Code specific
@@ -226,16 +226,16 @@ claude:
       - id: memory-hierarchy
         text: "Four memory locations in hierarchical structure: managed, project, rules, user"
         section: "Determine memory type"
-        rules: [CLAUDE_S4]
+        rules: [CLAUDE_S2]
       - id: rules-directory
         text: "Use .claude/rules/ for modular, topic-specific project instructions"
         quote: true
         section: "Modular rules"
-        rules: [CLAUDE_S4, CLAUDE_S5]
+        rules: [CLAUDE_S2, CLAUDE_S3]
       - id: path-scoped-rules
         text: "Rules can be scoped to specific files using YAML frontmatter with paths field"
         section: "Path-specific rules"
-        rules: [CLAUDE_S5]
+        rules: [CLAUDE_S3]
       - id: imports-syntax
         text: "CLAUDE.md files can import additional files using @path/to/import syntax"
         section: "CLAUDE.md imports"
@@ -260,7 +260,7 @@ claude:
       - id: use-structure
         text: "Format memories as bullet points grouped under descriptive headings"
         section: "Memory best practices"
-        rules: [S7, C1]
+        rules: [S5, C1]
       - id: review-periodically
         text: "Review memories periodically as your project evolves"
         section: "Memory best practices"
@@ -296,7 +296,7 @@ claude:
     claims:
       - id: rules-dir-config
         text: ".claude/rules/ directory configuration for path scoping"
-        rules: [CLAUDE_S4, CLAUDE_S5]
+        rules: [CLAUDE_S2, CLAUDE_S3]
       - id: settings-hierarchy
         text: "Settings follow hierarchy with managed settings taking precedence"
         rules: [CLAUDE_G1]
@@ -324,7 +324,7 @@ claude:
         rules: [C1, C9]
       - id: customized-content
         text: "Customize CLAUDE.md with project-specific content"
-        rules: [CLAUDE_M5]
+        rules: [CLAUDE_M1]
 
   - id: anthropic-teams-claude-code
     url: "https://claude.com/blog/how-anthropic-teams-use-claude-code"
@@ -336,13 +336,13 @@ claude:
         rules: [C9]
       - id: automated-pr-comments
         text: "Automated PR comments through GitHub Actions with Claude handling formatting"
-        rules: [G8]
+        rules: [G7]
       - id: test-driven-guidance
         text: "Guide Claude through test-driven development with periodic checkpoints"
         rules: [M2]
       - id: governance-roles
         text: "Teams need clear roles and responsibilities for instruction files"
-        rules: [G2, G4]
+        rules: [G1, G3]
       - id: review-process
         text: "Implement review process for instruction file changes"
         rules: [M2, M3]
@@ -464,10 +464,10 @@ claude:
     claims:
       - id: rules-mechanics
         text: ".claude/rules/ mechanics with path scoping and YAML frontmatter"
-        rules: [CLAUDE_S4, CLAUDE_S5]
+        rules: [CLAUDE_S2, CLAUDE_S3]
       - id: loading-behavior
         text: "Rules load based on path matching during file operations"
-        rules: [CLAUDE_S5]
+        rules: [CLAUDE_S3]
 
 # =============================================================================
 # COPILOT - GitHub Copilot specific

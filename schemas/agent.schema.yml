@@ -1,7 +1,12 @@
 # Schema definition for agent configuration
 # Used by: ails validate, agents, contributors
 
-schema_version: 1
+schema_version: 2
+
+# Migration from v1:
+#   - Clarified: agent rules use SEPARATE namespace (CLAUDE_S1 ≠ override of S1)
+#   - Added: pattern_overrides folder for modifying core patterns
+#   - Clarified: config overrides are severity-only; pattern changes use files
 
 # =============================================================================
 # AGENT CONFIG
@@ -10,7 +15,8 @@ schema_version: 1
 # - Identity (agent, prefix, name)
 # - File patterns (vars)
 # - What core rules don't apply (excludes)
-# - Adjustments to rules (overrides)
+# - Severity adjustments (overrides in config)
+# - Pattern modifications (overrides/ folder)
 # =============================================================================
 
 # Reference: reserved_agent_prefixes defined in rule.schema.yml
@@ -83,7 +89,7 @@ fields:
   overrides:
     required: false
     type: object
-    description: "Per-check overrides (key = check ID)"
+    description: "Per-check SEVERITY overrides in config (key = check ID). For pattern changes, use overrides/ folder."
     additionalProperties:
       type: object
       properties:
@@ -94,6 +100,38 @@ fields:
         disabled:
           type: boolean
           description: "Disable this check for this agent"
+
+# =============================================================================
+# PATTERN OVERRIDES (FILE-BASED)
+# =============================================================================
+# For modifying core rule PATTERNS (not just severity), use override files:
+#
+#   agents/{agent}/overrides/{rule_id}.yml
+#
+# Override files are MERGED with core rules at check-level:
+#   - Check in override replaces core check entirely
+#   - Check with `disabled: true` is removed from final
+#   - Checks not mentioned inherit from core
+#
+# Example: agents/claude/overrides/S1.yml
+#   rules:
+#     - id: S1-root-too-long
+#       message: "Root file exceeds Claude's 300 line limit"
+#       severity: WARNING
+#       languages: [generic]
+#       pattern-regex: "(?s)(?:[^\\n]*\\n){300,}"  # changed threshold
+#
+#     - id: S1-many-sections
+#       disabled: true  # opt out this check for Claude
+#
+# Merge resolution:
+#   1. Load core/{category}/{rule}/*.yml
+#   2. If agents/{agent}/overrides/{rule_id}.yml exists:
+#      - For each check in override: replace or disable
+#      - Checks not in override: keep from core
+#   3. Result: single merged ruleset for OpenGrep
+#
+# =============================================================================
 
 # =============================================================================
 # VALIDATION
@@ -113,11 +151,17 @@ validation:
   - rule: "supplementary_files, rules_dir, skills_dir only needed if agent supports them"
 
   # Excludes
-  - rule: "excludes items must be valid core rule IDs or agent-specific rule IDs"
+  - rule: "excludes items must be valid core rule IDs"
 
-  # Overrides
+  # Config Overrides (severity only)
   - rule: "overrides keys must be valid check IDs"
   - rule: "overrides severity must be valid severity value"
+  - rule: "overrides in config.yml are for severity changes only"
+
+  # Pattern Overrides (file-based)
+  - rule: "pattern override files go in agents/{agent}/overrides/{rule_id}.yml"
+  - rule: "override file check IDs must match core rule check IDs"
+  - rule: "override checks with disabled: true are removed from final ruleset"
 
 # =============================================================================
 # EXAMPLES
@@ -143,6 +187,13 @@ examples:
       rules_dir: ".claude/rules"
       skills_dir: ".claude/skills"
 
+    # Severity adjustments (pattern unchanged)
+    overrides:
+      E2-no-ritual-section:
+        severity: medium
+      E5-no-grep-guidance:
+        severity: low
+
   copilot: |
     # Minimal agent with single file
     agent: copilot
@@ -156,9 +207,10 @@ examples:
       instruction_files:
         - ".github/copilot-instructions.md"
 
+    # Exclude core rules that require features Copilot doesn't support
     excludes:
-      - CLAUDE_S4  # Hierarchical Memory (no rules_dir)
-      - CLAUDE_S5  # Path-Scoped Rules (no rules_dir)
+      - S4  # Hierarchical Memory (no rules_dir)
+      - S5  # Path-Scoped Rules (no rules_dir)
 
   cursor: |
     # Agent with rules directory support
@@ -175,3 +227,21 @@ examples:
       supplementary_files:
         - ".cursor/rules/**/*.md"
       rules_dir: ".cursor/rules"
+
+  pattern_override: |
+    # Example: Override core S1 patterns for an agent
+    # File: agents/myagent/overrides/S1.yml
+
+    rules:
+      # Replace this check with different threshold
+      - id: S1-root-too-long
+        message: "Root file exceeds 300 line limit"
+        severity: WARNING
+        languages: [generic]
+        pattern-regex: "(?s)(?:[^\\n]*\\n){300,}"
+
+      # Opt out of this check entirely
+      - id: S1-many-sections
+        disabled: true
+
+      # S1-other-check not listed = inherited from core

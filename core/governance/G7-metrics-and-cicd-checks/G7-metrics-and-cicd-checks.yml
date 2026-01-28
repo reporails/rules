@@ -1,0 +1,10 @@
+rules:
+  - id: G7-no-ci-checks
+    message: "CI workflow to check for instruction validation"
+    severity: WARNING
+    languages: [yaml]
+    pattern-regex: "(?i)(CLAUDE|instruction|reporail)"
+    paths:
+      include:
+        - ".github/workflows/*.yml"
+        - ".github/workflows/*.yaml"

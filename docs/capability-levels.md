@@ -34,7 +34,7 @@ The level detection decides which rules are relevant based on detected features.
 - Version controlled but no @imports
 - **Risk:** Token bloat, instruction dilution as file grows
 - **Fix:** Extract details to @imports, remove code style rules
-- **Primary rules:** S1, C1, C2, C4, C7, C8, C9, C10, C12, CLAUDE_M5
+- **Primary rules:** S1, C1, C2, C4, C7, C8, C9, C10, C12, CLAUDE_M1
 
 ### Level 3: Structured
 - Uses @imports to external documentation
@@ -43,7 +43,7 @@ The level detection decides which rules are relevant based on detected features.
 - Clear markdown structure with headings
 - **Risk:** Import references may become stale
 - **Fix:** Implement .claude/rules/ for path-scoped loading
-- **Primary rules:** S2, S3, S7, C3, C6, C11, E6, E7, M1, M2
+- **Primary rules:** S2, S3, S5, C3, C6, C11, E6, E7, M1, M2
 
 ### Level 4: Abstracted
 - Implements .claude/rules/ directory
@@ -53,7 +53,7 @@ The level detection decides which rules are relevant based on detected features.
 - CLAUDE.local.md for personal preferences
 - **Risk:** Complexity if not well-documented
 - **Fix:** Add governance processes for enterprise scale
-- **Primary rules:** CLAUDE_S4, CLAUDE_S5, E1, E3, E4, E5, E8, CLAUDE_M7
+- **Primary rules:** CLAUDE_S2, CLAUDE_S3, E1, E3, E4, E5, E8, CLAUDE_M2
 
 ### Level 5: Governed
 - Organization-level policies deployed
@@ -63,7 +63,7 @@ The level detection decides which rules are relevant based on detected features.
 - ROI documented
 - **Risk:** Process overhead if not automated
 - **Fix:** Add navigation maps for complex codebases
-- **Primary rules:** CLAUDE_G1, G2, G3, G4, G8, M3, M4
+- **Primary rules:** CLAUDE_G1, G1, G2, G3, G7, M3, M4
 
 ### Level 6: Adaptive
 - YAML backbone (`.reporails/backbone.yml`) as complete path index
@@ -74,7 +74,7 @@ The level detection decides which rules are relevant based on detected features.
 - Architecture tests enforce contracts
 - **Risk:** Map staleness; requires maintenance discipline
 - **Applicability:** See "When to Use Level 6" below
-- **Primary rules:** S6, C5, E2, G5, G6, G7, M6
+- **Primary rules:** S4, C5, E2, G4, G5, G6, M5
 
 ---
 
@@ -99,7 +99,7 @@ The level detection decides which rules are relevant based on detected features.
 | Criteria | Rule | L1 | L2 | L3 | L4 | L5 | L6 |
 |----------|------|----|----|----|----|----|----|
 | File exists | — | - | + | + | + | + | + |
-| Manually reviewed | CLAUDE_M5 | - | + | + | + | + | + |
+| Manually reviewed | CLAUDE_M1 | - | + | + | + | + | + |
 | Core sections present | C1 | - | + | + | + | + | + |
 | Explicit instructions | C2 | - | + | + | + | + | + |
 | Antipatterns documented | C4 | - | + | + | + | + | + |
@@ -111,7 +111,7 @@ The level detection decides which rules are relevant based on detected features.
 | Size limits | S1 | - | + | + | + | + | + |
 | Uses @imports | S2 | - | - | + | + | + | + |
 | No code snippets | S3 | - | - | + | + | + | + |
-| Clear markdown structure | S7 | - | - | + | + | + | + |
+| Clear markdown structure | S5 | - | - | + | + | + | + |
 | Context-specific content | C3 | - | - | + | + | + | + |
 | Single source of truth | C6 | - | - | + | + | + | + |
 | Links valid | C11 | - | - | + | + | + | + |
@@ -119,28 +119,28 @@ The level detection decides which rules are relevant based on detected features.
 | Import count | E7 | - | - | + | + | + | + |
 | Version controlled | M1 | - | - | + | + | + | + |
 | Review process | M2 | - | - | + | + | + | + |
-| .claude/rules/ used | CLAUDE_S4 | - | - | - | + | + | + |
-| Path-scoped rules | CLAUDE_S5 | - | - | - | + | + | + |
+| .claude/rules/ used | CLAUDE_S2 | - | - | - | + | + | + |
+| Path-scoped rules | CLAUDE_S3 | - | - | - | + | + | + |
 | Deterministic tools | E1 | - | - | - | + | + | + |
 | Purpose-based reading | E3 | - | - | - | + | + | + |
 | Memory reference | E4 | - | - | - | + | + | + |
 | Grep efficiency | E5 | - | - | - | + | + | + |
 | Context window awareness | E8 | - | - | - | + | + | + |
-| Rule snippet length | CLAUDE_M7 | - | - | - | + | + | + |
+| Rule snippet length | CLAUDE_M2 | - | - | - | + | + | + |
 | Org policies deployed | CLAUDE_G1 | - | - | - | - | + | + |
-| Team governance | G2 | - | - | - | - | + | + |
-| Security rules ownership | G3 | - | - | - | - | + | + |
-| Ownership assignment | G4 | - | - | - | - | + | + |
-| Metrics/CI checks | G8 | - | - | - | - | + | + |
+| Team governance | G1 | - | - | - | - | + | + |
+| Security rules ownership | G2 | - | - | - | - | + | + |
+| Ownership assignment | G3 | - | - | - | - | + | + |
+| Metrics/CI checks | G7 | - | - | - | - | + | + |
 | Change management | M3 | - | - | - | - | + | + |
 | No conflicting rules | M4 | - | - | - | - | + | + |
-| YAML backbone | S6 | - | - | - | - | - | + |
+| YAML backbone | S4 | - | - | - | - | - | + |
 | MUST/MUST NOT format | C5 | - | - | - | - | - | + |
 | Session start ritual | E2 | - | - | - | - | - | + |
-| Contract registry | G5 | - | - | - | - | - | + |
-| Component-contract binding | G6 | - | - | - | - | - | + |
-| Architecture tests | G7 | - | - | - | - | - | + |
-| Map staleness prevention | M6 | - | - | - | - | - | + |
+| Contract registry | G4 | - | - | - | - | - | + |
+| Component-contract binding | G5 | - | - | - | - | - | + |
+| Architecture tests | G6 | - | - | - | - | - | + |
+| Map staleness prevention | M5 | - | - | - | - | - | + |
 
 **Legend:** `+` Required | `-` Not expected
 

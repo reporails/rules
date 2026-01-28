@@ -13,7 +13,7 @@ checks:
     severity: medium
 sources:
   - "docs/methodology-thresholds.md"
-see_also: [S1, CLAUDE_M7]
+see_also: [S1, CLAUDE_M2]
 ---
 
 # Skill Size Limits

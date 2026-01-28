@@ -23,7 +23,7 @@ criteria:
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://code.claude.com/docs/en/memory"
-see_also: [S2, CLAUDE_S5]
+see_also: [S2, CLAUDE_S3]
 ---
 
 # Context-Specific Content

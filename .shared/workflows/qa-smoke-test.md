@@ -19,7 +19,7 @@ flowchart TD
     CHECK4 -->|Yes| REVAL[5. Re-validate<br/>confirm SMOKE1 still valid]
     REVAL --> CHECK5{Still passes?}
     CHECK5 -->|No| FAIL5([FAIL: regression])
-    CHECK5 -->|Yes| CLEANUP[6. Cleanup<br/>rm core/*/SMOKE1-*]
+    CHECK5 -->|Yes| CLEANUP[6. Cleanup<br/>rm -rf core/*/SMOKE1-*]
     CLEANUP --> PASS([PASS])
 ```
 
@@ -32,7 +32,7 @@ flowchart TD
 | 3 | evidence-audit | all rules + sources | qa-checklist.md#audit-evidence-chain |
 | 4 | rule-update | `SMOKE1 "Add test pattern"` | qa-checklist.md#update-rule |
 | 5 | rule-validation | all rules | SMOKE1 still passes |
-| 6 | cleanup | `rm core/*/SMOKE1-*` | files deleted |
+| 6 | cleanup | `rm -rf core/*/SMOKE1-*` | directory deleted |
 
 ## When to Run
 
@@ -61,7 +61,7 @@ flowchart TD
 If any step fails, still run cleanup:
 
 ```bash
-rm -f core/*/SMOKE1-*
+rm -rf core/*/SMOKE1-*
 ```
 
 Don't leave test artifacts in the repo.

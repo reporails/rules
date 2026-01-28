@@ -28,7 +28,7 @@ checks:
     severity: high
 sources:
   - "docs/capability-levels.md"
-see_also: [S6, G5]
+see_also: [S4, G4]
 ---
 
 # Session Start Ritual

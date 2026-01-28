@@ -33,7 +33,7 @@ For each core rule, verify agent supports the underlying feature:
 |------|------------------|-------------------|
 | S4 | Hierarchical memory | ✓ |
 | S5 | Path-scoped rules | ✓ |
-| S6 | YAML backbone | ✓ |
+| S4 | YAML backbone | ✓ |
 | E2 | Session ritual concept | ✓ |
 | E3 | File reading strategy | ✓ |
 | E4 | Memory reference | ✓ |

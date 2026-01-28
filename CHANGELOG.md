@@ -16,7 +16,7 @@ Release automatizations with task hydration templates and streamlined workflows.
 - **Schema**: `confirmed` confidence level requiring both official docs and research validation
 - **Skills**: `/extract-claims` skill for source evidence extraction
 - **Reporting**: Trust Score with Evidence Coverage breakdown (Official/Research/Methodology)
-- **Rules**: Complete rule set - S1-S7, C1-C12, E1-E8, G1-G8, M1-M7
+- **Rules**: Complete rule set - S1-S5, C1-C12, E1-E8, G1-G7, M1-M5
 - **Docs**: Capability levels L1-L6 with assessment matrix and progression guide
 
 ### Changed

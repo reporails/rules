@@ -19,11 +19,11 @@ Then ask Claude:
 ## What's here
 ```
 core/
-  structure/    # S1-S7: File organization, size limits
+  structure/    # S1-S5: File organization, size limits
   content/      # C1-C12: Clarity, completeness
   efficiency/   # E1-E8: Token optimization
-  governance/   # G1-G8: Ownership, security
-  maintenance/  # M1-M7: Versioning, review
+  governance/   # G1-G7: Ownership, security
+  maintenance/  # M1-M5: Versioning, review
 
 agents/
   claude/       # Claude Code specific rules

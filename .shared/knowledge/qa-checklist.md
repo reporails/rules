@@ -10,11 +10,13 @@ After running rule creation workflow:
 
 | Check | Verification | Expected |
 |-------|--------------|----------|
-| Files exist | `ls core/*/SMOKE1-*` | Both .md and .yml present |
-| Frontmatter valid | `head -30 core/*/SMOKE1-*.md` | id, title, category, type, confidence, checks |
+| Directory exists | `ls -d core/*/SMOKE1-*` | Directory present |
+| Files exist | `ls core/*/SMOKE1-*/*.{md,yml}` | Both .md and .yml present |
+| Tests exist | `ls core/*/SMOKE1-*/tests/` | fail.md and pass.md present |
+| Frontmatter valid | `head -30 core/*/SMOKE1-*/*.md` | id, title, category, type, confidence, checks |
 | Check ID format | Inspect .md | `checks[].id` starts with rule ID + hyphen |
 | YML matches | Inspect .yml | `rules[].id` matches `checks[].id` from .md |
-| OpenGrep validates | `opengrep scan --config core/*/SMOKE1-*.yml .` | Exit 0 or 1 |
+| OpenGrep validates | `opengrep scan --config core/*/SMOKE1-*/*.yml .` | Exit 0 or 1 |
 
 **Fail indicators:**
 - Missing .yml file
@@ -69,10 +71,10 @@ After running rule update workflow:
 | Check | Verification | Expected |
 |-------|--------------|----------|
 | Locates rule | Workflow finds | Correct .md and .yml |
-| ID preserved | `grep "id:" core/*/SMOKE1-*.md` | ID unchanged |
-| Filename preserved | `ls core/*/SMOKE1-*` | Same filenames |
-| Pattern updated | `cat core/*/SMOKE1-*.yml` | New pattern present |
-| OpenGrep validates | `opengrep scan --config core/*/SMOKE1-*.yml .` | Exit 0 or 1 |
+| ID preserved | `grep "id:" core/*/SMOKE1-*/*.md` | ID unchanged |
+| Directory preserved | `ls -d core/*/SMOKE1-*` | Same directory |
+| Pattern updated | `cat core/*/SMOKE1-*/*.yml` | New pattern present |
+| OpenGrep validates | `opengrep scan --config core/*/SMOKE1-*/*.yml .` | Exit 0 or 1 |
 
 **Fail indicators:**
 - Rule not found

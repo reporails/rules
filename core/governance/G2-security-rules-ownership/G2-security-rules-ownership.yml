@@ -1,0 +1,9 @@
+rules:
+  - id: G2-security-unowned
+    message: "Security-related content to verify ownership"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?i)(security|credential|secret|api.?key|password|auth)"
+    paths:
+      include:
+        - "{{instruction_files}}"

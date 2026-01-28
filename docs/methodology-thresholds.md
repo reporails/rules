@@ -13,7 +13,7 @@ This document is the source of truth for Reporails threshold interpretations. Wh
 | S3 | 10 lines max | "keep concise" | Code blocks should be examples, not implementations |
 | E6 | 10 lines max | "keep concise" | Same as S3 — code blocks are examples |
 | E7 | 10 imports max | "hierarchical structure" | Practical limit before import chains become confusing |
-| CLAUDE_M7 | 40 lines max | — | Rule files should be focused; longer rules should split |
+| CLAUDE_M2 | 40 lines max | — | Rule files should be focused; longer rules should split |
 | C12 | Has version/date | — | Change tracking enables maintenance discipline |
 
 ## Rationale
@@ -57,7 +57,7 @@ Rules without external sources but based on enterprise patterns:
 
 | Rule | Pattern | Source |
 |------|---------|--------|
-| G3 | Security rules need qualified owners | Standard governance practice |
+| G2 | Security rules need qualified owners | Standard governance practice |
 | C12 | Version/date enables change tracking | Maintenance discipline |
 
 These are marked as "Reporails governance recommendations" rather than source-backed requirements.
@@ -65,6 +65,6 @@ These are marked as "Reporails governance recommendations" rather than source-ba
 ## Sources
 
 This document is cited by rules that use Reporails-defined thresholds:
-- S1, S3, C7, C12, E6, E7, CLAUDE_M7, G3
+- S1, S3, C7, C12, E6, E7, CLAUDE_M2, G2
 
 For rules backed by external sources, see `docs/sources.yml`.

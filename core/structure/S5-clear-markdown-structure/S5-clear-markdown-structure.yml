@@ -1,0 +1,9 @@
+rules:
+  - id: S5-heading-hierarchy-skip
+    message: "Heading level skipped (e.g., # to ###)"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "^#\\s[^\\n]+\\n(?:(?!^##?\\s)[^\\n]*\\n)*^###\\s"
+    paths:
+      include:
+        - "{{instruction_files}}"

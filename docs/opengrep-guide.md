@@ -167,7 +167,7 @@ Results passed to LLM:
 LLM evaluates only what OpenGrep couldn't determine
 ```
 
-**Example: G3 Security Rules Ownership**
+**Example: G2 Security Rules Ownership**
 
 OpenGrep can detect:
 - `@security-team` mentions
@@ -181,10 +181,10 @@ OpenGrep can't determine:
 **So you write both:**
 
 ```yaml
-# G3-security-ownership.md (frontmatter)
+# G2-security-ownership.md (frontmatter)
 type: semantic
 checks:
-  - id: G3-ownership-patterns
+  - id: G2-ownership-patterns
     name: Security ownership indicators
     severity: high
 question: "Given what was found, are security rules properly owned?"
@@ -194,9 +194,9 @@ criteria:
 ```
 
 ```yaml
-# G3-security-ownership.yml (OpenGrep patterns)
+# G2-security-ownership.yml (OpenGrep patterns)
 rules:
-  - id: G3-ownership-patterns
+  - id: G2-ownership-patterns
     message: "Security ownership pattern found"
     severity: WARNING
     languages: [generic]

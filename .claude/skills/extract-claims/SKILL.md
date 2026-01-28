@@ -31,7 +31,7 @@ Before extracting, validate source meets admission criteria.
 
 **Admission threshold:** weight >= 0.4
 
-See [@.shared/knowledge/evidence-chain.md](../../../.shared/knowledge/evidence-chain.md) for weight table and auto-reject criteria.
+See [evidence-chain.md](evidence-chain.md) for weight table and auto-reject criteria.
 
 **If rejected:** Stop. Do not proceed to claim extraction.
 
@@ -57,7 +57,7 @@ claims:
 
 ## Reference
 
-- [@.shared/knowledge/evidence-chain.md](../../../.shared/knowledge/evidence-chain.md) - Admission criteria and weights
+- [Evidence chain](evidence-chain.md) - Admission criteria and weights
 
 ## Quick Reference
 
@@ -75,8 +75,8 @@ claims:
 
 | Category | Rules | Topics |
 |----------|-------|--------|
-| Structure | S1-S7 | Size, imports, hierarchy |
+| Structure | S1-S5 | Size, imports, hierarchy |
 | Content | C1-C12 | Sections, emphasis, patterns |
 | Efficiency | E1-E8 | Tools, reading, grep |
-| Governance | G2-G8 | Teams, security, CI |
-| Maintenance | M1-M6 | Version, review, change |
+| Governance | G1-G7 | Teams, security, CI |
+| Maintenance | M1-M5 | Version, review, change |

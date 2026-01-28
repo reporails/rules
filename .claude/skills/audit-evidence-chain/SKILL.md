@@ -30,11 +30,11 @@ Audit the evidence chain and generate trust metrics.
 
 ## Workflow
 
-Follow: [@.shared/workflows/evidence-audit.md](../../../.shared/workflows/evidence-audit.md)
+Follow: [workflow.md](workflow.md)
 
 ## Reference
 
-- [@.shared/knowledge/evidence-chain.md](../../../.shared/knowledge/evidence-chain.md) - Validation checks
+- [Evidence chain](evidence-chain.md) - Validation checks
 - [trust-metrics-schema.md](trust-metrics-schema.md) - Metrics file schema
 
 ## Quick Reference

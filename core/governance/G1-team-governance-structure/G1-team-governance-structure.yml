@@ -1,0 +1,10 @@
+rules:
+  - id: G1-no-governance
+    message: "Team governance indicators"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?i)(role|responsibility|owner|maintainer|team lead)"
+    paths:
+      include:
+        - "{{instruction_files}}"
+        - "CONTRIBUTING.md"

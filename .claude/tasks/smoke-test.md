@@ -17,7 +17,7 @@ Checklist: `.shared/knowledge/qa-checklist.md`
 ### Sequential (after parallel)
 - [ ] `/update-rule SMOKE1 "Add pattern for SMOKETEST keyword"`
 - [ ] `/validate-rules`
-- [ ] `rm core/*/SMOKE1-*`
+- [ ] `rm -rf core/*/SMOKE1-*`
 
 ## Result
 

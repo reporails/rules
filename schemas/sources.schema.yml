@@ -219,8 +219,8 @@ examples:
       claims:
         - id: l6-backbone
           text: "L6 projects require backbone.yml for navigation"
-          rules: [S6, E2]
+          rules: [S4, E2]
 
         - id: l6-contracts
           text: "L6 backbone includes contracts section"
-          rules: [G5, G6]
+          rules: [G4, G5]

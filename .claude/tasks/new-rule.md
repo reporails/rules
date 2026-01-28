@@ -35,8 +35,10 @@ Knowledge: `.shared/knowledge/rule-authoring.md`
 **Run #:** ___
 
 **Files created:**
-- [ ] `core/{category}/{ID}-{slug}.md`
-- [ ] `core/{category}/{ID}-{slug}.yml`
+- [ ] `core/{category}/{ID}-{slug}/{ID}-{slug}.md`
+- [ ] `core/{category}/{ID}-{slug}/{ID}-{slug}.yml`
+- [ ] `core/{category}/{ID}-{slug}/tests/fail.md`
+- [ ] `core/{category}/{ID}-{slug}/tests/pass.md`
 
 **Validation:** ☐ PASS ☐ FAIL
 

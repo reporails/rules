@@ -1,0 +1,11 @@
+rules:
+  - id: G6-no-arch-tests
+    message: "Architecture test indicators"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?i)(architecture|arch|boundary|layer).*(test|spec)"
+    paths:
+      include:
+        - "**/tests/**/*"
+        - "**/*.test.*"
+        - "**/*.spec.*"

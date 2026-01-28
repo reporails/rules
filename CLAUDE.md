@@ -14,7 +14,13 @@ Framework for evaluating and maintaining AI agent instruction files.
 
 ```
 core/{structure,content,efficiency,governance,maintenance}/  # Generic rules
-agents/claude/{config.yml,rules/}                            # Agent-specific
+  {rule-id}/                                                 # Each rule in own directory
+    {rule-id}.md                                             # Rule definition
+    {rule-id}.yml                                            # OpenGrep patterns
+    tests/                                                   # Test cases
+      fail.md                                                # Should trigger
+      pass.md                                                # Should not trigger
+agents/claude/{config.yml,rules/}                            # Agent-specific (same structure)
 schemas/{rule,agent,sources}.schema.yml                      # Schemas
 docs/                                                        # Documentation
 .claude/{skills/,rules/}                                     # Claude config
@@ -23,14 +29,15 @@ docs/                                                        # Documentation
 
 ## Commands
 
-- Check rule lengths: `wc -l core/**/*.md agents/**/rules/*.md`
-- List all rules: `find core agents -name "*.md" | grep -v README`
+- Check rule lengths: `wc -l core/**/*/*.md agents/**/rules/*/*.md`
+- List all rules: `find core agents -type d -name "[A-Z]*" | grep -v tests`
+- List rule files: `find core agents -path "*/tests" -prune -o -name "*.md" -print | grep -v README`
 
 ## Navigation
 
 Key paths:
 - @docs/capability-levels.md — Level definitions
-- @core/ — Generic rules (S1-S7, C1-C12, E1-E8, G1-G8, M1-M7)
+- @core/ — Generic rules (S1-S5, C1-C12, E1-E8, G1-G7, M1-M5)
 - @agents/claude/ — Claude-specific config and rules
 - @schemas/ — Machine-readable contracts
 - @docs/ — Contributor guides and source registry
@@ -49,6 +56,7 @@ Key paths:
 - NEVER read CHANGELOG.md — use UNRELEASED.md instead
 - ALWAYS update UNRELEASED.md when modifying rules
 - ALWAYS create both .md and .yml for each rule
+- ALWAYS create tests/fail.md and tests/pass.md for each rule
 
 ## Shared Resources
 

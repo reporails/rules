@@ -35,7 +35,7 @@ Legend: ✓ = supported, ✗ = not supported, ? = unknown/verify
 excludes:
   - S4   # Hierarchical Memory — single file only
   - S5   # Path-Scoped Rules — no rules directory
-  - S6   # YAML Backbone — not supported
+  - S4   # YAML Backbone — not supported
   - E2   # Session Rituals — no session concept
   - E4   # Memory Reference — no memory feature
   - E7   # Import Count — no imports
@@ -47,7 +47,7 @@ excludes:
 excludes:
   - S4   # Hierarchical Memory
   - S5   # Path-Scoped Rules
-  - S6   # YAML Backbone
+  - S4   # YAML Backbone
   - E2   # Session Rituals
   - E4   # Memory Reference
   - E7   # Import Count
@@ -57,7 +57,7 @@ excludes:
 ### Cursor
 ```yaml
 excludes:
-  - S6   # YAML Backbone — uses different structure
+  - S4   # YAML Backbone — uses different structure
   # Most Claude features supported
 ```
 

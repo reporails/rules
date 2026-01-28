@@ -18,7 +18,7 @@ checks:
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://claude.com/blog/using-claude-md-files"
-see_also: [C1, S7]
+see_also: [C1, S5]
 ---
 
 # Has Project Description

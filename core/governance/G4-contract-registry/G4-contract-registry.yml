@@ -1,0 +1,13 @@
+rules:
+  - id: G4-no-contracts
+    message: "Backbone lacks contracts key"
+    severity: WARNING
+    languages: [yaml]
+    patterns:
+      - pattern: |
+          $KEY: $VALUE
+      - pattern-not: |
+          contracts: $VALUE
+    paths:
+      include:
+        - ".reporails/backbone.yml"

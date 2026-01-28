@@ -20,7 +20,7 @@ checks:
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://code.claude.com/docs/en/hooks-guide"
-see_also: [CLAUDE_S4, C2]
+see_also: [CLAUDE_S2, C2]
 ---
 
 # Deterministic Tools for Style

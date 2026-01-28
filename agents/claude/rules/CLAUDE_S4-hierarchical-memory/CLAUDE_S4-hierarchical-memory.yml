@@ -1,9 +1,0 @@
-rules:
-  - id: CLAUDE_S4-rules-dir-missing
-    message: ".claude/rules/ directory does not exist"
-    severity: WARNING
-    languages: [generic]
-    pattern-regex: "^$"
-    paths:
-      include:
-        - ".claude/rules/*.md"

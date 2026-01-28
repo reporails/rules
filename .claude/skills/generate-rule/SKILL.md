@@ -22,19 +22,19 @@ Generate a new rule with proper schema and OpenGrep patterns.
 
 ```
 /generate-rule S1 core "Size Limits"
-/generate-rule CLAUDE_S4 claude "Hierarchical Memory"
+/generate-rule CLAUDE_S2 claude "Hierarchical Memory"
 /generate-rule S1 core "Size Limits" --agent cursor
 ```
 
 ## Workflow
 
-Follow: [@.shared/workflows/rule-creation.md](../../../.shared/workflows/rule-creation.md)
+Follow: [workflow.md](workflow.md)
 
 ## Reference
 
-- [@.shared/knowledge/rule-authoring.md](../../../.shared/knowledge/rule-authoring.md) - Templates and validation
-- [@.shared/knowledge/opengrep-patterns.md](../../../.shared/knowledge/opengrep-patterns.md) - Pattern syntax
-- [@.shared/knowledge/evidence-chain.md](../../../.shared/knowledge/evidence-chain.md) - Source linking
+- [Rule authoring](rule-authoring.md) - Templates and validation
+- [OpenGrep patterns](opengrep-patterns.md) - Pattern syntax
+- [Evidence chain](evidence-chain.md) - Source linking
 
 ## Quick Reference
 

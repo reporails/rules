@@ -16,7 +16,7 @@ checks:
 sources:
   - "https://code.claude.com/docs/en/settings"
   - "https://claude.com/blog/how-anthropic-teams-use-claude-code"
-see_also: [G2, CLAUDE_S4]
+see_also: [G1, CLAUDE_S2]
 ---
 
 # Organization-Level Policies

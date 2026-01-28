@@ -24,7 +24,7 @@ criteria:
   - Review responsibility is clear
 sources:
   - "https://claude.com/blog/how-anthropic-teams-use-claude-code"
-see_also: [M3, G4]
+see_also: [M3, G3]
 ---
 
 # Review Process

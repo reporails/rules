@@ -1,8 +1,13 @@
 # Schema definition for rule frontmatter
 # Used by: ails check, ails validate, agents, contributors
 
-schema_version: 2
+schema_version: 3
 
+# Migration from v2:
+#   - Clarified: namespaces are SEPARATE (CLAUDE_S1 is NOT an override of S1)
+#   - Agent rules use own numbering sequence per category
+#   - Pattern overrides use agents/{agent}/overrides/{rule_id}.yml
+#
 # Migration from v1:
 #   - confidence now includes 'confirmed' level
 #   - backed_by field required for confirmed/high confidence
@@ -33,6 +38,41 @@ severities:
   - low
 
 # =============================================================================
+# RULE RESOLUTION STACK
+# =============================================================================
+# Rules are resolved in layers (bottom to top). Higher layers win.
+#
+#   ┌─────────────────────────────────────┐
+#   │ User/Local                          │  Can: define, override, exclude
+#   ├─────────────────────────────────────┤
+#   │ Agent                               │  Can: define, override, exclude core
+#   ├─────────────────────────────────────┤
+#   │ Core                                │  Universal baseline (all agents)
+#   └─────────────────────────────────────┘
+#
+# Resolution for each file:
+#   1. Collect applicable core rules
+#   2. Apply agent modifications:
+#      - excludes: remove rules entirely
+#      - overrides (config): adjust severity
+#      - overrides (files): replace patterns
+#   3. Add agent-specific rules (CLAUDE_*, CURSOR_*, etc.)
+#   4. Apply user modifications (same as agent)
+#   5. Add user-specific rules (USR_*, custom prefix)
+#
+# Namespaces:
+#   - Core: S1, S2, S3... (universal)
+#   - Agent: CLAUDE_S1, CLAUDE_S2... (agent's own sequence)
+#   - User: USR_S1, ACME_S1... (user's own sequence)
+#
+# Override mechanisms:
+#   - Exclude rule: excludes: [S1] in config
+#   - Change severity: overrides: {S1-check: {severity: low}} in config
+#   - Change pattern: agents/{agent}/overrides/S1.yml
+#
+# =============================================================================
+
+# =============================================================================
 # FIELDS
 # =============================================================================
 
@@ -55,10 +95,25 @@ fields:
       agent: "^[A-Z]+_[SCEGM][0-9]+$"
       custom: "^[A-Z]{3,}_[SCEGM][0-9]+$"
     description: |
-      Core: category + number (S1)
-      Agent: reserved prefix + category + number (CLAUDE_S1, COPILOT_E1)
+      IMPORTANT: Namespaces are SEPARATE. Agent numbers are independent of core.
+
+      Core: category + number (S1, S2, S3...)
+        - Universal rules, apply to all agents
+        - Located in core/{category}/{id}-{slug}/
+
+      Agent: prefix + category + number (CLAUDE_S1, CLAUDE_S2...)
+        - Agent-specific rules, OWN numbering sequence
+        - CLAUDE_S1 is Claude's first structure rule, NOT related to core S1
+        - Located in agents/{agent}/rules/{id}-{slug}/
+
       Custom: 3+ letter prefix + category + number (ACME_S1, USR_G3)
+        - Organization or user-specific rules
+
       Note: Agent prefix must be in reserved_agent_prefixes. Custom prefix must not.
+
+      To OVERRIDE core patterns (not define new rules), use:
+        agents/{agent}/overrides/{rule_id}.yml
+      See agent.schema.yml for override file format.
 
   title:
     required: true
@@ -284,7 +339,7 @@ examples:
         severity: high
     sources:
       - "https://docs.anthropic.com/en/docs/claude-code/best-practices"
-    see_also: [CLAUDE_M7, C1]
+    see_also: [CLAUDE_M2, C1]
     ---
 
   deterministic: |
@@ -308,13 +363,13 @@ examples:
 
   semantic: |
     ---
-    id: G3
+    id: G2
     title: Security Rules Ownership
     category: governance
     type: semantic
     confidence: medium
     checks:
-      - id: G3-ownership-patterns
+      - id: G2-ownership-patterns
         name: Security ownership indicators
         severity: high
     question: "Given what was found, are security rules properly owned?"
@@ -324,23 +379,26 @@ examples:
       - Review process exists for security changes
     sources:
       - "https://docs.anthropic.com/en/docs/claude-code/security"
-    see_also: [G1, G2]
+    see_also: [G1, G1]
     ---
 
   agent_specific: |
     ---
+    # Agent rules use SEPARATE namespace
+    # CLAUDE_S1 = Claude's first structure rule (not override of core S1)
     id: CLAUDE_S1
-    title: Memory Block Format
+    title: Skill Size Limits
     category: structure
     type: deterministic
     confidence: high
     checks:
-      - id: CLAUDE_S1-invalid-memory
-        name: Invalid memory block syntax
+      - id: CLAUDE_S1-skill-too-long
+        name: Skill file exceeds size limit
         severity: medium
     sources:
-      - "https://docs.anthropic.com/en/docs/claude-code/memory"
-    see_also: [S1]
+      - "https://docs.anthropic.com/en/docs/claude-code/skills"
+    # see_also can reference related rules across namespaces
+    see_also: [S1]  # conceptually related, not an override
     ---
 
   custom: |

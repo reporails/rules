@@ -47,7 +47,7 @@ Checklist: `.shared/knowledge/qa-checklist.md`
 
 | Run | Date | Result | Notes |
 |-----|------|--------|-------|
-| 1   | 2026-01-28 | PASS | Fixed CLAUDE_G1 schema, M1/CLAUDE_S4 documented as exceptions |
+| 1   | 2026-01-28 | PASS | Fixed CLAUDE_G1 schema, M1/CLAUDE_S2 documented as exceptions |
 
 ## Reset
 

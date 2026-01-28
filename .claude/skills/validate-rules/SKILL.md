@@ -30,13 +30,13 @@ Validate rules against their sources and schema.
 
 ## Workflow
 
-Follow: [@.shared/workflows/rule-validation.md](../../../.shared/workflows/rule-validation.md)
+Follow: [workflow.md](workflow.md)
 
 ## Reference
 
-- [@.shared/knowledge/validation.md](../../../.shared/knowledge/validation.md) - Validation levels
-- [@.shared/knowledge/opengrep-patterns.md](../../../.shared/knowledge/opengrep-patterns.md) - Pattern validation
-- [@.shared/knowledge/evidence-chain.md](../../../.shared/knowledge/evidence-chain.md) - Evidence checks
+- [Validation](validation.md) - Validation levels
+- [OpenGrep patterns](opengrep-patterns.md) - Pattern validation
+- [Evidence chain](evidence-chain.md) - Evidence checks
 
 ## Quick Reference
 
