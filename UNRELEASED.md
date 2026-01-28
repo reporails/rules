@@ -1,5 +1,16 @@
 # Unreleased
 
+### Added (Pass 5)
+- [STRUCTURE]: `.shared/` directory for agent-agnostic content
+- [STRUCTURE]: `.shared/workflows/` with mermaid flowcharts (rule-creation, rule-validation, evidence-audit, rule-update)
+- [STRUCTURE]: `.shared/knowledge/` with consolidated references (evidence-chain, opengrep-patterns, rule-authoring, validation)
+
+### Changed (Pass 5)
+- [SKILLS]: Refactored 5 SKILL.md files to thin entry points (~35-50 lines each)
+- [SKILLS]: Skills now link to shared workflows instead of embedding them
+- [SKILLS]: Deleted 11 redundant supporting files (~1,100 lines removed)
+- [META]: Updated CLAUDE.md with .shared/ documentation
+
 ### Added (Pass 4)
 - [SCHEMA]: `confirmed` confidence level (official + research validated)
 - [SCHEMA]: Source admission criteria with quality gates (minimum_weight 0.4)

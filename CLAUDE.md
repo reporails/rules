@@ -1,5 +1,5 @@
 # Reporails Framework
-<!-- Last updated: 2026-01-24 -->
+<!-- Last updated: 2026-01-28 -->
 
 Framework for evaluating and maintaining AI agent instruction files.
 
@@ -18,6 +18,7 @@ agents/claude/{config.yml,rules/}                            # Agent-specific
 schemas/{rule,agent,sources}.schema.yml                      # Schemas
 docs/                                                        # Documentation
 .claude/{skills/,rules/}                                     # Claude config
+.shared/{workflows/,knowledge/}                              # Agent-agnostic shared content
 ```
 
 ## Commands
@@ -49,9 +50,18 @@ Key paths:
 - ALWAYS update UNRELEASED.md when modifying rules
 - ALWAYS create both .md and .yml for each rule
 
+## Shared Resources
+
+Agent-agnostic workflows and knowledge live in `.shared/`:
+
+- `.shared/workflows/` — Process definitions (mermaid flowcharts)
+- `.shared/knowledge/` — Domain reference (facts, patterns, validation)
+
+Skills in `.claude/skills/` are entry points that reference shared content.
+
 ## Skills
 
-Skills are in `.claude/skills/`. Each has a SKILL.md with workflow and supporting files.
+Skills are in `.claude/skills/`. Each has a SKILL.md that links to shared workflows.
 
 ### /generate-rule <id> <scope> <title>
 Generate a new rule with proper schema and OpenGrep patterns.
