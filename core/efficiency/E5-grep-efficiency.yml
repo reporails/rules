@@ -4,7 +4,7 @@ rules:
     severity: WARNING
     languages: [generic]
     patterns:
-      - pattern-regex: "^#"
+      - pattern-regex: "(?s)\\A#[\\s\\S]+"
       - pattern-not-regex: "(?i)(files_with_matches|head_limit|grep.*limit|search.*efficient)"
     paths:
       include:
