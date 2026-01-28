@@ -10,16 +10,48 @@
 
 generic:
   - id: agents-md-spec
+    title: "AGENTS.md Specification"
     url: "https://agents.md/"
     type: official
     weight: 1.0
+    accessed: "2026-01-28"
     claims:
-      - id: standard-format
-        text: "Open standard for agent instruction files with cascading rules"
-        rules: [S2]
-      - id: discovery-precedence
-        text: "Instruction files follow discovery precedence hierarchy"
-        rules: [S2, C3]
+      - id: root-placement
+        text: "Create an AGENTS.md file at the root of the repository"
+        quote: true
+        section: "Getting Started"
+        rules: [S1, C1]
+      - id: standard-markdown
+        text: "AGENTS.md is just standard Markdown. Use any headings you like"
+        quote: true
+        section: "FAQ"
+        rules: [S7]
+      - id: nested-monorepo
+        text: "Create nested AGENTS.md files for subprojects in monorepos"
+        section: "Monorepos"
+        rules: [S2, CLAUDE_S4]
+      - id: nearest-precedence
+        text: "Agents automatically read the nearest file in the directory tree, so the closest one takes precedence"
+        quote: true
+        section: "Monorepos"
+        rules: [CLAUDE_S5]
+      - id: chat-overrides
+        text: "Explicit user chat prompts override everything"
+        quote: true
+        section: "Conflict Resolution"
+        rules: [C2]
+      - id: executable-commands
+        text: "Agents will attempt to execute relevant programmatic checks and fix failures before finishing the task when commands are listed"
+        section: "Execution Behavior"
+        rules: [C1, E1]
+      - id: living-document
+        text: "Treat AGENTS.md as living documentation that can be updated anytime"
+        section: "Maintenance"
+        rules: [M1, M2]
+      - id: recommended-sections
+        text: "Popular sections include: project overview, build/test commands, code style, testing, security, commit/PR guidelines, deployment"
+        section: "Structure"
+        rules: [C1, C9]
 
   - id: keepachangelog
     url: "https://keepachangelog.com/en/1.1.0/"

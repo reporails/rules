@@ -9,6 +9,8 @@ backed_by:
     claim: memory-hierarchy
   - source: claude-code-memory
     claim: rules-directory
+  - source: agents-md-spec
+    claim: nested-monorepo
 checks:
   - id: CLAUDE_S4-rules-dir-missing
     name: .claude/rules/ directory does not exist

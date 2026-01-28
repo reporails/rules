@@ -9,6 +9,8 @@ backed_by:
     claim: be-specific
   - source: claude-4-best-practices
     claim: be-explicit
+  - source: agents-md-spec
+    claim: chat-overrides
 checks:
   - id: C2-vague-instruction
     name: Vague instruction without specifics

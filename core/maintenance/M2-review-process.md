@@ -11,6 +11,8 @@ backed_by:
     claim: review-periodically
   - source: anthropic-teams-claude-code
     claim: review-process
+  - source: agents-md-spec
+    claim: living-document
 checks:
   - id: M2-no-review-process
     name: No PR review process documented

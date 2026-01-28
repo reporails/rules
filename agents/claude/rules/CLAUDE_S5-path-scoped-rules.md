@@ -9,6 +9,8 @@ backed_by:
     claim: path-scoped-rules
   - source: claude-code-settings
     claim: rules-dir-config
+  - source: agents-md-spec
+    claim: nearest-precedence
 checks:
   - id: CLAUDE_S5-no-paths-frontmatter
     name: Rule file missing paths key in frontmatter

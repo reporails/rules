@@ -11,6 +11,8 @@ backed_by:
     claim: recursive-discovery
   - source: instruction-limits-principles
     claim: progressive-files
+  - source: agents-md-spec
+    claim: nested-monorepo
 checks:
   - id: S2-large-file-no-imports
     name: File over 100 lines without @imports or references

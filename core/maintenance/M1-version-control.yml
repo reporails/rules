@@ -3,7 +3,7 @@ rules:
     message: "Instruction file should be git-tracked"
     severity: WARNING
     languages: [generic]
-    pattern-regex: "{{instruction_files}}"
+    pattern-regex: "{{main_instruction_file}}"
     paths:
       include:
         - ".gitignore"

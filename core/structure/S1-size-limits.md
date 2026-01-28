@@ -9,6 +9,8 @@ backed_by:
     claim: keep-concise
   - source: instruction-limits-principles
     claim: line-limit
+  - source: agents-md-spec
+    claim: root-placement
 checks:
   - id: S1-root-too-long
     name: Root instruction file exceeds 200 lines

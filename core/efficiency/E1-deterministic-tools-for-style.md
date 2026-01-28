@@ -11,6 +11,8 @@ backed_by:
     claim: hooks-deterministic
   - source: instruction-limits-principles
     claim: use-linters
+  - source: agents-md-spec
+    claim: executable-commands
 checks:
   - id: E1-formatting-in-instructions
     name: Formatting rules in instruction file

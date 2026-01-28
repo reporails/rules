@@ -7,6 +7,8 @@ confidence: high
 backed_by:
   - source: claude-code-memory
     claim: use-structure
+  - source: agents-md-spec
+    claim: standard-markdown
 checks:
   - id: S7-heading-hierarchy-skip
     name: Heading level skipped (e.g., # to ###)

@@ -9,6 +9,8 @@ backed_by:
     claim: root-placement
   - source: claude-code-best-practices
     claim: version-control
+  - source: agents-md-spec
+    claim: living-document
 checks:
   - id: M1-not-tracked
     name: Instruction file not in git

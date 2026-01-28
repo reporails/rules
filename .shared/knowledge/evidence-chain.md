@@ -69,6 +69,77 @@ Has official backing (weight 1.0)?
 - Single anecdote without supporting data
 - Weight would be < 0.4
 
+## Reporting Format
+
+### Evidence Coverage (Primary Display)
+
+Show the breakdown by backing type — this tells the real story:
+
+```
+Evidence Coverage
+├── Official backing:     81% (35/43 rules)
+├── Research validated:    0% (0/43 rules)
+└── Methodology only:     19% (8/43 rules)
+```
+
+**What each line means:**
+
+| Metric | Meaning | Interpretation |
+|--------|---------|----------------|
+| Official backing | Rules with `confidence: high` or `confirmed` | "Vendor docs support this" |
+| Research validated | Rules with `confidence: confirmed` | "Independent data proves it works" |
+| Methodology only | Rules with `confidence: low` | "Our pattern, use with appropriate skepticism" |
+
+### Trust Score (Derived Metric)
+
+The weighted score provides a single number for CI gates and trends:
+
+```
+Trust Score: 68.8%
+(weighted: confirmed=1.0, high=0.8, medium=0.5, low=0.2)
+```
+
+**Calculation:**
+
+```python
+weights = {confirmed: 1.0, high: 0.8, medium: 0.5, low: 0.2}
+weighted_sum = sum(weights[rule.confidence] for rule in rules)
+trust_score = (weighted_sum / len(rules)) * 100
+```
+
+### Full Report Format
+
+```
+Trust Score: 68.8%
+
+Evidence Coverage
+├── Official backing:     81% (35/43 rules)
+├── Research validated:    0% (0/43 rules)
+└── Methodology only:     19% (8/43 rules)
+
+Distribution
+┌────────────┬───────┬──────────┬──────┐
+│ Confidence │ Count │ × Weight │  =   │
+├────────────┼───────┼──────────┼──────┤
+│ confirmed  │ 0     │ × 1.0    │ 0.0  │
+│ high       │ 35    │ × 0.8    │ 28.0 │
+│ medium     │ 0     │ × 0.5    │ 0.0  │
+│ low        │ 8     │ × 0.2    │ 1.6  │
+├────────────┼───────┼──────────┼──────┤
+│ Total      │ 43    │          │ 29.6 │
+└────────────┴───────┴──────────┴──────┘
+```
+
+### Improving the Score
+
+| Goal | Action | Impact |
+|------|--------|--------|
+| Low → High | Find official source backing the pattern | +0.6 per rule |
+| Low → Medium | Find research or 2+ community sources | +0.3 per rule |
+| High → Confirmed | Find research that validates the official claim | +0.2 per rule |
+
+**Priority:** Focus on upgrading `low` rules first — biggest impact per effort.
+
 ## Validation Checks
 
 ### Check 1: backed_by References Exist
@@ -121,14 +192,6 @@ Claims in sources.yml should be referenced by rules.
 - `E4010`: Source weight below admission threshold
 - `E4011`: Source type doesn't match weight
 - `W4002`: Source has no claims
-
-## Trust Score Calculation
-
-```python
-weights = {confirmed: 1.0, high: 0.8, medium: 0.5, low: 0.2}
-weighted_sum = sum(weights[rule.confidence] for rule in rules)
-trust_score = (weighted_sum / len(rules)) * 100
-```
 
 ## Auto-fixable Issues
 

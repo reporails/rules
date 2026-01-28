@@ -189,6 +189,15 @@ template_variables:
       local_file:
         description: "Local/personal instruction file"
         example: "CLAUDE.local.md"
+      managed_settings_linux:
+        description: "Path to managed settings file on Linux"
+        example: "/etc/claude-code/managed-settings.json"
+      managed_settings_macos:
+        description: "Path to managed settings file on macOS"
+        example: "/Library/Application Support/ClaudeCode/managed-settings.json"
+      managed_settings_windows:
+        description: "Path to managed settings file on Windows"
+        example: "C:/Program Files/ClaudeCode/managed-settings.json"
 
 # =============================================================================
 # VALIDATION

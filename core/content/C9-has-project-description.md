@@ -9,6 +9,8 @@ backed_by:
     claim: include-core-files
   - source: anthropic-teams-claude-code
     claim: team-onboarding
+  - source: agents-md-spec
+    claim: recommended-sections
 checks:
   - id: C9-no-description
     name: First line after title is empty

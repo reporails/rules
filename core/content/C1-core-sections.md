@@ -13,6 +13,12 @@ backed_by:
     claim: use-structure
   - source: spec-writing-for-agents
     claim: commands-early
+  - source: agents-md-spec
+    claim: root-placement
+  - source: agents-md-spec
+    claim: executable-commands
+  - source: agents-md-spec
+    claim: recommended-sections
 checks:
   - id: C1-missing-sections
     name: Large file missing core sections
