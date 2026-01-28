@@ -1,0 +1,5 @@
+# Ignore node modules
+node_modules/
+
+# Ignore instruction file (bad practice)
+CLAUDE.md

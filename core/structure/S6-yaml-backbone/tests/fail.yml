@@ -1,0 +1,6 @@
+# Backbone without maps section
+version: "1.0"
+
+components:
+  api: src/api/
+  web: src/web/

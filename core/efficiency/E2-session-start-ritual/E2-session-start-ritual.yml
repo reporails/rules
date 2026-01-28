@@ -4,8 +4,8 @@ rules:
     severity: ERROR
     languages: [generic]
     patterns:
-      - pattern-regex: "^#"
-      - pattern-not-regex: "(?i)^##?#?\\s*(session\\s*start|start\\s*ritual|initialization|before\\s*you\\s*begin)"
+      - pattern-regex: "(?s)\\A#[\\s\\S]+"
+      - pattern-not-regex: "(?i)(session\\s*start|start\\s*ritual|initialization|before\\s*you\\s*begin)"
     paths:
       include:
         - "{{main_instruction_file}}"
@@ -59,7 +59,7 @@ rules:
     severity: WARNING
     languages: [generic]
     patterns:
-      - pattern-regex: "^#"
+      - pattern-regex: "(?s)\\A#[\\s\\S]+"
       - pattern-not-regex: "(?i)(load\\s*context|context\\s*load|read.*before|understand.*first)"
     paths:
       include:

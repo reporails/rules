@@ -4,7 +4,7 @@ rules:
     severity: WARNING
     languages: [generic]
     patterns:
-      - pattern-regex: "^#"
+      - pattern-regex: "(?s)\\A#[\\s\\S]+"
       - pattern-not-regex: "(?i)\\b(NEVER|AVOID|DO NOT|DON'T)\\b"
     paths:
       include:
