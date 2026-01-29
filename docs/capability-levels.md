@@ -15,7 +15,7 @@ The level detection decides which rules are relevant based on detected features.
 | **L5** | Governed | Team policies, compliance tracking | Org policies deployed, metrics |
 | **L6** | Adaptive | Map-driven navigation, contracts | YAML backbone, component-contract binding |
 
-> **Note:** L1-L4 patterns are documented in official sources. L5-L6 patterns are community patterns (experimental tier) derived from enterprise software practices.
+> **Note:** L1-L4 patterns are documented in official sources. L5-L6 patterns are Reporails methodology derived from enterprise software practices.
 
 ---
 

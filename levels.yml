@@ -1,0 +1,40 @@
+# Canonical level definitions for the Reporails framework.
+# Source of truth: docs/capability-levels.md (Capability Assessment Matrix)
+#
+# CLI consumers should prefer this file over any bundled copy.
+
+levels:
+  L0:
+    name: Absent
+    description: No instruction file
+    rules: []
+
+  L1:
+    name: Basic
+    description: Instruction file exists, reviewed, has basic content
+    rules: [CLAUDE_M1, S1, C1, C2, C4, C8, C9, C10, C12]
+
+  L2:
+    name: Scoped
+    description: Project-specific constraints and tool delegation
+    rules: [C5, C7, E1, E8]
+
+  L3:
+    name: Structured
+    description: Clear sections, external references, organized content
+    rules: [S2, S3, S5, C3, C6, C11, E6, E7]
+
+  L4:
+    name: Abstracted
+    description: Rules directory, path-scoped loading
+    rules: [CLAUDE_S1, CLAUDE_S2, CLAUDE_S3, CLAUDE_M2, E3, E4, E5]
+
+  L5:
+    name: Governed
+    description: Team policies, process controls, compliance tracking
+    rules: [CLAUDE_G1, G1, G2, G3, G7, M1, M2, M3, M4]
+
+  L6:
+    name: Adaptive
+    description: Backbone-driven navigation, contracts
+    rules: [S4, E2, G4, G5, G6, M5]

@@ -13,6 +13,7 @@ Framework for evaluating and maintaining AI agent instruction files.
 ## Structure
 
 ```
+levels.yml                                                   # Canonical level→rule mappings
 core/{structure,content,efficiency,governance,maintenance}/  # Generic rules
   {rule-id}/                                                 # Each rule in own directory
     {rule-id}.md                                             # Rule definition

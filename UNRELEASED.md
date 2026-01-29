@@ -1,5 +1,9 @@
 # Unreleased
 
+## Added
+
+- **levels.yml**: Canonical machine-readable level→rule mappings at repo root, derived from `docs/capability-levels.md` Capability Assessment Matrix. CLIs should prefer this over bundled copies.
+
 ## Fixed
 
 - **CLAUDE_S3**: Changed `languages: [yaml]` to `languages: [generic]` with pattern-regex/pattern-not-regex (was targeting .md files with YAML parser). Updated tests to include YAML frontmatter.
