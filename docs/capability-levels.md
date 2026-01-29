@@ -15,7 +15,7 @@ The level detection decides which rules are relevant based on detected features.
 | **L5** | Governed | Team policies, compliance tracking | Org policies deployed, metrics |
 | **L6** | Adaptive | Map-driven navigation, contracts | YAML backbone, component-contract binding |
 
-> **Note:** L1-L4 patterns are documented in official sources. L5-L6 patterns are Reporails methodology derived from enterprise software practices.
+> **Note:** L1-L4 patterns are documented in official sources. L5-L6 patterns are community patterns (experimental tier) derived from enterprise software practices.
 
 ---
 
@@ -267,43 +267,56 @@ Each semantic rule has:
 
 ---
 
-## Rule Confidence Levels
+## Rule Tiers
 
-Rules have confidence levels based on evidence backing:
+Rules are classified into tiers based on evidence backing. Tier is **derived** from backing source weights, not stored:
 
-| Level | Requirements | Count | Meaning |
-|-------|--------------|-------|---------|
-| **confirmed** | Official (1.0) + Research (0.8+) | TBD | Vendor says + study validates |
-| **high** | Official source (1.0) | ~20 | Vendor recommendation |
-| **medium** | Research or 2+ community | ~10 | Community consensus |
-| **low** | Methodology only | ~12 | Reporails pattern |
+| Tier | Condition | Sources | Meaning |
+|------|-----------|---------|---------|
+| **core** | max(weights) >= 0.8 | Official (1.0), Research (0.8) | Vendor-confirmed or empirically validated |
+| **experimental** | max(weights) < 0.8 | Community (0.4) only | Community patterns, not yet validated |
 
-### Confidence Filtering
+### Tier Derivation
 
-Projects can filter rules by confidence via `.reporails/config.yml`:
+```
+Rule tier = core         if max(backing_source_weights) >= 0.8
+          = experimental if max(backing_source_weights) < 0.8
+```
+
+**Examples:**
+- Rule backed by Official (1.0) + Community (0.4) → **core** (max = 1.0)
+- Rule backed by Research (0.8) → **core** (max = 0.8)
+- Rule backed by Community (0.4) only → **experimental** (max = 0.4)
+
+### Tier Filtering
+
+Projects can filter rules by tier via `.reporails/config.yml`:
 
 ```yaml
-# Only enforce proven rules
-profile: strict  # minimum = confirmed
+# Only enforce validated rules (default for strict projects)
+tiers:
+  core: true
+  experimental: false
 
-# Official recommendations
-confidence:
-  minimum: high
-
-# Trust Reporails methodology (default)
-profile: all  # minimum = low
+# Include experimental patterns (default)
+tiers:
+  core: true
+  experimental: true  # opt-out individually via CLI
 ```
 
-### Trust Score
+### Promotion Path
 
-Confidence levels contribute to a weighted trust score:
+Experimental rules can be promoted to core when external validation is added:
 
 ```
-weights = {confirmed: 1.0, high: 0.8, medium: 0.5, low: 0.2}
-trust_score = sum(weights[rule.confidence]) / total_rules * 100
+Community pattern (experimental)
+    │
+    ├── Vendor adopts → Official source (1.0) → core
+    │
+    └── Study measures impact → Research source (0.8) → core
 ```
 
-A framework with more `confirmed` rules has higher trust — recommendations backed by both vendor guidance and measured impact data.
+This ensures core remains rock-solid while experimental patterns can mature through evidence.
 
 ---
 
@@ -312,8 +325,8 @@ A framework with more `confirmed` rules has higher trust — recommendations bac
 | Concept | Source |
 |---------|--------|
 | Level structure inspiration | CMMI Maturity Levels, CNCF Cloud Native Maturity Model |
-| Capability (not maturity) framing | Reporails Methodology |
-| L1-L4 patterns | Anthropic official documentation, community best practices |
-| L5-L6 patterns | Reporails Methodology |
+| Capability (not maturity) framing | Community pattern |
+| L1-L4 patterns | Official documentation (Anthropic, OpenAI, GitHub), community best practices |
+| L5-L6 patterns | Community patterns (experimental tier) |
 
-See `docs/sources.yml` for full source registry.
+See `docs/sources.yml` for full source registry with evidence chain.

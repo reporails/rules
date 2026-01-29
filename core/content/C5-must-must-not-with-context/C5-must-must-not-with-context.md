@@ -3,7 +3,6 @@ id: C5
 title: MUST/MUST NOT with Context
 category: content
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-4-best-practices
     claim: context-improves

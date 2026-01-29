@@ -3,7 +3,6 @@ id: E3
 title: Purpose-Based File Reading
 category: efficiency
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-code-issue-13579
     claim: purpose-based-reading

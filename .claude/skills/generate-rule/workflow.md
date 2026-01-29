@@ -9,10 +9,8 @@ flowchart TD
     DET --> SOURCES[Find backing claims in sources.yml]
     SEM --> SOURCES
     SOURCES --> CONF{Confidence decision tree}
-    CONF -->|Official 1.0 + Research 0.8| CONFIRMED[confidence: confirmed]
-    CONF -->|Official 1.0 only| HIGH[confidence: high]
-    CONF -->|Research 0.8+ or 2+ community| MEDIUM[confidence: medium]
-    CONF -->|Methodology only| LOW[confidence: low]
+    CONF -->|max weight >= 0.8| CORE[tier: core]
+    CONF -->|max weight < 0.8 or none| EXPERIMENTAL[tier: experimental]
     CONFIRMED --> GEN[Generate .md + .yml from templates]
     HIGH --> GEN
     MEDIUM --> GEN

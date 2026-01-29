@@ -1,0 +1,10 @@
+# backbone.yml - path references with validation
+maps:
+  components:
+    api:
+      path: src/api/
+    web:
+      path: src/web/
+validation:
+  last_checked: "2025-01-15"
+  ci_hook: validate-backbone

@@ -3,10 +3,7 @@ id: CLAUDE_M2
 title: Rule Snippet Length
 category: maintenance
 type: semantic
-confidence: low
-backed_by:
-  - source: capability-levels
-    claim: methodology-rule-body
+backed_by: []
 checks:
   - id: CLAUDE_M2-body-too-long
     name: Rule file body exceeds 40 lines (excluding frontmatter)
@@ -20,8 +17,7 @@ criteria:
   - Length is necessary for completeness (cannot trim without losing value)
   - Broad scope is intentional (content applies to all matched files)
   - Cannot be reasonably split without fragmenting the topic
-sources:
-  - "docs/methodology-thresholds.md"
+sources: []
 see_also: [S1, S2]
 ---
 

@@ -3,7 +3,6 @@ id: G1
 title: Team Governance Structure
 category: governance
 type: semantic
-confidence: high
 backed_by:
   - source: anthropic-teams-claude-code
     claim: governance-roles

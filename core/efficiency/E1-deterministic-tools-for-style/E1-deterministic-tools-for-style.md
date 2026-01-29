@@ -3,7 +3,6 @@ id: E1
 title: Deterministic Tools for Style
 category: efficiency
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-code-hooks
     claim: hooks-for-formatting
@@ -13,6 +12,10 @@ backed_by:
     claim: use-linters
   - source: agents-md-spec
     claim: executable-commands
+  - source: claude-code-hooks
+    claim: app-level-code
+  - source: osmani-ai-coding-workflow
+    claim: ci-force-multiplier
 checks:
   - id: E1-formatting-in-instructions
     name: Formatting rules in instruction file

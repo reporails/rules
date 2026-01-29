@@ -13,7 +13,7 @@ After running rule creation workflow:
 | Directory exists | `ls -d core/*/SMOKE1-*` | Directory present |
 | Files exist | `ls core/*/SMOKE1-*/*.{md,yml}` | Both .md and .yml present |
 | Tests exist | `ls core/*/SMOKE1-*/tests/` | fail.md and pass.md present |
-| Frontmatter valid | `head -30 core/*/SMOKE1-*/*.md` | id, title, category, type, confidence, checks |
+| Frontmatter valid | `head -30 core/*/SMOKE1-*/*.md` | id, title, category, type, checks, backed_by |
 | Check ID format | Inspect .md | `checks[].id` starts with rule ID + hyphen |
 | YML matches | Inspect .yml | `rules[].id` matches `checks[].id` from .md |
 | OpenGrep validates | `opengrep scan --config core/*/SMOKE1-*/*.yml .` | Exit 0 or 1 |
@@ -92,7 +92,7 @@ After running rule update workflow:
 | Hallucinated patterns | Knowledge not loaded | Verify .shared/knowledge/ links |
 | Exit code 2 | Invalid YAML | Check syntax, required fields |
 | Exit code 7 | No positive pattern | Add pattern-regex before pattern-not-regex |
-| Wrong confidence | Decision tree not followed | Check rule-creation workflow |
+| Wrong tier | backed_by doesn't match expected tier | Check sources.yml weights |
 | Missing .yml | Workflow step skipped | Check contract step in workflow |
 | ID changed on update | Constraint violated | Check rule-update workflow constraints |
 

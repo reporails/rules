@@ -3,7 +3,6 @@ id: C9
 title: Has Project Description
 category: content
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-code-best-practices
     claim: include-core-files
@@ -11,6 +10,12 @@ backed_by:
     claim: team-onboarding
   - source: agents-md-spec
     claim: recommended-sections
+  - source: agents-md-spec
+    claim: readme-for-agents
+  - source: using-claude-md-files
+    claim: usage-patterns
+  - source: dometrain-claude-md-guide
+    claim: domain-terminology
 checks:
   - id: C9-no-description
     name: First line after title is empty

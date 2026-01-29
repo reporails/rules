@@ -3,7 +3,6 @@ id: C2
 title: Explicit Over Implicit
 category: content
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-code-memory
     claim: be-specific
@@ -11,6 +10,10 @@ backed_by:
     claim: be-explicit
   - source: agents-md-spec
     claim: chat-overrides
+  - source: dometrain-claude-md-guide
+    claim: command-specificity
+  - source: osmani-ai-coding-workflow
+    claim: context-packaging
 checks:
   - id: C2-vague-instruction
     name: Vague instruction without specifics

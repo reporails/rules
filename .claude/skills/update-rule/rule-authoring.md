@@ -10,7 +10,6 @@ id: {ID}
 title: {Title}                    # max 64 chars
 category: structure|content|efficiency|governance|maintenance
 type: deterministic|semantic
-confidence: confirmed|high|medium|low
 checks:
   - id: {ID}-{check-slug}
     name: {Description}
@@ -75,7 +74,6 @@ rules:
 |-------|--------|
 | category | structure, content, efficiency, governance, maintenance |
 | type | deterministic, semantic |
-| confidence | confirmed, high, medium, low |
 | severity (md) | critical, high, medium, low |
 | severity (yml) | ERROR, WARNING, INFO |
 
@@ -104,7 +102,6 @@ rules:
 - [ ] `title` <= 64 characters
 - [ ] `category` is valid
 - [ ] `type` is valid (deterministic/semantic)
-- [ ] `confidence` is valid
 - [ ] `checks` array exists and non-empty
 - [ ] `checks[].id` starts with rule ID + hyphen
 - [ ] `checks[].severity` is valid

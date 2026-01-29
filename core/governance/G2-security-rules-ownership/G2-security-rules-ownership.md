@@ -3,7 +3,6 @@ id: G2
 title: Security Rules Ownership
 category: governance
 type: semantic
-confidence: high
 backed_by:
   - source: anthropic-teams-claude-code
     claim: governance-roles
@@ -18,7 +17,7 @@ criteria:
   - Review process exists for security changes
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
-  - "docs/methodology-thresholds.md"
+  - "https://claude.com/blog/how-anthropic-teams-use-claude-code"
 see_also: [G1, G3]
 ---
 

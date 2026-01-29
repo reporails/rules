@@ -3,12 +3,9 @@ id: E7
 title: Import Count
 category: efficiency
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-code-memory
     claim: import-max-depth
-  - source: capability-levels
-    claim: methodology-threshold-imports
 checks:
   - id: E7-too-many-imports
     name: More than 10 @imports in root file
@@ -16,7 +13,6 @@ checks:
 sources:
   - "https://code.claude.com/docs/en/memory"
   - "https://dev.to/anvodev/how-i-organized-my-claudemd-in-a-monorepo-with-too-many-contexts-37k7"
-  - "docs/methodology-thresholds.md"
 see_also: [S2, S1]
 ---
 

@@ -3,7 +3,6 @@ id: C10
 title: NEVER with Alternative
 category: content
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-4-best-practices
     claim: never-with-context

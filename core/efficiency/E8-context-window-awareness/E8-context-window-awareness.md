@@ -3,7 +3,6 @@ id: E8
 title: Context Window Awareness
 category: efficiency
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-context-windows
     claim: context-awareness
@@ -11,6 +10,18 @@ backed_by:
     claim: avoid-token-warnings
   - source: claude-code-issue-13579
     claim: token-waste-measured
+  - source: advanced-context-engineering
+    claim: context-target
+  - source: advanced-context-engineering
+    claim: frequent-compaction
+  - source: codex-agent-loop
+    claim: auto-compaction
+  - source: dometrain-claude-md-guide
+    claim: lazy-loading-context
+  - source: dometrain-claude-md-guide
+    claim: duplicate-instruction-waste
+  - source: osmani-ai-coding-workflow
+    claim: iterative-chunks
 checks:
   - id: E8-redundant-token-warning
     name: Redundant token management instruction

@@ -3,7 +3,6 @@ id: CLAUDE_G1
 title: Organization-Level Policies
 category: governance
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-code-settings
     claim: settings-hierarchy
@@ -25,5 +24,8 @@ L5+ requires managed-settings.json in system directory.
 
 ## Pattern
 
-**Good:** /etc/claude-code/managed-settings.json with org policies
-**Bad:** No organization-level managed settings deployed
+**Good:** /etc/claude-code/managed-settings.json with `allowedTools`/`permissions` keys
+**Bad:** Managed settings file without org policy keys, or no file deployed
+
+> **Note:** OpenGrep cannot detect missing files. This pattern validates content of existing
+> managed settings files. File-existence detection requires runtime validation.

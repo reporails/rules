@@ -11,7 +11,7 @@ rules:
   - id: CLAUDE_M2-scope-too-broad
     message: "Rule file has broad paths scope"
     severity: WARNING
-    languages: [yaml]
+    languages: [generic]
     pattern-regex: "paths:\\s*\\n\\s*-.*\\*\\*"
     paths:
       include:

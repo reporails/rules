@@ -3,14 +3,15 @@ id: C7
 title: Emphasis Discipline
 category: content
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-code-best-practices
     claim: emphasis-words
   - source: instruction-limits-principles
     claim: instruction-capacity
-  - source: capability-levels
-    claim: methodology-threshold-emphasis
+  - source: instruction-limits-principles
+    claim: less-is-more
+  - source: spec-writing-for-agents
+    claim: curse-of-instructions
 checks:
   - id: C7-too-many-emphasis
     name: More than 5 IMPORTANT/CRITICAL per file
@@ -18,7 +19,6 @@ checks:
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-4-best-practices"
-  - "docs/methodology-thresholds.md"
 see_also: [C4, C5]
 ---
 

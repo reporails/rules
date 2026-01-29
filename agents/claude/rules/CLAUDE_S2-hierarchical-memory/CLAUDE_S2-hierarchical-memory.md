@@ -3,7 +3,6 @@ id: CLAUDE_S2
 title: Hierarchical Memory
 category: structure
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-code-memory
     claim: memory-hierarchy
@@ -11,6 +10,10 @@ backed_by:
     claim: rules-directory
   - source: agents-md-spec
     claim: nested-monorepo
+  - source: claude-code-settings
+    claim: rules-dir-config
+  - source: rules-directory-mechanics
+    claim: rules-mechanics
 checks:
   - id: CLAUDE_S2-rules-dir-missing
     name: .claude/rules/ directory does not exist

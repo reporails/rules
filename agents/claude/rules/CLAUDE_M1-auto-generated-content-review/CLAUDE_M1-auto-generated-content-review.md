@@ -3,7 +3,6 @@ id: CLAUDE_M1
 title: Auto-Generated Content Review
 category: maintenance
 type: deterministic
-confidence: high
 backed_by:
   - source: using-claude-md-files
     claim: customized-content

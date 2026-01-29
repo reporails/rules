@@ -3,16 +3,12 @@ id: G5
 title: Component-Contract Binding
 category: governance
 type: deterministic
-confidence: low
-backed_by:
-  - source: capability-levels
-    claim: l6-contracts
+backed_by: []
 checks:
   - id: G5-component-no-binding
     name: Component definition lacks contracts/rules/tests
     severity: medium
-sources:
-  - "docs/capability-levels.md"
+sources: []
 see_also: [G4, G6]
 ---
 

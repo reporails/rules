@@ -3,7 +3,6 @@ id: C12
 title: Has Version/Date
 category: content
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-code-memory
     claim: review-periodically
@@ -13,7 +12,6 @@ checks:
     severity: low
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
-  - "docs/methodology-thresholds.md"
 see_also: [M1, C1]
 ---
 

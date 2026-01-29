@@ -45,7 +45,7 @@ Prepare and tag a new release.
 
 ### Metrics
 - Trust Score: {X}%
-- Evidence Coverage: {Y}% official, {Z}% methodology
+- Evidence Coverage: {Y}% core, {Z}% experimental
 - Rules: {N} total ({P} passing)
 ```
 

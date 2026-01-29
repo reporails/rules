@@ -10,7 +10,7 @@ Multi-level rule validation process.
 | 2 | Contract | .md <-> .yml pairing and ID matching |
 | 3 | OpenGrep | Pattern syntax, positive patterns present |
 | 4 | Source | URL validity, content drift |
-| 5 | Evidence Chain | backed_by integrity, confidence alignment |
+| 5 | Evidence Chain | backed_by integrity, tier derivation |
 
 ## Schema Validation
 
@@ -19,7 +19,7 @@ Required fields:
 - `title` <= 64 characters
 - `category` is valid
 - `type` is deterministic or semantic
-- `confidence` is valid
+- `backed_by` sources exist in sources.yml
 - `checks[]` array exists and non-empty
 - `checks[].id` starts with `{rule.id}-`
 

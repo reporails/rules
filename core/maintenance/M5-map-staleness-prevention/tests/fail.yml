@@ -1,0 +1,7 @@
+# backbone.yml - path references without validation metadata
+maps:
+  components:
+    api:
+      path: src/api/
+    web:
+      path: src/web/

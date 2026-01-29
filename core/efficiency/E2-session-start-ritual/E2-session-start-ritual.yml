@@ -15,7 +15,7 @@ rules:
     severity: WARNING
     languages: [generic]
     patterns:
-      - pattern-regex: "(?i)(session\\s*start|start\\s*ritual|initialization)"
+      - pattern-regex: "(?si)\\A(?=[\\s\\S]*(?:session\\s*start|start\\s*ritual|initialization))[\\s\\S]+"
       - pattern-not-regex: "(?i)(backbone\\.ya?ml|\\.reporails/backbone)"
     paths:
       include:
@@ -26,8 +26,8 @@ rules:
     severity: WARNING
     languages: [generic]
     patterns:
-      - pattern-regex: "(?i)(session\\s*start|start\\s*ritual|initialization)"
-      - pattern-not-regex: "1\\.[^\\n]+\\n.*2\\.[^\\n]+\\n.*3\\."
+      - pattern-regex: "(?si)\\A(?=[\\s\\S]*(?:session\\s*start|start\\s*ritual|initialization))[\\s\\S]+"
+      - pattern-not-regex: "1\\.[^\\n]+\\n[\\s\\S]*2\\.[^\\n]+\\n[\\s\\S]*3\\."
     paths:
       include:
         - "{{main_instruction_file}}"
@@ -37,7 +37,7 @@ rules:
     severity: WARNING
     languages: [generic]
     patterns:
-      - pattern-regex: "(?i)(session\\s*start|start\\s*ritual|initialization)"
+      - pattern-regex: "(?si)\\A(?=[\\s\\S]*(?:session\\s*start|start\\s*ritual|initialization))[\\s\\S]+"
       - pattern-not-regex: "(?i)(\\bmaps?\\b|navigation|component.*map|platform.*map)"
     paths:
       include:
@@ -45,10 +45,10 @@ rules:
 
   - id: E2-ritual-no-before-searching
     message: "Session ritual missing 'before searching' or 'read first' guidance"
-    severity: INFO
+    severity: WARNING
     languages: [generic]
     patterns:
-      - pattern-regex: "(?i)(session\\s*start|start\\s*ritual|initialization)"
+      - pattern-regex: "(?si)\\A(?=[\\s\\S]*(?:session\\s*start|start\\s*ritual|initialization))[\\s\\S]+"
       - pattern-not-regex: "(?i)(before\\s*(searching|coding|you\\s*start)|read\\s*first|start\\s*by\\s*reading)"
     paths:
       include:

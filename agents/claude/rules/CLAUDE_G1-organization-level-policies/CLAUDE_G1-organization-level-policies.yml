@@ -1,9 +1,14 @@
 rules:
+  # NOTE: OpenGrep cannot detect missing files. This pattern validates
+  # that existing managed settings files contain org policy content.
+  # File-existence detection requires runtime validation outside OpenGrep.
   - id: CLAUDE_G1-no-managed-policy
-    message: "Organization-level managed settings file"
+    message: "Managed settings file lacks organization policy keys"
     severity: WARNING
     languages: [json]
-    pattern-regex: "."
+    patterns:
+      - pattern-regex: "(?s)\\A\\{[\\s\\S]+"
+      - pattern-not-regex: "(allowedTools|blockedTools|permissions|allowedCommands)"
     paths:
       include:
         - "{{managed_settings_linux}}"

@@ -3,7 +3,6 @@ id: C3
 title: Context-Specific Content
 category: content
 type: semantic
-confidence: high
 backed_by:
   - source: claude-code-memory
     claim: keep-rules-focused
@@ -11,6 +10,10 @@ backed_by:
     claim: progressive-files
   - source: spec-writing-for-agents
     claim: modularity
+  - source: monorepo-claude-md-organization
+    claim: service-specific-files
+  - source: dometrain-claude-md-guide
+    claim: lazy-loading-context
 checks:
   - id: C3-domain-in-root
     name: Domain-specific content in root instruction file

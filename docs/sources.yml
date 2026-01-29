@@ -1,21 +1,34 @@
 # Source Registry with Evidence Claims
-# Schema: schemas/sources.schema.yml (v2)
+# Schema: schemas/sources.schema.yml (v3)
 #
 # Each source contains specific claims that back specific rules.
 # This creates an auditable evidence chain: source → claim → rule
+#
+# Tier derivation (NOT stored, computed from weights):
+#   - core: max(backing_weights) >= 0.8 (official or research)
+#   - experimental: max(backing_weights) < 0.8 (community only)
 
 # =============================================================================
 # GENERIC - Applies to all agents
 # =============================================================================
 
 generic:
+  # ---------------------------------------------------------------------------
+  # Official Sources (weight: 1.0) - Vendor documentation
+  # ---------------------------------------------------------------------------
+
   - id: agents-md-spec
-    title: "AGENTS.md Specification"
+    title: "AGENTS.md Specification (Linux Foundation)"
     url: "https://agents.md/"
     type: official
     weight: 1.0
-    accessed: "2026-01-28"
+    accessed: "2026-01-29"
     claims:
+      - id: readme-for-agents
+        text: "Think of AGENTS.md as a README for agents"
+        quote: true
+        section: "Introduction"
+        rules: [C9]
       - id: root-placement
         text: "Create an AGENTS.md file at the root of the repository"
         quote: true
@@ -26,6 +39,10 @@ generic:
         quote: true
         section: "FAQ"
         rules: [S5]
+      - id: no-required-fields
+        text: "No required fields exist - file format is flexible"
+        section: "FAQ"
+        rules: [C1]
       - id: nested-monorepo
         text: "Create nested AGENTS.md files for subprojects in monorepos"
         section: "Monorepos"
@@ -34,7 +51,7 @@ generic:
         text: "Agents automatically read the nearest file in the directory tree, so the closest one takes precedence"
         quote: true
         section: "Monorepos"
-        rules: [CLAUDE_S3]
+        rules: [S2, CLAUDE_S3]
       - id: chat-overrides
         text: "Explicit user chat prompts override everything"
         quote: true
@@ -42,7 +59,8 @@ generic:
         rules: [C2]
       - id: executable-commands
         text: "Agents will attempt to execute relevant programmatic checks and fix failures before finishing the task when commands are listed"
-        section: "Execution Behavior"
+        quote: true
+        section: "FAQ"
         rules: [C1, E1]
       - id: living-document
         text: "Treat AGENTS.md as living documentation that can be updated anytime"
@@ -50,8 +68,12 @@ generic:
         rules: [M1, M2]
       - id: recommended-sections
         text: "Popular sections include: project overview, build/test commands, code style, testing, security, commit/PR guidelines, deployment"
-        section: "Structure"
+        section: "How to use"
         rules: [C1, C9]
+      - id: cross-platform
+        text: "Compatible with 30+ AI coding agent tools and platforms"
+        section: "Ecosystem"
+        rules: []
 
   - id: keepachangelog
     url: "https://keepachangelog.com/en/1.1.0/"
@@ -61,6 +83,19 @@ generic:
       - id: unreleased-section
         text: "Use UNRELEASED section for changes not yet in a release"
         rules: []
+
+  - id: jetbrains-junie-guidelines
+    url: "https://blog.jetbrains.com/idea/2025/05/coding-guidelines-for-your-ai-agents/"
+    type: official
+    weight: 1.0
+    claims:
+      - id: guidelines-structure
+        text: "Use .junie/guidelines.md for IDE-specific agent configuration"
+        rules: []
+
+  # ---------------------------------------------------------------------------
+  # Research Sources (weight: 0.8) - Empirical data
+  # ---------------------------------------------------------------------------
 
   - id: advanced-context-engineering
     url: "https://github.com/humanlayer/advanced-context-engineering-for-coding-agents"
@@ -73,6 +108,10 @@ generic:
       - id: frequent-compaction
         text: "Use Frequent Intentional Compaction for large codebases"
         rules: [E8]
+
+  # ---------------------------------------------------------------------------
+  # Community Sources (weight: 0.4) - Blog posts, tutorials
+  # ---------------------------------------------------------------------------
 
   - id: instruction-limits-principles
     url: "https://www.humanlayer.dev/blog/writing-a-good-claude-md"
@@ -111,7 +150,7 @@ generic:
       - id: code-snippet-beats-prose
         text: "One real code snippet showing your style beats three paragraphs"
         quote: true
-        rules: [C8]
+        rules: [C8, S3]
       - id: curse-of-instructions
         text: "Performance degrades when too many rules compete for attention"
         rules: [S1, C7]
@@ -119,64 +158,15 @@ generic:
         text: "Break specs into focused sections rather than monolithic prompts"
         rules: [S2, C3]
 
-  - id: jetbrains-junie-guidelines
-    url: "https://blog.jetbrains.com/idea/2025/05/coding-guidelines-for-your-ai-agents/"
-    type: official
-    weight: 1.0
-    claims:
-      - id: guidelines-structure
-        text: "Use .junie/guidelines.md for IDE-specific agent configuration"
-        rules: []
-
-# =============================================================================
-# REPORAILS - Framework methodology
-# =============================================================================
-
-reporails:
-  - id: capability-levels
-    url: "docs/capability-levels.md"
-    type: methodology
-    weight: 0.6
-    claims:
-      - id: l6-backbone
-        text: "L6 projects require backbone.yml with maps, contracts, quick_ref sections"
-        rules: [S4]
-      - id: l6-session-ritual
-        text: "L6 requires explicit session start ritual with numbered steps"
-        rules: [E2]
-      - id: l6-contracts
-        text: "L6 backbone includes contracts section for architecture enforcement"
-        rules: [G4, G5]
-      - id: l6-maps
-        text: "L6 maps section includes components and platform keys"
-        rules: [S4]
-      - id: l6-staleness
-        text: "L6 requires map staleness prevention - paths must exist"
-        rules: [M5]
-      - id: l6-arch-tests
-        text: "L6 requires architecture tests for contract enforcement"
-        rules: [G6]
-      - id: methodology-threshold-emphasis
-        text: "Limit IMPORTANT/CRITICAL to 5 per file to maintain impact"
-        rules: [C7]
-      - id: methodology-threshold-code-blocks
-        text: "Code blocks should stay under 10 lines"
-        rules: [E6, S3]
-      - id: methodology-threshold-imports
-        text: "Root file should have under 10 @imports"
-        rules: [E7]
-      - id: methodology-skill-size
-        text: "SKILL.md files should stay under 100 lines"
-        rules: [CLAUDE_S1]
-      - id: methodology-rule-body
-        text: "Rule file body should stay under 40 lines"
-        rules: [CLAUDE_M2]
-
 # =============================================================================
 # CLAUDE - Claude Code specific
 # =============================================================================
 
 claude:
+  # ---------------------------------------------------------------------------
+  # Official Sources (weight: 1.0)
+  # ---------------------------------------------------------------------------
+
   - id: claude-code-best-practices
     url: "https://www.anthropic.com/engineering/claude-code-best-practices"
     type: official
@@ -226,7 +216,7 @@ claude:
       - id: memory-hierarchy
         text: "Four memory locations in hierarchical structure: managed, project, rules, user"
         section: "Determine memory type"
-        rules: [CLAUDE_S2]
+        rules: [CLAUDE_S2, CLAUDE_G1]
       - id: rules-directory
         text: "Use .claude/rules/ for modular, topic-specific project instructions"
         quote: true
@@ -264,12 +254,12 @@ claude:
       - id: review-periodically
         text: "Review memories periodically as your project evolves"
         section: "Memory best practices"
-        rules: [M2]
+        rules: [M2, C12]
       - id: keep-rules-focused
         text: "Keep rules focused: Each file should cover one topic"
         quote: true
         section: "Best practices"
-        rules: [C3, C6]
+        rules: [C3, C6, M4]
 
   - id: claude-code-hooks
     url: "https://code.claude.com/docs/en/hooks-guide"
@@ -342,7 +332,7 @@ claude:
         rules: [M2]
       - id: governance-roles
         text: "Teams need clear roles and responsibilities for instruction files"
-        rules: [G1, G3]
+        rules: [G1, G2, G3]
       - id: review-process
         text: "Implement review process for instruction file changes"
         rules: [M2, M3]
@@ -376,6 +366,10 @@ claude:
       - id: instructions-not-philosophy
         text: "Frame instructions with actionable modifiers, not abstract principles"
         rules: [C8]
+
+  # ---------------------------------------------------------------------------
+  # Research Sources (weight: 0.8)
+  # ---------------------------------------------------------------------------
 
   - id: claude-code-issue-13579
     url: "https://github.com/anthropics/claude-code/issues/13579"
@@ -417,6 +411,10 @@ claude:
       - id: iterative-tuning
         text: "CLAUDE.md files benefit from iterative refinement and testing"
         rules: [M2]
+
+  # ---------------------------------------------------------------------------
+  # Community Sources (weight: 0.4)
+  # ---------------------------------------------------------------------------
 
   - id: monorepo-claude-md-organization
     url: "https://dev.to/anvodev/how-i-organized-my-claudemd-in-a-monorepo-with-too-many-contexts-37k7"
@@ -469,6 +467,63 @@ claude:
         text: "Rules load based on path matching during file operations"
         rules: [CLAUDE_S3]
 
+  - id: dometrain-claude-md-guide
+    url: "https://dometrain.com/blog/creating-the-perfect-claudemd-for-claude-code/"
+    type: community
+    weight: 0.4
+    accessed: "2026-01-29"
+    claims:
+      - id: lazy-loading-context
+        text: "Break lengthy standards into separate files rather than embedding everything - reference external files to load context on demand"
+        section: "Context Window Efficiency"
+        rules: [S2, C3, E8]
+      - id: domain-terminology
+        text: "Document architecture patterns, file structure, and domain terminology explicitly so agents avoid guessing"
+        section: "Architecture Section Requirements"
+        rules: [C1, C9]
+      - id: command-specificity
+        text: "Include specific flags and parameters in commands - omitting arguments causes agents to run defaults which fail"
+        section: "Terminal Commands Documentation"
+        rules: [C2, C1]
+      - id: duplicate-instruction-waste
+        text: "Duplicate instructions add little value and use unnecessary context"
+        quote: true
+        section: "Context Window Efficiency"
+        rules: [C6, E8]
+      - id: living-document-updates
+        text: "Update instruction file when noticing repeated agent errors - version control for team consistency"
+        section: "Living Document Approach"
+        rules: [M1, M2]
+
+  - id: osmani-ai-coding-workflow
+    url: "https://addyosmani.com/blog/ai-coding-workflow/"
+    type: community
+    weight: 0.4
+    accessed: "2026-01-29"
+    claims:
+      - id: planning-before-coding
+        text: "Brainstorm a detailed specification with the AI, then outline a step-by-step plan, before writing any actual code"
+        quote: true
+        section: "Planning & Specification"
+        rules: [C1]
+      - id: iterative-chunks
+        text: "Break projects into iterative steps - implement one function, fix one bug, add one feature at a time"
+        section: "Breaking Work Into Chunks"
+        rules: [E8]
+      - id: context-packaging
+        text: "LLMs are literalists - show them the relevant code, docs, and constraints with detailed contextual instructions"
+        quote: true
+        section: "Context & Guidance Requirements"
+        rules: [C2, C8]
+      - id: ci-force-multiplier
+        text: "Any repository with heavy AI coding needs robust CI - automated tests, style checks, staging deployment"
+        section: "CI/CD as Force Multiplier"
+        rules: [G7, E1]
+      - id: commit-savepoints
+        text: "Commit early and often as save points - never commit code you can't explain"
+        section: "Version Control Discipline"
+        rules: [M1]
+
 # =============================================================================
 # COPILOT - GitHub Copilot specific
 # =============================================================================
@@ -495,27 +550,46 @@ codex:
     url: "https://developers.openai.com/codex/guides/agents-md"
     type: official
     weight: 1.0
+    accessed: "2026-01-29"
     claims:
-      - id: agents-md-structure
-        text: "AGENTS.md structure with 32KB limit"
+      - id: size-limit-32kb
+        text: "Codex stops adding files once combined size reaches 32 KiB"
+        quote: true
         rules: [S1]
-      - id: override-hierarchy
-        text: "Override hierarchy for nested instruction files"
+      - id: one-file-per-directory
+        text: "Codex includes at most one file per directory"
+        rules: []
+      - id: discovery-order
+        text: "Discovery follows: global scope, then project scope from root to cwd"
+        quote: true
         rules: [S2]
 
-# =============================================================================
-# CURSOR - Cursor specific
-# =============================================================================
-
-cursor:
-  - id: cursor-rules
-    url: "https://cursor.com/docs/context/rules"
+  - id: codex-agent-loop
+    title: "Unrolling the Codex agent loop"
+    url: "https://openai.com/index/unrolling-the-codex-agent-loop/"
     type: official
     weight: 1.0
+    accessed: "2026-01-29"
     claims:
-      - id: cursor-rules-structure
-        text: ".cursor/rules/ structure with glob patterns"
+      - id: cascading-later-wins
+        text: "Files closer to current directory override earlier guidance because they appear later in the combined prompt"
+        quote: true
+        section: "Cascading Behavior"
+        rules: [S2]
+      - id: auto-compaction
+        text: "When tokens exceed auto_compact_limit, Codex invokes /responses/compact"
+        section: "Context Management"
+        rules: [E8]
+      - id: cache-static-first
+        text: "Static content should precede variable content for cache hits"
+        section: "Performance"
         rules: []
-      - id: team-rules
-        text: "Team rules sharing mechanism"
+      - id: override-file-replaces
+        text: "AGENTS.override.md prevents non-override files in same directory from loading"
+        section: "Override Behavior"
         rules: []
+      - id: role-priority
+        text: "Role-based prompt prioritization: system, developer, user, assistant"
+        section: "System Prompt"
+        rules: []
+

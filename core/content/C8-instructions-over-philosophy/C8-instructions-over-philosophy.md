@@ -3,12 +3,15 @@ id: C8
 title: Instructions Over Philosophy
 category: content
 type: semantic
-confidence: high
 backed_by:
   - source: claude-4-best-practices
     claim: instructions-not-philosophy
   - source: spec-writing-for-agents
     claim: code-snippet-beats-prose
+  - source: claude-4-best-practices
+    claim: context-improves
+  - source: osmani-ai-coding-workflow
+    claim: context-packaging
 checks:
   - id: C8-philosophy-detected
     name: Explanatory prose instead of imperatives

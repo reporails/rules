@@ -3,7 +3,6 @@ id: E4
 title: Memory Reference
 category: efficiency
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-code-issue-13579
     claim: memory-reference

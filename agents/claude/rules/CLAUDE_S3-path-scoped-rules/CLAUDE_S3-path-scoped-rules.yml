@@ -2,12 +2,10 @@ rules:
   - id: CLAUDE_S3-no-paths-frontmatter
     message: "Rule file missing paths key in frontmatter"
     severity: WARNING
-    languages: [yaml]
+    languages: [generic]
     patterns:
-      - pattern: |
-          $KEY: $VALUE
-      - pattern-not: |
-          paths: $VALUE
+      - pattern-regex: "(?s)\\A---[\\s\\S]*?---"
+      - pattern-not-regex: "paths:"
     paths:
       include:
         - "{{rules_dir}}/*.md"

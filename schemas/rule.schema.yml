@@ -1,17 +1,18 @@
 # Schema definition for rule frontmatter
 # Used by: ails check, ails validate, agents, contributors
 
-schema_version: 3
+schema_version: 4
 
+# Migration from v3:
+#   - Removed 'confidence' field (tier is now derived from backed_by sources)
+#   - Tier derivation: core if max(backing_source_weights) >= 0.8, experimental otherwise
+#   - Rules only need backed_by — tier is computed at validation/display time
+#   - Removed confidence validation rules
+#
 # Migration from v2:
 #   - Clarified: namespaces are SEPARATE (CLAUDE_S1 is NOT an override of S1)
 #   - Agent rules use own numbering sequence per category
 #   - Pattern overrides use agents/{agent}/overrides/{rule_id}.yml
-#
-# Migration from v1:
-#   - confidence now includes 'confirmed' level
-#   - backed_by field required for confirmed/high confidence
-#   - Confidence validation rules updated
 
 # =============================================================================
 # RULE TYPES
@@ -131,28 +132,11 @@ fields:
     type: enum
     values: [deterministic, semantic]
 
-  confidence:
-    required: true
-    type: enum
-    values: [confirmed, high, medium, low]
-    description: |
-      Evidence-based confidence levels:
-
-      - confirmed: Official claim EXISTS + Research VALIDATES it works
-                   Requires: backed_by with official (weight 1.0) AND research (weight >= 0.8)
-                   Example: "Anthropic says keep under 300 lines" + "Study measured improvement"
-
-      - high: Official source states the recommendation
-              Requires: backed_by with official source (weight >= 1.0)
-              Example: "Anthropic recommends using @imports"
-
-      - medium: Community consensus or research without official backing
-                Requires: backed_by with research (weight >= 0.8) OR 2+ community (weight >= 0.4)
-                Example: "Multiple community posts agree on this pattern"
-
-      - low: Reporails methodology without external validation
-             Requires: backed_by is empty OR only methodology sources
-             Example: "We believe this is good practice based on experience"
+  # NOTE: 'confidence' field removed in schema v4.
+  # Tier (core/experimental) is derived from backed_by source weights:
+  #   core:         max(backing_source_weights) >= 0.8
+  #   experimental: max(backing_source_weights) < 0.8 (or no backing)
+  # See sources.schema.yml for tier derivation details.
 
   backed_by:
     required: false
@@ -273,7 +257,6 @@ validation:
 
   # Field constraints
   - rule: "title must be max 64 characters"
-  - rule: "confidence is required"
 
   # ID format
   - rule: "Core rule IDs must match pattern ^[SCEGM][0-9]+$"
@@ -290,23 +273,11 @@ validation:
   - rule: "backed_by[].source must exist in sources.yml"
   - rule: "backed_by[].claim must exist in that source's claims"
 
-  # Confidence validation (updated for v2)
+  # Tier derivation (replaces confidence validation from v3)
   - rule: |
-      confidence: confirmed requires:
-        - At least one backed_by source with weight >= 1.0 (official)
-        - At least one backed_by source with weight >= 0.8 AND type = research
-  - rule: |
-      confidence: high requires:
-        - At least one backed_by source with weight >= 1.0 (official)
-        - Does NOT require research validation
-  - rule: |
-      confidence: medium requires:
-        - At least one backed_by source with weight >= 0.8 (research)
-        - OR two or more backed_by sources with weight >= 0.4 (community)
-  - rule: |
-      confidence: low requires:
-        - backed_by is empty
-        - OR all backed_by sources are type: methodology
+      Tier is derived, not stored. Computed from backed_by:
+        - core: at least one backing source with weight >= 0.8 (official or research)
+        - experimental: all backing sources have weight < 0.8, or backed_by is empty
 
   # Template variable restrictions
   - rule: "Core rules (in core/) may only use {{main_instruction_file}} or {{instruction_files}}"
@@ -317,19 +288,16 @@ validation:
 # =============================================================================
 
 examples:
-  confirmed: |
+  core_with_backing: |
     ---
-    # Confirmed = official source + research validation
+    # Tier: core (derived — backed by official source, weight 1.0)
     id: S1
     title: Size Limits
     category: structure
     type: deterministic
-    confidence: confirmed
     backed_by:
       - source: claude-code-best-practices  # official, weight 1.0
         claim: keep-concise
-      - source: claude-md-optimization-study  # research, weight 0.8
-        claim: optimization-improvement
     checks:
       - id: S1-root-too-long
         name: Root file > 200 lines
@@ -342,13 +310,27 @@ examples:
     see_also: [CLAUDE_M2, C1]
     ---
 
+  experimental_no_backing: |
+    ---
+    # Tier: experimental (derived — no backing sources)
+    id: S4
+    title: YAML Backbone
+    category: structure
+    type: deterministic
+    backed_by: []
+    checks:
+      - id: S4-no-backbone
+        name: Missing backbone.yml
+        severity: medium
+    see_also: [G4]
+    ---
+
   deterministic: |
     ---
     id: C9
     title: Has Project Description
     category: content
     type: deterministic
-    confidence: high
     backed_by:
       - source: claude-code-best-practices
         claim: include-core-files
@@ -367,7 +349,9 @@ examples:
     title: Security Rules Ownership
     category: governance
     type: semantic
-    confidence: medium
+    backed_by:
+      - source: anthropic-teams-claude-code
+        claim: security-review
     checks:
       - id: G2-ownership-patterns
         name: Security ownership indicators
@@ -379,7 +363,7 @@ examples:
       - Review process exists for security changes
     sources:
       - "https://docs.anthropic.com/en/docs/claude-code/security"
-    see_also: [G1, G1]
+    see_also: [G1]
     ---
 
   agent_specific: |
@@ -390,14 +374,13 @@ examples:
     title: Skill Size Limits
     category: structure
     type: deterministic
-    confidence: high
+    backed_by: []
     checks:
       - id: CLAUDE_S1-skill-too-long
         name: Skill file exceeds size limit
         severity: medium
     sources:
       - "https://docs.anthropic.com/en/docs/claude-code/skills"
-    # see_also can reference related rules across namespaces
     see_also: [S1]  # conceptually related, not an override
     ---
 
@@ -407,7 +390,7 @@ examples:
     title: Internal Doc Size Limits
     category: structure
     type: deterministic
-    confidence: medium
+    backed_by: []
     checks:
       - id: ACME_S1-too-long
         name: Internal docs > 150 lines

@@ -3,7 +3,6 @@ id: E5
 title: Grep Efficiency
 category: efficiency
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-code-issue-13579
     claim: check-first-build-second

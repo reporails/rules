@@ -3,7 +3,6 @@ id: S5
 title: Clear Markdown Structure
 category: structure
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-code-memory
     claim: use-structure

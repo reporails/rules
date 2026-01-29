@@ -3,10 +3,11 @@ id: C6
 title: Single Source of Truth
 category: content
 type: semantic
-confidence: high
 backed_by:
   - source: claude-code-memory
     claim: keep-rules-focused
+  - source: dometrain-claude-md-guide
+    claim: duplicate-instruction-waste
 checks:
   - id: C6-duplicate-instruction
     name: Duplicate instruction across files

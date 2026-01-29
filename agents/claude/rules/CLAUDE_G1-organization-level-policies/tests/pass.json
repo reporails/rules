@@ -1,0 +1,8 @@
+{
+  "allowedTools": ["bash", "read", "write"],
+  "permissions": {
+    "network": "restricted",
+    "filesystem": "project-only"
+  },
+  "blockedCommands": ["rm -rf /"]
+}

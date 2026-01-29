@@ -3,12 +3,7 @@ id: S4
 title: YAML Backbone
 category: structure
 type: deterministic
-confidence: low
-backed_by:
-  - source: capability-levels
-    claim: l6-backbone
-  - source: capability-levels
-    claim: l6-maps
+backed_by: []  # Tier: experimental (community pattern, L6-only)
 checks:
   - id: S4-backbone-no-maps
     name: Backbone missing 'maps:' section
@@ -28,8 +23,7 @@ checks:
   - id: S4-empty-backbone
     name: Backbone file appears empty or minimal
     severity: critical
-sources:
-  - "docs/capability-levels.md"
+sources: []
 see_also: [E2, G4, M5]
 ---
 

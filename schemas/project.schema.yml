@@ -115,7 +115,7 @@ fields:
           - confirmed: Only proven rules (official + research validated)
           - high: Official recommendations and above
           - medium: Community consensus and above
-          - low: All rules including methodology (default)
+          - experimental: All rules including community patterns (default)
 
   profile:
     required: false
@@ -224,7 +224,7 @@ examples:
       minimum: high
 
   early_adopter: |
-    # Trust Reporails methodology
+    # Include experimental rules
     schema_version: 2
     agent: claude
     profile: all

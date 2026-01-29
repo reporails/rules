@@ -3,16 +3,12 @@ id: G4
 title: Contract Registry
 category: governance
 type: deterministic
-confidence: low
-backed_by:
-  - source: capability-levels
-    claim: l6-contracts
+backed_by: []
 checks:
   - id: G4-no-contracts
     name: Backbone lacks contracts key
     severity: medium
-sources:
-  - "docs/capability-levels.md"
+sources: []
 see_also: [S4, G5]
 ---
 

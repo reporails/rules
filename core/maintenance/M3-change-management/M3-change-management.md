@@ -3,7 +3,6 @@ id: M3
 title: Change Management
 category: maintenance
 type: semantic
-confidence: high
 backed_by:
   - source: anthropic-teams-claude-code
     claim: review-process

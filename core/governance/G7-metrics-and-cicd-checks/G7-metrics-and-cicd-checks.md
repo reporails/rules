@@ -3,10 +3,11 @@ id: G7
 title: Metrics and CI/CD Checks
 category: governance
 type: deterministic
-confidence: high
 backed_by:
   - source: anthropic-teams-claude-code
     claim: automated-pr-comments
+  - source: osmani-ai-coding-workflow
+    claim: ci-force-multiplier
 checks:
   - id: G7-no-ci-checks
     name: No CI workflow with instruction file checks

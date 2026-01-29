@@ -36,7 +36,7 @@ backed_by:
 | confirmed | Official (1.0) + Research validates (0.8+) | Anthropic says + Arize measured |
 | high | Official source (1.0) | Anthropic recommends |
 | medium | Research (0.8+) OR 2+ community (0.4+) | Pattern from multiple blogs |
-| low | Methodology only or no backing | Reporails pattern |
+| experimental | Community-only or no backing | Community pattern |
 
 **Decision tree:**
 
@@ -57,8 +57,8 @@ Has official backing (weight 1.0)?
 | Type | Weight | Requirements |
 |------|--------|--------------|
 | Official | 1.0 | Vendor domain, official docs/announcement |
-| Research | 0.8-0.9 | Measured data, methodology, reproducible |
-| Methodology | 0.6 | Reporails internal reasoning |
+| Research | 0.8-0.9 | Measured data, reproducible results |
+| Community | 0.4-0.5 | Blog posts, guides, tutorials |
 | Community | 0.4-0.5 | Verifiable author, specific claims |
 
 **Admission threshold:** weight >= 0.4
@@ -79,16 +79,15 @@ Show the breakdown by backing type — this tells the real story:
 Evidence Coverage
 ├── Official backing:     81% (35/43 rules)
 ├── Research validated:    0% (0/43 rules)
-└── Methodology only:     19% (8/43 rules)
+└── Experimental (no backing): ~23% of rules
 ```
 
 **What each line means:**
 
 | Metric | Meaning | Interpretation |
 |--------|---------|----------------|
-| Official backing | Rules with `confidence: high` or `confirmed` | "Vendor docs support this" |
-| Research validated | Rules with `confidence: confirmed` | "Independent data proves it works" |
-| Methodology only | Rules with `confidence: low` | "Our pattern, use with appropriate skepticism" |
+| Core tier | Rules backed by official (1.0) or research (0.8+) sources | "Vendor-confirmed or empirically validated" |
+| Experimental tier | Rules with community-only (0.4) backing or no backing | "Community patterns, not yet validated" |
 
 ### Trust Score (Derived Metric)
 
@@ -103,7 +102,7 @@ Trust Score: 68.8%
 
 ```python
 weights = {confirmed: 1.0, high: 0.8, medium: 0.5, low: 0.2}
-weighted_sum = sum(weights[rule.confidence] for rule in rules)
+weighted_sum = sum(max(source.weight for source in rule.backed_by) or 0 for rule in rules)
 trust_score = (weighted_sum / len(rules)) * 100
 ```
 
@@ -115,7 +114,7 @@ Trust Score: 68.8%
 Evidence Coverage
 ├── Official backing:     81% (35/43 rules)
 ├── Research validated:    0% (0/43 rules)
-└── Methodology only:     19% (8/43 rules)
+└── Experimental (no backing): ~23% of rules
 
 Distribution
 ┌────────────┬───────┬──────────┬──────┐
@@ -167,11 +166,8 @@ Reverse:  Source.claim.rules → Rule.backed_by must reference claim
 
 | Condition | Required |
 |-----------|----------|
-| `confidence: confirmed` | Official (1.0) AND research (0.8+) |
-| `confidence: high` | Official source (1.0) |
-| `confidence: medium` | Research (0.8+) OR 2+ community (0.4+) |
-| `confidence: low` | No restriction |
-| No `backed_by` | Must be `confidence: low` |
+| Core tier | max(backing_source_weights) >= 0.8 |
+| Experimental tier | max(backing_source_weights) < 0.8 or no backing |
 
 - `E4005-E4009`: Confidence/backing mismatches
 

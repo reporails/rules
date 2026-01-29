@@ -42,7 +42,5 @@ Follow: [workflow.md](workflow.md)
 |----------|--------|
 | OpenGrep fully decides | type: deterministic |
 | LLM needed | type: semantic (add question + criteria) |
-| Official (1.0) + Research (0.8+) | confidence: confirmed |
-| Official (1.0) only | confidence: high |
-| Research or 2+ community | confidence: medium |
-| No backing | confidence: low |
+| max(source_weights) >= 0.8 | tier: core |
+| max(source_weights) < 0.8 or none | tier: experimental |

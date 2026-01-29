@@ -3,7 +3,6 @@ id: C1
 title: Core Sections
 category: content
 type: semantic
-confidence: high
 backed_by:
   - source: claude-code-best-practices
     claim: include-commands
@@ -19,6 +18,22 @@ backed_by:
     claim: executable-commands
   - source: agents-md-spec
     claim: recommended-sections
+  - source: agents-md-spec
+    claim: no-required-fields
+  - source: claude-code-best-practices
+    claim: no-required-format
+  - source: using-claude-md-files
+    claim: usage-patterns
+  - source: claude-md-guide
+    claim: practical-examples
+  - source: claude-md-optimization-study
+    claim: optimization-improvement
+  - source: dometrain-claude-md-guide
+    claim: domain-terminology
+  - source: dometrain-claude-md-guide
+    claim: command-specificity
+  - source: osmani-ai-coding-workflow
+    claim: planning-before-coding
 checks:
   - id: C1-missing-sections
     name: Large file missing core sections

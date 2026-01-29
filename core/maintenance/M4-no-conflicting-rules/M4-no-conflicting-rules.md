@@ -3,7 +3,6 @@ id: M4
 title: No Conflicting Rules
 category: maintenance
 type: semantic
-confidence: high
 backed_by:
   - source: claude-code-memory
     claim: keep-rules-focused

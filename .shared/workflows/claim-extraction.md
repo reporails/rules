@@ -22,7 +22,7 @@ flowchart TD
 |------|--------|-------|
 | Official | 1.0 | ✓ |
 | Research | 0.8-0.9 | ✓ |
-| Methodology | 0.6 | ✓ |
+| Community | 0.4 | ✓ |
 | Community | 0.4-0.5 | ✓ |
 | Below 0.4 | < 0.4 | ✗ Reject |
 
@@ -64,7 +64,7 @@ For each new claim:
 
 - id: source-id
   url: "https://..."
-  type: official|research|community|methodology
+  type: official|research|community
   weight: 1.0
   claims:
     - id: claim-id

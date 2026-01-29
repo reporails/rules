@@ -1,3 +1,10 @@
-# Test
+# Project Instructions
 
-No .claude/rules/ directory structure.
+## Commands
+
+- npm install
+- npm test
+
+## Constraints
+
+NEVER commit directly to main.

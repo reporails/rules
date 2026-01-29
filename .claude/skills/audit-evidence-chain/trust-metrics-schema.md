@@ -22,7 +22,7 @@ summary:
 
 # Rule breakdown
 rules:
-  by_confidence:
+  by_tier:
     confirmed: integer
     high: integer
     medium: integer
@@ -32,7 +32,7 @@ rules:
     official: integer      # Rules with at least one official source
     research: integer      # Rules with at least one research source
     community: integer     # Rules with at least one community source
-    methodology: integer   # Rules with methodology source only
+    experimental: integer   # Rules with no official backing
     unbacked: integer      # Rules with no backed_by
 
 # Claim breakdown
@@ -48,7 +48,7 @@ sources:
     official: integer
     research: integer
     community: integer
-    methodology: integer
+    experimental: integer
 
 # Validation results
 validation:
@@ -73,7 +73,7 @@ weights = {
     'low': 0.2
 }
 
-weighted_sum = sum(weights[rule.confidence] for rule in rules)
+weighted_sum = sum(max(source.weight for source in rule.backed_by) or 0 for rule in rules)
 max_possible = len(rules) * 1.0  # If all were confirmed
 
 trust_score = round((weighted_sum / max_possible) * 100)
@@ -90,7 +90,7 @@ summary:
   trust_score: 71
 
 rules:
-  by_confidence:
+  by_tier:
     confirmed: 5
     high: 18
     medium: 7
@@ -100,7 +100,7 @@ rules:
     official: 24
     research: 12
     community: 8
-    methodology: 12
+    experimental: 12
     unbacked: 0
 
 claims:
@@ -114,7 +114,7 @@ sources:
     official: 12
     research: 3
     community: 5
-    methodology: 1
+    experimental: 1
 
 validation:
   errors: 0
@@ -153,6 +153,6 @@ validation:
 | Excellent | 90+ | Most rules confirmed or high |
 | Good | 70-89 | Strong evidence backing |
 | Acceptable | 50-69 | Mixed backing |
-| Poor | < 50 | Mostly methodology/unbacked |
+| Poor | < 50 | Mostly experimental/unbacked |
 
 Recommended CI threshold: **70%**

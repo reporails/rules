@@ -1,5 +1,12 @@
-# API Rules
+# Project Instructions
 
-Rules for the api/ directory.
+## Commands
 
-NEVER expose internal endpoints.
+- npm install
+- npm test
+
+## Constraints
+
+NEVER commit directly to main.
+
+Rules are organized in .claude/rules/ for path-scoped loading.

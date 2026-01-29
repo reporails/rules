@@ -3,7 +3,6 @@ id: C4
 title: Anti-Pattern Documentation
 category: content
 type: deterministic
-confidence: high
 backed_by:
   - source: spec-writing-for-agents
     claim: three-tier-boundaries

@@ -25,10 +25,10 @@ weights = {
     'confirmed': 1.0,   # Official + research validated
     'high': 0.8,        # Official recommendation
     'medium': 0.5,      # Community consensus
-    'low': 0.2          # Methodology only
+    'experimental': 0.2  # Community-only or no backing
 }
 
-weighted_sum = sum(weights[rule.confidence] for rule in rules)
+weighted_sum = sum(max(source.weight for source in rule.backed_by) or 0 for rule in rules)
 trust_score = (weighted_sum / len(rules)) * 100
 ```
 

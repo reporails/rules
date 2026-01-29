@@ -1,9 +1,15 @@
 rules:
+  # NOTE: OpenGrep cannot detect missing directories. This pattern gates on
+  # the main instruction file: if it mentions .claude/rules/ but no rule files
+  # exist, the rule should be flagged by runtime validation.
+  # This pattern checks for instruction files that lack any .claude/rules reference.
   - id: CLAUDE_S2-rules-dir-missing
-    message: ".claude/rules/ directory does not exist"
+    message: "Instruction file does not reference .claude/rules/"
     severity: WARNING
     languages: [generic]
-    pattern-regex: "^$"
+    patterns:
+      - pattern-regex: "(?si)\\A(?=[\\s\\S]*(?:command|constraint|rule|style|convention))[\\s\\S]+"
+      - pattern-not-regex: "\\.claude/rules"
     paths:
       include:
-        - ".claude/rules/*.md"
+        - "{{main_instruction_file}}"

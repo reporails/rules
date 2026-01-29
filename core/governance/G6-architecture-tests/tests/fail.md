@@ -1,3 +1,3 @@
 # Test Document
 
-Run unit tests before committing.
+Architecture boundary test validates layer spec compliance.

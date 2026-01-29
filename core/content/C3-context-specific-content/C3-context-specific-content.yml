@@ -3,7 +3,7 @@ rules:
     message: "Domain-specific content may belong in @imports"
     severity: WARNING
     languages: [generic]
-    pattern-regex: "(?i)(endpoint|api route|database schema|query|mutation).*\\n.*\\n.*\\1"
+    pattern-regex: "(?i)(endpoint|api route|database schema|query|mutation).*\\n.*\\n.*(endpoint|api route|database schema|query|mutation)"
     paths:
       include:
         - "{{instruction_files}}"

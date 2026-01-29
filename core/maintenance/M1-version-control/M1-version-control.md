@@ -3,7 +3,6 @@ id: M1
 title: Version Control
 category: maintenance
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-code-best-practices
     claim: root-placement
@@ -11,6 +10,12 @@ backed_by:
     claim: version-control
   - source: agents-md-spec
     claim: living-document
+  - source: claude-md-guide
+    claim: file-placement
+  - source: dometrain-claude-md-guide
+    claim: living-document-updates
+  - source: osmani-ai-coding-workflow
+    claim: commit-savepoints
 checks:
   - id: M1-not-tracked
     name: Instruction file not in git

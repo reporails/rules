@@ -3,10 +3,7 @@ id: E6
 title: Code Block Line Limit
 category: efficiency
 type: deterministic
-confidence: high
-backed_by:
-  - source: capability-levels
-    claim: methodology-threshold-code-blocks
+backed_by: []  # Tier: experimental — sources exist but claims not yet extracted
 checks:
   - id: E6-code-block-too-long
     name: Code block exceeds 10 lines
@@ -14,7 +11,6 @@ checks:
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://www.humanlayer.dev/blog/writing-a-good-claude-md"
-  - "docs/methodology-thresholds.md"
 see_also: [S3, S1]
 ---
 

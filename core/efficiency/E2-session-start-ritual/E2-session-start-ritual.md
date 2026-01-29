@@ -3,10 +3,7 @@ id: E2
 title: Session Start Ritual
 category: efficiency
 type: deterministic
-confidence: low
-backed_by:
-  - source: capability-levels
-    claim: l6-session-ritual
+backed_by: []  # Tier: experimental (community pattern, L6-only)
 checks:
   - id: E2-no-ritual-section
     name: No session start ritual section in instructions
@@ -26,8 +23,7 @@ checks:
   - id: E2-no-context-loading
     name: No context loading instructions for session start
     severity: high
-sources:
-  - "docs/capability-levels.md"
+sources: []
 see_also: [S4, G4]
 ---
 

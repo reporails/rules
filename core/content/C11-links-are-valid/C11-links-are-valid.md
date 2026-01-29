@@ -3,7 +3,6 @@ id: C11
 title: Links Are Valid
 category: content
 type: deterministic
-confidence: high
 backed_by:
   - source: claude-code-memory
     claim: imports-syntax
