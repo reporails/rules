@@ -30,6 +30,7 @@ checks:
   - id: S1-root-too-long
     name: Root instruction file exceeds 200 lines
     severity: critical
+    pattern_confidence: very_high
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://www.humanlayer.dev/blog/writing-a-good-claude-md"

@@ -18,6 +18,7 @@ checks:
   - id: CLAUDE_S2-rules-dir-missing
     name: .claude/rules/ directory does not exist
     severity: high
+    pattern_confidence: medium
 sources:
   - "https://code.claude.com/docs/en/memory"
   - "https://code.claude.com/docs/en/settings"

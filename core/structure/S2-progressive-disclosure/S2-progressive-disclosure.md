@@ -32,6 +32,7 @@ checks:
   - id: S2-large-file-no-imports
     name: File over 100 lines without @imports or references
     severity: high
+    pattern_confidence: high
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://code.claude.com/docs/en/memory"

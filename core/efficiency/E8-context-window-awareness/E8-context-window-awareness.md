@@ -26,6 +26,7 @@ checks:
   - id: E8-redundant-token-warning
     name: Redundant token management instruction
     severity: low
+    pattern_confidence: medium
 sources:
   - "https://platform.claude.com/docs/en/build-with-claude/context-windows"
   - "https://www.anthropic.com/engineering/claude-code-best-practices"

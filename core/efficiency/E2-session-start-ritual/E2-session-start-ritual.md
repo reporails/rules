@@ -8,21 +8,27 @@ checks:
   - id: E2-no-ritual-section
     name: No session start ritual section in instructions
     severity: critical
+    pattern_confidence: medium
   - id: E2-ritual-no-backbone-ref
     name: Session ritual does not reference backbone.yml
     severity: high
+    pattern_confidence: medium
   - id: E2-ritual-no-numbered-steps
     name: Session ritual lacks numbered steps (1. 2. 3.)
     severity: high
+    pattern_confidence: medium
   - id: E2-ritual-no-map-reference
     name: Session ritual does not mention maps or navigation
     severity: high
+    pattern_confidence: medium
   - id: E2-ritual-no-before-searching
     name: Session ritual missing 'before searching' guidance
     severity: low
+    pattern_confidence: medium
   - id: E2-no-context-loading
     name: No context loading instructions for session start
     severity: high
+    pattern_confidence: medium
 sources: []
 see_also: [S4, G4]
 ---

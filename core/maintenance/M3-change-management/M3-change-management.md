@@ -10,6 +10,7 @@ checks:
   - id: M3-no-change-process
     name: No change management documented
     severity: medium
+    pattern_confidence: medium
 question: "Is there a change management process for instructions?"
 criteria:
   - Approval matrix or change process documented

@@ -8,6 +8,7 @@ checks:
   - id: CLAUDE_S1-skill-too-long
     name: SKILL.md file exceeds 100 lines
     severity: medium
+    pattern_confidence: very_high
 sources: []
 see_also: [S1, CLAUDE_M2]
 ---

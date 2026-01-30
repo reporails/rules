@@ -22,6 +22,7 @@ checks:
   - id: M2-no-review-process
     name: No PR review process documented
     severity: medium
+    pattern_confidence: medium
 question: "Is there a review process for instruction file changes?"
 criteria:
   - PR approval documented or CODEOWNERS exists

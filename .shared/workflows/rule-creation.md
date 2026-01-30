@@ -17,7 +17,8 @@ flowchart TD
     LOW --> GEN
     GEN --> RESOLVE[Resolve templates for validation]
     RESOLVE --> VALID{OpenGrep exit code?}
-    VALID -->|0 or 1| SAVE[Save files with templates intact]
+    VALID -->|0 or 1| ASSESS[Assess pattern_confidence per check]
+    ASSESS --> SAVE[Save files with templates intact]
     VALID -->|2| FIX2[Fix syntax error] --> RESOLVE
     VALID -->|7| FIX7[Add positive pattern] --> RESOLVE
     SAVE --> BIDIR[Update claim.rules bidirectionally]

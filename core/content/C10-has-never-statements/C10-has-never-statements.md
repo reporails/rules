@@ -14,6 +14,7 @@ checks:
   - id: C10-never-no-alternative
     name: NEVER statement without positive alternative
     severity: medium
+    pattern_confidence: high
 sources:
   - "https://blog.sshh.io/p/how-i-use-every-claude-code-feature"
   - "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-4-best-practices"

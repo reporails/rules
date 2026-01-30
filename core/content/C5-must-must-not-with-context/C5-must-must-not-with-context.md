@@ -12,6 +12,7 @@ checks:
   - id: C5-binary-rule-no-context
     name: Binary rule without rationale
     severity: medium
+    pattern_confidence: high
 sources:
   - "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-4-best-practices"
 see_also: [C4, C10]

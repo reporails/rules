@@ -10,6 +10,7 @@ checks:
   - id: C12-no-version
     name: No version or date marker
     severity: low
+    pattern_confidence: high
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
 see_also: [M1, C1]

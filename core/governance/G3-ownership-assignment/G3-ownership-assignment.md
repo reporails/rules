@@ -10,6 +10,7 @@ checks:
   - id: G3-no-owner
     name: File has no designated owner
     severity: medium
+    pattern_confidence: low
 question: "Does this file have a clear owner or maintainer?"
 criteria:
   - Owner specified in file or CODEOWNERS

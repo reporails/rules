@@ -20,6 +20,7 @@ checks:
   - id: C9-no-description
     name: First line after title is empty
     severity: medium
+    pattern_confidence: high
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://claude.com/blog/using-claude-md-files"

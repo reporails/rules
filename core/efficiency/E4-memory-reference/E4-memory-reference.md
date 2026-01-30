@@ -12,6 +12,7 @@ checks:
   - id: E4-no-memory-instruction
     name: No memory reference instruction
     severity: low
+    pattern_confidence: low
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://github.com/anthropics/claude-code/issues/13579"

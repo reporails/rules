@@ -10,6 +10,7 @@ checks:
   - id: G1-no-governance
     name: No team governance documented
     severity: medium
+    pattern_confidence: medium
 question: "Is team governance structure documented?"
 criteria:
   - Roles table or responsibility list exists

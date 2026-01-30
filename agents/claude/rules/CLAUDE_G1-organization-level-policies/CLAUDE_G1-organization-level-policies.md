@@ -12,6 +12,7 @@ checks:
   - id: CLAUDE_G1-no-managed-policy
     name: No organization-level policy file
     severity: medium
+    pattern_confidence: high
 sources:
   - "https://code.claude.com/docs/en/settings"
   - "https://claude.com/blog/how-anthropic-teams-use-claude-code"

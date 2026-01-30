@@ -10,6 +10,7 @@ checks:
   - id: CLAUDE_M1-init-boilerplate
     name: Unmodified /init boilerplate detected
     severity: high
+    pattern_confidence: medium
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://claude.com/blog/using-claude-md-files"

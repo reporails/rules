@@ -16,6 +16,7 @@ checks:
   - id: C7-too-many-emphasis
     name: More than 5 IMPORTANT/CRITICAL per file
     severity: medium
+    pattern_confidence: high
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-4-best-practices"

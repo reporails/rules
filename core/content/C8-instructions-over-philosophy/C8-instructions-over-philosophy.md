@@ -16,6 +16,7 @@ checks:
   - id: C8-philosophy-detected
     name: Explanatory prose instead of imperatives
     severity: low
+    pattern_confidence: low
 question: "Is this content actionable instruction or explanatory prose?"
 criteria:
   - Content uses imperative verbs (use, run, add, create)

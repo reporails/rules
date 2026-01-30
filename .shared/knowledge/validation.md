@@ -22,6 +22,7 @@ Required fields:
 - `backed_by` sources exist in sources.yml
 - `checks[]` array exists and non-empty
 - `checks[].id` starts with `{rule.id}-`
+- `checks[].pattern_confidence` is valid enum (if set)
 
 Type-specific:
 - Semantic: must have `question` + `criteria`
@@ -55,7 +56,7 @@ Flag for review if:
 | Source drift | No | Review and update rule |
 | Missing source support | No | Find source or reconsider |
 | Type mismatch | No | Change deterministic <-> semantic |
-| Confidence mismatch | Yes | Adjust to match weight |
+| Invalid pattern_confidence | Yes | Set to valid enum value |
 
 ## Output Format
 

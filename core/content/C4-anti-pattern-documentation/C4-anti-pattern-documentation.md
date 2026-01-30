@@ -10,6 +10,7 @@ checks:
   - id: C4-no-antipatterns
     name: No NEVER or AVOID statements
     severity: medium
+    pattern_confidence: high
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://blog.sshh.io/p/how-i-use-every-claude-code-feature"

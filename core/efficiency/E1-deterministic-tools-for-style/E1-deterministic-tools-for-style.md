@@ -20,6 +20,7 @@ checks:
   - id: E1-formatting-in-instructions
     name: Formatting rules in instruction file
     severity: medium
+    pattern_confidence: medium
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://code.claude.com/docs/en/hooks-guide"

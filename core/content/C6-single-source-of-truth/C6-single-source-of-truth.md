@@ -12,6 +12,7 @@ checks:
   - id: C6-duplicate-instruction
     name: Duplicate instruction across files
     severity: high
+    pattern_confidence: low
 question: "Are instructions duplicated across multiple files?"
 criteria:
   - Same rule not stated in multiple locations

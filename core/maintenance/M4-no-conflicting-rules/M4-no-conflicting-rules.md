@@ -10,6 +10,7 @@ checks:
   - id: M4-potential-conflict
     name: Potential conflicting MUST/MUST NOT
     severity: high
+    pattern_confidence: high
 question: "Do any rules contradict each other?"
 criteria:
   - No MUST and MUST NOT on same topic

@@ -18,6 +18,7 @@ checks:
   - id: C3-domain-in-root
     name: Domain-specific content in root instruction file
     severity: medium
+    pattern_confidence: low
 question: "Is domain-specific content appropriately placed?"
 criteria:
   - Root file contains general project context only

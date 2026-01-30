@@ -12,6 +12,7 @@ checks:
   - id: E5-no-grep-guidance
     name: No grep efficiency guidance
     severity: low
+    pattern_confidence: medium
 sources:
   - "https://github.com/anthropics/claude-code/issues/13579"
 see_also: [E3, E4]

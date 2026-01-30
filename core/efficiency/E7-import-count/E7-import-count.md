@@ -10,6 +10,7 @@ checks:
   - id: E7-too-many-imports
     name: More than 10 @imports in root file
     severity: medium
+    pattern_confidence: high
 sources:
   - "https://code.claude.com/docs/en/memory"
   - "https://dev.to/anvodev/how-i-organized-my-claudemd-in-a-monorepo-with-too-many-contexts-37k7"

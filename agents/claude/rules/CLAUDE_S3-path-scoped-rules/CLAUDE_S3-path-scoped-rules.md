@@ -20,6 +20,7 @@ checks:
   - id: CLAUDE_S3-no-paths-frontmatter
     name: Rule file missing paths key in frontmatter
     severity: medium
+    pattern_confidence: high
 sources:
   - "https://code.claude.com/docs/en/settings"
   - "https://claudefa.st/blog/guide/mechanics/rules-directory"

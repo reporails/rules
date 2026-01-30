@@ -14,6 +14,7 @@ checks:
   - id: {ID}-{check-slug}
     name: {Description}
     severity: critical|high|medium|low
+    pattern_confidence: very_high|high|medium|low|very_low  # optional, default: medium
 backed_by:                        # optional
   - source: source-id
     claim: claim-id
@@ -76,6 +77,7 @@ rules:
 | type | deterministic, semantic |
 | severity (md) | critical, high, medium, low |
 | severity (yml) | ERROR, WARNING, INFO |
+| pattern_confidence | very_high, high, medium, low, very_low |
 
 ## Common Mistakes & Fixes
 
@@ -93,6 +95,7 @@ rules:
 | Title > 64 characters | Shorten or abbreviate |
 | Body > 40 lines | Extract to supporting docs |
 | Missing severity mapping | critical -> ERROR, others -> WARNING |
+| Missing pattern_confidence | Defaults to medium; assess and set explicitly |
 
 ## Validation Checklist
 
@@ -105,6 +108,7 @@ rules:
 - [ ] `checks` array exists and non-empty
 - [ ] `checks[].id` starts with rule ID + hyphen
 - [ ] `checks[].severity` is valid
+- [ ] `checks[].pattern_confidence` is valid (if set)
 - [ ] If semantic: `question` and `criteria` exist
 - [ ] If deterministic: NO `question` or `criteria`
 

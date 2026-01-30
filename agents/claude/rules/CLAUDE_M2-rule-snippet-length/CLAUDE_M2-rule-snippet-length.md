@@ -8,9 +8,11 @@ checks:
   - id: CLAUDE_M2-body-too-long
     name: Rule file body exceeds 40 lines (excluding frontmatter)
     severity: medium
+    pattern_confidence: high
   - id: CLAUDE_M2-scope-too-broad
     name: Rule file paths scope matches many files
     severity: medium
+    pattern_confidence: high
 question: "Is this rule file justified in its length and scope?"
 criteria:
   - File is focused on single concern

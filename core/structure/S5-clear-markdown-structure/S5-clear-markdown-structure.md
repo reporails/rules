@@ -12,6 +12,7 @@ checks:
   - id: S5-heading-hierarchy-skip
     name: Heading level skipped (e.g., # to ###)
     severity: medium
+    pattern_confidence: medium
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
 see_also: [C1, S2]

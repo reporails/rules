@@ -12,6 +12,7 @@ checks:
   - id: E3-no-reading-strategy
     name: No file reading strategy documented
     severity: low
+    pattern_confidence: medium
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://github.com/anthropics/claude-code/issues/13579"

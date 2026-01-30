@@ -10,6 +10,7 @@ checks:
   - id: C11-broken-import
     name: "@import references non-existent file"
     severity: high
+    pattern_confidence: very_high
 sources:
   - "https://code.claude.com/docs/en/memory"
 see_also: [S2, M5]

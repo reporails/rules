@@ -8,6 +8,7 @@ checks:
   - id: G6-no-arch-tests
     name: No architecture test files found
     severity: medium
+    pattern_confidence: low
 sources: []
 see_also: [G5, G7]
 ---

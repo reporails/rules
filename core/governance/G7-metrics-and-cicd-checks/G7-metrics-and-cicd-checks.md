@@ -12,6 +12,7 @@ checks:
   - id: G7-no-ci-checks
     name: No CI workflow with instruction file checks
     severity: medium
+    pattern_confidence: low
 sources:
   - "https://claude.com/blog/how-anthropic-teams-use-claude-code"
 see_also: [G6, M2]

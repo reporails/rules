@@ -10,6 +10,7 @@ checks:
   - id: G2-security-unowned
     name: Security rules lack qualified owners
     severity: high
+    pattern_confidence: medium
 question: "Are security rules properly owned by qualified personnel?"
 criteria:
   - Security rules have designated owners

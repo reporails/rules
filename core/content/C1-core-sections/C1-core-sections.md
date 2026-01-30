@@ -38,6 +38,7 @@ checks:
   - id: C1-missing-sections
     name: Large file missing core sections
     severity: high
+    pattern_confidence: high
 question: "Does this file have adequate coverage of project context?"
 criteria:
   - Files 100+ lines have Project/Stack/Commands/Constraints sections

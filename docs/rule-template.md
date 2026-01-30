@@ -18,6 +18,7 @@ checks:
   - id: S1-root-too-long
     name: Root file > 200 lines
     severity: critical
+    pattern_confidence: very_high
 sources:
   - "https://docs.anthropic.com/en/docs/claude-code/best-practices"
 see_also: [M7, C1]
@@ -70,6 +71,7 @@ checks:
   - id: S1-root-too-long
     name: Root file > 200 lines
     severity: critical
+    pattern_confidence: very_high
 ```
 
 **You must also create a matching `.yml` file** with OpenGrep patterns:
@@ -97,6 +99,7 @@ checks:
   - id: G2-ownership-patterns
     name: Security ownership indicators
     severity: high
+    pattern_confidence: low
 question: "Given what was found, are security rules properly owned?"
 criteria:
   - Security rules have designated owners
@@ -171,6 +174,7 @@ Good sources:
 - [ ] `see_also` references valid rule IDs
 - [ ] Title is max 64 characters
 - [ ] Body content is concise (< 40 lines)
+- [ ] `pattern_confidence` assessed for each check
 
 ---
 

@@ -24,6 +24,9 @@ flowchart TD
 - Filenames (e.g., S4-yaml-backbone.yml stays S4-yaml-backbone.yml)
 - Category or type
 
+**Re-assess when patterns change:**
+- Re-evaluate `pattern_confidence` for any check whose pattern was modified
+
 **Save with templates:**
 - Write `{{instruction_files}}` not resolved values
 - Resolution is only for validation

@@ -1,5 +1,10 @@
 # Unreleased
 
+## Changed
+
+- **BREAKING**: Rule schema v5 — Added `pattern_confidence` field to `checks[]` items. Optional enum (`very_high`, `high`, `medium`, `low`, `very_low`), defaults to `medium`. Indicates OpenGrep pattern precision for LLM pattern generation and CLI telemetry. Non-breaking — existing rules remain valid.
+- **pattern_confidence propagated** across all 43 rule frontmatters, 6 documentation/knowledge/workflow files, and 3 skill duplicates. Assessments: 4 very_high, 14 high, 16 medium, 9 low. Fixed stale "Confidence mismatch" reference in validation.md.
+
 ## Added
 
 - **levels.yml**: Canonical machine-readable level→rule mappings at repo root, derived from `docs/capability-levels.md` Capability Assessment Matrix. CLIs should prefer this over bundled copies.

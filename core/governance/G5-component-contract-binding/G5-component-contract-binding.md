@@ -8,6 +8,7 @@ checks:
   - id: G5-component-no-binding
     name: Component definition lacks contracts/rules/tests
     severity: medium
+    pattern_confidence: medium
 sources: []
 see_also: [G4, G6]
 ---

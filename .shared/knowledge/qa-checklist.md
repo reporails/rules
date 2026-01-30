@@ -13,7 +13,7 @@ After running rule creation workflow:
 | Directory exists | `ls -d core/*/SMOKE1-*` | Directory present |
 | Files exist | `ls core/*/SMOKE1-*/*.{md,yml}` | Both .md and .yml present |
 | Tests exist | `ls core/*/SMOKE1-*/tests/` | fail.md and pass.md present |
-| Frontmatter valid | `head -30 core/*/SMOKE1-*/*.md` | id, title, category, type, checks, backed_by |
+| Frontmatter valid | `head -30 core/*/SMOKE1-*/*.md` | id, title, category, type, checks, backed_by, pattern_confidence |
 | Check ID format | Inspect .md | `checks[].id` starts with rule ID + hyphen |
 | YML matches | Inspect .yml | `rules[].id` matches `checks[].id` from .md |
 | OpenGrep validates | `opengrep scan --config core/*/SMOKE1-*/*.yml .` | Exit 0 or 1 |
@@ -74,12 +74,14 @@ After running rule update workflow:
 | ID preserved | `grep "id:" core/*/SMOKE1-*/*.md` | ID unchanged |
 | Directory preserved | `ls -d core/*/SMOKE1-*` | Same directory |
 | Pattern updated | `cat core/*/SMOKE1-*/*.yml` | New pattern present |
+| pattern_confidence reassessed | Inspect .md | pattern_confidence updated if patterns changed |
 | OpenGrep validates | `opengrep scan --config core/*/SMOKE1-*/*.yml .` | Exit 0 or 1 |
 
 **Fail indicators:**
 - Rule not found
 - ID or filename changed
 - Pattern not added
+- pattern_confidence not reassessed after pattern change
 - OpenGrep fails after update
 
 ---

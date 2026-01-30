@@ -8,21 +8,27 @@ checks:
   - id: S4-backbone-no-maps
     name: Backbone missing 'maps:' section
     severity: critical
+    pattern_confidence: medium
   - id: S4-backbone-no-contracts
     name: Backbone missing 'contracts:' section
     severity: high
+    pattern_confidence: medium
   - id: S4-backbone-no-quick-ref
     name: Backbone missing 'quick_ref:' section
     severity: high
+    pattern_confidence: medium
   - id: S4-maps-no-components
     name: Maps section missing 'components:' key
     severity: high
+    pattern_confidence: medium
   - id: S4-maps-no-platform
     name: Maps section missing 'platform:' key
     severity: low
+    pattern_confidence: medium
   - id: S4-empty-backbone
     name: Backbone file appears empty or minimal
     severity: critical
+    pattern_confidence: medium
 sources: []
 see_also: [E2, G4, M5]
 ---

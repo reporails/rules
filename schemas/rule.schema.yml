@@ -1,18 +1,7 @@
 # Schema definition for rule frontmatter
 # Used by: ails check, ails validate, agents, contributors
 
-schema_version: 4
-
-# Migration from v3:
-#   - Removed 'confidence' field (tier is now derived from backed_by sources)
-#   - Tier derivation: core if max(backing_source_weights) >= 0.8, experimental otherwise
-#   - Rules only need backed_by — tier is computed at validation/display time
-#   - Removed confidence validation rules
-#
-# Migration from v2:
-#   - Clarified: namespaces are SEPARATE (CLAUDE_S1 is NOT an override of S1)
-#   - Agent rules use own numbering sequence per category
-#   - Pattern overrides use agents/{agent}/overrides/{rule_id}.yml
+schema_version: 5
 
 # =============================================================================
 # RULE TYPES
@@ -169,6 +158,22 @@ fields:
         required: true
         type: enum
         values: [critical, high, medium, low]
+      pattern_confidence:
+        required: false
+        type: enum
+        values: [very_high, high, medium, low, very_low]
+        default: medium
+        description: |
+          How precisely the OpenGrep pattern captures what it claims to detect.
+          Consumers: LLM pattern generation (improvement targeting), CLI telemetry.
+
+          very_high: Exact structural match (line count, file exists). Don't touch.
+          high:      Tight regex, tested, rare false positives. Minor refinement only.
+          medium:    Reasonable regex, some edge cases. Review test cases, tighten.
+          low:       Broad match, known false positives. Rewrite with more context.
+          very_low:  Placeholder or minimal pattern. Full rethink needed.
+
+          Derivable from: test case count + observed false positive rate.
 
   question:
     required_if: "type == semantic"
@@ -302,9 +307,11 @@ examples:
       - id: S1-root-too-long
         name: Root file > 200 lines
         severity: critical
+        pattern_confidence: very_high  # exact line count match
       - id: S1-many-sections
         name: 6+ sections in large file
         severity: high
+        pattern_confidence: high  # heading count, tight match
     sources:
       - "https://docs.anthropic.com/en/docs/claude-code/best-practices"
     see_also: [CLAUDE_M2, C1]

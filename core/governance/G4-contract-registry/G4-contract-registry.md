@@ -8,6 +8,7 @@ checks:
   - id: G4-no-contracts
     name: Backbone lacks contracts key
     severity: medium
+    pattern_confidence: medium
 sources: []
 see_also: [S4, G5]
 ---

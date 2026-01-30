@@ -8,6 +8,7 @@ checks:
   - id: E6-code-block-too-long
     name: Code block exceeds 10 lines
     severity: medium
+    pattern_confidence: very_high
 sources:
   - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://www.humanlayer.dev/blog/writing-a-good-claude-md"
