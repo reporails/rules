@@ -29,7 +29,6 @@ checks:
     pattern_confidence: medium
 sources:
   - "https://platform.claude.com/docs/en/build-with-claude/context-windows"
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
 see_also: [E3, E4]
 ---
 

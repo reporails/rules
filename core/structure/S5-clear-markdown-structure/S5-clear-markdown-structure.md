@@ -14,7 +14,7 @@ checks:
     severity: medium
     pattern_confidence: medium
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
+  - "https://code.claude.com/docs/en/memory"
 see_also: [C1, S2]
 ---
 

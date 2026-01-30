@@ -23,7 +23,6 @@ criteria:
   - Avoids lengthy explanations of why
   - Focuses on what to do, not theory
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://addyosmani.com/blog/good-spec/"
 see_also: [C2, C5]
 ---

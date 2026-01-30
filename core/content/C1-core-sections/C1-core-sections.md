@@ -4,10 +4,6 @@ title: Core Sections
 category: content
 type: semantic
 backed_by:
-  - source: claude-code-best-practices
-    claim: include-commands
-  - source: claude-code-best-practices
-    claim: include-core-files
   - source: claude-code-memory
     claim: use-structure
   - source: spec-writing-for-agents
@@ -20,8 +16,6 @@ backed_by:
     claim: recommended-sections
   - source: agents-md-spec
     claim: no-required-fields
-  - source: claude-code-best-practices
-    claim: no-required-format
   - source: using-claude-md-files
     claim: usage-patterns
   - source: claude-md-guide
@@ -45,7 +39,6 @@ criteria:
   - Section names may vary but concepts must be present
   - Smaller files may omit sections if context is clear
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://claude.com/blog/using-claude-md-files"
 see_also: [C9, S1]
 ---

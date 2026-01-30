@@ -4,8 +4,6 @@ title: Size Limits
 category: structure
 type: deterministic
 backed_by:
-  - source: claude-code-best-practices
-    claim: keep-concise
   - source: instruction-limits-principles
     claim: line-limit
   - source: agents-md-spec
@@ -32,7 +30,6 @@ checks:
     severity: critical
     pattern_confidence: very_high
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://www.humanlayer.dev/blog/writing-a-good-claude-md"
 see_also: [S2]
 ---

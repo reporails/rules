@@ -19,7 +19,7 @@ criteria:
   - References point to canonical source
   - No conflicting versions of same instruction
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
+  - "https://code.claude.com/docs/en/memory"
 see_also: [M4, S2]
 ---
 

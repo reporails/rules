@@ -10,7 +10,6 @@ checks:
     severity: medium
     pattern_confidence: very_high
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://www.humanlayer.dev/blog/writing-a-good-claude-md"
 see_also: [S3, S1]
 ---

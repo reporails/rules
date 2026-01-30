@@ -4,8 +4,6 @@ title: Has Project Description
 category: content
 type: deterministic
 backed_by:
-  - source: claude-code-best-practices
-    claim: include-core-files
   - source: anthropic-teams-claude-code
     claim: team-onboarding
   - source: agents-md-spec
@@ -22,7 +20,6 @@ checks:
     severity: medium
     pattern_confidence: high
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://claude.com/blog/using-claude-md-files"
 see_also: [C1, S5]
 ---

@@ -14,7 +14,6 @@ checks:
     severity: low
     pattern_confidence: low
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://github.com/anthropics/claude-code/issues/13579"
 see_also: [E3, E8]
 ---

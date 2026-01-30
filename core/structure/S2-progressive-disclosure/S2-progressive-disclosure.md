@@ -34,7 +34,6 @@ checks:
     severity: high
     pattern_confidence: high
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://code.claude.com/docs/en/memory"
 see_also: [S1, E7]
 ---

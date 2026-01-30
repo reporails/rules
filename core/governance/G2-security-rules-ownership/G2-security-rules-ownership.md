@@ -17,7 +17,6 @@ criteria:
   - Owners have relevant expertise
   - Review process exists for security changes
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://claude.com/blog/how-anthropic-teams-use-claude-code"
 see_also: [G1, G3]
 ---

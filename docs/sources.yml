@@ -173,47 +173,16 @@ claude:
   # ---------------------------------------------------------------------------
 
   - id: claude-code-best-practices
-    url: "https://www.anthropic.com/engineering/claude-code-best-practices"
+    url: "https://code.claude.com/docs/en/best-practices"
     type: official
     weight: 1.0
     accessed: "2026-01-30"
-    # NOTE: This URL now 308 redirects to https://code.claude.com/docs
     claims:
-      - id: keep-concise
-        text: "Keep CLAUDE.md files concise and human-readable"
-        quote: true
-        section: "Create CLAUDE.md files"
-        rules: [S1]
-      - id: no-required-format
-        text: "There's no required format for CLAUDE.md files"
-        quote: true
-        section: "Create CLAUDE.md files"
-        rules: [C1]
-      - id: iterative-refinement
-        text: "Treat as frequently-used prompts requiring optimization"
-        section: "Tune your CLAUDE.md files"
-        rules: [M2]
       - id: emphasis-words
         text: "Use emphasis with IMPORTANT or YOU MUST to improve adherence"
         quote: true
-        section: "Tune your CLAUDE.md files"
+        section: "Write an effective CLAUDE.md"
         rules: [C7]
-      - id: include-commands
-        text: "Include bash commands with descriptions"
-        section: "Create CLAUDE.md files"
-        rules: [C1]
-      - id: include-core-files
-        text: "Include core files and utility functions"
-        section: "Create CLAUDE.md files"
-        rules: [C1, C9]
-      - id: root-placement
-        text: "Place in root directory and check into git for team access"
-        section: "Create CLAUDE.md files"
-        rules: [M1]
-      - id: version-control
-        text: "Check CLAUDE.md into version control for team sharing"
-        section: "Create CLAUDE.md files"
-        rules: [M1]
 
   - id: claude-code-memory
     url: "https://code.claude.com/docs/en/memory"

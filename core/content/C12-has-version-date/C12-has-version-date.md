@@ -12,7 +12,7 @@ checks:
     severity: low
     pattern_confidence: high
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
+  - "https://code.claude.com/docs/en/memory"
 see_also: [M1, C1]
 ---
 

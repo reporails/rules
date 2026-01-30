@@ -17,7 +17,7 @@ criteria:
   - Parent and child rules are consistent
   - No implicit contradictions
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
+  - "https://code.claude.com/docs/en/memory"
 see_also: [C6, C5]
 ---
 

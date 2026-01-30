@@ -12,7 +12,6 @@ checks:
     severity: high
     pattern_confidence: medium
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://claude.com/blog/using-claude-md-files"
 see_also: [C1, C9]
 ---

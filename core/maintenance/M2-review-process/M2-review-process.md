@@ -4,8 +4,6 @@ title: Review Process
 category: maintenance
 type: semantic
 backed_by:
-  - source: claude-code-best-practices
-    claim: iterative-refinement
   - source: claude-code-memory
     claim: review-periodically
   - source: anthropic-teams-claude-code

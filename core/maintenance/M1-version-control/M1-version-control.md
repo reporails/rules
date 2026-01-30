@@ -4,10 +4,6 @@ title: Version Control
 category: maintenance
 type: deterministic
 backed_by:
-  - source: claude-code-best-practices
-    claim: root-placement
-  - source: claude-code-best-practices
-    claim: version-control
   - source: agents-md-spec
     claim: living-document
   - source: claude-md-guide
@@ -22,7 +18,7 @@ checks:
     severity: high
     pattern_confidence: high
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
+  - "https://agents.md/"
 see_also: [M2, C12]
 ---
 

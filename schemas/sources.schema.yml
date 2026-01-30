@@ -210,7 +210,7 @@ validation:
 examples:
   official_source: |
     - id: claude-code-best-practices
-      url: "https://www.anthropic.com/engineering/claude-code-best-practices"
+      url: "https://code.claude.com/docs/en/best-practices"
       type: official
       weight: 1.0
       claims:

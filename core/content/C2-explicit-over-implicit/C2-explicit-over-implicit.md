@@ -20,7 +20,6 @@ checks:
     severity: medium
     pattern_confidence: low
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-4-best-practices"
 see_also: [C8, C5]
 ---

@@ -19,7 +19,7 @@ Extract specific claims from a source document for the evidence chain.
 ## Examples
 
 ```
-/extract-claims https://www.anthropic.com/engineering/claude-code-best-practices
+/extract-claims https://code.claude.com/docs/en/best-practices
 /extract-claims https://arize.com/blog/claude-md-optimization-study --source-id arize-study
 ```
 

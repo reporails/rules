@@ -22,7 +22,6 @@ checks:
     severity: medium
     pattern_confidence: medium
 sources:
-  - "https://www.anthropic.com/engineering/claude-code-best-practices"
   - "https://code.claude.com/docs/en/hooks-guide"
 see_also: [CLAUDE_S2, C2]
 ---
