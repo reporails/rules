@@ -22,7 +22,7 @@ generic:
     url: "https://agents.md/"
     type: official
     weight: 1.0
-    accessed: "2026-01-29"
+    accessed: "2026-01-30"
     claims:
       - id: readme-for-agents
         text: "Think of AGENTS.md as a README for agents"
@@ -79,6 +79,7 @@ generic:
     url: "https://keepachangelog.com/en/1.1.0/"
     type: official
     weight: 1.0
+    accessed: "2026-01-30"
     claims:
       - id: unreleased-section
         text: "Use UNRELEASED section for changes not yet in a release"
@@ -88,6 +89,7 @@ generic:
     url: "https://blog.jetbrains.com/idea/2025/05/coding-guidelines-for-your-ai-agents/"
     type: official
     weight: 1.0
+    accessed: "2026-01-30"
     claims:
       - id: guidelines-structure
         text: "Use .junie/guidelines.md for IDE-specific agent configuration"
@@ -101,6 +103,7 @@ generic:
     url: "https://github.com/humanlayer/advanced-context-engineering-for-coding-agents"
     type: research
     weight: 0.8
+    accessed: "2026-01-30"
     claims:
       - id: context-target
         text: "Target 40-60% context utilization for optimal performance"
@@ -117,6 +120,7 @@ generic:
     url: "https://www.humanlayer.dev/blog/writing-a-good-claude-md"
     type: community
     weight: 0.4
+    accessed: "2026-01-30"
     claims:
       - id: instruction-capacity
         text: "Frontier LLMs follow ~150-200 instructions with reasonable consistency"
@@ -139,6 +143,7 @@ generic:
     url: "https://addyosmani.com/blog/good-spec/"
     type: community
     weight: 0.4
+    accessed: "2026-01-30"
     claims:
       - id: three-tier-boundaries
         text: "Use three-tier boundaries: Always do, Ask first, Never do"
@@ -171,6 +176,8 @@ claude:
     url: "https://www.anthropic.com/engineering/claude-code-best-practices"
     type: official
     weight: 1.0
+    accessed: "2026-01-30"
+    # NOTE: This URL now 308 redirects to https://code.claude.com/docs
     claims:
       - id: keep-concise
         text: "Keep CLAUDE.md files concise and human-readable"
@@ -212,6 +219,7 @@ claude:
     url: "https://code.claude.com/docs/en/memory"
     type: official
     weight: 1.0
+    accessed: "2026-01-30"
     claims:
       - id: memory-hierarchy
         text: "Four memory locations in hierarchical structure: managed, project, rules, user"
@@ -265,6 +273,7 @@ claude:
     url: "https://code.claude.com/docs/en/hooks-guide"
     type: official
     weight: 1.0
+    accessed: "2026-01-30"
     claims:
       - id: hooks-for-formatting
         text: "Use hooks for automatic formatting - run prettier, gofmt after file edits"
@@ -283,6 +292,7 @@ claude:
     url: "https://code.claude.com/docs/en/settings"
     type: official
     weight: 1.0
+    accessed: "2026-01-30"
     claims:
       - id: rules-dir-config
         text: ".claude/rules/ directory configuration for path scoping"
@@ -295,6 +305,7 @@ claude:
     url: "https://platform.claude.com/docs/en/build-with-claude/context-windows"
     type: official
     weight: 1.0
+    accessed: "2026-01-30"
     claims:
       - id: context-awareness
         text: "Claude can track remaining context window throughout conversation"
@@ -308,6 +319,7 @@ claude:
     url: "https://claude.com/blog/using-claude-md-files"
     type: official
     weight: 1.0
+    accessed: "2026-01-30"
     claims:
       - id: usage-patterns
         text: "CLAUDE.md usage patterns and practical examples"
@@ -320,6 +332,7 @@ claude:
     url: "https://claude.com/blog/how-anthropic-teams-use-claude-code"
     type: official
     weight: 1.0
+    accessed: "2026-01-30"
     claims:
       - id: team-onboarding
         text: "New hires feed Claude codebase to get productive quickly via CLAUDE.md files"
@@ -341,6 +354,7 @@ claude:
     url: "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-4-best-practices"
     type: official
     weight: 1.0
+    accessed: "2026-01-30"
     claims:
       - id: be-explicit
         text: "Be explicit with instructions - specify desired output clearly"
@@ -375,6 +389,7 @@ claude:
     url: "https://github.com/anthropics/claude-code/issues/13579"
     type: research
     weight: 0.8
+    accessed: "2026-01-30"
     claims:
       - id: token-waste-measured
         text: "700K+ tokens wasted across 2M token project from 7 patterns"
@@ -404,6 +419,7 @@ claude:
     url: "https://arize.com/blog/claude-md-best-practices-learned-from-optimizing-claude-code-with-prompt-learning/"
     type: research
     weight: 0.8
+    accessed: "2026-01-30"
     claims:
       - id: optimization-improvement
         text: "+5.19% general improvement, +10.87% repo-specific from optimization"
@@ -420,6 +436,7 @@ claude:
     url: "https://dev.to/anvodev/how-i-organized-my-claudemd-in-a-monorepo-with-too-many-contexts-37k7"
     type: community
     weight: 0.4
+    accessed: "2026-01-30"
     claims:
       - id: reduction-achieved
         text: "Reduced 47k to 9k words (~80%) through hierarchical structure"
@@ -432,6 +449,7 @@ claude:
     url: "https://blog.sshh.io/p/how-i-use-every-claude-code-feature"
     type: community
     weight: 0.4
+    accessed: "2026-01-30"
     claims:
       - id: kb-limit
         text: "13KB limit observed for effective instruction following"
@@ -447,6 +465,7 @@ claude:
     url: "https://www.builder.io/blog/claude-md-guide"
     type: community
     weight: 0.4
+    accessed: "2026-01-30"
     claims:
       - id: file-placement
         text: "CLAUDE.md placement affects scope and team access"
@@ -459,6 +478,7 @@ claude:
     url: "https://claudefa.st/blog/guide/mechanics/rules-directory"
     type: community
     weight: 0.4
+    accessed: "2026-01-30"
     claims:
       - id: rules-mechanics
         text: ".claude/rules/ mechanics with path scoping and YAML frontmatter"
@@ -471,7 +491,7 @@ claude:
     url: "https://dometrain.com/blog/creating-the-perfect-claudemd-for-claude-code/"
     type: community
     weight: 0.4
-    accessed: "2026-01-29"
+    accessed: "2026-01-30"
     claims:
       - id: lazy-loading-context
         text: "Break lengthy standards into separate files rather than embedding everything - reference external files to load context on demand"
@@ -499,7 +519,7 @@ claude:
     url: "https://addyosmani.com/blog/ai-coding-workflow/"
     type: community
     weight: 0.4
-    accessed: "2026-01-29"
+    accessed: "2026-01-30"
     claims:
       - id: planning-before-coding
         text: "Brainstorm a detailed specification with the AI, then outline a step-by-step plan, before writing any actual code"
@@ -533,6 +553,7 @@ copilot:
     url: "https://docs.github.com/en/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot"
     type: official
     weight: 1.0
+    accessed: "2026-01-30"
     claims:
       - id: copilot-instructions-setup
         text: "copilot-instructions.md setup for custom instructions"
@@ -550,7 +571,7 @@ codex:
     url: "https://developers.openai.com/codex/guides/agents-md"
     type: official
     weight: 1.0
-    accessed: "2026-01-29"
+    accessed: "2026-01-30"
     claims:
       - id: size-limit-32kb
         text: "Codex stops adding files once combined size reaches 32 KiB"
@@ -569,7 +590,7 @@ codex:
     url: "https://openai.com/index/unrolling-the-codex-agent-loop/"
     type: official
     weight: 1.0
-    accessed: "2026-01-29"
+    accessed: "2026-01-30"
     claims:
       - id: cascading-later-wins
         text: "Files closer to current directory override earlier guidance because they appear later in the combined prompt"
