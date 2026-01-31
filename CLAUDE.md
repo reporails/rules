@@ -19,15 +19,15 @@ Framework for evaluating and maintaining AI agent instruction files.
 
 ```
 levels.yml                                                   # Canonical level→rule mappings
-core/{structure,content,efficiency,governance,maintenance}/  # Generic rules
+core/{structure,content,efficiency,maintenance}/             # Generic rules (18)
   {rule-id}/                                                 # Each rule in own directory
     {rule-id}.md                                             # Rule definition
     {rule-id}.yml                                            # OpenGrep patterns
     tests/                                                   # Test cases
       fail.md                                                # Should trigger
       pass.md                                                # Should not trigger
-agents/{claude,codex}/{config.yml,rules/}                     # Agent-specific (same structure)
-schemas/{rule,agent,project,sources,user,levels}.schema.yml  # Schemas
+agents/{claude,codex}/{config.yml,rules/}                    # Agent-specific (same structure)
+schemas/{rule,agent,package,project,user,levels}.schema.yml   # Schemas
 docs/                                                        # Documentation
 .claude/{skills/,rules/}                                     # Claude config
 .shared/{workflows/,knowledge/}                              # Agent-agnostic shared content
@@ -43,10 +43,12 @@ docs/                                                        # Documentation
 
 Key paths:
 - @docs/capability-levels.md — Level definitions
-- @core/ — Generic rules (S1-S5, C1-C12, E1-E8, G1-G7, M1-M6)
+- @core/ — Generic rules (S1-S4, C1-C5, E1-E2, M1-M4)
 - @agents/ — Agent-specific config and rules (Claude, Codex)
 - @schemas/ — Machine-readable contracts
 - @docs/ — Contributor guides and source registry
+
+Additional rules available in [reporails/recommended](https://github.com/reporails/recommended).
 
 ## Efficiency
 
@@ -78,22 +80,13 @@ Skills in `.claude/skills/` are entry points that reference shared content.
 Skills are in `.claude/skills/`. Each has a SKILL.md that links to shared workflows.
 
 ### /generate-rule <id> <scope> <title>
-Generate a new rule with proper schema and OpenGrep patterns.
+Generate a rule skeleton with proper directory structure and placeholder files.
 
-### /validate-rules [id] [--source-check]
-Validate rules against schema, contracts, and sources.
+### /validate-rules [id] [--category <cat>]
+Validate rules against schema and .md/.yml contracts.
 
 ### /add-changelog-entry
 Add entry to UNRELEASED.md after making changes.
-
-### /generate-all-rules [--scope core|claude]
-Batch generate or regenerate all rules from specification.
-
-### /update-rule <id> <instruction>
-Update an existing rule's OpenGrep patterns based on instruction.
-
-### /extract-claims <url>
-Extract claims from a source URL for sources.yml evidence chain.
 
 ### /manage-levels <sync|diff|list> [level]
 Sync levels.yml from capability matrix, diff discrepancies, or list rules per level.

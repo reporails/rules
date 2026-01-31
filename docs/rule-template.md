@@ -44,15 +44,14 @@ One sentence explaining the impact of violating this rule.
 
 | Scope | Pattern | Example |
 |-------|---------|---------|
-| Core | `{category}{number}` | `S1`, `C2`, `G2` |
+| Core | `{category}{number}` | `S1`, `C2`, `M4` |
 | Agent | `{AGENT}_{category}{number}` | `CLAUDE_S1`, `COPILOT_E1` |
-| Custom | `{PREFIX}_{category}{number}` | `ACME_S1`, `MYTEAM_G1` |
+| Custom | `{PREFIX}_{category}{number}` | `ACME_S1`, `MYTEAM_M1` |
 
 **Categories:**
 - `S` = Structure
 - `C` = Content
 - `E` = Efficiency
-- `G` = Governance
 - `M` = Maintenance
 
 **Agent prefixes (reserved):** CLAUDE, COPILOT, CODEX, CURSOR, WINDSURF, CLINE, AIDER, CONTINUE
@@ -96,15 +95,14 @@ OpenGrep runs first, LLM evaluates what patterns can't determine.
 ```yaml
 type: semantic
 checks:
-  - id: G2-ownership-patterns
-    name: Security ownership indicators
+  - id: C2-duplicate-content
+    name: Duplicate content indicators
     severity: high
     pattern_confidence: low
-question: "Given what was found, are security rules properly owned?"
+question: "Given what was found, is there contradictory duplicated content?"
 criteria:
-  - Security rules have designated owners
-  - Owners have relevant expertise
-  - Review process exists for security changes
+  - No contradictory instructions across files
+  - Single authoritative source for each constraint
 ```
 
 **Semantic rules also need a `.yml` file** — OpenGrep catches what it can, LLM fills gaps.

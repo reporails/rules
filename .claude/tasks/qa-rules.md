@@ -18,7 +18,7 @@ Checklist: `.shared/knowledge/qa-checklist.md`
 
 ### Sequential (after parallel)
 - [ ] `/validate-rules` — confirm all pass
-- [ ] `/audit-evidence-chain` — verify trust score
+- [ ] `/validate-rules --source-check` — verify trust score
 
 ## Error Triage
 
@@ -47,7 +47,7 @@ Checklist: `.shared/knowledge/qa-checklist.md`
 
 | Run | Date | Result | Notes |
 |-----|------|--------|-------|
-| 1   | 2026-01-28 | PASS | Fixed CLAUDE_G1 schema, M1/CLAUDE_S2 documented as exceptions |
+| 1   | 2026-01-28 | PASS | Fixed schema issues, documented exceptions |
 
 ## Reset
 

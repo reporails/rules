@@ -87,7 +87,7 @@ OpenGrep natively parses YAML. Use `languages: [yaml]` for frontmatter:
 
 ```yaml
 rules:
-  - id: S5-paths-scoped
+  - id: S4-clear-structure
     message: "Rule file has path scoping"
     languages: [yaml]
     pattern: |
@@ -167,41 +167,41 @@ Results passed to LLM:
 LLM evaluates only what OpenGrep couldn't determine
 ```
 
-**Example: G2 Security Rules Ownership**
+**Example: C2 Single Source of Truth**
 
 OpenGrep can detect:
-- `@security-team` mentions
-- `CODEOWNERS` references
-- "security" + "owner" patterns
+- Duplicate section headings
+- Repeated constraint patterns
+- Copy-paste indicators
 
 OpenGrep can't determine:
-- Are these owners actually qualified?
-- Is the review process appropriate?
+- Is the duplicated content actually contradictory?
+- Is the repetition intentional for emphasis?
 
 **So you write both:**
 
 ```yaml
-# G2-security-ownership.md (frontmatter)
+# C2-single-source-of-truth.md (frontmatter)
 type: semantic
 checks:
-  - id: G2-ownership-patterns
-    name: Security ownership indicators
+  - id: C2-duplicate-content
+    name: Duplicate content indicators
     severity: high
-question: "Given what was found, are security rules properly owned?"
+question: "Given what was found, is there contradictory duplicated content?"
 criteria:
-  - Security rules have designated owners
-  - Owners have relevant expertise
+  - No contradictory instructions across files
+  - Single authoritative source for each constraint
 ```
 
 ```yaml
-# G2-security-ownership.yml (OpenGrep patterns)
+# C2-single-source-of-truth.yml (OpenGrep patterns)
 rules:
-  - id: G2-ownership-patterns
-    message: "Security ownership pattern found"
+  - id: C2-duplicate-content
+    message: "Potential duplicate content found"
     severity: WARNING
     languages: [generic]
     pattern-either:
-      - pattern-regex: "@security|security-team|security.lead"
+      - pattern-regex: "(?i)(MUST|NEVER|ALWAYS).*\\n.*\\1"
       - pattern-regex: "CODEOWNERS.*security"
       - pattern-regex: "security.*owner|owner.*security"
 ```

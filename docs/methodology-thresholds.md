@@ -9,12 +9,10 @@ This document is the source of truth for Reporails threshold interpretations. Wh
 | Rule | Threshold | Source says | Our interpretation |
 |------|-----------|-------------|-------------------|
 | S1 | 200 lines max | "< 300 lines is best" | Stricter threshold provides safety margin; 200 encourages @imports earlier |
-| C7 | 5 emphases max | "use sparingly" | 5 is practical limit before emphasis loses meaning |
 | S3 | 10 lines max | "keep concise" | Code blocks should be examples, not implementations |
-| E6 | 10 lines max | "keep concise" | Same as S3 — code blocks are examples |
-| E7 | 10 imports max | "hierarchical structure" | Practical limit before import chains become confusing |
-| CLAUDE_M2 | 40 lines max | — | Rule files should be focused; longer rules should split |
-| C12 | Has version/date | — | Change tracking enables maintenance discipline |
+| E1 | 10 lines max | "keep concise" | Same as S3 — code blocks are examples |
+| E2 | 10 imports max | "hierarchical structure" | Practical limit before import chains become confusing |
+| C5 | Has version/date | — | Change tracking enables maintenance discipline |
 
 ## Rationale
 
@@ -34,10 +32,8 @@ Our thresholds are:
 | Threshold | Derivation |
 |-----------|------------|
 | 200 lines | ~150-200 instructions is frontier LLM attention limit (humanlayer research) |
-| 5 emphases | Empirical: beyond 5, agents treat nothing as important |
 | 10 lines code | Code blocks are examples; full implementations belong in actual code |
 | 10 imports | Cognitive limit; deeper hierarchies need .claude/rules/ instead |
-| 40 lines rule | Rule files are focused instructions, not documentation |
 
 ### Adjusting thresholds
 
@@ -57,14 +53,13 @@ Rules without external sources but based on enterprise patterns:
 
 | Rule | Pattern | Source |
 |------|---------|--------|
-| G2 | Security rules need qualified owners | Standard governance practice |
-| C12 | Version/date enables change tracking | Maintenance discipline |
+| C5 | Version/date enables change tracking | Maintenance discipline |
 
-These are marked as "Reporails governance recommendations" rather than source-backed requirements.
+Governance rules have moved to [reporails/recommended](https://github.com/reporails/recommended).
 
 ## Sources
 
 This document is cited by rules that use Reporails-defined thresholds:
-- S1, S3, C7, C12, E6, E7, CLAUDE_M2, G2
+- S1, S3, C5, E1, E2
 
 For rules backed by external sources, see `docs/sources.yml`.

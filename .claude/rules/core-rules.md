@@ -8,6 +8,6 @@ globs:
 
 After creating, deleting, or renaming a rule directory, update `rules.index` in `.reporails/backbone.yml` to keep the index complete.
 
-Format: `{ID}: {slug}` (e.g., `M6: backbone-index-completeness`).
+Format: `{ID}: {slug}` (e.g., `M4: backbone-index-completeness`).
 
-See rule M6 for the completeness requirement.
+See rule M4 for the completeness requirement.

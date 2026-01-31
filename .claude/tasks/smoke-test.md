@@ -10,11 +10,7 @@ Checklist: `.shared/knowledge/qa-checklist.md`
 ### Sequential
 - [ ] `/generate-rule SMOKE1 core "Smoke Test"`
 
-### Parallel (run simultaneously)
-- [ ] `/validate-rules`
-- [ ] `/audit-evidence-chain`
-
-### Sequential (after parallel)
+### Sequential
 - [ ] `/update-rule SMOKE1 "Add pattern for SMOKETEST keyword"`
 - [ ] `/validate-rules`
 - [ ] `rm -rf core/*/SMOKE1-*`
@@ -28,7 +24,6 @@ Checklist: `.shared/knowledge/qa-checklist.md`
 |------|--------|
 | generate-rule | ☐ |
 | validate-rules | ☐ |
-| audit-evidence-chain | ☐ |
 | update-rule | ☐ |
 | re-validate | ☐ |
 | cleanup | ☐ |

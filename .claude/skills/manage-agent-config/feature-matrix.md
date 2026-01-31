@@ -30,42 +30,30 @@ Legend: ✓ = supported, ✗ = not supported, ? = unknown/verify
 
 ## Recommended Excludes
 
+Core rules only. For recommended rule excludes, see reporails/recommended.
+
 ### Copilot
 ```yaml
 excludes:
-  - S4   # Hierarchical Memory — single file only
-  - S5   # Path-Scoped Rules — no rules directory
-  - S4   # YAML Backbone — not supported
-  - E2   # Session Rituals — no session concept
-  - E4   # Memory Reference — no memory feature
-  - E7   # Import Count — no imports
-  - M7   # Rule Snippet Length — no rules directory
+  - E2   # Import Count — no imports (single file)
 ```
 
 ### Codex
 ```yaml
 excludes:
-  - S4   # Hierarchical Memory
-  - S5   # Path-Scoped Rules
-  - S4   # YAML Backbone
-  - E2   # Session Rituals
-  - E4   # Memory Reference
-  - E7   # Import Count
-  - M7   # Rule Snippet Length
+  - E2   # Import Count — no imports (single file)
 ```
 
 ### Cursor
 ```yaml
-excludes:
-  - S4   # YAML Backbone — uses different structure
-  # Most Claude features supported
+excludes: []
+# Cursor supports most core features
 ```
 
 ### Claude
 ```yaml
 excludes: []
 # Claude supports all core features
-# But review overrides for severity tuning
 ```
 
 ## Override Considerations
@@ -84,9 +72,8 @@ excludes: []
 
 | Rule | Override consideration |
 |------|----------------------|
-| S1-root-too-long | Single-file agents may need higher limit |
-| E2-no-ritual-section | May be WARNING not ERROR for some agents |
-| C12-no-version | Some teams version differently |
+| S1-size-limits | Single-file agents may need higher limit |
+| C5-has-version-date | Some teams version differently |
 
 ## Adding New Agents
 

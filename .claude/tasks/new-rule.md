@@ -10,7 +10,7 @@ Knowledge: `.shared/knowledge/rule-authoring.md`
 **Rule ID:** ___
 **Scope:** core | claude | copilot | cursor
 **Title:** ___
-**Category:** structure | content | efficiency | governance | maintenance
+**Category:** structure | content | efficiency | maintenance
 
 ## Tasks
 
@@ -27,7 +27,7 @@ Knowledge: `.shared/knowledge/rule-authoring.md`
 
 ### Sequential (after parallel)
 - [ ] `/validate-rules` — new rule passes
-- [ ] `/audit-evidence-chain` — no broken links
+- [ ] `/validate-rules --source-check` — no broken links
 
 ## Result
 

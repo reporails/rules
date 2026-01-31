@@ -2,16 +2,15 @@
 
 Run before publishing a new version.
 
-Workflow: `.shared/workflows/rule-validation.md` + `.shared/workflows/evidence-audit.md`
+Workflow: `.shared/workflows/rule-validation.md`
 
 ## Tasks
 
-### Parallel (run simultaneously)
+### Sequential
 - [ ] `/validate-rules` — all rules pass
-- [ ] `/audit-evidence-chain --report` — trust score acceptable
+- [ ] `/validate-rules --source-check` — evidence chain intact
 
-### Sequential (after parallel)
-- [ ] Review `.reporails/audit-report.md`
+### Sequential (after validation)
 - [ ] Update `CHANGELOG.md` with version
 - [ ] Update version in `package.json` (if applicable)
 - [ ] `git tag vX.Y.Z`

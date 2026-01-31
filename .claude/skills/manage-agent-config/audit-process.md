@@ -49,9 +49,7 @@ Based on Step 2, compile excludes:
 
 ```yaml
 excludes:
-  - S4   # Reason: No hierarchical memory
-  - S5   # Reason: No path-scoped rules
-  - E2   # Reason: No session concept
+  - E2   # Reason: No imports (single-file agent)
 ```
 
 ## Step 4: Severity Review
@@ -80,9 +78,9 @@ VARIABLES:
   ✗ supplementary_files: MISSING (agent supports rules dir)
 
 EXCLUDES:
-  Current: [S4, S5]
-  Expected: [S4, S5, E2]
-  Missing: [E2]
+  Current: [E2]
+  Expected: [E2]
+  Missing: (none)
   Extra: (none)
 
 OVERRIDES:

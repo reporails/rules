@@ -24,7 +24,6 @@ rules:
     structure: core/structure/
     content: core/content/
     efficiency: core/efficiency/
-    governance: core/governance/
     maintenance: core/maintenance/
   agent_rules:
     claude: agents/claude/rules/
@@ -35,54 +34,28 @@ rules:
     S1: size-limits
     S2: progressive-disclosure
     S3: no-embedded-code-snippets
-    S4: yaml-backbone
-    S5: clear-markdown-structure
+    S4: clear-markdown-structure
     C1: core-sections
-    C2: explicit-over-implicit
-    C3: context-specific-content
-    C4: anti-pattern-documentation
-    C5: must-must-not-with-context
-    C6: single-source-of-truth
-    C7: emphasis-discipline
-    C8: instructions-over-philosophy
-    C9: has-project-description
-    C10: has-never-statements
-    C11: links-are-valid
-    C12: has-version-date
-    E1: deterministic-tools-for-style
-    E2: session-start-ritual
-    E3: purpose-based-file-reading
-    E4: memory-reference
-    E5: grep-efficiency
-    E6: code-block-line-limit
-    E7: import-count
-    E8: context-window-awareness
-    G1: team-governance-structure
-    G2: security-rules-ownership
-    G3: ownership-assignment
-    G4: contract-registry
-    G5: component-contract-binding
-    G6: architecture-tests
-    G7: metrics-and-cicd-checks
+    C2: single-source-of-truth
+    C3: has-project-description
+    C4: links-are-valid
+    C5: has-version-date
+    E1: code-block-line-limit
+    E2: import-count
     M1: version-control
-    M2: review-process
-    M3: change-management
-    M4: no-conflicting-rules
-    M5: map-staleness-prevention
-    M6: backbone-index-completeness
+    M2: no-conflicting-rules
+    M3: map-staleness-prevention
+    M4: backbone-index-completeness
     # Agent rules: ID → slug (resolve via: agents/{agent}/rules/{id}-{slug}/)
-    CLAUDE_S1: skill-size-limits
-    CLAUDE_S2: hierarchical-memory
-    CLAUDE_S3: path-scoped-rules
-    CLAUDE_G1: organization-level-policies
     CLAUDE_M1: auto-generated-content-review
-    CLAUDE_M2: rule-snippet-length
+    CLAUDE_S1: hierarchical-memory
+    CLAUDE_S2: path-scoped-rules
 
 schemas:
   rule: schemas/rule.schema.yml
   agent: schemas/agent.schema.yml
+  package: schemas/package.schema.yml
   project: schemas/project.schema.yml
-  sources: schemas/sources.schema.yml
   user: schemas/user.schema.yml
   levels: schemas/levels.schema.yml
 

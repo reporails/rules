@@ -7,7 +7,7 @@
 
 ## Adding a rule
 ```
-/generate-rule S8 core "My New Rule"
+/generate-rule S5 core "My New Rule"
 ```
 
 Claude will:
@@ -29,7 +29,7 @@ Claude will:
 
 This checks:
 - Schema compliance
-- .md ↔ .yml contract
+- .md <> .yml contract
 - OpenGrep pattern validity
 
 ## After changes
@@ -40,16 +40,17 @@ This checks:
 ## Rule structure
 ```
 core/
-  structure/     # S1-S5
-  content/       # C1-C12
-  efficiency/    # E1-E8
-  governance/    # G1-G7
-  maintenance/   # M1-M6
+  structure/     # S1-S4
+  content/       # C1-C5
+  efficiency/    # E1-E2
+  maintenance/   # M1-M4
 
 agents/
   claude/rules/  # CLAUDE_* rules
   codex/rules/   # CODEX_* rules
 ```
+
+Opinionated rules (governance, process, style guidance) live in [reporails/recommended](https://github.com/reporails/recommended) with the `AILS_` prefix.
 
 ## Quick reference
 

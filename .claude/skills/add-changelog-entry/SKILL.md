@@ -48,7 +48,7 @@ Added, Changed, Deprecated, Removed, Fixed, Security
 
 ```markdown
 ### Added
-- [RULES]: S5 rule for import depth validation
+- [RULES]: S5 rule for heading depth validation
 - [L4]: Added hooks requirement to level definition
 
 ### Changed

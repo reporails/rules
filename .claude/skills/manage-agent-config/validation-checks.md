@@ -31,14 +31,9 @@ For each core rule, verify agent supports the underlying feature:
 
 | Rule | Feature Required | Exclude if missing |
 |------|------------------|-------------------|
-| S4 | Hierarchical memory | ✓ |
-| S5 | Path-scoped rules | ✓ |
-| S4 | YAML backbone | ✓ |
-| E2 | Session ritual concept | ✓ |
-| E3 | File reading strategy | ✓ |
-| E4 | Memory reference | ✓ |
-| E5 | Grep configuration | ✓ |
-| M7 | Rules directory | ✓ |
+| E2 | Import references | ✓ |
+| CLAUDE_S1 | Hierarchical memory | ✓ (Claude-specific) |
+| CLAUDE_S2 | Path-scoped rules | ✓ (Claude-specific) |
 
 ## Overrides Review
 
