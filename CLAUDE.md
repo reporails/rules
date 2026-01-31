@@ -1,5 +1,5 @@
 # Reporails Framework
-<!-- Last updated: 2026-01-28 -->
+<!-- Last updated: 2026-01-31 -->
 
 Framework for evaluating and maintaining AI agent instruction files.
 
@@ -26,8 +26,8 @@ core/{structure,content,efficiency,governance,maintenance}/  # Generic rules
     tests/                                                   # Test cases
       fail.md                                                # Should trigger
       pass.md                                                # Should not trigger
-agents/claude/{config.yml,rules/}                            # Agent-specific (same structure)
-schemas/{rule,agent,sources}.schema.yml                      # Schemas
+agents/{claude,codex}/{config.yml,rules/}                     # Agent-specific (same structure)
+schemas/{rule,agent,project,sources,user,levels}.schema.yml  # Schemas
 docs/                                                        # Documentation
 .claude/{skills/,rules/}                                     # Claude config
 .shared/{workflows/,knowledge/}                              # Agent-agnostic shared content
@@ -43,8 +43,8 @@ docs/                                                        # Documentation
 
 Key paths:
 - @docs/capability-levels.md — Level definitions
-- @core/ — Generic rules (S1-S5, C1-C12, E1-E8, G1-G7, M1-M5)
-- @agents/claude/ — Claude-specific config and rules
+- @core/ — Generic rules (S1-S5, C1-C12, E1-E8, G1-G7, M1-M6)
+- @agents/ — Agent-specific config and rules (Claude, Codex)
 - @schemas/ — Machine-readable contracts
 - @docs/ — Contributor guides and source registry
 

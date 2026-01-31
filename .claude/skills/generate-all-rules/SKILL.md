@@ -41,7 +41,7 @@ Run `/validate-rules` to check:
 ### Step 4: Report Summary
 
 ```
-Generated: 42 rules (37 core, 5 claude) | Schema: ✓ | Contract: ✓
+Generated: 44 rules (38 core, 6 claude) | Schema: ✓ | Contract: ✓
 ```
 
 ## Rule Spec Format

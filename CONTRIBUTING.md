@@ -44,10 +44,11 @@ core/
   content/       # C1-C12
   efficiency/    # E1-E8
   governance/    # G1-G7
-  maintenance/   # M1-M5
+  maintenance/   # M1-M6
 
 agents/
   claude/rules/  # CLAUDE_* rules
+  codex/rules/   # CODEX_* rules
 ```
 
 ## Quick reference

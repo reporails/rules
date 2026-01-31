@@ -81,4 +81,4 @@ claims:
 | Content | C1-C12 | Sections, emphasis, patterns |
 | Efficiency | E1-E8 | Tools, reading, grep |
 | Governance | G1-G7 | Teams, security, CI |
-| Maintenance | M1-M5 | Version, review, change |
+| Maintenance | M1-M6 | Version, review, change |

@@ -3,7 +3,7 @@
 Gathered rules for linting AI coding agent instruction files.
 Aims to become community-maintained.
 
-**Version:** 0.0.1
+**Version:** 0.2.0
 
 ## Quickstart (requires [uvx](https://docs.astral.sh/uv/getting-started/installation/))
 ```
@@ -23,10 +23,11 @@ core/
   content/      # C1-C12: Clarity, completeness
   efficiency/   # E1-E8: Token optimization
   governance/   # G1-G7: Ownership, security
-  maintenance/  # M1-M5: Versioning, review
+  maintenance/  # M1-M6: Versioning, review
 
 agents/
   claude/       # Claude Code specific rules
+  codex/        # OpenAI Codex specific rules
 
 schemas/        # Rule and config schemas
 
