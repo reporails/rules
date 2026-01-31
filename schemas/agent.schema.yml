@@ -189,10 +189,8 @@ examples:
 
     # Severity adjustments (pattern unchanged)
     overrides:
-      E2-no-ritual-section:
+      E2-too-many-imports:
         severity: medium
-      E5-no-grep-guidance:
-        severity: low
 
   copilot: |
     # Minimal agent with single file
@@ -207,10 +205,7 @@ examples:
       instruction_files:
         - ".github/copilot-instructions.md"
 
-    # Exclude core rules that require features Copilot doesn't support
-    excludes:
-      - S4  # Hierarchical Memory (no rules_dir)
-      - S5  # Path-Scoped Rules (no rules_dir)
+    # No excludes — all core rules (S1-S4, C1-C5, E1-E2, M1-M4) apply
 
   cursor: |
     # Agent with rules directory support

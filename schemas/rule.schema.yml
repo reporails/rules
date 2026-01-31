@@ -1,7 +1,7 @@
 # Schema definition for rule frontmatter
 # Used by: ails check, ails validate, agents, contributors
 
-version: "0.0.5"
+version: "0.0.7"
 
 # =============================================================================
 # RULE TYPES
@@ -35,23 +35,31 @@ severities:
 #   ┌─────────────────────────────────────┐
 #   │ User/Local                          │  Can: define, override, exclude
 #   ├─────────────────────────────────────┤
-#   │ Agent                               │  Can: define, override, exclude core
+#   │ Agent                               │  Can: define, override, exclude core + package
+#   ├─────────────────────────────────────┤
+#   │ Package(s)                          │  Can: define rules, override/exclude core
 #   ├─────────────────────────────────────┤
 #   │ Core                                │  Universal baseline (all agents)
 #   └─────────────────────────────────────┘
 #
 # Resolution for each file:
 #   1. Collect applicable core rules
-#   2. Apply agent modifications:
-#      - excludes: remove rules entirely
+#   2. Apply package modifications:
+#      - excludes: remove core rules
+#      - overrides: adjust severity on core rules
+#   3. Add package rules (AILS_S1, etc.) and package agent rules (AILS_CLAUDE_S1, etc.)
+#   4. Apply agent modifications:
+#      - excludes: remove core + package rules
 #      - overrides (config): adjust severity
 #      - overrides (files): replace patterns
-#   3. Add agent-specific rules (CLAUDE_*, CURSOR_*, etc.)
-#   4. Apply user modifications (same as agent)
-#   5. Add user-specific rules (USR_*, custom prefix)
+#   5. Add agent-specific rules (CLAUDE_*, CURSOR_*, etc.)
+#   6. Apply user modifications (same as agent)
+#   7. Add user-specific rules (USR_*, custom prefix)
 #
 # Namespaces:
 #   - Core: S1, S2, S3... (universal)
+#   - Package: AILS_S1, AILS_C1... (package's own sequence)
+#   - Package-Agent: AILS_CLAUDE_S1... (package agent rules)
 #   - Agent: CLAUDE_S1, CLAUDE_S2... (agent's own sequence)
 #   - User: USR_S1, ACME_S1... (user's own sequence)
 #
@@ -76,6 +84,9 @@ reserved_agent_prefixes:
   - AIDER
   - CONTINUE
 
+reserved_package_prefixes:
+  - AILS       # reporails/recommended
+
 fields:
   id:
     required: true
@@ -83,6 +94,8 @@ fields:
     pattern:
       core: "^[SCEGM][0-9]+$"
       agent: "^[A-Z]+_[SCEGM][0-9]+$"
+      package: "^[A-Z]{3,}_[SCEGM][0-9]+$"
+      package_agent: "^[A-Z]{3,}_[A-Z]+_[SCEGM][0-9]+$"
       custom: "^[A-Z]{3,}_[SCEGM][0-9]+$"
     description: |
       IMPORTANT: Namespaces are SEPARATE. Agent numbers are independent of core.
@@ -96,10 +109,20 @@ fields:
         - CLAUDE_S1 is Claude's first structure rule, NOT related to core S1
         - Located in agents/{agent}/rules/{id}-{slug}/
 
-      Custom: 3+ letter prefix + category + number (ACME_S1, USR_G3)
+      Package: 3+ letter prefix + category + number (AILS_S1, AILS_C1...)
+        - Package-provided rules, available to all agents
+        - Prefix must be in reserved_package_prefixes
+
+      Package-Agent: package prefix + agent + category + number (AILS_CLAUDE_S1...)
+        - Package-provided agent-specific rules
+        - Located in package's agents/{agent}/rules/ directory
+
+      Custom: 3+ letter prefix + category + number (ACME_S1, USR_S1)
         - Organization or user-specific rules
 
-      Note: Agent prefix must be in reserved_agent_prefixes. Custom prefix must not.
+      Note: Agent prefix must be in reserved_agent_prefixes.
+            Package prefix must be in reserved_package_prefixes.
+            Custom prefix must not be in either reserved list.
 
       To OVERRIDE core patterns (not define new rules), use:
         agents/{agent}/overrides/{rule_id}.yml
@@ -200,7 +223,7 @@ fields:
     type: array
     items:
       type: string
-      pattern: "^([A-Z]+_)?[SCEGM][0-9]+$"
+      pattern: "^([A-Z]+_){0,2}[SCEGM][0-9]+$"
     description: "Related rule IDs"
 
 # =============================================================================
@@ -266,9 +289,12 @@ validation:
   # ID format
   - rule: "Core rule IDs must match pattern ^[SCEGM][0-9]+$"
   - rule: "Agent rule IDs must match pattern ^[A-Z]+_[SCEGM][0-9]+$"
+  - rule: "Package rule IDs must match pattern ^[A-Z]{3,}_[SCEGM][0-9]+$"
+  - rule: "Package-agent rule IDs must match pattern ^[A-Z]{3,}_[A-Z]+_[SCEGM][0-9]+$"
   - rule: "Custom rule IDs must match pattern ^[A-Z]{3,}_[SCEGM][0-9]+$"
   - rule: "Agent rule prefix must be in reserved_agent_prefixes"
-  - rule: "Custom rule prefix must NOT be in reserved_agent_prefixes"
+  - rule: "Package rule prefix must be in reserved_package_prefixes"
+  - rule: "Custom rule prefix must NOT be in reserved_agent_prefixes or reserved_package_prefixes"
 
   # References
   - rule: "see_also must reference valid rule IDs"
@@ -314,27 +340,27 @@ examples:
         pattern_confidence: high  # heading count, tight match
     sources:
       - "https://docs.anthropic.com/en/docs/claude-code/best-practices"
-    see_also: [CLAUDE_M2, C1]
+    see_also: [S2, C1]
     ---
 
   experimental_no_backing: |
     ---
     # Tier: experimental (derived — no backing sources)
-    id: S4
-    title: YAML Backbone
-    category: structure
+    id: M3
+    title: Map Staleness Prevention
+    category: maintenance
     type: deterministic
     backed_by: []
     checks:
-      - id: S4-no-backbone
-        name: Missing backbone.yml
+      - id: M3-stale-map
+        name: Navigation map may be stale
         severity: medium
-    see_also: [G4]
+    see_also: [C4]
     ---
 
   deterministic: |
     ---
-    id: C9
+    id: C3
     title: Has Project Description
     category: content
     type: deterministic
@@ -342,7 +368,7 @@ examples:
       - source: claude-code-best-practices
         claim: include-core-files
     checks:
-      - id: C9-no-description
+      - id: C3-no-description
         name: Missing project description section
         severity: high
     sources:
@@ -352,25 +378,22 @@ examples:
 
   semantic: |
     ---
-    id: G2
-    title: Security Rules Ownership
-    category: governance
+    id: M2
+    title: No Conflicting Rules
+    category: maintenance
     type: semantic
     backed_by:
-      - source: anthropic-teams-claude-code
-        claim: security-review
+      - source: claude-code-memory
+        claim: keep-rules-focused
     checks:
-      - id: G2-ownership-patterns
-        name: Security ownership indicators
+      - id: M2-conflicting
+        name: Potentially conflicting rules detected
         severity: high
-    question: "Given what was found, are security rules properly owned?"
+    question: "Are there conflicting or contradictory rules?"
     criteria:
-      - Security rules have designated owners
-      - Owners have relevant expertise
-      - Review process exists for security changes
-    sources:
-      - "https://docs.anthropic.com/en/docs/claude-code/security"
-    see_also: [G1]
+      - No rules give opposite instructions
+      - No rules override each other without explicit precedence
+    see_also: [C2]
     ---
 
   agent_specific: |
@@ -378,17 +401,51 @@ examples:
     # Agent rules use SEPARATE namespace
     # CLAUDE_S1 = Claude's first structure rule (not override of core S1)
     id: CLAUDE_S1
+    title: Hierarchical Memory
+    category: structure
+    type: deterministic
+    backed_by:
+      - source: claude-code-memory
+        claim: memory-hierarchy
+    checks:
+      - id: CLAUDE_S1-no-hierarchy
+        name: No hierarchical memory structure
+        severity: medium
+    sources:
+      - "https://code.claude.com/docs/en/memory"
+    see_also: [CLAUDE_S2, S2]
+    ---
+
+  package: |
+    ---
+    # Package rule — provided by reporails/recommended
+    # AILS_S1 = recommended package's first structure rule
+    id: AILS_S1
+    title: YAML Backbone
+    category: structure
+    type: deterministic
+    backed_by: []
+    checks:
+      - id: AILS_S1-no-backbone
+        name: No YAML backbone file
+        severity: medium
+    see_also: [S2]
+    ---
+
+  package_agent: |
+    ---
+    # Package agent rule — provided by reporails/recommended for Claude
+    # AILS_CLAUDE_S1 = recommended package's first Claude structure rule
+    id: AILS_CLAUDE_S1
     title: Skill Size Limits
     category: structure
     type: deterministic
     backed_by: []
     checks:
-      - id: CLAUDE_S1-skill-too-long
+      - id: AILS_CLAUDE_S1-too-large
         name: Skill file exceeds size limit
         severity: medium
-    sources:
-      - "https://docs.anthropic.com/en/docs/claude-code/skills"
-    see_also: [S1]  # conceptually related, not an override
+    see_also: [S1, CLAUDE_S1]
     ---
 
   custom: |

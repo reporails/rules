@@ -1,0 +1,285 @@
+# Schema definition for rule package configuration
+# Used by: ails validate, package authors, contributors
+
+version: "0.0.1"
+
+# =============================================================================
+# PACKAGE CONFIG
+# =============================================================================
+# Packages extend the core rule set with additional rules.
+# They slot between Core and Agent in the resolution stack:
+#
+#   ┌─────────────────────────────────────┐
+#   │ User/Local                          │  Can: define, override, exclude
+#   ├─────────────────────────────────────┤
+#   │ Agent                               │  Can: define, override, exclude core + package
+#   ├─────────────────────────────────────┤
+#   │ Package(s)                          │  Can: define rules, override/exclude core
+#   ├─────────────────────────────────────┤
+#   │ Core                                │  Universal baseline (all agents)
+#   └─────────────────────────────────────┘
+#
+# Key differences from agent config:
+#   - No vars (packages don't define file patterns)
+#   - Has provides (declares what the package contributes)
+#   - Has depends_on (schema version dependency)
+#   - Has version (package versioning)
+#   - Resolution: adds rules available to all agents (not agent-specific)
+# =============================================================================
+
+# Reference: reserved_package_prefixes defined in rule.schema.yml
+# Packages must use a prefix from that list.
+
+fields:
+  package:
+    required: true
+    type: string
+    pattern: "^[a-z][a-z0-9-]*$"
+    description: "Package identifier (lowercase, hyphens allowed)"
+
+  prefix:
+    required: true
+    type: string
+    pattern: "^[A-Z]{3,}$"
+    description: "Rule ID prefix for package rules. Must be in reserved_package_prefixes (see rule.schema.yml)"
+
+  name:
+    required: true
+    type: string
+    max_length: 64
+    description: "Human-readable package name (max 64 chars)"
+
+  description:
+    required: false
+    type: string
+    description: "One-line purpose of the package"
+
+  version:
+    required: true
+    type: string
+    pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    description: "Semver version of the package"
+
+  depends_on:
+    required: true
+    type: object
+    description: "Schema dependency declaration"
+    properties:
+      schema:
+        required: true
+        type: string
+        description: "Schema repository identifier (e.g., reporails/rules)"
+      min_version:
+        required: true
+        type: string
+        pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        description: "Minimum rule schema version required"
+      source:
+        required: true
+        type: string
+        format: url
+        description: "Git repository URL for schema resolution (cloned by tag at validation time)"
+
+  provides:
+    required: true
+    type: object
+    description: "What the package contributes"
+    properties:
+      rules:
+        required: true
+        type: boolean
+        description: "Whether the package provides rule directories"
+      levels:
+        required: false
+        type: boolean
+        description: "Whether the package provides its own levels.yml"
+      sources:
+        required: false
+        type: boolean
+        description: "Whether the package provides docs/sources.yml (scoped to own rules)"
+      agent_rules:
+        required: false
+        type: array
+        items:
+          type: object
+          properties:
+            agent:
+              required: true
+              type: string
+              description: "Agent identifier (must match an agent in reserved_agent_prefixes)"
+            prefix:
+              required: true
+              type: string
+              pattern: "^[A-Z]{3,}_[A-Z]+$"
+              description: "Agent rules prefix within package namespace (e.g., AILS_CLAUDE)"
+        description: "Agent-specific rules provided by this package"
+
+  excludes:
+    required: false
+    type: array
+    items:
+      type: string
+      pattern: "^[SCEGM][0-9]+$"
+    description: "Core rule IDs this package opts out of"
+
+  overrides:
+    required: false
+    type: object
+    description: "Per-check severity adjustments on core rules (key = check ID)"
+    additionalProperties:
+      type: object
+      properties:
+        severity:
+          type: enum
+          values: [critical, high, medium, low]
+          description: "Override default severity"
+
+# =============================================================================
+# SCHEMA RESOLUTION
+# =============================================================================
+# Packages declare their schema dependency via depends_on. At validation time,
+# the schema source is fetched by git tag matching min_version:
+#
+#   git clone --depth 1 --branch <min_version> <source> /tmp/reporails-schemas
+#
+# The fetched schemas/ directory is used to validate the package's rules.
+#
+# Resolution steps:
+#   1. Read config.yml → depends_on.source, depends_on.min_version
+#   2. Clone source repo at tag matching min_version (shallow, schemas/ only)
+#   3. Validate package rules against fetched schemas/rule.schema.yml
+#   4. Validate package config against fetched schemas/package.schema.yml
+#
+# Tag convention: tags match schema version (e.g., 0.0.7)
+#
+# Offline / CI caching:
+#   - CI can cache the cloned schemas between runs (keyed on min_version)
+#   - For offline use, pre-fetch and set REPORAILS_SCHEMAS_PATH env var
+#
+# Example CI step (GitHub Actions):
+#   - name: Fetch core schemas
+#     run: |
+#       VERSION=$(yq '.depends_on.min_version' config.yml)
+#       SOURCE=$(yq '.depends_on.source' config.yml)
+#       git clone --depth 1 --branch "$VERSION" "$SOURCE" /tmp/core-schemas
+#
+#   - name: Validate package
+#     run: ails validate --schemas /tmp/core-schemas/schemas
+# =============================================================================
+
+# =============================================================================
+# ID PATTERNS
+# =============================================================================
+# Package rules follow: {PACKAGE_PREFIX}_{category}{number}
+#   e.g., AILS_S1, AILS_C1, AILS_E1
+#
+# Package agent rules follow: {PACKAGE_PREFIX}_{AGENT}_{category}{number}
+#   e.g., AILS_CLAUDE_S1, AILS_CLAUDE_M1
+#
+# See rule.schema.yml fields.id.pattern for regex patterns.
+# =============================================================================
+
+# =============================================================================
+# VALIDATION
+# =============================================================================
+
+validation:
+  # Identity
+  - rule: "package must be lowercase letters, digits, and hyphens"
+  - rule: "prefix must be 3+ UPPERCASE letters"
+  - rule: "prefix must be in reserved_package_prefixes (see rule.schema.yml)"
+  - rule: "prefix must NOT be in reserved_agent_prefixes (see rule.schema.yml)"
+  - rule: "name must be max 64 characters"
+
+  # Version
+  - rule: "version must be valid semver"
+
+  # Dependencies
+  - rule: "depends_on.schema must reference a valid schema repository"
+  - rule: "depends_on.source must be a valid git repository URL"
+  - rule: "depends_on.min_version must be valid semver"
+  - rule: "depends_on.min_version must be <= current rule schema version"
+  - rule: "depends_on.source repo must have a tag matching min_version"
+
+  # Provides
+  - rule: "provides.rules is required and must be true"
+  - rule: "provides.agent_rules[].agent must match a reserved_agent_prefixes entry"
+  - rule: "provides.agent_rules[].prefix must start with the package prefix"
+
+  # Excludes
+  - rule: "excludes items must be valid core rule IDs"
+
+  # Overrides
+  - rule: "overrides keys must be valid check IDs"
+  - rule: "overrides severity must be valid severity value"
+
+# =============================================================================
+# EXAMPLES
+# =============================================================================
+
+examples:
+  recommended: |
+    # The canonical package: reporails/recommended
+    package: recommended
+    prefix: AILS
+    name: Reporails Recommended Rules
+    description: Opinionated best practices, governance, and process rules
+    version: "0.2.1"
+
+    depends_on:
+      schema: "reporails/rules"
+      min_version: "0.0.7"
+      source: "https://github.com/reporails/rules.git"
+
+    provides:
+      rules: true
+      levels: true
+      sources: true
+      agent_rules:
+        - agent: claude
+          prefix: AILS_CLAUDE
+
+    # No core rules excluded or overridden by this package
+    excludes: []
+    overrides: {}
+
+  minimal: |
+    # Minimal package with just rules
+    package: my-rules
+    prefix: MYR
+    name: My Custom Rules
+    version: "1.0.0"
+
+    depends_on:
+      schema: "reporails/rules"
+      min_version: "0.0.7"
+      source: "https://github.com/reporails/rules.git"
+
+    provides:
+      rules: true
+
+  with_exclusions: |
+    # Package that replaces some core rules
+    package: strict-docs
+    prefix: SDOC
+    name: Strict Documentation Rules
+    description: Stricter documentation rules that replace core defaults
+    version: "1.0.0"
+
+    depends_on:
+      schema: "reporails/rules"
+      min_version: "0.0.7"
+      source: "https://github.com/reporails/rules.git"
+
+    provides:
+      rules: true
+      levels: true
+
+    # Replace core size limits with stricter package version
+    excludes:
+      - S1
+
+    # Make missing project description critical
+    overrides:
+      C3-no-description:
+        severity: critical
