@@ -37,4 +37,4 @@ levels:
   L6:
     name: Adaptive
     description: Backbone-driven navigation, contracts
-    rules: [S4, E2, G4, G5, M5]
+    rules: [S4, E2, G4, G5, M5, M6]

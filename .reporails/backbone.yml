@@ -17,8 +17,9 @@ rules:
     rule_dir: "{category}/{id}-{slug}/"
     definition: "{id}-{slug}.md"
     opengrep: "{id}-{slug}.yml"
-    test_pass: "tests/pass.md"
-    test_fail: "tests/fail.md"
+    test_pass: "tests/pass.{ext}"
+    test_fail: "tests/fail.{ext}"
+    # {ext} matches the rule's target file type: md (default), yml, json
   categories:
     structure: core/structure/
     content: core/content/
@@ -68,6 +69,7 @@ rules:
     M3: change-management
     M4: no-conflicting-rules
     M5: map-staleness-prevention
+    M6: backbone-index-completeness
     # Agent rules: ID → slug (resolve via: agents/{agent}/rules/{id}-{slug}/)
     CLAUDE_S1: skill-size-limits
     CLAUDE_S2: hierarchical-memory

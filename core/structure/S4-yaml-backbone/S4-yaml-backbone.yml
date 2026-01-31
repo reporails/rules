@@ -2,7 +2,7 @@ rules:
   - id: S4-backbone-no-maps
     message: "Backbone missing 'maps:' section"
     severity: ERROR
-    languages: [generic]
+    languages: [yaml]
     patterns:
       - pattern-regex: "(?s)\\A[\\s\\S]+"
       - pattern-not-regex: "(?m)^maps:"
@@ -13,7 +13,7 @@ rules:
   - id: S4-backbone-no-contracts
     message: "Backbone missing 'contracts:' section"
     severity: WARNING
-    languages: [generic]
+    languages: [yaml]
     patterns:
       - pattern-regex: "(?s)\\A[\\s\\S]+"
       - pattern-not-regex: "(?m)^contracts:"
@@ -24,7 +24,7 @@ rules:
   - id: S4-backbone-no-quick-ref
     message: "Backbone missing 'quick_ref:' section"
     severity: WARNING
-    languages: [generic]
+    languages: [yaml]
     patterns:
       - pattern-regex: "(?s)\\A[\\s\\S]+"
       - pattern-not-regex: "(?m)^quick_ref:"
@@ -35,7 +35,7 @@ rules:
   - id: S4-maps-no-components
     message: "Maps section missing 'components:' key"
     severity: WARNING
-    languages: [generic]
+    languages: [yaml]
     patterns:
       - pattern-regex: "(?sm)\\A(?=[\\s\\S]*^maps:)[\\s\\S]+"
       - pattern-not-regex: "(?m)^\\s+components:"
@@ -46,7 +46,7 @@ rules:
   - id: S4-maps-no-platform
     message: "Maps section missing 'platform:' key"
     severity: WARNING
-    languages: [generic]
+    languages: [yaml]
     patterns:
       - pattern-regex: "(?sm)\\A(?=[\\s\\S]*^maps:)[\\s\\S]+"
       - pattern-not-regex: "(?m)^\\s+platform:"
@@ -57,7 +57,7 @@ rules:
   - id: S4-empty-backbone
     message: "Backbone file appears empty or minimal"
     severity: ERROR
-    languages: [generic]
+    languages: [yaml]
     patterns:
       - pattern-regex: "(?s)\\A\\s*$"
       - pattern-not-regex: "(?m)^[a-z_]+:"

@@ -5,7 +5,7 @@ description: Create, update, and validate agent configurations
 
 # /manage-agent-config
 
-Manage agent configuration files in `agents/{agent}/config.yml`.
+Manage agent configuration files. Config paths resolved from `backbone.agents.{agent}.config`.
 
 ## Usage
 
@@ -31,8 +31,8 @@ Manage agent configuration files in `agents/{agent}/config.yml`.
 
 ### Validate
 
-1. Load `agents/{agent}/config.yml`
-2. Check against `schemas/agent.schema.yml`
+1. Load agent config from `backbone.agents.{agent}.config`
+2. Check against schema from `backbone.schemas.agent`
 3. Verify universal variables exist
 4. Report issues
 
@@ -55,6 +55,14 @@ Manage agent configuration files in `agents/{agent}/config.yml`.
 1. Run audit
 2. Apply recommended changes
 3. Validate result
+
+## Path Resolution
+
+Resolve agent config and schema paths from `.reporails/backbone.yml`:
+- Agent config: `backbone.agents.{agent}.config`
+- Agent schema: `backbone.schemas.agent`
+
+See [@.shared/knowledge/backbone-resolution.md](../../../.shared/knowledge/backbone-resolution.md).
 
 ## Reference Files
 

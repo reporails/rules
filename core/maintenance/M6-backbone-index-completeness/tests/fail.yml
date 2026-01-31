@@ -1,0 +1,7 @@
+# ruleid: M6-index-present
+# fail: backbone with index section — gate for CLI cross-reference validation
+rules:
+  core: core/
+  index:
+    S1: size-limits
+    # Missing: C1, M1, CLAUDE_S1 exist on disk but not in index

@@ -2,7 +2,7 @@ rules:
   - id: G4-no-contracts
     message: "Backbone lacks contracts key"
     severity: WARNING
-    languages: [generic]
+    languages: [yaml]
     patterns:
       - pattern-regex: "(?s)\\A[\\s\\S]+"
       - pattern-not-regex: "(?m)^contracts:"

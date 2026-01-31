@@ -36,19 +36,5 @@ flowchart TD
 - Core rules use only `{{instruction_files}}`
 - Agent rules can use `{{rules_dir}}`, `{{skills_dir}}`, etc.
 
-**File locations:**
-
-| Scope | Location |
-|-------|----------|
-| core | `core/{category}/{id}-{slug}/{id}-{slug}.md` and `.yml` |
-| agent | `agents/{agent}/rules/{id}-{slug}/{id}-{slug}.md` and `.yml` |
-
-**Directory structure:**
-```
-{rule-id}/
-├── {rule-id}.md
-├── {rule-id}.yml
-└── tests/
-    ├── fail.md   # Should trigger (true positive)
-    └── pass.md   # Should not trigger (true negative)
-```
+**Path resolution:** Resolve rule paths from `.reporails/backbone.yml` using `rules.index`, `rules.categories`, and `rules.patterns`.
+See [@.shared/knowledge/backbone-resolution.md](../knowledge/backbone-resolution.md) for the ID-to-path algorithm and directory structure.

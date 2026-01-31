@@ -41,21 +41,7 @@ Follow: [workflow.md](workflow.md)
 - Filenames
 - Category or type
 
-**File locations:**
-
-| Scope | Path |
-|-------|------|
-| Core | `core/{category}/{ID}-{slug}/{ID}-{slug}.md` and `.yml` |
-| Agent | `agents/{agent}/rules/{ID}-{slug}/{ID}-{slug}.md` and `.yml` |
-
-**Directory structure:**
-```
-{rule-id}/
-├── {rule-id}.md
-├── {rule-id}.yml
-└── tests/
-    ├── fail.md   # Should trigger
-    └── pass.md   # Should not trigger
-```
+**Path resolution:** Resolve rule paths from `.reporails/backbone.yml` using `rules.index`, `rules.categories`, and `rules.patterns`.
+See [@.shared/knowledge/backbone-resolution.md](../../../.shared/knowledge/backbone-resolution.md) for the ID-to-path algorithm.
 
 **Save with `{{templates}}` intact - resolution is only for validation.**

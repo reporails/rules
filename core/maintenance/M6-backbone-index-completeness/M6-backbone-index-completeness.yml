@@ -1,0 +1,9 @@
+rules:
+  - id: M6-index-present
+    message: "Backbone index section — validate completeness against filesystem"
+    severity: WARNING
+    languages: [yaml]
+    pattern-regex: "index:"
+    paths:
+      include:
+        - ".reporails/backbone.yml"

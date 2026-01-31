@@ -59,6 +59,8 @@ claims:
 
 - [Evidence chain](evidence-chain.md) - Admission criteria and weights
 
+> **Path resolution:** Sources path from `backbone.artifacts.sources`. See [@.shared/knowledge/backbone-resolution.md](../../../.shared/knowledge/backbone-resolution.md).
+
 ## Quick Reference
 
 **Good claims:**

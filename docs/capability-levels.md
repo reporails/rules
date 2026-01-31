@@ -70,7 +70,7 @@ L0 (Absent) means no instruction file exists â€” nothing to evaluate. Levels L1â
 - Component-contract binding for segment-aware loading
 - **Risk:** Map staleness; requires maintenance discipline
 - **Applicability:** See "When to Use Level 6" below
-- **Primary rules:** S4, E2, G4, G5, M5
+- **Primary rules:** S4, E2, G4, G5, M5, M6
 
 ---
 
@@ -137,6 +137,7 @@ L0 (Absent) means no instruction file exists â€” nothing to evaluate. Levels L1â
 | Contract registry | G4 | - | - | - | - | - | + |
 | Component-contract binding | G5 | - | - | - | - | - | + |
 | Map staleness prevention | M5 | - | - | - | - | - | + |
+| Backbone index completeness | M6 | - | - | - | - | - | + |
 
 **Legend:** `+` Required | `-` Not expected
 

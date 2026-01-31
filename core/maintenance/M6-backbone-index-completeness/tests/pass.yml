@@ -1,0 +1,8 @@
+# pass: backbone with complete index covering all filesystem rules
+rules:
+  core: core/
+  index:
+    S1: size-limits
+    C1: core-sections
+    M1: version-control
+    CLAUDE_S1: skill-size-limits

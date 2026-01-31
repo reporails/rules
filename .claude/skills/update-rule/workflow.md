@@ -28,19 +28,7 @@ flowchart TD
 - Write `{{instruction_files}}` not resolved values
 - Resolution is only for validation
 
-## File Locations
+## Path Resolution
 
-```
-Core rules:    core/{category}/{ID}-{slug}/{ID}-{slug}.md and .yml
-Agent rules:   agents/{agent}/rules/{ID}-{slug}/{ID}-{slug}.md and .yml
-```
-
-**Directory structure:**
-```
-{rule-id}/
-├── {rule-id}.md
-├── {rule-id}.yml
-└── tests/
-    ├── fail.md   # Should trigger
-    └── pass.md   # Should not trigger
-```
+Resolve rule paths from `.reporails/backbone.yml` using `rules.index`, `rules.categories`, and `rules.patterns`.
+See [@.shared/knowledge/backbone-resolution.md](../../../.shared/knowledge/backbone-resolution.md) for the ID-to-path algorithm and directory structure.

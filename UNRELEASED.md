@@ -2,6 +2,24 @@
 
 ## Added
 
+- **M6 rule (backbone index completeness)**: New L6 maintenance rule. Complements M5 (paths exist on disk) with the inverse check: filesystem rule directories are registered in `backbone.yml` `rules.index`. Includes recommended pre-commit hook for CI enforcement. Deterministic type, medium severity, low pattern_confidence (OpenGrep is gate for CLI cross-reference).
+- **`.claude/rules/` path-scoped reminders**: Three instruction files (`core-rules.md`, `schemas.md`, `skills.md`) that remind to update `backbone.yml` when creating/deleting rules, schemas, or referencing new artifacts in skills.
+- **`.shared/knowledge/backbone-resolution.md`**: Central reference for resolving paths from `.reporails/backbone.yml`. Covers resolution table, ID-to-path algorithm, and when to update the backbone.
+
+## Fixed
+
+- **Backbone test file patterns**: Changed `test_pass`/`test_fail` from hardcoded `.md` to `{ext}` template variable (`tests/pass.{ext}`, `tests/fail.{ext}`). Extension matches the rule's target file type: `.md` (default), `.yml` (YAML-targeting rules), `.json` (JSON-targeting rules). Updated `backbone-resolution.md` with extension derivation table.
+- **G4, S4**: Changed `languages: [generic]` to `languages: [yaml]` to align with `.yml` test files and backbone-targeting convention. Patterns use regex only, so behavior is unchanged.
+
+## Changed
+
+- **Backbone path resolution in skills**: Replaced hardcoded path tables in `generate-rule`, `validate-rules`, `update-rule`, `generate-all-rules`, and `manage-agent-config` skills with references to `backbone-resolution.md`. Added one-liner backbone notes to `manage-levels`, `audit-evidence-chain`, and `extract-claims`.
+- **Shared workflows updated**: Replaced hardcoded "File locations" tables in `rule-creation.md` and `rule-update.md` (both `.shared/workflows/` originals and `.claude/skills/` copies) with backbone resolution references.
+- **`levels.yml`**: Added M6 to L6 rules list.
+- **`docs/capability-levels.md`**: Added M6 row to Capability Assessment Matrix (L6 only) and to L6 primary rules.
+
+## Added
+
 - **`/manage-levels` skill**: New skill to sync, diff, and list level-rule mappings. Parses Capability Assessment Matrix from `docs/capability-levels.md` as source of truth; `levels.yml` is derived artifact. Commands: `sync`, `diff`, `list [level]`. Shared workflow at `.shared/workflows/level-sync.md`.
 - **levels.schema.yml**: New schema for `levels.yml` (version 1). Validates level-to-rule mappings consumed by CLI.
 

@@ -36,8 +36,8 @@ Follow: [@.shared/workflows/level-sync.md](../../../.shared/workflows/level-sync
 
 ## Quick Reference
 
-| Source of truth | `docs/capability-levels.md` (Capability Assessment Matrix) |
+| Source of truth | `backbone.artifacts.capability_levels` |
 |---|---|
-| Derived artifact | `levels.yml` |
+| Derived artifact | `backbone.artifacts.levels` |
 | Assignment logic | First `+` in a row = rule's introduction level |
 | Level metadata | Name and description from Level Descriptions section |

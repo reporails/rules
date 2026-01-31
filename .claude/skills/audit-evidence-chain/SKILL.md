@@ -37,6 +37,8 @@ Follow: [workflow.md](workflow.md)
 - [Evidence chain](evidence-chain.md) - Validation checks
 - [trust-metrics-schema.md](trust-metrics-schema.md) - Metrics file schema
 
+> **Path resolution:** Rule and source paths resolved from `.reporails/backbone.yml`. See [@.shared/knowledge/backbone-resolution.md](../../../.shared/knowledge/backbone-resolution.md).
+
 ## Quick Reference
 
 **Trust score weights:**

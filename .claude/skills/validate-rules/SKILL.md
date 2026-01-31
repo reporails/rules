@@ -38,6 +38,11 @@ Follow: [workflow.md](workflow.md)
 - [OpenGrep patterns](opengrep-patterns.md) - Pattern validation
 - [Evidence chain](evidence-chain.md) - Evidence checks
 
+## Path Resolution
+
+Resolve all rule and artifact paths from `.reporails/backbone.yml` instead of hardcoding.
+See [@.shared/knowledge/backbone-resolution.md](../../../.shared/knowledge/backbone-resolution.md) for the resolution table and ID-to-path algorithm.
+
 ## Quick Reference
 
 | Level | Check |

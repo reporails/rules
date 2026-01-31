@@ -55,5 +55,7 @@ Generated: 42 rules (37 core, 5 claude) | Schema: ✓ | Contract: ✓
 
 - `/generate-rule` skill for individual rule generation
 - `/validate-rules` skill for validation
-- `docs/sources.yml` for source URLs
-- `schemas/rule.schema.yml` for validation
+- Sources file at `backbone.artifacts.sources`
+- Rule schema at `backbone.schemas.rule`
+
+Resolve all paths from `.reporails/backbone.yml`. See [@.shared/knowledge/backbone-resolution.md](../../../.shared/knowledge/backbone-resolution.md).
