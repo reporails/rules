@@ -1,7 +1,7 @@
 # Schema definition for sources registry
 # Used by: agents writing/updating rules, contributors
 
-version: 3
+version: "0.0.3"
 
 # =============================================================================
 # TIER DERIVATION

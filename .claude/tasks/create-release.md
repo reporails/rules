@@ -4,7 +4,7 @@ Prepare and tag a new release.
 
 ## Setup
 
-**Version:** ___ (e.g., v0.1.0)
+**Version:** ___ (e.g., 0.2.0)
 **Headline:** ___ (e.g., Trust Architecture Foundation)
 
 ## Tasks

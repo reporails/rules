@@ -1,5 +1,10 @@
 # Unreleased
 
+## Changed
+
+- [SCHEMA]: Schema `version` fields converted from integer to semver strings (`"0.0.X"` format) across all 6 schema files (rule, agent, project, sources, user, levels). Backbone `version` unchanged.
+- [META]: Dropped `v` prefix from release tags. Workflow trigger updated from `v*` to `[0-9]*`. Tag examples, changelog entries, and task templates aligned to bare semver (e.g., `0.2.0`).
+
 ## Added
 
 - **M6 rule (backbone index completeness)**: New L6 maintenance rule. Complements M5 (paths exist on disk) with the inverse check: filesystem rule directories are registered in `backbone.yml` `rules.index`. Includes recommended pre-commit hook for CI enforcement. Deterministic type, medium severity, low pattern_confidence (OpenGrep is gate for CLI cross-reference).

@@ -1,6 +1,6 @@
 # Schema for levels.yml
 # Canonical level-to-rule mappings consumed by CLI
-version: 1
+version: "0.0.1"
 
 fields:
   levels:

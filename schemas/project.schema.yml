@@ -1,6 +1,6 @@
 # Schema for .reporails/config.yml
 # Project-level configuration — committed to git
-version: 3
+version: "0.0.3"
 
 # Migration from v2:
 #   - Replaced confidence/profile with tiers (core/experimental)
