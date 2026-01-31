@@ -1,35 +1,44 @@
-# Rule Creation Workflow
+# Rule Skeleton Workflow
 
 ```mermaid
 flowchart TD
-    START([/generate-rule id scope title]) --> GATHER[Gather: what, why, type, patterns, sources]
+    START([/generate-rule id scope title]) --> GATHER[Gather: what, why, type]
     GATHER --> TYPE{OpenGrep fully decides?}
     TYPE -->|Yes| DET[type: deterministic]
     TYPE -->|No| SEM[type: semantic<br/>Add question + criteria]
-    DET --> SOURCES[Find backing claims in sources.yml]
-    SEM --> SOURCES
-    SOURCES --> CONF{Confidence decision tree}
-    CONF -->|max weight >= 0.8| CORE[tier: core]
-    CONF -->|max weight < 0.8 or none| EXPERIMENTAL[tier: experimental]
-    CONFIRMED --> GEN[Generate .md + .yml from templates]
-    HIGH --> GEN
-    MEDIUM --> GEN
-    LOW --> GEN
-    GEN --> RESOLVE[Resolve templates for validation]
-    RESOLVE --> VALID{OpenGrep exit code?}
-    VALID -->|0 or 1| SAVE[Save files with templates intact]
-    VALID -->|2| FIX2[Fix syntax error] --> RESOLVE
-    VALID -->|7| FIX7[Add positive pattern] --> RESOLVE
-    SAVE --> BIDIR[Update claim.rules bidirectionally]
-    BIDIR --> REFS[Update see_also, capability-levels if needed]
-    REFS --> CHANGELOG[/add-changelog-entry]
+    DET --> GEN[Generate skeleton files]
+    SEM --> GEN
+    GEN --> MD[Create .md with frontmatter<br/>+ Good/Bad examples]
+    MD --> YML[Create .yml with placeholder pattern]
+    YML --> TESTS[Create tests/pass.md + tests/fail.md]
+    TESTS --> INDEX[Update backbone rules.index]
+    INDEX --> CHANGELOG[/add-changelog-entry]
+```
+
+## What Gets Generated
+
+| File | Content |
+|------|---------|
+| `{id}-{slug}.md` | Frontmatter + heading + Pattern section (Good/Bad) |
+| `{id}-{slug}.yml` | Placeholder with TODO pattern |
+| `tests/pass.md` | Empty file with TODO comment |
+| `tests/fail.md` | Empty file with TODO comment |
+
+## Placeholder .yml
+
+```yaml
+rules:
+  - id: {ID}-{check-slug}
+    message: "TODO: {description}"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "TODO"  # placeholder — to be filled by tooling or contributor
+    paths:
+      include:
+        - "{{instruction_files}}"
 ```
 
 ## Edge Cases
-
-**No existing claim backs the rule:**
-- Run `/extract-claims <url>` first to create claim
-- Then reference in rule's `backed_by`
 
 **Core vs Agent rules:**
 - Core rules use only `{{instruction_files}}`

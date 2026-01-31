@@ -1,6 +1,6 @@
 # Rule Authoring Reference
 
-Templates and validation for creating rules.
+Templates and validation for creating rule skeletons.
 
 ## .md File Template
 
@@ -8,16 +8,13 @@ Templates and validation for creating rules.
 ---
 id: {ID}
 title: {Title}                    # max 64 chars
-category: structure|content|efficiency|governance|maintenance
+category: structure|content|efficiency|maintenance
 type: deterministic|semantic
 checks:
   - id: {ID}-{check-slug}
     name: {Description}
     severity: critical|high|medium|low
-    pattern_confidence: very_high|high|medium|low|very_low  # optional, default: medium
-backed_by:                        # optional
-  - source: source-id
-    claim: claim-id
+backed_by: []                     # empty by default
 ---
 
 # {Title}
@@ -48,15 +45,15 @@ criteria:
   - {Second criterion}
 ```
 
-## .yml File Template
+## .yml Placeholder Template
 
 ```yaml
 rules:
   - id: {ID}-{check-slug}
-    message: "{What was detected}"
-    severity: ERROR|WARNING|INFO
+    message: "TODO: {description}"
+    severity: WARNING
     languages: [generic]
-    pattern-regex: "{pattern}"
+    pattern-regex: "TODO"  # placeholder
     paths:
       include:
         - "{{instruction_files}}"
@@ -66,26 +63,31 @@ rules:
 
 | Scope | Pattern | Example |
 |-------|---------|---------|
-| Core | `^[SCEGM][0-9]+$` | S1, C12, E3 |
-| Agent | `^[A-Z]+_[SCEGM][0-9]+$` | CLAUDE_S2 |
+| Core | `^[SCEGM][0-9]+$` | S1, C5, E2 |
+| Agent | `^[A-Z]+_[SCEGM][0-9]+$` | CLAUDE_S1 |
 
 ## Valid Values
 
 | Field | Values |
 |-------|--------|
-| category | structure, content, efficiency, governance, maintenance |
+| category | structure, content, efficiency, maintenance |
 | type | deterministic, semantic |
 | severity (md) | critical, high, medium, low |
 | severity (yml) | ERROR, WARNING, INFO |
-| pattern_confidence | very_high, high, medium, low, very_low |
+
+## Severity Mapping
+
+| .md severity | .yml severity |
+|--------------|---------------|
+| critical | ERROR |
+| high | WARNING |
+| medium | WARNING |
+| low | WARNING |
 
 ## Common Mistakes & Fixes
 
 | Mistake | Fix |
 |---------|-----|
-| `pattern-not-regex` at top level | Move inside `patterns:` block |
-| Negative-only patterns (exit 7) | Add positive pattern before `pattern-not-regex` |
-| Missing required fields (exit 2) | Add id, message, severity, languages |
 | Using `{{rules_dir}}` in core rules | Core uses only `{{instruction_files}}` |
 | Missing .yml file | Always create both files |
 | Wrong check ID format | Must be `{rule_id}-{suffix}` |
@@ -94,8 +96,6 @@ rules:
 | Hardcoded paths in .yml | Use `{{instruction_files}}` |
 | Title > 64 characters | Shorten or abbreviate |
 | Body > 40 lines | Extract to supporting docs |
-| Missing severity mapping | critical -> ERROR, others -> WARNING |
-| Missing pattern_confidence | Defaults to medium; assess and set explicitly |
 
 ## Validation Checklist
 
@@ -108,7 +108,6 @@ rules:
 - [ ] `checks` array exists and non-empty
 - [ ] `checks[].id` starts with rule ID + hyphen
 - [ ] `checks[].severity` is valid
-- [ ] `checks[].pattern_confidence` is valid (if set)
 - [ ] If semantic: `question` and `criteria` exist
 - [ ] If deterministic: NO `question` or `criteria`
 

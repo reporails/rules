@@ -1,11 +1,11 @@
 ---
 name: generate-rule
-description: Generate a new rule with proper schema and OpenGrep patterns
+description: Generate a rule skeleton with proper schema and directory structure
 ---
 
 # /generate-rule
 
-Generate a new rule with proper schema and OpenGrep patterns.
+Generate a rule skeleton with proper directory structure, frontmatter, and placeholder files.
 
 ## Usage
 
@@ -13,17 +13,16 @@ Generate a new rule with proper schema and OpenGrep patterns.
 /generate-rule <id> <scope> <title> [--agent <name>]
 ```
 
-- `<id>`: Rule ID (e.g., S1, C1, CLAUDE_S1)
+- `<id>`: Rule ID (e.g., S5, C6, CLAUDE_S3)
 - `<scope>`: `core` or agent name (e.g., `claude`)
 - `<title>`: Short title for the rule
-- `--agent <name>`: Agent for template resolution (default: `claude`)
+- `--agent <name>`: Agent for path resolution (default: `claude`)
 
 ## Examples
 
 ```
-/generate-rule S1 core "Size Limits"
-/generate-rule CLAUDE_S2 claude "Hierarchical Memory"
-/generate-rule S1 core "Size Limits" --agent cursor
+/generate-rule S5 core "My New Rule"
+/generate-rule CLAUDE_S3 claude "Some Agent Rule"
 ```
 
 ## Workflow
@@ -32,9 +31,7 @@ Follow: [workflow.md](workflow.md)
 
 ## Reference
 
-- [Rule authoring](rule-authoring.md) - Templates and validation
-- [OpenGrep patterns](opengrep-patterns.md) - Pattern syntax
-- [Evidence chain](evidence-chain.md) - Source linking
+- [Rule authoring](rule-authoring.md) — Templates and validation
 
 ## Path Resolution
 
@@ -47,5 +44,5 @@ See [@.shared/knowledge/backbone-resolution.md](../../../.shared/knowledge/backb
 |----------|--------|
 | OpenGrep fully decides | type: deterministic |
 | LLM needed | type: semantic (add question + criteria) |
-| max(source_weights) >= 0.8 | tier: core |
-| max(source_weights) < 0.8 or none | tier: experimental |
+| Has backing sources | Add to backed_by (optional) |
+| No backing sources | `backed_by: []` (valid default) |
