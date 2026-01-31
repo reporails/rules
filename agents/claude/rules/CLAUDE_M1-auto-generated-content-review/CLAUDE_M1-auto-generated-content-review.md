@@ -13,7 +13,7 @@ checks:
     pattern_confidence: medium
 sources:
   - "https://claude.com/blog/using-claude-md-files"
-see_also: [C1, C9]
+see_also: [C1, C3]
 ---
 
 # Auto-Generated Content Review

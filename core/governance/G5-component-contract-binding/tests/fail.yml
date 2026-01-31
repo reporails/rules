@@ -1,6 +1,0 @@
-# backbone.yml - components without contract binding
-components:
-  api:
-    path: src/api/
-  web:
-    path: src/web/

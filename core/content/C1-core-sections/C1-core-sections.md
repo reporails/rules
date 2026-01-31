@@ -40,7 +40,7 @@ criteria:
   - Smaller files may omit sections if context is clear
 sources:
   - "https://claude.com/blog/using-claude-md-files"
-see_also: [C9, S1]
+see_also: [C3, S1]
 ---
 
 # Core Sections

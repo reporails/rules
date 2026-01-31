@@ -19,7 +19,7 @@ checks:
     pattern_confidence: high
 sources:
   - "https://agents.md/"
-see_also: [M2, C12]
+see_also: [C5]
 ---
 
 # Version Control

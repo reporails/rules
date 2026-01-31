@@ -13,7 +13,7 @@ checks:
     pattern_confidence: very_high
 sources:
   - "https://www.humanlayer.dev/blog/writing-a-good-claude-md"
-see_also: [E6, S1]
+see_also: [E1, S1]
 ---
 
 # No Embedded Code Snippets

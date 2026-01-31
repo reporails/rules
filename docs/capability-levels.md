@@ -12,7 +12,7 @@ L0 (Absent) means no instruction file exists — nothing to evaluate. Levels L1�
 | **L2** | Scoped | Project-specific constraints | Size limits, core sections, content quality |
 | **L3** | Structured | External references, organized content | @imports, heading hierarchy, single source of truth |
 | **L4** | Abstracted | Path-scoped rules, context-aware loading | .claude/rules/, hierarchical memory |
-| **L5** | Governed | Team policies, compliance tracking | Org policies, CODEOWNERS, CI checks |
+| **L5** | Maintained | Map and index maintenance discipline | Staleness prevention, backbone completeness |
 | **L6** | Adaptive | Map-driven navigation, contracts | YAML backbone, component-contract binding |
 
 > **Note:** L1-L4 patterns are documented in official sources. L5-L6 patterns are community patterns (experimental tier) derived from enterprise software practices.
@@ -34,8 +34,8 @@ L0 (Absent) means no instruction file exists — nothing to evaluate. Levels L1�
 - 30-200 lines, project-specific content quality
 - MUST/MUST NOT with rationale
 - **Risk:** Token bloat, instruction dilution as file grows
-- **Fix:** Extract details to @imports, delegate formatting to tools
-- **Primary rules:** S1, S2, S3, S5, C1, C2, C4, C5, C7, C8, C9, C10, C12
+- **Fix:** Extract details to @imports
+- **Primary rules:** S1, S2, S3, S4, C1, C3, C5
 
 ### Level 3: Structured
 - Uses @imports to external documentation
@@ -43,7 +43,7 @@ L0 (Absent) means no instruction file exists — nothing to evaluate. Levels L1�
 - Single source of truth across files
 - **Risk:** Import references may become stale
 - **Fix:** Implement .claude/rules/ for path-scoped loading
-- **Primary rules:** C3, C6, C11, E1, E6, E7, E8, M2, M4
+- **Primary rules:** C2, C4, E1, E2, M2
 
 ### Level 4: Abstracted
 - Implements .claude/rules/ directory
@@ -52,16 +52,15 @@ L0 (Absent) means no instruction file exists — nothing to evaluate. Levels L1�
 - Root file < 100 lines
 - **Risk:** Complexity if not well-documented
 - **Fix:** Add governance processes for enterprise scale
-- **Primary rules:** CLAUDE_S1, CLAUDE_S2, CLAUDE_S3, CLAUDE_M2, E3, E4, E5, M3
+- **Primary rules:** CLAUDE_S1, CLAUDE_S2
 
-### Level 5: Governed
-- Organization-level policies deployed
-- All changes go through PR review
-- Automated CI/CD checks
-- Architecture tests enforce boundaries
-- **Risk:** Process overhead if not automated
-- **Fix:** Add navigation maps for complex codebases
-- **Primary rules:** CLAUDE_G1, G1, G2, G3, G6, G7
+### Level 5: Maintained
+- Map staleness prevention enforced
+- Backbone index kept complete and accurate
+- Structural changes tracked and validated
+- **Risk:** Index drift if maintenance discipline lapses
+- **Fix:** Automate backbone sync checks in CI
+- **Primary rules:** M3, M4
 
 ### Level 6: Adaptive
 - YAML backbone (`.reporails/backbone.yml`) as complete path index
@@ -70,7 +69,7 @@ L0 (Absent) means no instruction file exists — nothing to evaluate. Levels L1�
 - Component-contract binding for segment-aware loading
 - **Risk:** Map staleness; requires maintenance discipline
 - **Applicability:** See "When to Use Level 6" below
-- **Primary rules:** S4, E2, G4, G5, M5, M6
+- **Primary rules:** Detection-only (backbone.yml present)
 
 ---
 
@@ -98,48 +97,24 @@ L0 (Absent) means no instruction file exists — nothing to evaluate. Levels L1�
 | Size limits | S1 | - | + | + | + | + | + |
 | Progressive disclosure | S2 | - | + | + | + | + | + |
 | No code snippets | S3 | - | + | + | + | + | + |
-| Clear markdown structure | S5 | - | + | + | + | + | + |
+| Clear markdown structure | S4 | - | + | + | + | + | + |
 | Core sections present | C1 | - | + | + | + | + | + |
-| Explicit instructions | C2 | - | + | + | + | + | + |
-| Antipatterns documented | C4 | - | + | + | + | + | + |
-| MUST/MUST NOT format | C5 | - | + | + | + | + | + |
-| Emphasis discipline | C7 | - | + | + | + | + | + |
-| Instructions not philosophy | C8 | - | + | + | + | + | + |
-| Project description | C9 | - | + | + | + | + | + |
-| NEVER with alternative | C10 | - | + | + | + | + | + |
-| Has version/date | C12 | - | + | + | + | + | + |
+| Has project description | C3 | - | + | + | + | + | + |
+| Has version/date | C5 | - | + | + | + | + | + |
+| Single source of truth | C2 | - | - | + | + | + | + |
+| Links valid | C4 | - | - | + | + | + | + |
+| Code block limit | E1 | - | - | + | + | + | + |
+| Import count | E2 | - | - | + | + | + | + |
+| No conflicting rules | M2 | - | - | + | + | + | + |
 | Version controlled | M1 | + | + | + | + | + | + |
-| Context-specific content | C3 | - | - | + | + | + | + |
-| Single source of truth | C6 | - | - | + | + | + | + |
-| Links valid | C11 | - | - | + | + | + | + |
-| Deterministic tools | E1 | - | - | + | + | + | + |
-| Code block limit | E6 | - | - | + | + | + | + |
-| Import count | E7 | - | - | + | + | + | + |
-| Context window awareness | E8 | - | - | + | + | + | + |
-| Review process | M2 | - | - | + | + | + | + |
-| No conflicting rules | M4 | - | - | + | + | + | + |
-| Skill size limits | CLAUDE_S1 | - | - | - | + | + | + |
-| .claude/rules/ used | CLAUDE_S2 | - | - | - | + | + | + |
-| Path-scoped rules | CLAUDE_S3 | - | - | - | + | + | + |
-| Rule snippet length | CLAUDE_M2 | - | - | - | + | + | + |
-| Purpose-based reading | E3 | - | - | - | + | + | + |
-| Memory reference | E4 | - | - | - | + | + | + |
-| Grep efficiency | E5 | - | - | - | + | + | + |
-| Change management | M3 | - | - | - | + | + | + |
-| Org policies deployed | CLAUDE_G1 | - | - | - | - | + | + |
-| Team governance | G1 | - | - | - | - | + | + |
-| Security rules ownership | G2 | - | - | - | - | + | + |
-| Ownership assignment | G3 | - | - | - | - | + | + |
-| Architecture tests | G6 | - | - | - | - | + | + |
-| Metrics/CI checks | G7 | - | - | - | - | + | + |
-| YAML backbone | S4 | - | - | - | - | - | + |
-| Session start ritual | E2 | - | - | - | - | - | + |
-| Contract registry | G4 | - | - | - | - | - | + |
-| Component-contract binding | G5 | - | - | - | - | - | + |
-| Map staleness prevention | M5 | - | - | - | - | - | + |
-| Backbone index completeness | M6 | - | - | - | - | - | + |
+| Hierarchical memory | CLAUDE_S1 | - | - | - | + | + | + |
+| Path-scoped rules | CLAUDE_S2 | - | - | - | + | + | + |
+| Map staleness prevention | M3 | - | - | - | - | + | + |
+| Backbone index completeness | M4 | - | - | - | - | + | + |
 
 **Legend:** `+` Required | `-` Not expected
+
+> **Note:** Additional recommended rules available in [reporails/recommended](https://github.com/reporails/recommended).
 
 ---
 
@@ -150,8 +125,8 @@ L0 (Absent) means no instruction file exists — nothing to evaluate. Levels L1�
 | L1 → L2 | Add core sections, constraints, project description |
 | L2 → L3 | Extract to @imports, remove code style rules |
 | L3 → L4 | Implement .claude/rules/, configure hooks |
-| L4 → L5 | Deploy org policies, build CI checks |
-| L5 → L6 | Design YAML backbone, implement contract registry |
+| L4 → L5 | Add map staleness prevention, backbone index completeness |
+| L5 → L6 | Presence of backbone.yml triggers L6 detection |
 
 ---
 
@@ -162,8 +137,8 @@ L0 (Absent) means no instruction file exists — nothing to evaluate. Levels L1�
 | Solo developer | L3 | Structure without overhead |
 | Small team (2-5) | L3-L4 | Shared standards, modular ownership |
 | Medium team (6-20) | L4 | Full optimization |
-| Large team (20+) | L5 | Governance required |
-| Complex monorepo | L6 | Map-driven navigation essential |
+| Large team (20+) | L4 + recommended | Add governance rules from reporails/recommended |
+| Complex monorepo | L5-L6 | Map maintenance + navigation essential |
 | Platform/SDK teams | L6 | Contract enforcement needed |
 
 ---
@@ -184,7 +159,7 @@ Level is determined by **features present**, not by score:
 | Feature | Detected Level |
 |---------|---------------|
 | backbone.yml present | L6 (Adaptive) |
-| CODEOWNERS, CI workflows, org policies | L5 (Governed) |
+| Map staleness + backbone index rules | L5 (Maintained) |
 | `.claude/rules/` directory | L4 (Abstracted) |
 | @imports or multiple instruction files | L3 (Structured) |
 | Instruction file exists and customized | L2 (Scoped) |
@@ -212,11 +187,11 @@ Score = (earned / possible) × 10
 | Medium | 2.5 | Brief clarification |
 | Low | 1.0 | Minor friction |
 
-**Example:** 10 rules checked, 1 critical violation
-- Possible: 10 × 2.5 = 25 points
+**Example:** 18 rules checked, 1 critical violation
+- Possible: 18 × 2.5 = 45 points
 - Lost: 5.5 (one critical)
-- Earned: 25 - 5.5 = 19.5
-- Score: (19.5 / 25) × 10 = **7.8**
+- Earned: 45 - 5.5 = 39.5
+- Score: (39.5 / 45) × 10 = **8.8**
 
 ### Step 3: Estimate Friction
 
@@ -236,14 +211,14 @@ Rules are classified by detection method:
 
 | Type | Count | Detection Method | LLM Cost |
 |------|-------|------------------|----------|
-| Deterministic | 33 | OpenGrep pattern match | None |
-| Semantic | 10 | OpenGrep gate + LLM evaluation | Per check |
+| Deterministic | 15 | OpenGrep pattern match | None |
+| Semantic | 3 | OpenGrep gate + LLM evaluation | Per check |
 
-### Deterministic Rules (33)
+### Deterministic Rules (15)
 
 100% certainty via OpenGrep pattern matching. No LLM needed.
 
-### Semantic Rules (10)
+### Semantic Rules (3)
 
 Two-stage validation:
 

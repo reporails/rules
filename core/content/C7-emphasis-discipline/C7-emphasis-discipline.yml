@@ -1,9 +1,0 @@
-rules:
-  - id: C7-too-many-emphasis
-    message: "More than 5 IMPORTANT/CRITICAL per file"
-    severity: WARNING
-    languages: [generic]
-    pattern-regex: "(?s)(IMPORTANT|CRITICAL).*?(IMPORTANT|CRITICAL).*?(IMPORTANT|CRITICAL).*?(IMPORTANT|CRITICAL).*?(IMPORTANT|CRITICAL).*?(IMPORTANT|CRITICAL)"
-    paths:
-      include:
-        - "{{instruction_files}}"

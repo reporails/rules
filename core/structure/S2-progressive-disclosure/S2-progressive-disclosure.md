@@ -35,7 +35,7 @@ checks:
     pattern_confidence: high
 sources:
   - "https://code.claude.com/docs/en/memory"
-see_also: [S1, E7]
+see_also: [S1, E2]
 ---
 
 # Progressive Disclosure

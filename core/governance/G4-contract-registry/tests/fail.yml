@@ -1,5 +1,0 @@
-version: "1.0"
-
-maps:
-  components:
-    api: src/api/
