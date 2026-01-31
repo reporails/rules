@@ -1,10 +1,10 @@
 # Schema for .reporails/config.yml
 # Project-level configuration — committed to git
-schema_version: 2
+version: 3
 
-# Migration from v1:
-#   - Added confidence section for filtering rules by confidence level
-#   - Added profile presets (strict, recommended, balanced, all)
+# Migration from v2:
+#   - Replaced confidence/profile with tiers (core/experimental)
+#   - Aligns with tier derivation model: core (max source weight >= 0.8), experimental (< 0.8)
 
 fields:
   schema_version:
@@ -99,52 +99,37 @@ fields:
           all: Score all files as one unit
           aggregate: Separate score per component (monorepo)
 
-  confidence:
+  tiers:
     required: false
     type: object
-    description: "Filter rules by confidence level"
+    description: "Filter rules by evidence tier"
     properties:
-      minimum:
-        type: enum
-        values: [confirmed, high, medium, low]
-        default: low
-        description: |
-          Minimum confidence level to enforce.
-          Rules below this level are skipped.
-
-          - confirmed: Only proven rules (official + research validated)
-          - high: Official recommendations and above
-          - medium: Community consensus and above
-          - experimental: All rules including community patterns (default)
-
-  profile:
-    required: false
-    type: enum
-    values: [strict, recommended, balanced, all]
-    description: |
-      Preset confidence profiles:
-      - strict: minimum = confirmed (only validated rules)
-      - recommended: minimum = high (official recommendations)
-      - balanced: minimum = medium (+ community consensus)
-      - all: minimum = low (everything, default)
+      core:
+        type: boolean
+        default: true
+        description: "Enforce core rules (backed by official/research sources, max weight >= 0.8)"
+      experimental:
+        type: boolean
+        default: true
+        description: "Enforce experimental rules (community-only sources, max weight < 0.8)"
 
 defaults:
-  schema_version: 2
+  schema_version: 3
   agent: "claude"
   instruction_files:
     main: "**/CLAUDE.md"
     supplementary: ".claude/rules/**/*.md"
   scoring:
     scope: main
-  confidence:
-    minimum: low
-  profile: all
+  tiers:
+    core: true
+    experimental: true
 
 validation:
-  - rule: "schema_version must be supported (currently: 1 or 2)"
+  - rule: "schema_version must be supported (currently: 1, 2, or 3)"
   - rule: "Unknown fields should warn, not error (forward compatibility)"
   - rule: "Invalid patterns should error with clear message"
-  - rule: "If both profile and confidence.minimum set, profile takes precedence"
+  - rule: "If tiers.core is false, no rules are enforced (core is the minimum set)"
 
 examples:
   minimal: |
@@ -211,20 +196,17 @@ examples:
     # Additional agents would need separate check runs
 
   enterprise_strict: |
-    # Only enforce validated rules (official + research)
+    # Only enforce validated rules (official + research backed)
     schema_version: 2
     agent: claude
-    profile: strict
-
-  team_recommended: |
-    # Official recommendations only
-    schema_version: 2
-    agent: claude
-    confidence:
-      minimum: high
+    tiers:
+      core: true
+      experimental: false
 
   early_adopter: |
-    # Include experimental rules
+    # Include experimental community patterns
     schema_version: 2
     agent: claude
-    profile: all
+    tiers:
+      core: true
+      experimental: true

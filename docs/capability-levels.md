@@ -8,7 +8,7 @@ L0 (Absent) means no instruction file exists â€” nothing to evaluate. Levels L1â
 
 | Level | Name | What It Enables | Key Indicators |
 |-------|------|-----------------|----------------|
-| **L1** | Basic | Reviewed instruction file | Customized (not raw `/init` output) |
+| **L1** | Basic | Reviewed, tracked instruction file | Customized (not raw `/init` output), version controlled |
 | **L2** | Scoped | Project-specific constraints | Size limits, core sections, content quality |
 | **L3** | Structured | External references, organized content | @imports, heading hierarchy, single source of truth |
 | **L4** | Abstracted | Path-scoped rules, context-aware loading | .claude/rules/, hierarchical memory |
@@ -24,17 +24,18 @@ L0 (Absent) means no instruction file exists â€” nothing to evaluate. Levels L1â
 ### Level 1: Basic
 - Instruction file exists and has been manually reviewed
 - No longer raw `/init` boilerplate
+- Version controlled (tracked in git)
 - **Risk:** File exists but may lack structure or project-specific content
 - **Fix:** Add core sections, constraints, and project description
-- **Primary rules:** CLAUDE_M1
+- **Primary rules:** CLAUDE_M1, M1
 
 ### Level 2: Scoped
 - Contains core sections: stack, commands, constraints
 - 30-200 lines, project-specific content quality
-- Version controlled, MUST/MUST NOT with rationale
+- MUST/MUST NOT with rationale
 - **Risk:** Token bloat, instruction dilution as file grows
 - **Fix:** Extract details to @imports, delegate formatting to tools
-- **Primary rules:** S1, S2, S3, S5, C1, C2, C4, C5, C7, C8, C9, C10, C12, M1
+- **Primary rules:** S1, S2, S3, S5, C1, C2, C4, C5, C7, C8, C9, C10, C12
 
 ### Level 3: Structured
 - Uses @imports to external documentation
@@ -107,7 +108,7 @@ L0 (Absent) means no instruction file exists â€” nothing to evaluate. Levels L1â
 | Project description | C9 | - | + | + | + | + | + |
 | NEVER with alternative | C10 | - | + | + | + | + | + |
 | Has version/date | C12 | - | + | + | + | + | + |
-| Version controlled | M1 | - | + | + | + | + | + |
+| Version controlled | M1 | + | + | + | + | + | + |
 | Context-specific content | C3 | - | - | + | + | + | + |
 | Single source of truth | C6 | - | - | + | + | + | + |
 | Links valid | C11 | - | - | + | + | + | + |

@@ -30,3 +30,7 @@ Instruction files are git-tracked for change history.
 
 **Good:** CLAUDE.md committed and tracked in git
 **Bad:** Instruction file in .gitignore
+
+## Limitations
+
+Pattern detects explicit exclusion via `.gitignore` only. Cannot detect files that were never `git add`-ed — that requires runtime `git status` checks (tooling concern, not static analysis).

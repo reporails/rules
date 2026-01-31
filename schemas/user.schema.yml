@@ -1,6 +1,6 @@
 # Schema for ~/.reporails/config.yml
 # User/global configuration — not committed, personal preferences
-schema_version: 1
+version: 1
 
 fields:
   schema_version:

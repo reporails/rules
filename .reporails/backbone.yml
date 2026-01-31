@@ -1,138 +1,95 @@
-# Reporails Framework Backbone
-# Central navigation index for the framework documentation
+version: 2
+generator: manual
 
-# Category definitions with weights
-categories:
-  structure:
-    weight: 20
-    prefix: S
-    path: core/structure/
-  content:
-    weight: 35
-    prefix: C
-    path: core/content/
-  maintenance:
-    weight: 15
-    prefix: M
-    path: core/maintenance/
-  governance:
-    weight: 15
-    prefix: G
-    path: core/governance/
-  efficiency:
-    weight: 15
-    prefix: E
-    path: core/efficiency/
+agents:
+  claude:
+    main_instruction_file: CLAUDE.md
+    config: agents/claude/config.yml
+    skills: .claude/skills/
+    tasks: .claude/tasks/
+  codex:
+    config: agents/codex/config.yml
 
-# Severity definitions (weights for scoring)
-severities:
-  critical:
-    weight: 5.5
-  high:
-    weight: 4.0
-  medium:
-    weight: 2.5
-  low:
-    weight: 1.0
-
-# Source references (full citations in README.md)
-sources:
-  1: Claude Code Best Practices
-  2: Memory Documentation
-  3: Hooks Guide
-  4: Settings
-  5: Context Windows
-  6: Using CLAUDE.md Files
-  7: How Anthropic Teams Use Claude Code
-  8: Claude 4 Best Practices
-  9: Issue #13579
-  10: Organizing CLAUDE.md in a Monorepo
-  11: Writing a Good CLAUDE.md
-  12: CLAUDE.md Optimization Study
-  13: How I Use Every Claude Code Feature
-  14: Claude MD Guide
-  15: Claude Rules Directory Mechanics
-  16: How to Write a Good Spec for AI Agents
-  17: AGENTS.md Specification
-  18: OpenAI Codex AGENTS.md Guide
-  19: Cursor Rules for AI
-  20: GitHub Copilot Custom Instructions
-  21: JetBrains AI Agent Guidelines
-  22: Keep a Changelog
-  23: CMMI Maturity Levels
-  24: Cloud Native Maturity Model
-  25: Reporails Empirical Data
-  26: Advanced Context Engineering
-
-# Navigation maps
-navigation_maps:
-  capability_model: capability-levels.md
-  capability_levels: docs/capability-levels.md
-  rules:
+rules:
+  core: core/
+  agents: agents/
+  patterns:
+    rule_dir: "{category}/{id}-{slug}/"
+    definition: "{id}-{slug}.md"
+    opengrep: "{id}-{slug}.yml"
+    test_pass: "tests/pass.md"
+    test_fail: "tests/fail.md"
+  categories:
     structure: core/structure/
     content: core/content/
-    maintenance: core/maintenance/
-    governance: core/governance/
     efficiency: core/efficiency/
-  meta:
-    readme: README.md
-    unreleased: UNRELEASED.md
+    governance: core/governance/
+    maintenance: core/maintenance/
+  agent_rules:
+    claude: agents/claude/rules/
+    codex: agents/codex/rules/
 
-# High-risk areas requiring extra caution
-high_risk_areas:
-  - capability-levels.md    # Central definitions - changes cascade
-  - README.md              # Public-facing, scoring weights
-  - core/**/*.md           # Rule definitions affect assessments
+  index:
+    # Core rules: ID → slug (resolve via: {category}/{id}-{slug}/)
+    S1: size-limits
+    S2: progressive-disclosure
+    S3: no-embedded-code-snippets
+    S4: yaml-backbone
+    S5: clear-markdown-structure
+    C1: core-sections
+    C2: explicit-over-implicit
+    C3: context-specific-content
+    C4: anti-pattern-documentation
+    C5: must-must-not-with-context
+    C6: single-source-of-truth
+    C7: emphasis-discipline
+    C8: instructions-over-philosophy
+    C9: has-project-description
+    C10: has-never-statements
+    C11: links-are-valid
+    C12: has-version-date
+    E1: deterministic-tools-for-style
+    E2: session-start-ritual
+    E3: purpose-based-file-reading
+    E4: memory-reference
+    E5: grep-efficiency
+    E6: code-block-line-limit
+    E7: import-count
+    E8: context-window-awareness
+    G1: team-governance-structure
+    G2: security-rules-ownership
+    G3: ownership-assignment
+    G4: contract-registry
+    G5: component-contract-binding
+    G6: architecture-tests
+    G7: metrics-and-cicd-checks
+    M1: version-control
+    M2: review-process
+    M3: change-management
+    M4: no-conflicting-rules
+    M5: map-staleness-prevention
+    # Agent rules: ID → slug (resolve via: agents/{agent}/rules/{id}-{slug}/)
+    CLAUDE_S1: skill-size-limits
+    CLAUDE_S2: hierarchical-memory
+    CLAUDE_S3: path-scoped-rules
+    CLAUDE_G1: organization-level-policies
+    CLAUDE_M1: auto-generated-content-review
+    CLAUDE_M2: rule-snippet-length
 
-# Rule index by detection type
-rule_index:
-  deterministic:
-    # 23 rules - OpenGrep pattern/structure detection
-    - S1   # Size Limits (line count)
-    - S4   # Hierarchical Memory (directory existence)
-    - S5   # Path-Scoped Rules (YAML frontmatter)
-    - S4   # YAML Backbone (file existence)
-    - C4   # Anti-pattern Documentation (NEVER/AVOID count)
-    - C5   # MUST/MUST NOT with Context (pattern detection)
-    - C7   # Emphasis Discipline (IMPORTANT/CRITICAL count)
-    - C9   # Has Project Description (first line check)
-    - C10  # Has NEVER Statements (pattern + alternative)
-    - C11  # Links Valid (path existence)
-    - C12  # Has Version/Date (pattern match)
-    - E3   # Purpose-Based File Reading (reading strategy keywords)
-    - E4   # Memory Reference (memory instruction keywords)
-    - E5   # Grep Efficiency (files_with_matches/head_limit keywords)
-    - E6   # Code Block Line Limit (line count)
-    - E7   # @import Count (pattern count)
-    - M5   # Map Staleness Prevention (path validation)
-    - M7   # Rule Snippet Length (line count)
-    - G1   # Organization Policies (file existence)
-    - G4   # Contract Registry (YAML structure)
-    - G5   # Component-Contract Binding (YAML structure)
-    - G6   # Architecture Tests (file existence)
-    - G7   # Metrics and CI/CD (workflow file check)
-  heuristic:
-    # 17 rules - OpenGrep gate + LLM confirmation
-    - S2   # Progressive Disclosure (may miss custom formats)
-    - S3   # No Embedded Code Snippets (``` gate)
-    - S5   # Clear Markdown Structure (orphan detection weak)
-    - C1   # Core Sections (heading wording varies)
-    - C2   # Explicit Over Implicit (inline code gate)
-    - C3   # Context-Specific Content (false positives)
-    - C6   # Single Source of Truth (cross-file similarity)
-    - C8   # Instructions Over Philosophy (philosophy keywords gate)
-    - E1   # Deterministic Tools for Style (false positives)
-    - E2   # Session Start Ritual (ritual keywords gate)
-    - M1   # Version Control (external refs gate)
-    - M2   # Review Process (process-based)
-    - M3   # Change Management (format varies)
-    - M4   # No Conflicting Rules (cross-file)
-    - M5   # Auto-Generated Content Review (quality unverifiable)
-    - G1   # Team Governance Structure (format varies)
-    - G3   # Ownership Assignment (format varies)
-  semantic:
-    # 1 rule requires full LLM judgment (no pattern gate)
-    - G2   # Security Rules Ownership (needs organizational context)
-  behavioral:
-    # 1 rule - runtime behavior, not detectable from file content
-    - E8   # Context Window Awareness (model's native tracking)
+schemas:
+  rule: schemas/rule.schema.yml
+  agent: schemas/agent.schema.yml
+  project: schemas/project.schema.yml
+  sources: schemas/sources.schema.yml
+  user: schemas/user.schema.yml
+  levels: schemas/levels.schema.yml
+
+artifacts:
+  levels: levels.yml
+  sources: docs/sources.yml
+  capability_levels: docs/capability-levels.md
+  changelog: UNRELEASED.md
+
+shared:
+  knowledge: .shared/knowledge/
+  workflows: .shared/workflows/

@@ -1,6 +1,15 @@
 # Unreleased
 
+## Added
+
+- **`/manage-levels` skill**: New skill to sync, diff, and list level-rule mappings. Parses Capability Assessment Matrix from `docs/capability-levels.md` as source of truth; `levels.yml` is derived artifact. Commands: `sync`, `diff`, `list [level]`. Shared workflow at `.shared/workflows/level-sync.md`.
+- **levels.schema.yml**: New schema for `levels.yml` (version 1). Validates level-to-rule mappings consumed by CLI.
+
 ## Changed
+
+- **M1 moved to L1**: Version control is now a Basic (L1) requirement instead of Scoped (L2). Gives L1 a generic rule alongside agent-specific boilerplate checks, sharpens L2 as purely content/structure quality.
+- **Schema field rename**: `schema_version` → `version` in all schema files (rule, agent, project, sources, user, levels). Aligns with release workflow manifest generation.
+- **BREAKING**: Project schema v3 — Replaced `confidence`/`profile` fields with `tiers` object (`core: bool`, `experimental: bool`). Aligns with tier derivation model from rule schema v4.
 
 - **BREAKING**: Rule schema v5 — Added `pattern_confidence` field to `checks[]` items. Optional enum (`very_high`, `high`, `medium`, `low`, `very_low`), defaults to `medium`. Indicates OpenGrep pattern precision for LLM pattern generation and CLI telemetry. Non-breaking — existing rules remain valid.
 - **pattern_confidence propagated** across all 43 rule frontmatters, 6 documentation/knowledge/workflow files, and 3 skill duplicates. Assessments: 4 very_high, 14 high, 16 medium, 9 low. Fixed stale "Confidence mismatch" reference in validation.md.

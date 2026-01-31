@@ -12,12 +12,12 @@ levels:
   L1:
     name: Basic
     description: Instruction file exists, reviewed, has basic content
-    rules: [CLAUDE_M1]
+    rules: [CLAUDE_M1, M1]
 
   L2:
     name: Scoped
     description: Project-specific constraints, size limits, content quality
-    rules: [S1, S2, S3, S5, C1, C2, C4, C5, C7, C8, C9, C10, C12, M1]
+    rules: [S1, S2, S3, S5, C1, C2, C4, C5, C7, C8, C9, C10, C12]
 
   L3:
     name: Structured

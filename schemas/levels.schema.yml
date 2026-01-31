@@ -1,0 +1,45 @@
+# Schema for levels.yml
+# Canonical level-to-rule mappings consumed by CLI
+version: 1
+
+fields:
+  levels:
+    required: true
+    type: object
+    description: "Map of level IDs (L0-L6) to level definitions"
+    pattern_key: "^L[0-6]$"
+    properties:
+      name:
+        required: true
+        type: string
+        description: "Level display name (e.g., Basic, Scoped, Structured)"
+      description:
+        required: true
+        type: string
+        description: "One-line description of what the level enables"
+      rules:
+        required: true
+        type: array
+        items:
+          type: string
+          pattern: "^(CLAUDE_)?[A-Z]+[0-9]+$"
+        description: "Rule IDs introduced at this level (not cumulative)"
+
+validation:
+  - rule: "L0 must exist with empty rules array"
+  - rule: "L1 through L6 must each exist"
+  - rule: "Each rule ID must appear in exactly one level"
+  - rule: "Rule IDs must match pattern: optional agent prefix + category letter(s) + number"
+  - rule: "Rules within a level are listed in matrix row order (not sorted)"
+
+examples:
+  minimal: |
+    levels:
+      L0:
+        name: Absent
+        description: No instruction file
+        rules: []
+      L1:
+        name: Basic
+        description: Instruction file exists, reviewed, has basic content
+        rules: [CLAUDE_M1, M1]

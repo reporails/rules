@@ -1,7 +1,7 @@
 # Schema definition for agent configuration
 # Used by: ails validate, agents, contributors
 
-schema_version: 2
+version: 2
 
 # Migration from v1:
 #   - Clarified: agent rules use SEPARATE namespace (CLAUDE_S1 ≠ override of S1)

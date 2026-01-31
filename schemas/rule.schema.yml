@@ -1,7 +1,7 @@
 # Schema definition for rule frontmatter
 # Used by: ails check, ails validate, agents, contributors
 
-schema_version: 5
+version: 5
 
 # =============================================================================
 # RULE TYPES

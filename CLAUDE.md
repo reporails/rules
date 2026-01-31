@@ -10,6 +10,11 @@ Framework for evaluating and maintaining AI agent instruction files.
 - OpenGrep patterns for detection
 - No application code — framework only
 
+## Session Start
+
+1. Read `.reporails/backbone.yml` for project structure
+2. Read `docs/capability-levels.md` for architecture decisions
+
 ## Structure
 
 ```
@@ -89,3 +94,6 @@ Update an existing rule's OpenGrep patterns based on instruction.
 
 ### /extract-claims <url>
 Extract claims from a source URL for sources.yml evidence chain.
+
+### /manage-levels <sync|diff|list> [level]
+Sync levels.yml from capability matrix, diff discrepancies, or list rules per level.

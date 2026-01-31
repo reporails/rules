@@ -18,20 +18,43 @@ jobs:
         id: version
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
+      - name: Validate schemas have versions
+        run: |                                                                                                                                                             
+          for schema in schemas/*.schema.yml; do                                                                                                                           
+            if ! grep -q '^version:' "$schema"; then                                                                                                                       
+              echo "ERROR: $schema missing version field"                                                                                                                  
+              exit 1                                                                                                                                                       
+            fi                                                                                                                                                             
+          done                                                                                                                                                             
+
+      - name: Generate manifest
+        run: |                                                                                                                                                             
+          VERSION=${{ steps.version.outputs.VERSION }}                                                                                                                     
+                                                                                                                                                                           
+          echo "release: \"${VERSION}\"" > manifest.yml                                                                                                                    
+          echo "schemas:" >> manifest.yml                                                                                                                                  
+                                                                                                                                                                           
+          for schema in schemas/*.schema.yml; do                                                                                                                           
+            name=$(basename "$schema" .schema.yml)                                                                                                                         
+            version=$(grep '^version:' "$schema" | head -1 | awk '{print $2}' | tr -d '"')                                                                                 
+            echo "  ${name}: \"${version}\"" >> manifest.yml                                                                                                               
+          done                                                                                                                                                             
+
       - name: Create tarball
-        run: |
+        run: |                                                                                                                                                             
           VERSION=${{ steps.version.outputs.VERSION }}
           
           # Create tarball with framework contents
           tar -czvf reporails-rules-${VERSION}.tar.gz \
+            manifest.yml \
+            levels.yml \
             core/ \
             agents/ \
             schemas/ \
             docs/capability-levels.md \
             docs/methodology-thresholds.md \
             docs/sources.yml
-          
-          # Generate checksums
+
           sha256sum reporails-rules-${VERSION}.tar.gz > checksums.txt
 
       - name: Create Release
