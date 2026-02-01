@@ -1,19 +1,24 @@
 # Reporails Rules
 
-Core rules for linting AI coding agent instruction files.
-Aims to become community-maintained.
+Validation rules for AI agent instruction files (CLAUDE.md, .cursorrules, copilot-instructions.md).
+Community-maintained.
 
 **Version:** 0.2.1
 
-## Quickstart (requires [uvx](https://docs.astral.sh/uv/getting-started/installation/))
-```
-# Add the MCP and restart Claude
-claude mcp add reporails -- uvx --from reporails-cli ails-mcp
+## Quickstart
+
+```bash
+npx @reporails/cli install
 ```
 
-Then ask Claude:
+This registers the MCP server with Claude Code. Then ask Claude:
 ```
 > What ails claude?
+```
+
+Or run directly without MCP:
+```bash
+npx @reporails/cli check
 ```
 
 ## What's here
@@ -26,7 +31,7 @@ core/
 
 agents/
   claude/       # Claude Code specific rules (CLAUDE_M1, CLAUDE_S1-S2)
-  codex/        # OpenAI Codex specific rules
+  codex/        # OpenAI Codex (no rules yet)
 
 schemas/        # Rule and config schemas
 
@@ -38,21 +43,13 @@ docs/           # Detailed documentation
 
 18 core rules. For 26 additional recommended rules, see [reporails/recommended](https://github.com/reporails/recommended).
 
-## How it works
-
-These rules are automatically downloaded when you install the MCP/CLI:
-```bash
-uvx reporails-cli init
-ails check .
-```
-
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Documentation
 
-- [Capability Levels](docs/capability-levels.md) — L1-L6 maturity model
+- [Capability Levels](docs/capability-levels.md) — L1-L6 capability model
 - [Rule Schema](schemas/rule.schema.yml) — How rules are structured
 
 ## License

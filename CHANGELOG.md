@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2026-02-01
+
+Focus split — 18 core rules in dedicated repo, opinionated rules moved to reporails/recommended.
+
+### Added
+- **Package Schema**: v0.0.1 — formal contract for rule packages
+
+### Changed
+- **Structure**: Split core rules into focused repository
+- **Rules**: Renumbered 18 core rules to fill gaps after removing 26 opinionated rules
+- **Levels**: Redistributed M3/M4 from L6 to L5; L6 is now detection-only
+- **Schemas**: Rule schema v0.0.7 — added package layer, reserved_package_prefixes, package ID patterns
+- **Schemas**: Agent schema v0.0.2 — fixed stale copilot and Claude overrides examples
+- **Skills**: /generate-rule now generates skeletons; /validate-rules reduced to schema + contract checks; removed unused skills
+- **Docs**: README and CONTRIBUTING rewritten — validation framing, quickstart aligned with CLI, streamlined contributor path
+
+### Removed
+- **Rules**: 26 opinionated rules (now in reporails/recommended)
+- **Skills**: /update-rule, /generate-all-rules, /audit-evidence-chain, /extract-claims
+- **Knowledge**: opengrep-patterns.md, evidence-chain.md
+- **Schema**: sources.schema.yml
+- **Workflows**: evidence-audit.md, claim-extraction.md
+
+### Metrics
+- Rules: 18 (15 core + 3 Claude-specific)
+- Schemas: 6 (rule, agent, project, package, user, levels)
+
 ## [0.2.0] - 2026-01-31
 
 Trust Architecture — tier-derived rule classification, schema breaking changes, directory restructuring with co-located tests, and multi-agent support.

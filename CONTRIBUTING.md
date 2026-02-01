@@ -1,43 +1,38 @@
-# Contributing Rules
+# Contributing
+
+Reporails validates AI agent instruction files (CLAUDE.md, .cursorrules, copilot-instructions.md). Rules define what to check — this repo is where those rules live.
 
 ## Setup
 
 1. Clone this repo
-2. Use Claude Code — skills guide you through everything
+2. Open in Claude Code — slash commands handle the rest
 
-## Adding a rule
+## Create a rule
+
 ```
 /generate-rule S5 core "My New Rule"
 ```
 
-Claude will:
-1. Ask what it checks and why it matters
-2. Determine if it's deterministic or semantic
-3. Create .md and .yml files
-4. Validate the OpenGrep pattern
-5. Save only if validation passes
+The skill walks you through it: what the rule checks, whether detection is deterministic or semantic, and generates the .md, .yml, and test files.
 
-## Updating a rule
-```
-/update-rule S1 "increase line limit to 250"
-```
+## Validate
 
-## Before submitting
 ```
 /validate-rules
 ```
 
-This checks:
-- Schema compliance
-- .md <> .yml contract
-- OpenGrep pattern validity
+Checks schema compliance, .md/.yml consistency, and OpenGrep pattern validity. Run before submitting.
 
-## After changes
+## Log changes
+
 ```
 /add-changelog-entry
 ```
 
-## Rule structure
+Run after any rule change.
+
+## Rule layout
+
 ```
 core/
   structure/     # S1-S4
@@ -46,29 +41,24 @@ core/
   maintenance/   # M1-M4
 
 agents/
-  claude/rules/  # CLAUDE_* rules
-  codex/rules/   # CODEX_* rules
+  claude/rules/  # CLAUDE_M1, CLAUDE_S1, CLAUDE_S2
+  codex/rules/   # (no rules yet)
 ```
 
-Opinionated rules (governance, process, style guidance) live in [reporails/recommended](https://github.com/reporails/recommended) with the `AILS_` prefix.
+Opinionated rules (governance, process, style) live in [reporails/recommended](https://github.com/reporails/recommended) with the `AILS_` prefix.
+
+Schemas live in `schemas/` — single source of truth, never duplicated across repos.
 
 ## Quick reference
 
-| Task | Skill |
-|------|-------|
+| Task | Command |
+|------|---------|
 | New rule | `/generate-rule <id> <scope> <title>` |
-| Fix pattern | `/update-rule <id> <instruction>` |
 | Validate all | `/validate-rules` |
 | Validate one | `/validate-rules <id>` |
+| Level mappings | `/manage-levels <sync\|diff\|list> [level]` |
+| Agent config | `/manage-agent-config <create\|audit> <agent>` |
 | Log change | `/add-changelog-entry` |
-
-## Advanced: Agent configs
-```
-/manage-agent-config create cursor
-/manage-agent-config audit claude
-```
-
-See `.claude/skills/manage-agent-config/` for details.
 
 ## Questions?
 
