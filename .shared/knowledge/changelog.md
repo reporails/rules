@@ -31,7 +31,7 @@ Add to `UNRELEASED.md` as you work:
 - [CATEGORY]: Brief description of what was removed
 ```
 
-**Categories:** STRUCTURE, SKILLS, TASKS, WORKFLOWS, KNOWLEDGE, SCHEMA, RULES, SOURCES, DOCS, META, QA
+**Areas:** RULES, L1-L6, DOCS, META
 
 ## Writing Good Entries
 
