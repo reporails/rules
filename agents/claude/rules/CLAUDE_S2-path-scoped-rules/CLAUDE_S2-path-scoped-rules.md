@@ -1,5 +1,5 @@
 ---
-id: CLAUDE_S1
+id: CLAUDE_S2
 title: Path-Scoped Rules
 category: structure
 type: deterministic
@@ -17,7 +17,7 @@ backed_by:
   - source: rules-directory-mechanics
     claim: loading-behavior
 checks:
-  - id: CLAUDE_S1-no-paths-frontmatter
+  - id: CLAUDE_S2-no-paths-frontmatter
     name: Rule file missing paths key in frontmatter
     severity: medium
     pattern_confidence: high
