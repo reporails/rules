@@ -77,16 +77,4 @@ Skills in `.claude/skills/` are entry points that reference shared content.
 
 ## Skills
 
-Skills are in `.claude/skills/`. Each has a SKILL.md that links to shared workflows.
-
-### /generate-rule <id> <scope> <title>
-Generate a rule skeleton with proper directory structure and placeholder files.
-
-### /validate-rules [id] [--category <cat>]
-Validate rules against schema and .md/.yml contracts.
-
-### /add-changelog-entry
-Add entry to UNRELEASED.md after making changes.
-
-### /manage-levels <sync|diff|list> [level]
-Sync levels.yml from capability matrix, diff discrepancies, or list rules per level.
+Skills in `.claude/skills/` — each has a SKILL.md linking to shared workflows.

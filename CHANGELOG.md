@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.2] - 2026-02-04
+
+### Changed
+- **Package Schema**: 0.2.2
+- Collapsed rules listing in CLAUDE.md.
+
+### Fixed
+- Rule ID mapping inconsistency in CLAUDE_S2
+
 ## [0.2.1] - 2026-02-01
 
 Focus split — 18 core rules in dedicated repo, opinionated rules moved to reporails/recommended.

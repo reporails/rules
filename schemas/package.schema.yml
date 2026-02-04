@@ -224,7 +224,7 @@ examples:
     prefix: AILS
     name: Reporails Recommended Rules
     description: Opinionated best practices, governance, and process rules
-    version: "0.2.1"
+    version: "0.2.2"
 
     depends_on:
       schema: "reporails/rules"
