@@ -1,0 +1,30 @@
+# Slug → coordinate mapping
+version: 1
+
+core:
+  structure:
+    size-limits: "CORE:S:0001"
+    progressive-disclosure: "CORE:S:0002"
+    no-embedded-code-snippets: "CORE:S:0003"
+    clear-markdown-structure: "CORE:S:0004"
+  content:
+    core-sections: "CORE:C:0001"
+    single-source-of-truth: "CORE:C:0002"
+    has-project-description: "CORE:C:0003"
+    links-are-valid: "CORE:C:0004"
+    has-version-date: "CORE:C:0005"
+  efficiency:
+    code-block-line-limit: "CORE:E:0001"
+    import-count: "CORE:E:0002"
+  maintenance:
+    version-control: "CORE:M:0001"
+    no-conflicting-rules: "CORE:M:0002"
+    map-staleness-prevention: "CORE:M:0003"
+    backbone-index-completeness: "CORE:M:0004"
+  governance: {}
+
+agents:
+  claude:
+    auto-generated-content-review: "CLAUDE:M:0001"
+    hierarchical-memory: "CLAUDE:S:0001"
+    path-scoped-rules: "CLAUDE:S:0002"

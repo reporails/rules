@@ -1,242 +1,91 @@
-# Schema definition for agent configuration
-# Used by: ails validate, agents, contributors
+# Agent configuration schema
+version: "0.1.0"
 
-version: "0.0.2"
-
-# Migration from v1:
-#   - Clarified: agent rules use SEPARATE namespace (CLAUDE_S1 ≠ override of S1)
-#   - Added: pattern_overrides folder for modifying core patterns
-#   - Clarified: config overrides are severity-only; pattern changes use files
-
-# =============================================================================
-# AGENT CONFIG
-# =============================================================================
-# Each agent defines:
-# - Identity (agent, prefix, name)
-# - File patterns (vars)
-# - What core rules don't apply (excludes)
-# - Severity adjustments (overrides in config)
-# - Pattern modifications (overrides/ folder)
-# =============================================================================
-
-# Reference: reserved_agent_prefixes defined in rule.schema.yml
-# Agents must use a prefix from that list.
+# Simplified from v0.0.2: removed prefix/name/overrides/pattern_overrides.
+# instruction_files patterns live here (moved from project config).
 
 fields:
   agent:
     required: true
     type: string
     pattern: "^[a-z]+$"
-    description: "Agent identifier (lowercase)"
+    description: "Agent identifier. Uppercase = coordinate registry prefix."
 
-  prefix:
+  version:
     required: true
     type: string
-    pattern: "^[A-Z]+$"
-    description: "Rule ID prefix for agent-specific rules. Must be in reserved_agent_prefixes (see rule.schema.yml)"
-
-  name:
-    required: true
-    type: string
-    max_length: 64
-    description: "Human-readable agent name (max 64 chars)"
+    pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    description: "Semver version of this agent configuration"
 
   vars:
     required: true
     type: object
-    description: "Template variables for rule patterns. Universal vars required, agent-specific optional."
+    description: "Template variables resolved by CLI for rule targets and capability detection"
     properties:
-      # Universal variables (REQUIRED for all agents)
       main_instruction_file:
         required: true
-        type: array
-        items:
-          type: string
-        description: "Primary instruction file(s) — document-level rules check only these"
+        type: string
+        description: "Primary instruction file glob (e.g., CLAUDE.md)"
       instruction_files:
         required: true
-        type: array
-        items:
-          type: string
-        description: "All instruction files (main + supplementary) — content rules check all"
-      # Agent-specific variables (optional, only if agent supports the feature)
+        type: string
+        description: "All instruction files glob (main + nested)"
       supplementary_files:
         required: false
-        type: array
-        items:
-          type: string
-        description: "Rule snippet files (excludes main) — for agents with rules directory"
+        type: string
+        description: "Rule snippet files, excluding main instruction file"
       rules_dir:
         required: false
         type: string
-        description: "Rules directory path — for agents with hierarchical rules"
+        description: "Path-scoped rules directory"
       skills_dir:
         required: false
         type: string
-        description: "Skills directory path — for agents with skills support"
+        description: "Skills directory path"
     additionalProperties:
       type: string
-      description: "Additional agent-specific variables"
+      description: "Agent-specific vars (e.g., settings_file, mcp_config, memory_dir)"
 
   excludes:
     required: false
     type: array
+    description: "Glob patterns to exclude from all rule target resolution"
     items:
       type: string
-      pattern: "^[SCEGM][0-9]+$"
-    description: "Core rule IDs that don't apply to this agent"
-
-  overrides:
-    required: false
-    type: object
-    description: "Per-check SEVERITY overrides in config (key = check ID). For pattern changes, use overrides/ folder."
-    additionalProperties:
-      type: object
-      properties:
-        severity:
-          type: enum
-          values: [critical, high, medium, low]
-          description: "Override default severity"
-        disabled:
-          type: boolean
-          description: "Disable this check for this agent"
-
-# =============================================================================
-# PATTERN OVERRIDES (FILE-BASED)
-# =============================================================================
-# For modifying core rule PATTERNS (not just severity), use override files:
-#
-#   agents/{agent}/overrides/{rule_id}.yml
-#
-# Override files are MERGED with core rules at check-level:
-#   - Check in override replaces core check entirely
-#   - Check with `disabled: true` is removed from final
-#   - Checks not mentioned inherit from core
-#
-# Example: agents/claude/overrides/S1.yml
-#   rules:
-#     - id: S1-root-too-long
-#       message: "Root file exceeds Claude's 300 line limit"
-#       severity: WARNING
-#       languages: [generic]
-#       pattern-regex: "(?s)(?:[^\\n]*\\n){300,}"  # changed threshold
-#
-#     - id: S1-many-sections
-#       disabled: true  # opt out this check for Claude
-#
-# Merge resolution:
-#   1. Load core/{category}/{rule}/*.yml
-#   2. If agents/{agent}/overrides/{rule_id}.yml exists:
-#      - For each check in override: replace or disable
-#      - Checks not in override: keep from core
-#   3. Result: single merged ruleset for OpenGrep
-#
-# =============================================================================
-
-# =============================================================================
-# VALIDATION
-# =============================================================================
 
 validation:
-  # Identity
-  - rule: "agent must be lowercase letters only"
-  - rule: "prefix must be UPPERCASE letters only"
-  - rule: "prefix must be in reserved_agent_prefixes (see rule.schema.yml)"
-
-  # Vars - Universal (required)
-  - rule: "vars.main_instruction_file is required"
-  - rule: "vars.instruction_files is required"
-
-  # Vars - Agent-specific (optional)
-  - rule: "supplementary_files, rules_dir, skills_dir only needed if agent supports them"
-
-  # Excludes
-  - rule: "excludes items must be valid core rule IDs"
-
-  # Config Overrides (severity only)
-  - rule: "overrides keys must be valid check IDs"
-  - rule: "overrides severity must be valid severity value"
-  - rule: "overrides in config.yml are for severity changes only"
-
-  # Pattern Overrides (file-based)
-  - rule: "pattern override files go in agents/{agent}/overrides/{rule_id}.yml"
-  - rule: "override file check IDs must match core rule check IDs"
-  - rule: "override checks with disabled: true are removed from final ruleset"
-
-# =============================================================================
-# EXAMPLES
-# =============================================================================
+  - rule: "agent uppercase must be in reserved_agent_prefixes (see rule.schema.yml)"
 
 examples:
   claude: |
-    # Full-featured agent with rules directory
     agent: claude
-    prefix: CLAUDE
-    name: Claude Code
-
+    version: "0.1.0"
     vars:
-      # Universal (required)
-      main_instruction_file:
-        - "**/CLAUDE.md"
-      instruction_files:
-        - "**/CLAUDE.md"
-        - ".claude/rules/**/*.md"
-      # Agent-specific (Claude supports rules directory)
-      supplementary_files:
-        - ".claude/rules/**/*.md"
+      main_instruction_file: "**/CLAUDE.md"
+      instruction_files: "**/CLAUDE.md"
+      supplementary_files: ".claude/rules/**/*.md"
       rules_dir: ".claude/rules"
       skills_dir: ".claude/skills"
-
-    # Severity adjustments (pattern unchanged)
-    overrides:
-      E2-too-many-imports:
-        severity: medium
+      settings_file: ".claude/settings.json"
+      mcp_config: ".mcp.json"
+      memory_dir: "memory"
+    excludes:
+      - "node_modules/**"
+      - ".git/**"
+      - "archive/**"
 
   copilot: |
-    # Minimal agent with single file
     agent: copilot
-    prefix: COPILOT
-    name: GitHub Copilot
-
+    version: "0.1.0"
     vars:
-      # Universal only — no rules directory support
-      main_instruction_file:
-        - ".github/copilot-instructions.md"
-      instruction_files:
-        - ".github/copilot-instructions.md"
-
-    # No excludes — all core rules (S1-S4, C1-C5, E1-E2, M1-M4) apply
+      main_instruction_file: ".github/copilot-instructions.md"
+      instruction_files: ".github/copilot-instructions.md"
 
   cursor: |
-    # Agent with rules directory support
     agent: cursor
-    prefix: CURSOR
-    name: Cursor
-
+    version: "0.1.0"
     vars:
-      main_instruction_file:
-        - "**/.cursorrules"
-      instruction_files:
-        - "**/.cursorrules"
-        - ".cursor/rules/**/*.md"
-      supplementary_files:
-        - ".cursor/rules/**/*.md"
+      main_instruction_file: "**/.cursorrules"
+      instruction_files: "**/.cursorrules"
+      supplementary_files: ".cursor/rules/**/*.md"
       rules_dir: ".cursor/rules"
-
-  pattern_override: |
-    # Example: Override core S1 patterns for an agent
-    # File: agents/myagent/overrides/S1.yml
-
-    rules:
-      # Replace this check with different threshold
-      - id: S1-root-too-long
-        message: "Root file exceeds 300 line limit"
-        severity: WARNING
-        languages: [generic]
-        pattern-regex: "(?s)(?:[^\\n]*\\n){300,}"
-
-      # Opt out of this check entirely
-      - id: S1-many-sections
-        disabled: true
-
-      # S1-other-check not listed = inherited from core

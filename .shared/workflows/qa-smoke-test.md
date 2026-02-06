@@ -10,16 +10,13 @@ flowchart TD
     CHECK1 -->|Yes| VAL[2. Rule Validation<br/>all rules]
     VAL --> CHECK2{Checklist passed?}
     CHECK2 -->|No| FAIL2([FAIL: validate-rules])
-    CHECK2 -->|Yes| AUDIT[3. Evidence Audit<br/>all rules + sources]
-    AUDIT --> CHECK3{Checklist passed?}
-    CHECK3 -->|No| FAIL3([FAIL: audit-evidence-chain])
-    CHECK3 -->|Yes| UPD[4. Rule Update<br/>SMOKE1 add pattern]
-    UPD --> CHECK4{Checklist passed?}
-    CHECK4 -->|No| FAIL4([FAIL: update-rule])
-    CHECK4 -->|Yes| REVAL[5. Re-validate<br/>confirm SMOKE1 still valid]
-    REVAL --> CHECK5{Still passes?}
-    CHECK5 -->|No| FAIL5([FAIL: regression])
-    CHECK5 -->|Yes| CLEANUP[6. Cleanup<br/>rm -rf core/*/SMOKE1-*]
+    CHECK2 -->|Yes| UPD[3. Rule Update<br/>SMOKE1 add pattern]
+    UPD --> CHECK3{Checklist passed?}
+    CHECK3 -->|No| FAIL3([FAIL: update-rule])
+    CHECK3 -->|Yes| REVAL[4. Re-validate<br/>confirm SMOKE1 still valid]
+    REVAL --> CHECK4{Still passes?}
+    CHECK4 -->|No| FAIL4([FAIL: regression])
+    CHECK4 -->|Yes| CLEANUP[5. Cleanup<br/>rm -rf core/*/SMOKE1-*]
     CLEANUP --> PASS([PASS])
 ```
 
@@ -29,10 +26,9 @@ flowchart TD
 |------|----------|-------|-------------|
 | 1 | rule-creation | `SMOKE1 core "Smoke Test"` | qa-checklist.md#generate-rule |
 | 2 | rule-validation | all rules | qa-checklist.md#validate-rules |
-| 3 | evidence-audit | all rules + sources | qa-checklist.md#audit-evidence-chain |
-| 4 | rule-update | `SMOKE1 "Add test pattern"` | qa-checklist.md#update-rule |
-| 5 | rule-validation | all rules | SMOKE1 still passes |
-| 6 | cleanup | `rm -rf core/*/SMOKE1-*` | directory deleted |
+| 3 | rule-update | `SMOKE1 "Add test pattern"` | qa-checklist.md#update-rule |
+| 4 | rule-validation | all rules | SMOKE1 still passes |
+| 5 | cleanup | `rm -rf core/*/SMOKE1-*` | directory deleted |
 
 ## When to Run
 

@@ -1,4 +1,4 @@
-version: 2
+version: 3
 generator: manual
 
 agents:
@@ -14,9 +14,9 @@ rules:
   core: core/
   agents: agents/
   patterns:
-    rule_dir: "{category}/{id}-{slug}/"
-    definition: "{id}-{slug}.md"
-    opengrep: "{id}-{slug}.yml"
+    rule_dir: "{category}/{slug}/"
+    definition: "rule.md"
+    opengrep: "rule.yml"
     test_pass: "tests/pass.{ext}"
     test_fail: "tests/fail.{ext}"
     # {ext} matches the rule's target file type: md (default), yml, json
@@ -25,45 +25,25 @@ rules:
     content: core/content/
     efficiency: core/efficiency/
     maintenance: core/maintenance/
+    governance: core/governance/
   agent_rules:
     claude: agents/claude/rules/
     codex: agents/codex/rules/
 
-  index:
-    # Core rules: ID → slug (resolve via: {category}/{id}-{slug}/)
-    S1: size-limits
-    S2: progressive-disclosure
-    S3: no-embedded-code-snippets
-    S4: clear-markdown-structure
-    C1: core-sections
-    C2: single-source-of-truth
-    C3: has-project-description
-    C4: links-are-valid
-    C5: has-version-date
-    E1: code-block-line-limit
-    E2: import-count
-    M1: version-control
-    M2: no-conflicting-rules
-    M3: map-staleness-prevention
-    M4: backbone-index-completeness
-    # Agent rules: ID → slug (resolve via: agents/{agent}/rules/{id}-{slug}/)
-    CLAUDE_M1: auto-generated-content-review
-    CLAUDE_S1: hierarchical-memory
-    CLAUDE_S2: path-scoped-rules
-
 schemas:
   rule: schemas/rule.schema.yml
+  capability: schemas/capability.schema.yml
+  levels: schemas/levels.schema.yml
   agent: schemas/agent.schema.yml
   package: schemas/package.schema.yml
   project: schemas/project.schema.yml
   user: schemas/user.schema.yml
-  levels: schemas/levels.schema.yml
 
-artifacts:
-  levels: levels.yml
-  sources: docs/sources.yml
-  capability_levels: docs/capability-levels.md
-  changelog: UNRELEASED.md
+registry:
+  capabilities: registry/capabilities.yml
+  levels: registry/levels.yml
+  coordinate_map: registry/coordinate-map.yml
+  tombstones: registry/tombstones.yml
 
 shared:
   knowledge: .shared/knowledge/

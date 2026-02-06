@@ -49,15 +49,15 @@ Add to `UNRELEASED.md` as you work:
 **Good:**
 ```markdown
 - [STRUCTURE]: Introduced `.shared/` for agent-agnostic workflows and knowledge
-- [REPORTING]: Trust Score with Evidence Coverage breakdown (81% official, 19% methodology)
+- [REPORTING]: Schema validation with rule count breakdown
 ```
 
 **Bad:**
 ```markdown
 - Added file .shared/workflows/rule-creation.md
 - Added file .shared/workflows/rule-validation.md
-- Added file .shared/workflows/evidence-audit.md
-- Changed evidence-chain.md
+- Added file .shared/workflows/rule-update.md
+- Changed qa-checklist.md
 ```
 
 ## Creating a Release
@@ -68,7 +68,7 @@ Use task: `.claude/tasks/create-release.md`
 1. Review `UNRELEASED.md`
 2. Group similar changes by theme
 3. Write release summary for `CHANGELOG.md`
-4. Include key metrics (trust score, rule count, etc.)
+4. Include key metrics (rule count, schema version, etc.)
 5. Clear `UNRELEASED.md` (keep header)
 6. Commit, tag, push
 
@@ -89,9 +89,8 @@ One-line summary of the release.
 - **Theme**: Summary
 
 ### Metrics
-- Trust Score: X%
-- Evidence Coverage: Y% official, Z% methodology
 - Rules: N total (P passing)
+- Schema version: X
 ```
 
 ## Tagging

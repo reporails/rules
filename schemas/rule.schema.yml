@@ -1,16 +1,8 @@
-# Schema definition for rule frontmatter
-# Used by: ails check, ails validate, agents, contributors
-
-version: "0.0.7"
-
-# =============================================================================
-# RULE TYPES
-# =============================================================================
-# deterministic: OpenGrep decides. No LLM.
-# semantic: OpenGrep first, LLM fills gaps.
-# =============================================================================
+# Rule frontmatter schema
+version: "0.1.0"
 
 types:
+  - mechanical
   - deterministic
   - semantic
 
@@ -18,8 +10,8 @@ categories:
   - structure
   - content
   - efficiency
-  - governance
   - maintenance
+  - governance
 
 severities:
   - critical
@@ -27,52 +19,13 @@ severities:
   - medium
   - low
 
-# =============================================================================
-# RULE RESOLUTION STACK
-# =============================================================================
-# Rules are resolved in layers (bottom to top). Higher layers win.
-#
-#   ┌─────────────────────────────────────┐
-#   │ User/Local                          │  Can: define, override, exclude
-#   ├─────────────────────────────────────┤
-#   │ Agent                               │  Can: define, override, exclude core + package
-#   ├─────────────────────────────────────┤
-#   │ Package(s)                          │  Can: define rules, override/exclude core
-#   ├─────────────────────────────────────┤
-#   │ Core                                │  Universal baseline (all agents)
-#   └─────────────────────────────────────┘
-#
-# Resolution for each file:
-#   1. Collect applicable core rules
-#   2. Apply package modifications:
-#      - excludes: remove core rules
-#      - overrides: adjust severity on core rules
-#   3. Add package rules (AILS_S1, etc.) and package agent rules (AILS_CLAUDE_S1, etc.)
-#   4. Apply agent modifications:
-#      - excludes: remove core + package rules
-#      - overrides (config): adjust severity
-#      - overrides (files): replace patterns
-#   5. Add agent-specific rules (CLAUDE_*, CURSOR_*, etc.)
-#   6. Apply user modifications (same as agent)
-#   7. Add user-specific rules (USR_*, custom prefix)
-#
-# Namespaces:
-#   - Core: S1, S2, S3... (universal)
-#   - Package: AILS_S1, AILS_C1... (package's own sequence)
-#   - Package-Agent: AILS_CLAUDE_S1... (package agent rules)
-#   - Agent: CLAUDE_S1, CLAUDE_S2... (agent's own sequence)
-#   - User: USR_S1, ACME_S1... (user's own sequence)
-#
-# Override mechanisms:
-#   - Exclude rule: excludes: [S1] in config
-#   - Change severity: overrides: {S1-check: {severity: low}} in config
-#   - Change pattern: agents/{agent}/overrides/S1.yml
-#
-# =============================================================================
-
-# =============================================================================
-# FIELDS
-# =============================================================================
+levels:
+  - L1
+  - L2
+  - L3
+  - L4
+  - L5
+  - L6
 
 reserved_agent_prefixes:
   - CLAUDE
@@ -85,381 +38,297 @@ reserved_agent_prefixes:
   - CONTINUE
 
 reserved_package_prefixes:
-  - AILS       # reporails/recommended
+  - RRAILS
 
 fields:
   id:
     required: true
     type: string
     pattern:
-      core: "^[SCEGM][0-9]+$"
-      agent: "^[A-Z]+_[SCEGM][0-9]+$"
-      package: "^[A-Z]{3,}_[SCEGM][0-9]+$"
-      package_agent: "^[A-Z]{3,}_[A-Z]+_[SCEGM][0-9]+$"
-      custom: "^[A-Z]{3,}_[SCEGM][0-9]+$"
-    description: |
-      IMPORTANT: Namespaces are SEPARATE. Agent numbers are independent of core.
+      core: "^CORE:[SCEMG]:[0-9]{4}$"
+      agent: "^[A-Z]+:[SCEMG]:[0-9]{4}$"
+      package: "^[A-Z]{3,}:[SCEMG]:[0-9]{4}$"
+      package_agent: "^[A-Z]{3,}_[A-Z]+:[SCEMG]:[0-9]{4}$"
+      custom: "^[A-Z]{3,}:[SCEMG]:[0-9]{4}$"
+    description: "Coordinate: {REGISTRY}:{CATEGORY}:{SLOT}. Immutable, never reused."
 
-      Core: category + number (S1, S2, S3...)
-        - Universal rules, apply to all agents
-        - Located in core/{category}/{id}-{slug}/
-
-      Agent: prefix + category + number (CLAUDE_S1, CLAUDE_S2...)
-        - Agent-specific rules, OWN numbering sequence
-        - CLAUDE_S1 is Claude's first structure rule, NOT related to core S1
-        - Located in agents/{agent}/rules/{id}-{slug}/
-
-      Package: 3+ letter prefix + category + number (AILS_S1, AILS_C1...)
-        - Package-provided rules, available to all agents
-        - Prefix must be in reserved_package_prefixes
-
-      Package-Agent: package prefix + agent + category + number (AILS_CLAUDE_S1...)
-        - Package-provided agent-specific rules
-        - Located in package's agents/{agent}/rules/ directory
-
-      Custom: 3+ letter prefix + category + number (ACME_S1, USR_S1)
-        - Organization or user-specific rules
-
-      Note: Agent prefix must be in reserved_agent_prefixes.
-            Package prefix must be in reserved_package_prefixes.
-            Custom prefix must not be in either reserved list.
-
-      To OVERRIDE core patterns (not define new rules), use:
-        agents/{agent}/overrides/{rule_id}.yml
-      See agent.schema.yml for override file format.
+  slug:
+    required: true
+    type: string
+    pattern: "^[a-z][a-z0-9-]*$"
+    description: "Mutable display name, used as directory name"
 
   title:
     required: true
     type: string
     max_length: 64
-    description: "Human-readable name (max 64 chars)"
+    description: "Human-readable rule name (max 64 chars)"
 
   category:
     required: true
     type: enum
-    values: [structure, content, efficiency, governance, maintenance]
+    values: [structure, content, efficiency, maintenance, governance]
+    description: "Rule concern area. Maps to category letter in coordinate: S/C/E/M/G"
 
   type:
     required: true
     type: enum
-    values: [deterministic, semantic]
+    values: [mechanical, deterministic, semantic]
+    description: "Validation constraint + CLI dispatch signal. Determines which engines load."
 
-  # NOTE: 'confidence' field removed in schema v4.
-  # Tier (core/experimental) is derived from backed_by source weights:
-  #   core:         max(backing_source_weights) >= 0.8
-  #   experimental: max(backing_source_weights) < 0.8 (or no backing)
-  # See sources.schema.yml for tier derivation details.
+  level:
+    required: true
+    type: enum
+    values: [L1, L2, L3, L4, L5, L6]
+    description: "Concern level. Rule fires when rule.level ≤ project_level."
+
+  targets:
+    required: true
+    type: string
+    description: "Template var resolved against agent config. Always files."
 
   backed_by:
     required: false
     type: array
-    description: "Source claims that back this rule"
+    description: "Evidence chain references. Links rule to verified claims."
     items:
-      source:
+      claim_id:
         required: true
         type: string
-        description: "Source ID from sources.yml"
-      claim:
-        required: true
-        type: string
-        description: "Claim ID within that source"
+        pattern: "^claim:.+:.+$"
+        description: "Claim coordinate (format: claim:{source}:{slug})"
 
   checks:
     required: true
     type: array
-    description: "What OpenGrep detects"
+    min_items: 1
+    description: "Ordered. Shape: [mechanical | deterministic]* → semantic?"
     items:
       id:
         required: true
         type: string
-        description: "Must match rules[].id in corresponding .yml. Format: {rule_id}-{suffix}"
-      name:
+        pattern: "^[A-Z_]+:[SCEMG]:[0-9]{4}:check:[0-9]{4}$"
+        description: "Check coordinate: {rule_id}:check:{slot}"
+      type:
         required: true
-        type: string
-        description: "Human-readable description"
+        type: enum
+        values: [mechanical, deterministic, semantic]
+        description: "Gate type for this check step"
       severity:
         required: true
         type: enum
         values: [critical, high, medium, low]
-      pattern_confidence:
+        description: "Impact weight for scoring. Critical=5.5, High=4.0, Medium=2.5, Low=1.0"
+      # mechanical
+      check:
+        required_if: "type == mechanical"
+        type: string
+        description: "Mechanical check function name (see values for available checks)"
+        values:
+          - file_exists
+          - directory_exists
+          - directory_contains
+          - git_tracked
+          - frontmatter_key
+          - file_count
+          - line_count
+          - byte_size
+          - path_resolves
+          - extract_imports
+      args:
         required: false
-        type: enum
-        values: [very_high, high, medium, low, very_low]
-        default: medium
-        description: |
-          How precisely the OpenGrep pattern captures what it claims to detect.
-          Consumers: LLM pattern generation (improvement targeting), CLI telemetry.
+        type: object
+        description: "Check-specific arguments (e.g., path, min, max)"
+      # deterministic
+      pattern:
+        required_if: "type == deterministic"
+        type: string
+        description: "OpenGrep regex pattern to match violations"
+      message:
+        required_if: "type == deterministic"
+        type: string
+        description: "Human-readable violation message when pattern matches"
+      cross_file:
+        required: false
+        type: boolean
+        default: false
+        description: "Whether pattern operates across the full target set (not per-file)"
+      # semantic
+      prompt:
+        required_if: "type == semantic"
+        type: string
+        description: "Evaluation prompt sent to coding agent for LLM judgment"
 
-          very_high: Exact structural match (line count, file exists). Don't touch.
-          high:      Tight regex, tested, rare false positives. Minor refinement only.
-          medium:    Reasonable regex, some edge cases. Review test cases, tighten.
-          low:       Broad match, known false positives. Rewrite with more context.
-          very_low:  Placeholder or minimal pattern. Full rethink needed.
-
-          Derivable from: test case count + observed false positive rate.
-
-  question:
-    required_if: "type == semantic"
-    type: string
-    description: "What LLM evaluates after OpenGrep runs"
-
-  criteria:
-    required_if: "type == semantic"
-    type: array
-    items:
-      type: string
-    description: "How LLM decides (list of conditions)"
-
-  sources:
+  supersedes:
     required: false
-    type: array
-    items:
-      type: string
-      format: url
-    description: "URLs to supporting references (docs, articles, research papers, resources)"
+    type: string
+    pattern: "^[A-Z_]+:[SCEMG]:[0-9]{4}$"
+    description: "Coordinate of replaced rule. Must be lower level. 1:1 only."
 
   see_also:
     required: false
     type: array
+    description: "Related rule coordinates for cross-referencing"
     items:
       type: string
-      pattern: "^([A-Z]+_){0,2}[SCEGM][0-9]+$"
-    description: "Related rule IDs"
+      pattern: "^[A-Z_]+:[SCEMG]:[0-9]{4}$"
 
-# =============================================================================
-# TEMPLATE VARIABLES
-# =============================================================================
+  conflicts:
+    required: false
+    type: array
+    description: "Known conflicts with other rules, with resolution status"
+    items:
+      conflict_id:
+        required: true
+        type: string
+        description: "Reference to a resolution in docs/resolutions/"
+      resolution_honored:
+        required: true
+        type: boolean
+        description: "Whether this rule follows the published resolution"
+      scoped_to:
+        required: false
+        type: string
+        description: "Context scope where this conflict applies (e.g., monorepo, single-root)"
 
 template_variables:
   universal:
-    description: "Required for ALL agents — core rules may only use these"
-    variables:
-      main_instruction_file:
-        description: "Primary instruction file (document-level rules apply here)"
-        example: "**/CLAUDE.md"
-      instruction_files:
-        description: "All instruction files (main + supplementary)"
-        example: ["**/CLAUDE.md", ".claude/rules/**/*.md"]
-
+    main_instruction_file: "Primary instruction file"
+    instruction_files: "All instruction files (main + supplementary)"
   agent_specific:
-    description: "Only agents that support them — requires rule in agents/{agent}/rules/"
-    variables:
-      supplementary_files:
-        description: "Rule snippet files (excludes main)"
-        example: ".claude/rules/**/*.md"
-      rules_dir:
-        description: "Rules directory path"
-        example: ".claude/rules"
-      skills_dir:
-        description: "Skills directory path"
-        example: ".claude/skills"
-      local_file:
-        description: "Local/personal instruction file"
-        example: "CLAUDE.local.md"
-      managed_settings_linux:
-        description: "Path to managed settings file on Linux"
-        example: "/etc/claude-code/managed-settings.json"
-      managed_settings_macos:
-        description: "Path to managed settings file on macOS"
-        example: "/Library/Application Support/ClaudeCode/managed-settings.json"
-      managed_settings_windows:
-        description: "Path to managed settings file on Windows"
-        example: "C:/Program Files/ClaudeCode/managed-settings.json"
-
-# =============================================================================
-# VALIDATION
-# =============================================================================
+    supplementary_files: "Rule snippet files (excludes main)"
+    rules_dir: "Rules directory path"
+    skills_dir: "Skills directory path"
 
 validation:
-  # Contract between .md and .yml
-  - rule: "Every checks[].id must match a rules[].id in the .yml file"
-  - rule: "Every rules[].id in .yml must match a checks[].id in the .md file"
-  - rule: "checks[].id must start with the rule ID followed by hyphen"
-
-  # Type-specific requirements
-  - rule: "Semantic rules must have question + criteria"
-  - rule: "Deterministic rules must not have question + criteria"
-
-  # Source of truth
-  - rule: "Severity in .md is source of truth (overrides .yml)"
-
-  # Field constraints
-  - rule: "title must be max 64 characters"
-
-  # ID format
-  - rule: "Core rule IDs must match pattern ^[SCEGM][0-9]+$"
-  - rule: "Agent rule IDs must match pattern ^[A-Z]+_[SCEGM][0-9]+$"
-  - rule: "Package rule IDs must match pattern ^[A-Z]{3,}_[SCEGM][0-9]+$"
-  - rule: "Package-agent rule IDs must match pattern ^[A-Z]{3,}_[A-Z]+_[SCEGM][0-9]+$"
-  - rule: "Custom rule IDs must match pattern ^[A-Z]{3,}_[SCEGM][0-9]+$"
-  - rule: "Agent rule prefix must be in reserved_agent_prefixes"
-  - rule: "Package rule prefix must be in reserved_package_prefixes"
-  - rule: "Custom rule prefix must NOT be in reserved_agent_prefixes or reserved_package_prefixes"
-
-  # References
-  - rule: "see_also must reference valid rule IDs"
-  - rule: "sources must be valid URLs"
-
-  # Evidence chain
-  - rule: "backed_by[].source must exist in sources.yml"
-  - rule: "backed_by[].claim must exist in that source's claims"
-
-  # Tier derivation (replaces confidence validation from v3)
-  - rule: |
-      Tier is derived, not stored. Computed from backed_by:
-        - core: at least one backing source with weight >= 0.8 (official or research)
-        - experimental: all backing sources have weight < 0.8, or backed_by is empty
-
-  # Template variable restrictions
-  - rule: "Core rules (in core/) may only use {{main_instruction_file}} or {{instruction_files}}"
-  - rule: "Agent-specific variables (supplementary_files, rules_dir, skills_dir) require rule in agents/{agent}/rules/"
-
-# =============================================================================
-# EXAMPLES
-# =============================================================================
+  - rule: "Every checks[].id in rule.md must match a corresponding entry in rule.yml"
+  - rule: "checks[].id format: {rule_id}:check:{slot}"
+  - rule: "mechanical type: checks may only contain mechanical"
+  - rule: "deterministic type: checks may contain mechanical + deterministic"
+  - rule: "semantic type: any types allowed, semantic must be last"
+  - rule: "supersedes target must be at a strictly lower level"
+  - rule: "No circular supersessions"
+  - rule: "Each rule may be superseded by at most one other rule"
+  - rule: "Severity in rule.md is source of truth"
+  - rule: "Slots are immutable — deleted rules are tombstoned, never reused"
+  - rule: "Core rules may only use universal template variables"
+  - rule: "Tier derived from backed_by: core (weight >= 0.8), experimental (< 0.8 or empty)"
 
 examples:
-  core_with_backing: |
+  core_mechanical: |
     ---
-    # Tier: core (derived — backed by official source, weight 1.0)
-    id: S1
+    id: CORE:M:0001
+    slug: version-controlled
+    title: Version Controlled
+    category: maintenance
+    type: mechanical
+    level: L1
+    backed_by:
+      - claim_id: "claim:claude-code-best-practices:version-control"
+    targets: "{{instruction_files}}"
+    checks:
+      - id: CORE:M:0001:check:0001
+        type: mechanical
+        check: file_exists
+        severity: critical
+      - id: CORE:M:0001:check:0002
+        type: mechanical
+        check: git_tracked
+        severity: critical
+    see_also: [CLAUDE:M:0001]
+    ---
+
+  core_deterministic: |
+    ---
+    id: CORE:S:0001
+    slug: size-limits
     title: Size Limits
     category: structure
     type: deterministic
+    level: L2
     backed_by:
-      - source: claude-code-best-practices  # official, weight 1.0
-        claim: keep-concise
+      - claim_id: "claim:claude-code-best-practices:keep-concise"
+    targets: "{{main_instruction_file}}"
     checks:
-      - id: S1-root-too-long
-        name: Root file > 200 lines
+      - id: CORE:S:0001:check:0001
+        type: deterministic
+        pattern: "(?s)(?:[^\\n]*\\n){200,}"
+        message: "Root file exceeds 200 lines"
         severity: critical
-        pattern_confidence: very_high  # exact line count match
-      - id: S1-many-sections
-        name: 6+ sections in large file
+      - id: CORE:S:0001:check:0002
+        type: deterministic
+        pattern: "(?s)(^## [^\\n]+\\n.*){6,}"
+        message: "6+ top-level sections in large file"
         severity: high
-        pattern_confidence: high  # heading count, tight match
-    sources:
-      - "https://docs.anthropic.com/en/docs/claude-code/best-practices"
-    see_also: [S2, C1]
+    see_also: [CORE:S:0002, CORE:C:0001]
     ---
 
-  experimental_no_backing: |
+  core_semantic: |
     ---
-    # Tier: experimental (derived — no backing sources)
-    id: M3
-    title: Map Staleness Prevention
-    category: maintenance
-    type: deterministic
-    backed_by: []
-    checks:
-      - id: M3-stale-map
-        name: Navigation map may be stale
-        severity: medium
-    see_also: [C4]
-    ---
-
-  deterministic: |
-    ---
-    id: C3
-    title: Has Project Description
-    category: content
-    type: deterministic
-    backed_by:
-      - source: claude-code-best-practices
-        claim: include-core-files
-    checks:
-      - id: C3-no-description
-        name: Missing project description section
-        severity: high
-    sources:
-      - "https://docs.anthropic.com/en/docs/claude-code/best-practices"
-    see_also: [C1]
-    ---
-
-  semantic: |
-    ---
-    id: M2
+    id: CORE:M:0002
+    slug: no-conflicting-rules
     title: No Conflicting Rules
     category: maintenance
     type: semantic
+    level: L3
     backed_by:
-      - source: claude-code-memory
-        claim: keep-rules-focused
+      - claim_id: "claim:claude-code-memory:keep-rules-focused"
+    targets: "{{instruction_files}}"
     checks:
-      - id: M2-conflicting
-        name: Potentially conflicting rules detected
+      - id: CORE:M:0002:check:0001
+        type: deterministic
+        pattern: "(?i)(MUST NOT|NEVER|ALWAYS|MUST)\\s"
+        message: "Potentially conflicting directive detected"
         severity: high
-    question: "Are there conflicting or contradictory rules?"
-    criteria:
-      - No rules give opposite instructions
-      - No rules override each other without explicit precedence
-    see_also: [C2]
+      - id: CORE:M:0002:check:0002
+        type: semantic
+        prompt: "Given the matched directives, are there contradictory or conflicting rules?"
+        severity: high
+    see_also: [CORE:C:0002]
     ---
 
   agent_specific: |
     ---
-    # Agent rules use SEPARATE namespace
-    # CLAUDE_S1 = Claude's first structure rule (not override of core S1)
-    id: CLAUDE_S1
+    id: CLAUDE:S:0001
+    slug: hierarchical-memory
     title: Hierarchical Memory
     category: structure
-    type: deterministic
+    type: mechanical
+    level: L4
     backed_by:
-      - source: claude-code-memory
-        claim: memory-hierarchy
+      - claim_id: "claim:claude-code-memory:memory-hierarchy"
+    targets: "{{rules_dir}}/**/*.md"
     checks:
-      - id: CLAUDE_S1-no-hierarchy
-        name: No hierarchical memory structure
+      - id: CLAUDE:S:0001:check:0001
+        type: mechanical
+        check: directory_exists
+        args:
+          path: "{{rules_dir}}"
         severity: medium
-    sources:
-      - "https://code.claude.com/docs/en/memory"
-    see_also: [CLAUDE_S2, S2]
+    see_also: [CLAUDE:S:0002, CORE:S:0002]
     ---
 
-  package: |
+  with_supersession: |
     ---
-    # Package rule — provided by reporails/recommended
-    # AILS_S1 = recommended package's first structure rule
-    id: AILS_S1
-    title: YAML Backbone
-    category: structure
-    type: deterministic
-    backed_by: []
+    id: CORE:C:0002
+    slug: single-source-of-truth
+    title: Single Source of Truth
+    category: content
+    type: semantic
+    level: L3
+    supersedes: CORE:C:0001
+    backed_by:
+      - claim_id: "claim:claude-code-best-practices:single-source"
+    targets: "{{instruction_files}}"
     checks:
-      - id: AILS_S1-no-backbone
-        name: No YAML backbone file
-        severity: medium
-    see_also: [S2]
-    ---
-
-  package_agent: |
-    ---
-    # Package agent rule — provided by reporails/recommended for Claude
-    # AILS_CLAUDE_S1 = recommended package's first Claude structure rule
-    id: AILS_CLAUDE_S1
-    title: Skill Size Limits
-    category: structure
-    type: deterministic
-    backed_by: []
-    checks:
-      - id: AILS_CLAUDE_S1-too-large
-        name: Skill file exceeds size limit
-        severity: medium
-    see_also: [S1, CLAUDE_S1]
-    ---
-
-  custom: |
-    ---
-    id: ACME_S1
-    title: Internal Doc Size Limits
-    category: structure
-    type: deterministic
-    backed_by: []
-    checks:
-      - id: ACME_S1-too-long
-        name: Internal docs > 150 lines
-        severity: medium
-    sources:
-      - "https://wiki.acme.corp/engineering/claude-guidelines"
-    see_also: [S1]
+      - id: CORE:C:0002:check:0001
+        type: deterministic
+        pattern: "^## .+$"
+        cross_file: true
+        message: "Duplicate heading across files"
+        severity: high
+      - id: CORE:C:0002:check:0002
+        type: semantic
+        prompt: "Are these duplicate headings actual content duplication or scoped context?"
+        severity: high
     ---

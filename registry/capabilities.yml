@@ -1,0 +1,98 @@
+# Universal capability taxonomy
+version: 1
+
+capabilities:
+  # L1 — Does guidance exist?
+  - id: instruction_file
+    level: L1
+    description: >
+      An instruction file exists in a recognized location,
+      is tracked in version control, and meets a minimum
+      content threshold (≥10 lines). The agent has access
+      to non-trivial, committed, project-specific guidance.
+    threshold:
+      min_lines: 10
+
+  # L2 — Is the guidance useful and focused?
+  - id: project_constraints
+    level: L2
+    description: >
+      The instruction file contains project-specific substance:
+      language, framework, commands, explicit constraints.
+      Not boilerplate or unreviewed auto-generated content.
+    threshold:
+      min_sections: 2
+      has_any_of:
+        - explicit_constraints
+        - commands
+        - recognized_sections
+
+  - id: size_controlled
+    level: L2
+    description: >
+      The instruction file is concise. Not bloated with
+      duplicated content, embedded code, or style rules.
+
+  # L3 — Is the guidance organized and modular?
+  - id: external_references
+    level: L3
+    description: >
+      The instruction system references content that lives
+      outside the primary instruction file. Content is not
+      duplicated — single source of truth is maintained.
+
+  - id: multiple_files
+    level: L3
+    description: >
+      More than one instruction-related file exists.
+      Guidance is distributed across files by concern.
+
+  # L4 — Does guidance adapt to code context?
+  - id: path_scoping
+    level: L4
+    description: >
+      Different instructions load based on which files the
+      agent is working with. Context-aware rule loading.
+
+  # L5 — Is the guidance system structurally sound?
+  - id: structural_integrity
+    level: L5
+    description: >
+      References resolve, indexes are current, no orphaned
+      files or dead links. The instruction system is
+      internally consistent and validated.
+
+  - id: org_policy
+    level: L5
+    description: >
+      Organization-level governance is deployed. Instruction
+      policies are managed above the project level.
+
+  - id: navigation
+    level: L5
+    description: >
+      A structural map guides the agent through the codebase.
+      Backbone files, component maps, or contract registries
+      provide O(1) lookup instead of search.
+
+  # L6 — Does the agent dynamically discover and extend?
+  - id: dynamic_context
+    level: L6
+    description: >
+      The agent discovers and loads relevant context based
+      on the current task, not just file location. Skills,
+      prompt templates, or task-triggered loading.
+
+  - id: extensibility
+    level: L6
+    description: >
+      The agent's capabilities are extended beyond reading
+      instruction files. Plugins, tool servers, hooks,
+      or external integrations add new actions.
+
+  - id: state_persistence
+    level: L6
+    description: >
+      The agent maintains state across sessions. Memory files,
+      learnings, or accumulated context persist beyond the
+      current conversation and inform future interactions.

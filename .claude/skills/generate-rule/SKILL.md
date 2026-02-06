@@ -5,15 +5,15 @@ description: Generate a rule skeleton with proper schema and directory structure
 
 # /generate-rule
 
-Generate a rule skeleton with proper directory structure, frontmatter, and placeholder files.
+Generate a rule skeleton with coordinate-based ID, directory structure, and placeholder files.
 
 ## Usage
 
 ```
-/generate-rule <id> <scope> <title> [--agent <name>]
+/generate-rule <coordinate> <scope> <title> [--agent <name>]
 ```
 
-- `<id>`: Rule ID (e.g., S5, C6, CLAUDE_S3)
+- `<coordinate>`: Rule coordinate (e.g., CORE:S:0005, CLAUDE:S:0003)
 - `<scope>`: `core` or agent name (e.g., `claude`)
 - `<title>`: Short title for the rule
 - `--agent <name>`: Agent for path resolution (default: `claude`)
@@ -21,28 +21,34 @@ Generate a rule skeleton with proper directory structure, frontmatter, and place
 ## Examples
 
 ```
-/generate-rule S5 core "My New Rule"
-/generate-rule CLAUDE_S3 claude "Some Agent Rule"
+/generate-rule CORE:S:0005 core "My New Rule"
+/generate-rule CLAUDE:S:0003 claude "Some Agent Rule"
 ```
 
 ## Workflow
 
-Follow: [workflow.md](workflow.md)
+1. Validate coordinate is not in `registry/tombstones.yml`
+2. Validate coordinate slot is not already taken in `registry/coordinate-map.yml`
+3. Determine category from coordinate letter (S/C/E/M/G)
+4. Resolve directory path from `backbone.rules.patterns` and `backbone.rules.categories`
+5. Create directory: `{category_path}/{slug}/`
+6. Generate `rule.md` with frontmatter (id, slug, title, category, type, level, targets, checks)
+7. Generate `rule.yml` with OpenGrep patterns (if deterministic/semantic)
+8. Create `tests/pass.md` and `tests/fail.md`
+9. Update `registry/coordinate-map.yml` with new slug→coordinate entry
 
 ## Reference
 
-- [Rule authoring](rule-authoring.md) — Templates and validation
-
-## Path Resolution
-
-Resolve all rule and artifact paths from `.reporails/backbone.yml` instead of hardcoding.
-See [@.shared/knowledge/backbone-resolution.md](../../../.shared/knowledge/backbone-resolution.md) for the resolution table and ID-to-path algorithm.
+- Schema: `schemas/rule.schema.yml` — field definitions and validation rules
+- Registry: `registry/coordinate-map.yml` — existing coordinates
+- Registry: `registry/tombstones.yml` — dead slots
 
 ## Quick Reference
 
 | Decision | Result |
 |----------|--------|
-| OpenGrep fully decides | type: deterministic |
-| LLM needed | type: semantic (add question + criteria) |
-| Has backing sources | Add to backed_by (optional) |
-| No backing sources | `backed_by: []` (valid default) |
+| Structural/file checks only | type: mechanical |
+| OpenGrep pattern matching | type: deterministic |
+| LLM evaluation needed | type: semantic (prompt field on terminal check) |
+| Has backing sources | Add to backed_by with claim_id |
+| No backing sources | Omit backed_by (optional field) |

@@ -14,9 +14,9 @@ Manage agent configuration files. Config paths resolved from `backbone.agents.{a
 ```
 
 **Actions:**
-- `validate` — Check config against schema and completeness
+- `validate` — Check config against schema
 - `create` — Create new agent config interactively
-- `audit` — Deep audit: which rules apply, which should be excluded/overridden
+- `audit` — Audit: which vars are defined, which are missing
 - `sync` — Update config based on audit findings
 
 **Examples:**
@@ -33,21 +33,21 @@ Manage agent configuration files. Config paths resolved from `backbone.agents.{a
 
 1. Load agent config from `backbone.agents.{agent}.config`
 2. Check against schema from `backbone.schemas.agent`
-3. Verify universal variables exist
+3. Verify required vars exist (main_instruction_file, instruction_files)
 4. Report issues
 
 ### Create
 
-1. Prompt for agent details (name, prefix, file patterns)
+1. Prompt for agent details (name, file patterns)
 2. Determine feature support (rules dir, skills, etc.)
-3. Generate config with appropriate excludes
+3. Generate config with appropriate vars and excludes
 4. Validate and save
 
 ### Audit
 
 1. Load agent config
-2. For each core rule, check if agent supports the feature
-3. Compare against current excludes/overrides
+2. Check all vars resolve to existing paths
+3. Verify excludes patterns are valid
 4. Generate recommendations
 
 ### Sync
@@ -61,11 +61,3 @@ Manage agent configuration files. Config paths resolved from `backbone.agents.{a
 Resolve agent config and schema paths from `.reporails/backbone.yml`:
 - Agent config: `backbone.agents.{agent}.config`
 - Agent schema: `backbone.schemas.agent`
-
-See [@.shared/knowledge/backbone-resolution.md](../../../.shared/knowledge/backbone-resolution.md).
-
-## Reference Files
-
-- [validation-checks.md](validation-checks.md) — Schema and completeness checks
-- [audit-process.md](audit-process.md) — How to audit systematically
-- [feature-matrix.md](feature-matrix.md) — Agent feature support reference

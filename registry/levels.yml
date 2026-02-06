@@ -1,0 +1,50 @@
+# Level definitions
+version: 1
+
+levels:
+  L0:
+    name: Absent
+    description: "No instruction file exists"
+    capabilities: []
+
+  L1:
+    name: Basic
+    description: "A non-trivial, tracked instruction file exists"
+    capabilities:
+      - instruction_file
+
+  L2:
+    name: Scoped
+    description: "Project-specific constraints defined, file is focused"
+    capabilities:
+      - project_constraints
+      - size_controlled
+
+  L3:
+    name: Structured
+    description: "Guidance is modular with external references"
+    capabilities:
+      - external_references
+      - multiple_files
+
+  L4:
+    name: Abstracted
+    description: "Instructions adapt based on code location"
+    capabilities:
+      - path_scoping
+
+  L5:
+    name: Maintained
+    description: "Instruction system is structurally sound, governed, and navigable"
+    capabilities:
+      - structural_integrity
+      - org_policy
+      - navigation
+
+  L6:
+    name: Adaptive
+    description: "Agent dynamically discovers context and extends capabilities"
+    capabilities:
+      - dynamic_context
+      - extensibility
+      - state_persistence

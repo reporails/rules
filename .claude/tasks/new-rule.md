@@ -1,6 +1,6 @@
 # New Rule: {ID}
 
-Create a new rule with full evidence chain.
+Create a new rule with backing claims.
 
 Workflow: `.shared/workflows/rule-creation.md`
 Knowledge: `.shared/knowledge/rule-authoring.md`
@@ -21,13 +21,9 @@ Knowledge: `.shared/knowledge/rule-authoring.md`
 - [ ] `/generate-rule {ID} {scope} "{title}"`
 - [ ] Verify OpenGrep validates (exit 0 or 1)
 
-### Parallel (run simultaneously)
-- [ ] Update `docs/sources.yml` — add rule to claim.rules[]
-- [ ] Update `CHANGELOG.md`
-
-### Sequential (after parallel)
+### Sequential (after generation)
 - [ ] `/validate-rules` — new rule passes
-- [ ] `/validate-rules --source-check` — no broken links
+- [ ] Update `UNRELEASED.md`
 
 ## Result
 

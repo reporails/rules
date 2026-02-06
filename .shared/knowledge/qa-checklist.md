@@ -45,25 +45,6 @@ After running validation workflow:
 
 ---
 
-## audit-evidence-chain
-
-After running evidence audit workflow:
-
-| Check | Verification | Expected |
-|-------|--------------|----------|
-| Loads sources | Workflow reads | `docs/sources.yml` accessed |
-| Bidirectional check | Output | Reports E4003/E4004 if mismatched |
-| Confidence check | Output | Reports E4005-E4009 if misaligned |
-| Trust score | Output | Numeric score calculated |
-| Metrics file | `cat .reporails/trust-metrics.yml` | File exists with score |
-
-**Fail indicators:**
-- Can't find sources.yml
-- Score calculation errors
-- Metrics file not created
-
----
-
 ## update-rule
 
 After running rule update workflow:
