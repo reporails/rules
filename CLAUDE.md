@@ -10,10 +10,13 @@ Framework for evaluating and maintaining AI agent instruction files.
 - OpenGrep patterns for detection
 - No application code — framework only
 
-## Bootstrap
+## Initialization
 
-1. Read `.reporails/backbone.yml` for project structure
+Read these files before searching or modifying anything:
+
+1. Read `.reporails/backbone.yml` for project structure and path resolution
 2. Read `registry/capabilities.yml` and `registry/levels.yml` for architecture
+3. Read `.claude/rules/` for context-specific constraints on the current task
 
 ## Structure
 
