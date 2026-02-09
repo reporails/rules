@@ -1,9 +1,0 @@
-rules:
-  - id: M1-not-tracked
-    message: "Instruction file should be git-tracked"
-    severity: WARNING
-    languages: [generic]
-    pattern-regex: "{{main_instruction_file}}"
-    paths:
-      include:
-        - ".gitignore"
