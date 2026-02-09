@@ -1,0 +1,11 @@
+rules:
+  - id: "CORE.C.0011.check.0001"
+    message: "Workflow-related content found"
+    severity: WARNING
+    languages: [generic]
+    pattern-either:
+      - pattern-regex: "(?i)## (workflow|process)"
+      - pattern-regex: "(?i)(branch|deploy|release|merge|PR|pull request)"
+    paths:
+      include:
+        - "{{instruction_files}}"

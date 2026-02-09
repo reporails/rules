@@ -1,0 +1,9 @@
+rules:
+  - id: "CORE.C.0023.check.0001"
+    message: "Explain-reasoning instruction found"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?i)(explain|reasoning|rationale|why .+ chose|comment explaining|document .+ decision)"
+    paths:
+      include:
+        - "{{instruction_files}}"

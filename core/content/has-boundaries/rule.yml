@@ -1,0 +1,12 @@
+rules:
+  - id: "CORE.C.0005.check.0001"
+    message: "Boundary constraints documented"
+    severity: WARNING
+    languages: [generic]
+    pattern-either:
+      - pattern-regex: "(?i)(never modify|never edit|never touch|do not modify)"
+      - pattern-regex: "(?i)off.limits"
+      - pattern-regex: "(?i)## (boundaries|constraints)"
+    paths:
+      include:
+        - "{{instruction_files}}"
