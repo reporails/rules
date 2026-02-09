@@ -35,13 +35,13 @@ Core rules only. For recommended rule excludes, see reporails/recommended.
 ### Copilot
 ```yaml
 excludes:
-  - E2   # Import Count — no imports (single file)
+  - CORE:S:0007   # Decomposed instruction system — single file only
 ```
 
 ### Codex
 ```yaml
 excludes:
-  - E2   # Import Count — no imports (single file)
+  - CORE:S:0007   # Decomposed instruction system — single file only
 ```
 
 ### Cursor
@@ -61,8 +61,7 @@ excludes: []
 ### By Agent Type
 
 **Single-file agents (Copilot, Codex):**
-- S1 severity may need adjustment (longer files acceptable)
-- S2 progressive disclosure less relevant
+- CORE:S:0005 severity may need adjustment (longer files acceptable without @imports)
 
 **Multi-file agents (Claude, Cursor):**
 - Default severities generally appropriate
@@ -72,8 +71,7 @@ excludes: []
 
 | Rule | Override consideration |
 |------|----------------------|
-| S1-size-limits | Single-file agents may need higher limit |
-| C5-has-version-date | Some teams version differently |
+| CORE:S:0005 | Single-file agents may need higher line limit |
 
 ## Adding New Agents
 

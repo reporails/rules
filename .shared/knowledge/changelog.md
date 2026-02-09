@@ -93,16 +93,19 @@ One-line summary of the release.
 - Schema version: X
 ```
 
-## Tagging
+## Releasing
 
-```bash
-git tag X.Y.Z
-git push origin X.Y.Z
-```
+Release is automated via GitHub Actions:
 
-Tag format: [SemVer](https://semver.org/) (e.g., `0.2.0`)
+1. Create a release branch named `X.Y.Z` (e.g., `0.3.0`)
+2. Update version in `README.md` and finalize `UNRELEASED.md`
+3. Merge to `main` — the release workflow detects the version-branch merge
+4. CI runs the Docker test harness as a QA gate
+5. On pass: tag is created, tarball is built, GitHub release is published
 
-GitHub Actions (`.github/workflows/release.yml`) triggers on `[0-9]*` tags.
+Tag format: [SemVer](https://semver.org/) (e.g., `0.3.0`)
+
+See `.github/workflows/release.yml` for the full pipeline.
 
 ## Version Numbering
 

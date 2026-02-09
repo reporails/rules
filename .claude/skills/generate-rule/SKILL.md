@@ -34,7 +34,7 @@ Generate a rule skeleton with coordinate-based ID, directory structure, and plac
 5. Create directory: `{category_path}/{slug}/`
 6. Generate `rule.md` with frontmatter (id, slug, title, category, type, level, targets, checks)
 7. Generate `rule.yml` with OpenGrep patterns (if deterministic/semantic)
-8. Create `tests/pass.md` and `tests/fail.md`
+8. Create `tests/pass/` and `tests/fail/` directories with `.gitkeep`
 9. Update `registry/coordinate-map.yml` with new slug→coordinate entry
 
 ## Reference
@@ -50,5 +50,5 @@ Generate a rule skeleton with coordinate-based ID, directory structure, and plac
 | Structural/file checks only | type: mechanical |
 | OpenGrep pattern matching | type: deterministic |
 | LLM evaluation needed | type: semantic (prompt field on terminal check) |
-| Has backing sources | Add to backed_by with claim_id |
+| Has backing sources | Add to backed_by with source IDs from docs/sources.yml |
 | No backing sources | Omit backed_by (optional field) |

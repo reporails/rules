@@ -10,10 +10,10 @@ L0 (Absent) means no instruction file exists — nothing to evaluate. Levels L1�
 |-------|------|-----------------|----------------|
 | **L1** | Basic | Reviewed, tracked instruction file | Customized (not raw `/init` output), version controlled |
 | **L2** | Scoped | Project-specific constraints | Size limits, core sections, content quality |
-| **L3** | Structured | External references, organized content | @imports, heading hierarchy, single source of truth |
+| **L3** | Structured | External references, organized content | @imports, multiple files, single source of truth |
 | **L4** | Abstracted | Path-scoped rules, context-aware loading | .claude/rules/, hierarchical memory |
-| **L5** | Maintained | Map and index maintenance discipline | Staleness prevention, backbone completeness |
-| **L6** | Adaptive | Map-driven navigation, contracts | YAML backbone, component-contract binding |
+| **L5** | Maintained | Structural integrity, governance, navigation | Reference validation, org policy, backbone maps |
+| **L6** | Adaptive | Dynamic context, extensibility, persistence | Skills, hooks, MCP servers, memory files |
 
 > **Note:** L1-L4 patterns are documented in official sources. L5-L6 patterns are community patterns (experimental tier) derived from enterprise software practices.
 
@@ -27,49 +27,41 @@ L0 (Absent) means no instruction file exists — nothing to evaluate. Levels L1�
 - Version controlled (tracked in git)
 - **Risk:** File exists but may lack structure or project-specific content
 - **Fix:** Add core sections, constraints, and project description
-- **Primary rules:** CLAUDE_M1, M1
 
 ### Level 2: Scoped
 - Contains core sections: stack, commands, constraints
-- 30-200 lines, project-specific content quality
+- Concise and focused, project-specific content quality
 - MUST/MUST NOT with rationale
 - **Risk:** Token bloat, instruction dilution as file grows
 - **Fix:** Extract details to @imports
-- **Primary rules:** S1, S2, S3, S4, C1, C3, C5
 
 ### Level 3: Structured
 - Uses @imports to external documentation
-- Root file focuses on pointers, not content
+- Multiple instruction-related files
 - Single source of truth across files
 - **Risk:** Import references may become stale
-- **Fix:** Implement .claude/rules/ for path-scoped loading
-- **Primary rules:** C2, C4, E1, E2, M2
+- **Fix:** Implement path-scoped loading for different code areas
 
 ### Level 4: Abstracted
-- Implements .claude/rules/ directory
-- Path-scoped rules for different code areas
-- Efficiency strategies documented (reading, memory, grep)
-- Root file < 100 lines
+- Implements path-scoped rules (e.g., `.claude/rules/` directory)
+- Different instructions load based on which files the agent works with
+- Root file stays lean
 - **Risk:** Complexity if not well-documented
 - **Fix:** Add governance processes for enterprise scale
-- **Primary rules:** CLAUDE_S1, CLAUDE_S2
 
 ### Level 5: Maintained
-- Map staleness prevention enforced
-- Backbone index kept complete and accurate
-- Structural changes tracked and validated
+- References resolve, indexes are current, no orphaned files
+- Organization-level governance is deployed
+- Structural maps guide the agent through the codebase
 - **Risk:** Index drift if maintenance discipline lapses
-- **Fix:** Automate backbone sync checks in CI
-- **Primary rules:** M3, M4
+- **Fix:** Automate validation checks in CI
 
 ### Level 6: Adaptive
-- YAML backbone (`.reporails/backbone.yml`) as complete path index
-- Navigation maps for components, platform, contracts
-- Session start ritual: read maps before searching
-- Component-contract binding for segment-aware loading
+- Agent discovers and loads context based on current task
+- Capabilities extended via plugins, tool servers, hooks
+- State persists across sessions (memory files, learnings)
 - **Risk:** Map staleness; requires maintenance discipline
 - **Applicability:** See "When to Use Level 6" below
-- **Primary rules:** Detection-only (backbone.yml present)
 
 ---
 
@@ -91,30 +83,46 @@ L0 (Absent) means no instruction file exists — nothing to evaluate. Levels L1�
 
 ## Capability Assessment Matrix
 
-| Criteria | Rule | L1 | L2 | L3 | L4 | L5 | L6 |
-|----------|------|----|----|----|----|----|----|
-| Manually reviewed | CLAUDE_M1 | + | + | + | + | + | + |
-| Size limits | S1 | - | + | + | + | + | + |
-| Progressive disclosure | S2 | - | + | + | + | + | + |
-| No code snippets | S3 | - | + | + | + | + | + |
-| Clear markdown structure | S4 | - | + | + | + | + | + |
-| Core sections present | C1 | - | + | + | + | + | + |
-| Has project description | C3 | - | + | + | + | + | + |
-| Has version/date | C5 | - | + | + | + | + | + |
-| Single source of truth | C2 | - | - | + | + | + | + |
-| Links valid | C4 | - | - | + | + | + | + |
-| Code block limit | E1 | - | - | + | + | + | + |
-| Import count | E2 | - | - | + | + | + | + |
-| No conflicting rules | M2 | - | - | + | + | + | + |
-| Version controlled | M1 | + | + | + | + | + | + |
-| Hierarchical memory | CLAUDE_S1 | - | - | - | + | + | + |
-| Path-scoped rules | CLAUDE_S2 | - | - | - | + | + | + |
-| Map staleness prevention | M3 | - | - | - | - | + | + |
-| Backbone index completeness | M4 | - | - | - | - | + | + |
+Capabilities are structural features detected in your project. A project must have at least one capability at every level from L1 through N to qualify as level N (cumulative).
 
-**Legend:** `+` Required | `-` Not expected
+| Capability | Level | What It Detects |
+|------------|-------|-----------------|
+| `instruction_file` | L1 | Non-trivial (≥10 lines), tracked instruction file exists |
+| `project_constraints` | L2 | Project-specific substance: language, framework, commands, constraints |
+| `size_controlled` | L2 | Instruction file is concise, not bloated |
+| `external_references` | L3 | Content references files outside the primary instruction file |
+| `multiple_files` | L3 | More than one instruction-related file exists |
+| `path_scoping` | L4 | Different instructions load based on working file location |
+| `structural_integrity` | L5 | References resolve, indexes current, no orphaned files |
+| `org_policy` | L5 | Organization-level governance deployed |
+| `navigation` | L5 | Structural map provides O(1) lookup (backbone, component maps) |
+| `dynamic_context` | L6 | Agent discovers context based on task, not just file location |
+| `extensibility` | L6 | Plugins, tool servers, hooks extend agent capabilities |
+| `state_persistence` | L6 | State persists across sessions (memory files, learnings) |
 
-> **Note:** Additional recommended rules available in [reporails/recommended](https://github.com/reporails/recommended).
+**Detection order:** Capabilities are checked from L1 up. The project level is the highest N where at least one capability is detected at every level L1 through N.
+
+See `registry/capabilities.yml` for the machine-readable taxonomy and `registry/levels.yml` for level definitions.
+
+---
+
+## How Rules Use Levels
+
+Rules and capabilities are **separate systems** connected only by the level identifier:
+
+- **Capabilities** are detected → determine your project's level
+- **Rules** declare a concern level (e.g., `level: L2`) in their frontmatter
+- A rule fires when `rule.level ≤ project_level`
+
+This means an L3 project is checked against all rules at L1, L2, and L3 — not just L3 rules.
+
+**47 rules** across 3 types:
+
+| Type | Count | Detection Method | LLM Cost |
+|------|-------|------------------|----------|
+| Mechanical | 22 | Python structural checks | None |
+| Deterministic | 18 | OpenGrep pattern match | None |
+| Semantic | 7 | OpenGrep gate + LLM evaluation | Per check |
 
 ---
 
@@ -123,10 +131,10 @@ L0 (Absent) means no instruction file exists — nothing to evaluate. Levels L1�
 | Transition | Key Actions |
 |------------|-------------|
 | L1 → L2 | Add core sections, constraints, project description |
-| L2 → L3 | Extract to @imports, remove code style rules |
-| L3 → L4 | Implement .claude/rules/, configure hooks |
-| L4 → L5 | Add map staleness prevention, backbone index completeness |
-| L5 → L6 | Presence of backbone.yml triggers L6 detection |
+| L2 → L3 | Extract to @imports, distribute across multiple files |
+| L3 → L4 | Implement path-scoped rules, configure context-aware loading |
+| L4 → L5 | Add structural validation, org policy, navigation maps |
+| L5 → L6 | Add skills, hooks, MCP servers, persistent memory |
 
 ---
 
@@ -147,25 +155,25 @@ L0 (Absent) means no instruction file exists — nothing to evaluate. Levels L1�
 
 **Score** and **Level** are independent metrics:
 
-- **Level (L1-L6)**: Capability tier — determined by detected features
+- **Level (L1-L6)**: Capability tier — determined by detected capabilities
 - **Score (0-10)**: Compliance — how well you follow rules at your level
 
 A simple instruction file (L2) can score 10/10 if it follows all L2 rules perfectly.
 
 ### Step 1: Detect Level
 
-Level is determined by **features present**, not by score:
+Level is determined by **capabilities present**, not by score:
 
-| Feature | Detected Level |
-|---------|---------------|
-| backbone.yml present | L6 (Adaptive) |
-| Map staleness + backbone index rules | L5 (Maintained) |
-| `.claude/rules/` directory | L4 (Abstracted) |
-| @imports or multiple instruction files | L3 (Structured) |
-| Instruction file exists and customized | L2 (Scoped) |
-| Instruction file exists (uncustomized) | L1 (Basic) |
+| Capability Detected | Minimum Level |
+|---------------------|--------------|
+| `state_persistence`, `extensibility`, `dynamic_context` | L6 (Adaptive) |
+| `structural_integrity`, `org_policy`, `navigation` | L5 (Maintained) |
+| `path_scoping` | L4 (Abstracted) |
+| `external_references`, `multiple_files` | L3 (Structured) |
+| `project_constraints`, `size_controlled` | L2 (Scoped) |
+| `instruction_file` | L1 (Basic) |
 
-**Detection order:** Check from L6 down. First match = detected level.
+**Assignment:** The project level is the highest N where at least one capability is detected at every level L1 through N.
 
 ### Step 2: Calculate Score (0-10)
 
@@ -205,40 +213,6 @@ Friction estimates rework time from re-explanation loops:
 
 ---
 
-## Rule Detection Types
-
-Rules are classified by detection method:
-
-| Type | Count | Detection Method | LLM Cost |
-|------|-------|------------------|----------|
-| Deterministic | 15 | OpenGrep pattern match | None |
-| Semantic | 3 | OpenGrep gate + LLM evaluation | Per check |
-
-### Deterministic Rules (15)
-
-100% certainty via OpenGrep pattern matching. No LLM needed.
-
-### Semantic Rules (3)
-
-Two-stage validation:
-
-```
-OpenGrep pattern match (gate)
-    │
-    ├── No match → Pass (zero LLM cost)
-    │
-    └── Match → LLM evaluates question + criteria
-                    │
-                    ├── Confirmed → Violation
-                    └── Dismissed → Pass
-```
-
-Each semantic rule has:
-- `question`: What to evaluate
-- `criteria`: Pass/fail definition
-
----
-
 ## Rule Tiers
 
 Rules are classified into tiers based on evidence backing. Tier is **derived** from backing source weights, not stored:
@@ -254,11 +228,6 @@ Rules are classified into tiers based on evidence backing. Tier is **derived** f
 Rule tier = core         if max(backing_source_weights) >= 0.8
           = experimental if max(backing_source_weights) < 0.8
 ```
-
-**Examples:**
-- Rule backed by Official (1.0) + Community (0.4) → **core** (max = 1.0)
-- Rule backed by Research (0.8) → **core** (max = 0.8)
-- Rule backed by Community (0.4) only → **experimental** (max = 0.4)
 
 ### Tier Filtering
 
@@ -301,4 +270,4 @@ This ensures core remains rock-solid while experimental patterns can mature thro
 | L1-L4 patterns | Official documentation (Anthropic, OpenAI, GitHub), community best practices |
 | L5-L6 patterns | Community patterns (experimental tier) |
 
-See `docs/sources.yml` for full source registry with evidence chain.
+See `docs/sources.yml` for full source registry.
