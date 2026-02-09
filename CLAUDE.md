@@ -17,22 +17,9 @@ Framework for evaluating and maintaining AI agent instruction files.
 
 ## Structure
 
-```
-core/{structure,content,efficiency,maintenance,governance}/  # Core rules
-  {slug}/                                                    # Each rule in own directory
-    rule.md                                                  # Rule definition
-    rule.yml                                                 # OpenGrep patterns
-    tests/                                                   # Test fixtures
-      pass/                                                  # Simulated project that passes
-      fail/                                                  # Simulated project that fails
-agents/{claude,codex}/{config.yml,rules/}                    # Agent-specific
-schemas/                                                     # Schema definitions (8)
-registry/                                                    # Capabilities, levels, coordinates, tombstones
-runtime/                                                     # Contributor test harness (Docker)
-docs/                                                        # Documentation
-.claude/{skills/,rules/}                                     # Claude config
-.shared/{workflows/,knowledge/}                              # Agent-agnostic shared content
-```
+Defined in `.reporails/backbone.yml` — the single source of truth for project topology, paths, schemas, and registry locations.
+
+**BEFORE** running `find`, `grep`, `ls`, or glob to locate project files, you **MUST** read `.reporails/backbone.yml` first. All schema paths, registry paths, rule directories, agent configs, and doc locations are mapped there. You **MUST NOT** use exploratory commands to discover paths that the backbone already provides.
 
 ## Commands
 
@@ -93,6 +80,7 @@ Additional rules available in [reporails/recommended](https://github.com/reporai
 - ALWAYS create tests/pass/ and tests/fail/ fixture directories for each rule
 - ALWAYS update registry/coordinate-map.yml when adding or removing rules
 - NEVER execute destructive or irreversible operations without explicit user confirmation
+- ALWAYS resolve paths from `.reporails/backbone.yml` before using exploratory commands
 
 ## Shared Resources
 

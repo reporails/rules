@@ -35,6 +35,11 @@
 - [CORE]: All `backed_by` converted to source ID format (references `docs/sources.yml`)
 - [CORE]: All `checks[].id` now follow `{rule_id}:check:{slot}` coordinate pattern
 
+### Fixed
+- [BACKBONE]: Added missing `sources` schema to backbone registry
+- [META]: CLAUDE.md — replaced hardcoded structure tree with backbone reference
+- [META]: CLAUDE.md — added constraint: resolve paths from backbone before exploratory commands
+
 ### Changed
 - [SKILLS]: `/implement-rule` rewritten — violation class identification, structural pattern design, anti-negate strategy, realistic fixture criteria
 - [WORKFLOWS]: `rule-implementation.md` rewritten — violation class step, fixture quality gate, reanalysis loop

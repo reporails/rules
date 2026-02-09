@@ -36,6 +36,7 @@ schemas:
   agent: schemas/agent.schema.yml
   package: schemas/package.schema.yml
   project: schemas/project.schema.yml
+  sources: schemas/sources.schema.yml
   user: schemas/user.schema.yml
 
 registry:
