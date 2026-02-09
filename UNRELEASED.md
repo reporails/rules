@@ -13,6 +13,8 @@
 - [SCHEMAS]: Capability schema v0.1.0
 
 ### Fixed
+- [CORE:S:0004]: Replaced Stripe-format fake API key in test fixture with generic value to avoid GitHub Push Protection rejection
+- [CORE:S:0003]: Use `.git_marker` as trackable alternative to `.git` in test fixtures — git cannot track paths named `.git`, causing CI failures
 - [SCHEMAS]: Agent schema — restored `prefix`, `name` as optional fields; `overrides` as optional object; `main_instruction_file`/`instruction_files` accept string or list
 - [AGENTS]: Claude and Codex configs — added required `version: "0.1.0"` field
 - [AGENTS]: Codex config — removed stale v0.2 overrides (E4-, E2-, E5- identifiers)

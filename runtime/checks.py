@@ -86,8 +86,9 @@ def directory_contains(root: Path, args: dict, vars: dict) -> CheckResult:
 
 def git_tracked(root: Path, args: dict, vars: dict) -> CheckResult:
     """Check that files are git-tracked. In test fixtures, checks for .git marker."""
-    # In fixture context, only check for a .git directory or file within root
-    if (root / ".git").exists():
+    # In fixture context, only check for a .git directory/file within root.
+    # .git_marker is an alternative because git cannot track paths named .git.
+    if (root / ".git").exists() or (root / ".git_marker").exists():
         return CheckResult(passed=True, message="Git repository detected")
     return CheckResult(passed=False, message="Not a git repository")
 
