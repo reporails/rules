@@ -2,52 +2,89 @@ name: Release
 
 on:
   push:
-    tags:
-      - '[0-9]*'
-
-permissions:
-  contents: write
+    branches: [main]
 
 jobs:
-  release:
+  check-release:
+    name: Check if release commit
+    runs-on: ubuntu-latest
+    outputs:
+      is_release: ${{ steps.check.outputs.is_release }}
+      version: ${{ steps.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect version branch merge
+        id: check
+        run: |
+          VERSION=$(grep '^\*\*Version:\*\*' README.md | head -1 | sed 's/.*\*\* *//')
+          MERGE_BRANCH=$(git log -1 --pretty=%s | grep -oP 'Merge.*from.*\K[0-9]+\.[0-9]+\.[0-9]+' || true)
+          if [ "$MERGE_BRANCH" = "$VERSION" ]; then
+            echo "is_release=true" >> "$GITHUB_OUTPUT"
+            echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+            echo "Release detected: $VERSION"
+          else
+            echo "is_release=false" >> "$GITHUB_OUTPUT"
+            echo "Not a release merge (merge_branch=$MERGE_BRANCH, version=$VERSION)"
+          fi
+
+  qa:
+    name: QA gate
+    needs: check-release
+    if: needs.check-release.outputs.is_release == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get version from tag
-        id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      - name: Build test image
+        run: docker build -t reporails-test runtime/
+
+      - name: Run test harness
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/rules:ro \
+            reporails-test
 
       - name: Validate schemas have versions
-        run: |                                                                                                                                                             
-          for schema in schemas/*.schema.yml; do                                                                                                                           
-            if ! grep -q '^version:' "$schema"; then                                                                                                                       
-              echo "ERROR: $schema missing version field"                                                                                                                  
-              exit 1                                                                                                                                                       
-            fi                                                                                                                                                             
-          done                                                                                                                                                             
+        run: |
+          for schema in schemas/*.schema.yml; do
+            if ! grep -q '^version:' "$schema"; then
+              echo "ERROR: $schema missing version field"
+              exit 1
+            fi
+          done
+
+  publish:
+    name: Publish release
+    needs: [check-release, qa]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Generate manifest
-        run: |                                                                                                                                                             
-          VERSION=${{ steps.version.outputs.VERSION }}                                                                                                                     
-                                                                                                                                                                           
-          echo "release: \"${VERSION}\"" > manifest.yml                                                                                                                    
-          echo "schemas:" >> manifest.yml                                                                                                                                  
-                                                                                                                                                                           
-          for schema in schemas/*.schema.yml; do                                                                                                                           
-            name=$(basename "$schema" .schema.yml)                                                                                                                         
-            version=$(grep '^version:' "$schema" | head -1 | awk '{print $2}' | tr -d '"')                                                                                 
-            echo "  ${name}: \"${version}\"" >> manifest.yml                                                                                                               
-          done                                                                                                                                                             
+        run: |
+          VERSION="${{ needs.check-release.outputs.version }}"
+
+          echo "release: \"${VERSION}\"" > manifest.yml
+          echo "schemas:" >> manifest.yml
+
+          for schema in schemas/*.schema.yml; do
+            name=$(basename "$schema" .schema.yml)
+            version=$(grep '^version:' "$schema" | head -1 | awk '{print $2}' | tr -d '"')
+            echo "  ${name}: \"${version}\"" >> manifest.yml
+          done
 
       - name: Create tarball
-        run: |                                                                                                                                                             
-          VERSION=${{ steps.version.outputs.VERSION }}
-          
-          # Create tarball with framework contents
+        run: |
+          VERSION="${{ needs.check-release.outputs.version }}"
+
           tar -czvf reporails-rules-${VERSION}.tar.gz \
             manifest.yml \
-            levels.yml \
+            registry/levels.yml \
+            registry/capabilities.yml \
+            registry/coordinate-map.yml \
             core/ \
             agents/ \
             schemas/ \
@@ -57,10 +94,15 @@ jobs:
 
           sha256sum reporails-rules-${VERSION}.tar.gz > checksums.txt
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          generate_release_notes: true
-          files: |
-            reporails-rules-*.tar.gz
+      - name: Create tag and GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ needs.check-release.outputs.version }}"
+          git tag "$VERSION"
+          git push origin "$VERSION"
+          gh release create "$VERSION" \
+            --title "v$VERSION" \
+            --generate-notes \
+            reporails-rules-${VERSION}.tar.gz \
             checksums.txt
