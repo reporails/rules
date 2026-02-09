@@ -2,6 +2,7 @@
 # Schema: schemas/agent.schema.yml
 
 agent: codex
+version: "0.1.0"
 prefix: CODEX
 name: OpenAI Codex
 
@@ -17,16 +18,5 @@ vars:
   override_file: "AGENTS.override.md"
   size_limit_kb: 32
 
-# Severity adjustments for Codex-specific behavior
-overrides:
-  # Codex has automatic context compaction - memory instruction less critical
-  E4-no-memory-instruction:
-    severity: low
-  # L6 ritual pattern - Codex handles context automatically
-  E2-no-ritual-section:
-    severity: low
-  # Codex grep behavior may differ from Claude
-  E5-no-grep-guidance:
-    severity: low
-
+# No severity overrides — all moved to reporails/recommended
 # No core rules excluded — Codex supports generic patterns

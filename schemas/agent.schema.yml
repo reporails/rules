@@ -1,7 +1,7 @@
 # Agent configuration schema
 version: "0.1.0"
 
-# Simplified from v0.0.2: removed prefix/name/overrides/pattern_overrides.
+# Simplified from v0.0.2: removed pattern_overrides.
 # instruction_files patterns live here (moved from project config).
 
 fields:
@@ -17,6 +17,17 @@ fields:
     pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
     description: "Semver version of this agent configuration"
 
+  prefix:
+    required: false
+    type: string
+    pattern: "^[A-Z]+$"
+    description: "Uppercase agent prefix for coordinate namespacing (e.g., CLAUDE, CODEX)"
+
+  name:
+    required: false
+    type: string
+    description: "Human-readable display name for the agent"
+
   vars:
     required: true
     type: object
@@ -24,15 +35,18 @@ fields:
     properties:
       main_instruction_file:
         required: true
-        type: string
-        description: "Primary instruction file glob (e.g., CLAUDE.md)"
+        type:
+          oneOf: [string, array]
+        description: "Primary instruction file glob(s) (e.g., '**/CLAUDE.md' or list)"
       instruction_files:
         required: true
-        type: string
-        description: "All instruction files glob (main + nested)"
+        type:
+          oneOf: [string, array]
+        description: "All instruction files glob(s) (main + nested)"
       supplementary_files:
         required: false
-        type: string
+        type:
+          oneOf: [string, array]
         description: "Rule snippet files, excluding main instruction file"
       rules_dir:
         required: false
@@ -52,6 +66,17 @@ fields:
     description: "Glob patterns to exclude from all rule target resolution"
     items:
       type: string
+
+  overrides:
+    required: false
+    type: object
+    description: "Per-rule severity overrides keyed by coordinate (e.g., RRAILS:C:0008)"
+    additionalProperties:
+      type: object
+      properties:
+        severity:
+          type: string
+          enum: [low, medium, high]
 
 validation:
   - rule: "agent uppercase must be in reserved_agent_prefixes (see rule.schema.yml)"

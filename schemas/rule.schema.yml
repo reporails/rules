@@ -90,13 +90,11 @@ fields:
   backed_by:
     required: false
     type: array
-    description: "Evidence chain references. Links rule to verified claims."
+    description: "Evidence sources backing this rule. References source IDs from docs/sources.yml."
     items:
-      claim_id:
-        required: true
-        type: string
-        pattern: "^claim:.+:.+$"
-        description: "Claim coordinate (format: claim:{source}:{slug})"
+      type: string
+      pattern: "^[a-z][a-z0-9-]*$"
+      description: "Source ID (matches id field in docs/sources.yml)"
 
   checks:
     required: true
@@ -135,6 +133,11 @@ fields:
           - byte_size
           - path_resolves
           - extract_imports
+          - aggregate_byte_size
+          - import_depth
+          - directory_file_types
+          - frontmatter_valid_glob
+          - content_absent
       args:
         required: false
         type: object
@@ -158,6 +161,20 @@ fields:
         required_if: "type == semantic"
         type: string
         description: "Evaluation prompt sent to coding agent for LLM judgment"
+
+  question:
+    required: false
+    required_if: "type == semantic"
+    type: string
+    description: "Evaluation question for semantic rules. Sent to coding agent for LLM judgment. Must be answerable from matched content."
+
+  criteria:
+    required: false
+    required_if: "type == semantic"
+    type: array
+    description: "Evaluation rubric for semantic rules. Each item is independently assessable by the coding agent."
+    items:
+      type: string
 
   supersedes:
     required: false
@@ -224,7 +241,7 @@ examples:
     type: mechanical
     level: L1
     backed_by:
-      - claim_id: "claim:claude-code-best-practices:version-control"
+      - claude-code-best-practices
     targets: "{{instruction_files}}"
     checks:
       - id: CORE:M:0001:check:0001
@@ -247,7 +264,7 @@ examples:
     type: deterministic
     level: L2
     backed_by:
-      - claim_id: "claim:claude-code-best-practices:keep-concise"
+      - claude-code-best-practices
     targets: "{{main_instruction_file}}"
     checks:
       - id: CORE:S:0001:check:0001
@@ -272,7 +289,7 @@ examples:
     type: semantic
     level: L3
     backed_by:
-      - claim_id: "claim:claude-code-memory:keep-rules-focused"
+      - claude-code-memory
     targets: "{{instruction_files}}"
     checks:
       - id: CORE:M:0002:check:0001
@@ -296,7 +313,7 @@ examples:
     type: mechanical
     level: L4
     backed_by:
-      - claim_id: "claim:claude-code-memory:memory-hierarchy"
+      - claude-code-memory
     targets: "{{rules_dir}}/**/*.md"
     checks:
       - id: CLAUDE:S:0001:check:0001
@@ -318,7 +335,7 @@ examples:
     level: L3
     supersedes: CORE:C:0001
     backed_by:
-      - claim_id: "claim:claude-code-best-practices:single-source"
+      - claude-code-best-practices
     targets: "{{instruction_files}}"
     checks:
       - id: CORE:C:0002:check:0001

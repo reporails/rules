@@ -17,9 +17,8 @@ rules:
     rule_dir: "{category}/{slug}/"
     definition: "rule.md"
     opengrep: "rule.yml"
-    test_pass: "tests/pass.{ext}"
-    test_fail: "tests/fail.{ext}"
-    # {ext} matches the rule's target file type: md (default), yml, json
+    test_pass: "tests/pass/"
+    test_fail: "tests/fail/"
   categories:
     structure: core/structure/
     content: core/content/
@@ -44,6 +43,10 @@ registry:
   levels: registry/levels.yml
   coordinate_map: registry/coordinate-map.yml
   tombstones: registry/tombstones.yml
+
+docs:
+  sources: docs/sources.yml
+  rule_template: docs/rule-template.md
 
 shared:
   knowledge: .shared/knowledge/
