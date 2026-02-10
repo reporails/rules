@@ -1,0 +1,4 @@
+# Dead coordinate slots — never reused
+version: 1
+
+tombstones: []

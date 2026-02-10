@@ -1,12 +1,13 @@
-# Schema for ~/.reporails/config.yml
-# User/global configuration — not committed, personal preferences
-version: "0.0.1"
+# User configuration schema (~/.reporails/config.yml)
+version: "0.1.0"
 
 fields:
   schema_version:
     required: true
-    type: integer
-    default: 1
+    type: string
+    pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    default: "0.1.0"
+    description: "User config schema version (semver)"
 
   defaults:
     required: false
@@ -44,6 +45,7 @@ fields:
   analytics:
     required: false
     type: object
+    description: "Anonymous usage analytics"
     properties:
       enabled:
         type: boolean
@@ -51,7 +53,7 @@ fields:
         description: "Track scan history in ~/.reporails/analytics/"
 
 defaults:
-  schema_version: 1
+  schema_version: "0.1.0"
   defaults:
     agent: "claude"
   display:
@@ -62,33 +64,22 @@ defaults:
     enabled: true
 
 validation:
-  - rule: "schema_version must be supported (currently: 1)"
-  - rule: "Unknown fields should warn, not error (forward compatibility)"
+  - rule: "schema_version must be supported (currently: 0.1.0)"
+  - rule: "Unknown fields should warn, not error"
   - rule: "Invalid patterns should error with clear message"
 
 examples:
   default: |
-    # Typical user config
-    schema_version: 1
-
+    schema_version: "0.1.0"
     display:
       color: true
 
   developer: |
-    # Framework developer
-    schema_version: 1
-
-    display:
-      ascii: false
-      color: true
-
-    # Point to local framework for testing
+    schema_version: "0.1.0"
     framework_path: /home/dev/reporails/framework
 
-  minimal_output: |
-    # CI-friendly or accessibility
-    schema_version: 1
-
+  ci: |
+    schema_version: "0.1.0"
     display:
       ascii: true
       color: false

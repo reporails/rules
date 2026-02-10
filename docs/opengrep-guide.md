@@ -22,8 +22,8 @@ Use `languages: [generic]` for CLAUDE.md and other instruction files:
 
 ```yaml
 rules:
-  - id: S1-root-too-long
-    message: "Root file exceeds 200 lines"
+  - id: CORE.S.0005.check.0001
+    message: "Root file exceeds 300 lines"
     severity: ERROR
     languages: [generic]
     pattern-regex: "..."
@@ -87,7 +87,7 @@ OpenGrep natively parses YAML. Use `languages: [yaml]` for frontmatter:
 
 ```yaml
 rules:
-  - id: S4-clear-structure
+  - id: CORE.S.0008.check.0001
     message: "Rule file has path scoping"
     languages: [yaml]
     pattern: |
@@ -167,7 +167,7 @@ Results passed to LLM:
 LLM evaluates only what OpenGrep couldn't determine
 ```
 
-**Example: C2 Single Source of Truth**
+**Example: Single Source of Truth (CORE:C:0017)**
 
 OpenGrep can detect:
 - Duplicate section headings
@@ -181,10 +181,10 @@ OpenGrep can't determine:
 **So you write both:**
 
 ```yaml
-# C2-single-source-of-truth.md (frontmatter)
+# core/content/repo-specific-content/rule.md (frontmatter)
 type: semantic
 checks:
-  - id: C2-duplicate-content
+  - id: CORE.C.0017.check.0001
     name: Duplicate content indicators
     severity: high
 question: "Given what was found, is there contradictory duplicated content?"
@@ -194,9 +194,9 @@ criteria:
 ```
 
 ```yaml
-# C2-single-source-of-truth.yml (OpenGrep patterns)
+# core/content/repo-specific-content/rule.yml (OpenGrep patterns)
 rules:
-  - id: C2-duplicate-content
+  - id: CORE.C.0017.check.0001
     message: "Potential duplicate content found"
     severity: WARNING
     languages: [generic]

@@ -1,0 +1,11 @@
+rules:
+  - id: "CORE.C.0019.check.0001"
+    message: "Navigation or summary content found"
+    severity: WARNING
+    languages: [generic]
+    pattern-either:
+      - pattern-regex: "(?i)## (table of contents|contents|navigation|overview)"
+      - pattern-regex: "(?i)(see .+\\.md)"
+    paths:
+      include:
+        - "{{instruction_files}}"

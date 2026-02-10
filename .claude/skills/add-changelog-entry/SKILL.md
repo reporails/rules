@@ -11,9 +11,11 @@ Automatically add a changelog entry to PROJECT_ROOT/UNRELEASED.md.
 
 1. Check git diff or recent file modifications
 2. Determine the area from the file path:
-   - rules/*.md → [RULES]
-   - capability-levels.md with L1-L6 changes → [L1]-[L6]
-   - README.md → [DOCS]
+   - core/**/rule.md → [RULES]
+   - registry/ → [REGISTRY]
+   - schemas/ → [SCHEMAS]
+   - agents/ → [AGENTS]
+   - docs/ → [DOCS]
    - CLAUDE.md, backbone.yml, .claude/, .reporails/ → [META]
 3. Determine the category:
    - New files/content → Added
@@ -39,20 +41,22 @@ Added, Changed, Deprecated, Removed, Fixed, Security
 
 ## Areas
 
-- [RULES] – Rule definitions (S, C, M, G, E)
-- [L1]-[L6] – Level-specific changes
-- [DOCS] – README, general documentation
+- [RULES] – Rule definitions (structure, content, efficiency, maintenance, governance)
+- [REGISTRY] – Capabilities, levels, coordinate map, tombstones
+- [SCHEMAS] – Schema definitions
+- [AGENTS] – Agent configurations and agent-specific rules
+- [DOCS] – Documentation
 - [META] – CLAUDE.md, backbone.yml, repo structure
 
 ## Example
 
 ```markdown
 ### Added
-- [RULES]: S5 rule for heading depth validation
-- [L4]: Added hooks requirement to level definition
+- [RULES]: CORE:G:0001 rule for governance policy validation
+- [REGISTRY]: Added new capability to L4
 
 ### Changed
-- [DOCS]: Updated README with CLI link
+- [SCHEMAS]: Updated rule schema to v0.1.0
 ```
 
 Do not ask for confirmation. Just do it.

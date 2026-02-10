@@ -1,0 +1,9 @@
+rules:
+  - id: "CORE.C.0022.check.0001"
+    message: "Ask-when-uncertain instruction found"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?i)(ask (the user|for clarification|before)|do not (assume|guess)|when (uncertain|unclear|ambiguous))"
+    paths:
+      include:
+        - "{{instruction_files}}"

@@ -16,7 +16,7 @@ Prepare and tag a new release.
   - Use [Keep a Changelog](https://keepachangelog.com/) format
   - Sections: Added, Changed, Fixed, Removed
   - Lead with headline feature
-  - Include key metrics (trust score, rule count, etc.)
+  - Include key metrics (rule count, schema version, etc.)
 - [ ] Clear `UNRELEASED.md` (keep `# Unreleased` header only)
 - [ ] Update version in relevant files (if any)
 - [ ] Review diff before committing
@@ -44,9 +44,8 @@ Prepare and tag a new release.
 - **{Theme}**: {Summary of what was fixed}
 
 ### Metrics
-- Trust Score: {X}%
-- Evidence Coverage: {Y}% core, {Z}% experimental
 - Rules: {N} total ({P} passing)
+- Schema version: {X}
 ```
 
 ## Result

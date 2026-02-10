@@ -3,19 +3,19 @@
 ```mermaid
 flowchart TD
     START([/manage-levels command]) --> PARSE[Parse Capability Assessment Matrix<br/>from docs/capability-levels.md]
-    PARSE --> EXTRACT[Extract rule-to-level assignments<br/>First + per row = introduction level]
+    PARSE --> EXTRACT[Extract capability-to-level assignments]
     EXTRACT --> MODE{command?}
     MODE -->|sync| READ_META[Read level names + descriptions<br/>from Level Descriptions section]
     READ_META --> GENERATE[Generate levels.yml content]
-    GENERATE --> WRITE[Write levels.yml]
+    GENERATE --> WRITE[Write registry/levels.yml]
     WRITE --> CHANGELOG[Add UNRELEASED.md entry]
-    CHANGELOG --> REPORT_SYNC[Report: rules per level, changes made]
-    MODE -->|diff| READ_CURRENT[Read current levels.yml]
+    CHANGELOG --> REPORT_SYNC[Report: capabilities per level, changes made]
+    MODE -->|diff| READ_CURRENT[Read current registry/levels.yml]
     READ_CURRENT --> COMPARE[Compare parsed vs current]
-    COMPARE --> REPORT_DIFF[Report discrepancies<br/>Added/removed/moved rules per level]
+    COMPARE --> REPORT_DIFF[Report discrepancies<br/>Added/removed/moved capabilities per level]
     MODE -->|list| FILTER{level specified?}
-    FILTER -->|yes| SHOW_ONE[Display rules for that level]
-    FILTER -->|no| SHOW_ALL[Display rules for all levels]
+    FILTER -->|yes| SHOW_ONE[Display capabilities for that level]
+    FILTER -->|no| SHOW_ALL[Display capabilities for all levels]
 ```
 
 ## Parsing Contract
@@ -23,50 +23,57 @@ flowchart TD
 The matrix in `docs/capability-levels.md` under "Capability Assessment Matrix":
 
 ```markdown
-| Criteria | Rule | L1 | L2 | L3 | L4 | L5 | L6 |
-|----------|------|----|----|----|----|----|----|
-| Manually reviewed | CLAUDE_M1 | + | + | + | + | + | + |
-| Size limits | S1 | - | + | + | + | + | + |
+| Capability | Level | What It Detects |
+|------------|-------|-----------------|
+| instruction_file | L1 | Non-trivial, tracked instruction file exists |
+| project_constraints | L2 | Project-specific substance |
+| size_controlled | L2 | Instruction file is concise |
 ```
 
-- **Column 2** = Rule ID
-- **Columns 3-8** = L1 through L6 (`+` = required, `-` = not expected)
-- **Introduction level** = first column where `+` appears
+- **Column 1** = Capability identifier (snake_case)
+- **Column 2** = Level where capability is assigned (L1–L6)
+- **Column 3** = Detection description
 
 ## Assignment Logic
 
-Each rule is assigned to exactly one level: the **first** level where `+` appears.
+Each capability is assigned to exactly one level.
 
-Example: `S1` has `- | + | + | + | + | +` — first `+` is L2, so S1 belongs to L2.
+Example: `project_constraints` is in the L2 row, so it belongs to L2.
 
-`levels.yml` lists only introduction-level rules per level (not cumulative).
+`registry/levels.yml` groups capabilities by level.
 
 ## Output Format (levels.yml)
 
 ```yaml
-# Canonical level definitions for the Reporails framework.
-# Source of truth: docs/capability-levels.md (Capability Assessment Matrix)
-#
-# CLI consumers should prefer this file over any bundled copy.
+# Level definitions
+version: 1
 
 levels:
   L0:
     name: Absent
-    description: No instruction file
-    rules: []
+    description: "No instruction file exists"
+    capabilities: []
 
   L1:
     name: Basic
-    description: <from Level Descriptions>
-    rules: [RULE_A, RULE_B]
+    description: "A non-trivial, tracked instruction file exists"
+    capabilities:
+      - instruction_file
+
+  L2:
+    name: Scoped
+    description: "Project-specific constraints defined, file is focused"
+    capabilities:
+      - project_constraints
+      - size_controlled
 ```
 
-- L0 is always present with empty rules
-- Level names and descriptions come from the "Level Descriptions" section headings and content
-- Rules are listed in matrix row order (top to bottom)
+- L0 is always present with empty capabilities
+- Level names and descriptions come from the "Level Descriptions" section
+- Capabilities are listed in matrix row order
 
 ## Constraints
 
-- **Source of truth**: `docs/capability-levels.md` — never edit `levels.yml` directly
+- **Source of truth**: `docs/capability-levels.md` — never edit `registry/levels.yml` directly
 - **Idempotent**: Running `sync` twice produces identical output
-- **No reordering**: Rules listed in the order they appear in the matrix
+- **No reordering**: Capabilities listed in the order they appear in the matrix

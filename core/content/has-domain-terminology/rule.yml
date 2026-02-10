@@ -1,0 +1,11 @@
+rules:
+  - id: "CORE.C.0012.check.0001"
+    message: "Terminology or definition content found"
+    severity: WARNING
+    languages: [generic]
+    pattern-either:
+      - pattern-regex: "(?i)## (terminology|glossary|definition)"
+      - pattern-regex: "[A-Z]{2,}\\s*[=:—–-]"
+    paths:
+      include:
+        - "{{instruction_files}}"

@@ -1,124 +1,101 @@
-# Schema for .reporails/config.yml
-# Project-level configuration — committed to git
-version: "0.0.3"
+# Project configuration schema (.reporails/config.yml)
+version: "0.1.0"
 
-# Migration from v2:
-#   - Replaced confidence/profile with tiers (core/experimental)
-#   - Aligns with tier derivation model: core (max source weight >= 0.8), experimental (< 0.8)
+# Removed instruction_files (moved to agent config).
+# Updated rules.disabled/overrides for coordinate format.
 
 fields:
   schema_version:
     required: true
-    type: integer
-    default: 1
-    description: "Config schema version for forward compatibility"
+    type: string
+    pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    default: "0.1.0"
+    description: "Config schema version (semver). CLI validates against supported range."
 
   agent:
     required: false
     type: string
     default: "claude"
-    description: "Primary agent to check against (matches agents/{agent}/config.yml)"
-
-  instruction_files:
-    required: false
-    type: object
-    description: "Defines which files are analyzed and their roles"
-    properties:
-      main:
-        type: string
-        default: "**/CLAUDE.md"
-        description: "Main instruction file — document-level rules apply here only"
-      supplementary:
-        type: string
-        default: ".claude/rules/**/*.md"
-        description: "Supplementary files — content rules apply, not document-level"
-      exclude:
-        type: array
-        items:
-          type: string
-        description: "Glob patterns to exclude from all analysis"
+    description: "Default agent for this project (loads agent config from rules repo)"
 
   components:
     required: false
     type: array
-    description: "Monorepo component definitions (optional)"
+    description: "Monorepo component definitions for multi-path scoring"
     items:
       type: object
       properties:
         path:
           required: true
           type: string
-          description: "Glob pattern or path to component root"
+          description: "Relative path to component root"
         main:
           type: string
           default: "CLAUDE.md"
-          description: "Main instruction file relative to component root"
+          description: "Component's primary instruction file"
         expected_level:
           type: string
-          pattern: "^L[1-5]$"
-          description: "Expected capability level — violations if below"
+          pattern: "^L[1-6]$"
+          description: "Target capability level for this component"
         role:
           type: enum
-          values: [orchestrator, component, library, docs]
+          values: [coordinator, component, library, docs]
           default: component
-          description: "Affects which rules apply"
+          description: "Component role (affects which rules apply)"
 
   rules:
     required: false
     type: object
-    description: "Rule customizations for this project"
+    description: "Project-level rule overrides and exclusions"
     properties:
       disabled:
         type: array
+        description: "Rule coordinates to skip entirely"
         items:
           type: string
-          pattern: "^[SCEGM][0-9]+$"
-        description: "Rule IDs to skip entirely"
+          pattern: "^[A-Z_]+:[SCEMG]:[0-9]{4}$"
       overrides:
         type: object
+        description: "Per-check severity adjustments (key = check coordinate)"
         additionalProperties:
           type: object
           properties:
             severity:
               type: enum
               values: [critical, high, medium, low]
+              description: "Override default severity for this check"
             disabled:
               type: boolean
-        description: "Per-check overrides keyed by check ID"
+              description: "Disable this specific check"
 
   scoring:
     required: false
     type: object
+    description: "Scoring configuration for CLI output"
     properties:
       scope:
         type: enum
         values: [main, all, aggregate]
         default: main
-        description: |
-          main: Score only main instruction file(s)
-          all: Score all files as one unit
-          aggregate: Separate score per component (monorepo)
+        description: "What to score: main file only, all files, or aggregate across components"
 
   tiers:
     required: false
     type: object
-    description: "Filter rules by evidence tier"
+    description: "Orthogonal to levels: evidence confidence vs concern level"
     properties:
       core:
         type: boolean
         default: true
-        description: "Enforce core rules (backed by official/research sources, max weight >= 0.8)"
+        description: "Enforce rules backed by official/research sources (weight >= 0.8)"
       experimental:
         type: boolean
         default: true
-        description: "Enforce experimental rules (community-only sources, max weight < 0.8)"
+        description: "Enforce rules backed by community sources only (weight < 0.8)"
 
 defaults:
-  schema_version: 3
+  schema_version: "0.1.0"
   agent: "claude"
-  instruction_files:
-    main: "**/CLAUDE.md"
-    supplementary: ".claude/rules/**/*.md"
   scoring:
     scope: main
   tiers:
@@ -126,87 +103,40 @@ defaults:
     experimental: true
 
 validation:
-  - rule: "schema_version must be supported (currently: 1, 2, or 3)"
-  - rule: "Unknown fields should warn, not error (forward compatibility)"
-  - rule: "Invalid patterns should error with clear message"
-  - rule: "If tiers.core is false, no rules are enforced (core is the minimum set)"
+  - rule: "schema_version must be supported (currently: 0.1.0)"
+  - rule: "Unknown fields should warn, not error"
+  - rule: "If tiers.core is false, no rules are enforced"
+  - rule: "rules.disabled items must be valid rule coordinates"
+  - rule: "rules.overrides keys must be valid check coordinates"
 
 examples:
   minimal: |
-    # Simplest config — all defaults
-    schema_version: 2
-
-  single_repo: |
-    # Standard single-repo setup
-    schema_version: 2
-    agent: claude
-
-    instruction_files:
-      main: "CLAUDE.md"
-      supplementary: ".claude/rules/**/*.md"
+    schema_version: "0.1.0"
 
   monorepo: |
-    # Monorepo with orchestrator + components
-    schema_version: 2
+    schema_version: "0.1.0"
     agent: claude
-
-    instruction_files:
-      main: "CLAUDE.md"  # Root orchestrator
-      supplementary: ".claude/rules/**/*.md"
-      exclude:
-        - "**/node_modules/**"
-        - "**/dist/**"
-
     components:
       - path: "packages/api"
-        role: component
-        expected_level: L3
-      - path: "packages/web"
         role: component
         expected_level: L3
       - path: "packages/shared"
         role: library
         expected_level: L2
-      - path: "docs"
-        role: docs
-        expected_level: L1
-
     scoring:
       scope: aggregate
 
   with_overrides: |
-    # Customized rules
-    schema_version: 2
+    schema_version: "0.1.0"
     agent: claude
-
     rules:
-      disabled:
-        - E5  # We don't use grep guidance pattern
-        - E4  # Memory handled differently
+      disabled: ["CORE:E:0002"]
       overrides:
-        S1-root-too-long:
-          severity: medium  # We allow longer root files
-        C12-no-version:
-          disabled: true    # We use git tags instead
+        "CORE:S:0001:check:0001":
+          severity: medium
 
-  multi_agent: |
-    # Checking multiple agents (future)
-    schema_version: 2
-    agent: claude  # Primary
-    # Additional agents would need separate check runs
-
-  enterprise_strict: |
-    # Only enforce validated rules (official + research backed)
-    schema_version: 2
-    agent: claude
+  strict: |
+    schema_version: "0.1.0"
     tiers:
       core: true
       experimental: false
-
-  early_adopter: |
-    # Include experimental community patterns
-    schema_version: 2
-    agent: claude
-    tiers:
-      core: true
-      experimental: true

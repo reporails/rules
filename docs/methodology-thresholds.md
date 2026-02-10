@@ -8,11 +8,9 @@ This document is the source of truth for Reporails threshold interpretations. Wh
 
 | Rule | Threshold | Source says | Our interpretation |
 |------|-----------|-------------|-------------------|
-| S1 | 200 lines max | "< 300 lines is best" | Stricter threshold provides safety margin; 200 encourages @imports earlier |
-| S3 | 10 lines max | "keep concise" | Code blocks should be examples, not implementations |
-| E1 | 10 lines max | "keep concise" | Same as S3 — code blocks are examples |
-| E2 | 10 imports max | "hierarchical structure" | Practical limit before import chains become confusing |
-| C5 | Has version/date | — | Change tracking enables maintenance discipline |
+| CORE:S:0005 | 300 lines max | "< 300 lines is best" | Per-file limit encourages @imports earlier |
+| CORE:S:0006 | 32 KiB total | "hierarchical structure" | Total instruction budget across all files |
+| CLAUDE:S:0002 | 5 hops max | "hierarchical structure" | Import chains beyond 5 hops become confusing |
 
 ## Rationale
 
@@ -20,10 +18,10 @@ This document is the source of truth for Reporails threshold interpretations. Wh
 
 Sources provide general guidance. We provide enforcement.
 
-"Keep files concise" doesn't fail a lint check. "Over 200 lines" does.
+"Keep files concise" doesn't fail a lint check. "Over 300 lines" does.
 
 Our thresholds are:
-- **Measurable** — OpenGrep can detect them
+- **Measurable** — OpenGrep or mechanical checks can detect them
 - **Enforceable** — Clear pass/fail
 - **Conservative** — Better to split early than refactor later
 
@@ -31,9 +29,9 @@ Our thresholds are:
 
 | Threshold | Derivation |
 |-----------|------------|
-| 200 lines | ~150-200 instructions is frontier LLM attention limit (humanlayer research) |
-| 10 lines code | Code blocks are examples; full implementations belong in actual code |
-| 10 imports | Cognitive limit; deeper hierarchies need .claude/rules/ instead |
+| 300 lines | ~150-300 instructions is frontier LLM attention limit (humanlayer research) |
+| 32 KiB | Codex hard budget limit; effective ceiling for all agents |
+| 5 hops | Cognitive limit; deeper chains need .claude/rules/ instead |
 
 ### Adjusting thresholds
 
@@ -41,25 +39,13 @@ These are defaults. Users can override via `.reporails/config.yml`:
 
 ```yaml
 overrides:
-  S1-root-too-long:
+  CORE:S:0005:
     disabled: true  # "I know my file is long"
-  C7-too-many-emphases:
-    severity: low   # "I use emphasis differently"
 ```
-
-## Governance Best Practices
-
-Rules without external sources but based on enterprise patterns:
-
-| Rule | Pattern | Source |
-|------|---------|--------|
-| C5 | Version/date enables change tracking | Maintenance discipline |
-
-Governance rules have moved to [reporails/recommended](https://github.com/reporails/recommended).
 
 ## Sources
 
 This document is cited by rules that use Reporails-defined thresholds:
-- S1, S3, C5, E1, E2
+- CORE:S:0005, CORE:S:0006, CLAUDE:S:0002
 
 For rules backed by external sources, see `docs/sources.yml`.

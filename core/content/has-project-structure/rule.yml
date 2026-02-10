@@ -1,0 +1,12 @@
+rules:
+  - id: "CORE.C.0002.check.0001"
+    message: "Project structure documentation found"
+    severity: WARNING
+    languages: [generic]
+    pattern-either:
+      - pattern-regex: "(?i)## (project )?structure"
+      - pattern-regex: "(?i)## director"
+      - pattern-regex: "src/|tests/|docs/"
+    paths:
+      include:
+        - "{{instruction_files}}"

@@ -1,0 +1,11 @@
+rules:
+  - id: "CORE.C.0009.check.0001"
+    message: "Style convention content found"
+    severity: WARNING
+    languages: [generic]
+    pattern-either:
+      - pattern-regex: "(?i)## (style|convention)"
+      - pattern-regex: "(?i)(naming|camelCase|PascalCase|snake_case)"
+    paths:
+      include:
+        - "{{instruction_files}}"

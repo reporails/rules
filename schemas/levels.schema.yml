@@ -1,6 +1,5 @@
-# Schema for levels.yml
-# Canonical level-to-rule mappings consumed by CLI
-version: "0.0.1"
+# Levels schema
+version: "0.1.0"
 
 fields:
   levels:
@@ -16,30 +15,47 @@ fields:
       description:
         required: true
         type: string
-        description: "One-line description of what the level enables"
-      rules:
+        description: "What this level represents"
+      capabilities:
         required: true
         type: array
+        description: "Capability IDs required at this level (must exist in registry/capabilities.yml)"
         items:
           type: string
-          pattern: "^(CLAUDE_)?[A-Z]+[0-9]+$"
-        description: "Rule IDs introduced at this level (not cumulative)"
+          pattern: "^[a-z][a-z0-9_]*$"
 
 validation:
-  - rule: "L0 must exist with empty rules array"
-  - rule: "L1 through L6 must each exist"
-  - rule: "Each rule ID must appear in exactly one level"
-  - rule: "Rule IDs must match pattern: optional agent prefix + category letter(s) + number"
-  - rule: "Rules within a level are listed in matrix row order (not sorted)"
+  - rule: "Each capability ID must appear in exactly one level"
+  - rule: "Capability IDs must exist in registry/capabilities.yml"
 
 examples:
-  minimal: |
+  full: |
     levels:
       L0:
         name: Absent
-        description: No instruction file
-        rules: []
+        description: "No instruction file exists"
+        capabilities: []
       L1:
         name: Basic
-        description: Instruction file exists, reviewed, has basic content
-        rules: [CLAUDE_M1, M1]
+        description: "A non-trivial, tracked instruction file exists"
+        capabilities: [instruction_file]
+      L2:
+        name: Scoped
+        description: "Project-specific constraints defined, file is focused"
+        capabilities: [project_constraints, size_controlled]
+      L3:
+        name: Structured
+        description: "Guidance is modular with external references"
+        capabilities: [external_references, multiple_files]
+      L4:
+        name: Abstracted
+        description: "Instructions adapt based on code location"
+        capabilities: [path_scoping]
+      L5:
+        name: Maintained
+        description: "Structurally sound, governed, and navigable"
+        capabilities: [structural_integrity, org_policy, navigation]
+      L6:
+        name: Adaptive
+        description: "Dynamic context discovery and extensibility"
+        capabilities: [dynamic_context, extensibility, state_persistence]

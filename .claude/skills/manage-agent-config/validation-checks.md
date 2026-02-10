@@ -31,9 +31,9 @@ For each core rule, verify agent supports the underlying feature:
 
 | Rule | Feature Required | Exclude if missing |
 |------|------------------|-------------------|
-| E2 | Import references | ✓ |
-| CLAUDE_S1 | Hierarchical memory | ✓ (Claude-specific) |
-| CLAUDE_S2 | Path-scoped rules | ✓ (Claude-specific) |
+| CORE:S:0007 | Multiple instruction files | ✓ (single-file agents) |
+| CLAUDE:S:0001 | CLAUDE.md file placement | ✓ (non-Claude agents — auto-excluded by namespace) |
+| CLAUDE:S:0003 | Rules directory structure | ✓ (non-Claude agents — auto-excluded by namespace) |
 
 ## Overrides Review
 
@@ -52,10 +52,8 @@ Example:
 ```yaml
 # Agent supports the feature but with different expectations
 overrides:
-  S1-root-too-long:
+  CORE:S:0005:
     severity: medium  # This agent allows longer files
-  E5-no-grep-guidance:
-    disabled: true    # Agent handles this differently
 ```
 
 ## Validation Command

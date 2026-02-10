@@ -1,5 +1,5 @@
 # Reporails Framework
-<!-- Last updated: 2026-01-31 -->
+<!-- Last updated: 2026-02-06 -->
 
 Framework for evaluating and maintaining AI agent instruction files.
 
@@ -10,42 +10,58 @@ Framework for evaluating and maintaining AI agent instruction files.
 - OpenGrep patterns for detection
 - No application code — framework only
 
-## Session Start
+## Initialization
 
-1. Read `.reporails/backbone.yml` for project structure
-2. Read `docs/capability-levels.md` for architecture decisions
+Read these files before searching or modifying anything:
+
+1. Read `.reporails/backbone.yml` for project structure and path resolution
+2. Read `registry/capabilities.yml` and `registry/levels.yml` for architecture
+3. Read `.claude/rules/` for context-specific constraints on the current task
 
 ## Structure
 
-```
-levels.yml                                                   # Canonical level→rule mappings
-core/{structure,content,efficiency,maintenance}/             # Generic rules (18)
-  {rule-id}/                                                 # Each rule in own directory
-    {rule-id}.md                                             # Rule definition
-    {rule-id}.yml                                            # OpenGrep patterns
-    tests/                                                   # Test cases
-      fail.md                                                # Should trigger
-      pass.md                                                # Should not trigger
-agents/{claude,codex}/{config.yml,rules/}                    # Agent-specific (same structure)
-schemas/{rule,agent,package,project,user,levels}.schema.yml   # Schemas
-docs/                                                        # Documentation
-.claude/{skills/,rules/}                                     # Claude config
-.shared/{workflows/,knowledge/}                              # Agent-agnostic shared content
-```
+Defined in `.reporails/backbone.yml` — the single source of truth for project topology, paths, schemas, and registry locations.
+
+**BEFORE** running `find`, `grep`, `ls`, or glob to locate project files, you **MUST** read `.reporails/backbone.yml` first. All schema paths, registry paths, rule directories, agent configs, and doc locations are mapped there. You **MUST NOT** use exploratory commands to discover paths that the backbone already provides.
 
 ## Commands
 
-- Check rule lengths: `wc -l core/**/*/*.md agents/**/rules/*/*.md`
-- List all rules: `find core agents -type d -name "[A-Z]*" | grep -v tests`
-- List rule files: `find core agents -path "*/tests" -prune -o -name "*.md" -print | grep -v README`
+- Check rule lengths: `wc -l core/**/*/rule.md agents/**/rules/*/rule.md`
+- List all rules: `find core agents -name "rule.md" | grep -v tests`
+- List rule directories: `find core agents -name "rule.yml" -exec dirname {} \;`
+
+### Test Harness
+
+```bash
+# Build test image
+docker compose -f runtime/docker-compose.yml build
+
+# Run all rules
+docker compose -f runtime/docker-compose.yml run test
+
+# Run one rule
+docker compose -f runtime/docker-compose.yml run test --rule CORE:S:0001
+
+# Run one category
+docker compose -f runtime/docker-compose.yml run test core/structure/
+
+# Use codex agent vars
+docker compose -f runtime/docker-compose.yml run test --agent codex
+
+# Include recommended package
+docker compose -f runtime/docker-compose.yml run test --package /recommended
+
+# Verbose (show OpenGrep output)
+docker compose -f runtime/docker-compose.yml run test --verbose
+```
 
 ## Navigation
 
 Key paths:
-- @docs/capability-levels.md — Level definitions
-- @core/ — Generic rules (S1-S4, C1-C5, E1-E2, M1-M4)
-- @agents/ — Agent-specific config and rules (Claude, Codex)
-- @schemas/ — Machine-readable contracts
+- @registry/ — Capabilities, levels, coordinate map, tombstones
+- @core/ — Core rules (12 structure, 18 content)
+- @agents/ — Agent-specific config and rules (10 Claude, 7 Codex)
+- @schemas/ — Machine-readable contracts (8 schemas)
 - @docs/ — Contributor guides and source registry
 
 Additional rules available in [reporails/recommended](https://github.com/reporails/recommended).
@@ -63,8 +79,11 @@ Additional rules available in [reporails/recommended](https://github.com/reporai
 - NEVER hardcode agent paths in core rules — use `{{instruction_files}}`
 - NEVER read CHANGELOG.md — use UNRELEASED.md instead
 - ALWAYS update UNRELEASED.md when modifying rules
-- ALWAYS create both .md and .yml for each rule
-- ALWAYS create tests/fail.md and tests/pass.md for each rule
+- ALWAYS create both rule.md and rule.yml for each rule
+- ALWAYS create tests/pass/ and tests/fail/ fixture directories for each rule
+- ALWAYS update registry/coordinate-map.yml when adding or removing rules
+- NEVER execute destructive or irreversible operations without explicit user confirmation
+- ALWAYS resolve paths from `.reporails/backbone.yml` before using exploratory commands
 
 ## Shared Resources
 
@@ -78,3 +97,12 @@ Skills in `.claude/skills/` are entry points that reference shared content.
 ## Skills
 
 Skills in `.claude/skills/` — each has a SKILL.md linking to shared workflows.
+
+| Skill | Purpose |
+|-------|---------|
+| `/generate-rule` | Create rule skeleton with coordinate, directory, and placeholder files |
+| `/implement-rule` | Implement checks, patterns, and fixtures for an existing rule skeleton |
+| `/validate-rules` | Validate rules against schema and contracts |
+| `/manage-levels` | Sync level definitions with capability model |
+| `/manage-agent-config` | Create, update, and validate agent configurations |
+| `/add-changelog-entry` | Add changelog entry to UNRELEASED.md |

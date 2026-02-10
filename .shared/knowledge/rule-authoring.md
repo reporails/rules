@@ -6,40 +6,40 @@ Templates and validation for creating rule skeletons.
 
 ```yaml
 ---
-id: {ID}
+id: "NAMESPACE:CATEGORY:SLOT"
+slug: slug-name
 title: {Title}                    # max 64 chars
-category: structure|content|efficiency|maintenance
-type: deterministic|semantic
+category: structure|content|efficiency|governance|maintenance
+type: mechanical|deterministic|semantic
+level: L1|L2|L3|L4|L5|L6
+targets: "{{instruction_files}}"
 checks:
-  - id: {ID}-{check-slug}
+  - id: NAMESPACE.CATEGORY.SLOT.check.NNNN
     name: {Description}
     severity: critical|high|medium|low
-backed_by: []                     # empty by default
+backed_by: []                     # source IDs from docs/sources.yml
 ---
 
 # {Title}
 
 One-sentence impact statement.
 
-## Pattern
+## Pass / Fail
 
-**Good:**
-```
-example
-```
+**Pass:** example
+**Fail:** example
 
-**Bad:**
-```
-example
-```
+## Limitations
+
+{limitations}
 ```
 
-### Semantic Rule Additions
+### Question and Criteria
 
-For semantic rules, add to frontmatter:
+All rules can include `question` and `criteria` as documentation of what the rule verifies. For semantic rules these fields are **required** (they drive LLM evaluation). For mechanical and deterministic rules they are **optional** (human-readable description only).
 
 ```yaml
-question: "{What LLM evaluates}"
+question: "{What the rule verifies}"
 criteria:
   - {First criterion}
   - {Second criterion}
@@ -49,29 +49,32 @@ criteria:
 
 ```yaml
 rules:
-  - id: {ID}-{check-slug}
-    message: "TODO: {description}"
+  - id: NAMESPACE.CATEGORY.SLOT.check.NNNN
+    message: "{description}"
     severity: WARNING
     languages: [generic]
-    pattern-regex: "TODO"  # placeholder
+    pattern-regex: "pattern"
     paths:
       include:
         - "{{instruction_files}}"
 ```
 
-## ID Patterns
+Mechanical rules have `rules: []` — no OpenGrep patterns needed.
+
+## Coordinate Patterns
 
 | Scope | Pattern | Example |
 |-------|---------|---------|
-| Core | `^[SCEGM][0-9]+$` | S1, C5, E2 |
-| Agent | `^[A-Z]+_[SCEGM][0-9]+$` | CLAUDE_S1 |
+| Core | `CORE:{S\|C\|E\|G\|M}:NNNN` | `CORE:S:0001` |
+| Claude agent | `CLAUDE:S:NNNN` | `CLAUDE:S:0001` |
+| Codex agent | `CODEX:S:NNNN` | `CODEX:S:0001` |
 
 ## Valid Values
 
 | Field | Values |
 |-------|--------|
-| category | structure, content, efficiency, maintenance |
-| type | deterministic, semantic |
+| category | structure, content, efficiency, governance, maintenance |
+| type | mechanical, deterministic, semantic |
 | severity (md) | critical, high, medium, low |
 | severity (yml) | ERROR, WARNING, INFO |
 
@@ -90,9 +93,8 @@ rules:
 |---------|-----|
 | Using `{{rules_dir}}` in core rules | Core uses only `{{instruction_files}}` |
 | Missing .yml file | Always create both files |
-| Wrong check ID format | Must be `{rule_id}-{suffix}` |
-| Semantic without question | Add question + criteria |
-| Deterministic with question | Remove question + criteria |
+| Wrong check ID format | Must be `NAMESPACE.CATEGORY.SLOT.check.NNNN` |
+| Semantic without question | Add question + criteria (required for semantic) |
 | Hardcoded paths in .yml | Use `{{instruction_files}}` |
 | Title > 64 characters | Shorten or abbreviate |
 | Body > 40 lines | Extract to supporting docs |
@@ -101,24 +103,26 @@ rules:
 
 ### Frontmatter
 
-- [ ] `id` matches pattern (core/agent)
+- [ ] `id` matches coordinate pattern
+- [ ] `slug` matches directory name
 - [ ] `title` <= 64 characters
 - [ ] `category` is valid
-- [ ] `type` is valid (deterministic/semantic)
+- [ ] `type` is valid (mechanical/deterministic/semantic)
+- [ ] `level` is valid (L1-L6)
 - [ ] `checks` array exists and non-empty
-- [ ] `checks[].id` starts with rule ID + hyphen
+- [ ] `checks[].id` follows `NAMESPACE.CATEGORY.SLOT.check.NNNN` format
 - [ ] `checks[].severity` is valid
-- [ ] If semantic: `question` and `criteria` exist
-- [ ] If deterministic: NO `question` or `criteria`
+- [ ] If semantic: `question` and `criteria` exist (required)
+- [ ] If mechanical/deterministic: `question` and `criteria` optional (documentation only)
 
 ### Contract
 
 - [ ] .yml file exists for every .md rule
-- [ ] Every `checks[].id` in .md has matching `rules[].id` in .yml
-- [ ] Every `rules[].id` in .yml has matching `checks[].id` in .md
+- [ ] Every `checks[].id` in .md has matching `rules[].id` in .yml (deterministic/semantic only)
+- [ ] Mechanical rules have `rules: []` in .yml
 
 ### Content
 
 - [ ] Body <= 40 lines
 - [ ] Has "# {Title}" heading matching frontmatter
-- [ ] Has Pattern section with Good/Bad examples
+- [ ] Has Pass/Fail section with examples

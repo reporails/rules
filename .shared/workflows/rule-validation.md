@@ -11,10 +11,7 @@ flowchart TD
     CONTRACT -->|pass| RESOLVE[Resolve template variables]
     RESOLVE --> OPENGREP[3. OpenGrep validation<br/>Pattern syntax]
     OPENGREP -->|exit 2 or 7| REPORT
-    OPENGREP -->|exit 0 or 1| SOURCE{--source-check?}
-    SOURCE -->|yes| EVIDENCE[4. Evidence chain validation<br/>backed_by integrity]
-    SOURCE -->|no| REPORT
-    EVIDENCE --> REPORT[Report results]
+    OPENGREP -->|exit 0 or 1| REPORT[Report results]
     REPORT --> NEXT{More rules?}
     NEXT -->|yes| LOOP
     NEXT -->|no| SUMMARY[Summary output]

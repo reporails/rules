@@ -18,7 +18,6 @@ Checklist: `.shared/knowledge/qa-checklist.md`
 
 ### Sequential (after parallel)
 - [ ] `/validate-rules` — confirm all pass
-- [ ] `/validate-rules --source-check` — verify trust score
 
 ## Error Triage
 
@@ -40,8 +39,6 @@ Checklist: `.shared/knowledge/qa-checklist.md`
 - Schema errors: ___
 - Contract errors: ___
 - OpenGrep errors: ___
-
-**Trust Score:** ___
 
 ## Run History
 

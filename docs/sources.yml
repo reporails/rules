@@ -1,311 +1,84 @@
-# Source Registry with Evidence Claims
-# Schema: schemas/sources.schema.yml (v3)
-#
-# Each source contains specific claims that back specific rules.
-# This creates an auditable evidence chain: source -> claim -> rule
-#
-# Tier derivation (NOT stored, computed from weights):
-#   - core: max(backing_weights) >= 0.8 (official or research)
-#   - experimental: max(backing_weights) < 0.8 (community only)
-
-generic:
+# Source Registry — Core Package
+# Schema: schemas/sources.schema.yml
 - id: agents-md-spec
-  title: AGENTS.md Specification (Linux Foundation)
   url: https://agents.md/
   type: official
   weight: 1.0
-  accessed: '2026-01-30'
-  claims:
-  - id: readme-for-agents
-    text: Think of AGENTS.md as a README for agents
-    quote: true
-    section: Introduction
-    rules: [C3]
-  - id: root-placement
-    text: Create an AGENTS.md file at the root of the repository
-    quote: true
-    section: Getting Started
-    rules: [S1, C1]
-  - id: standard-markdown
-    text: AGENTS.md is just standard Markdown. Use any headings you like
-    quote: true
-    section: FAQ
-    rules: [S4]
-  - id: no-required-fields
-    text: No required fields exist - file format is flexible
-    section: FAQ
-    rules: [C1]
-  - id: nested-monorepo
-    text: Create nested AGENTS.md files for subprojects in monorepos
-    section: Monorepos
-    rules: [S2, CLAUDE_S1]
-  - id: nearest-precedence
-    text: Agents automatically read the nearest file in the directory tree, so the closest one takes precedence
-    quote: true
-    section: Monorepos
-    rules: [S2, CLAUDE_S2]
-  - id: executable-commands
-    text: Agents will attempt to execute relevant programmatic checks and fix failures before finishing the task when commands
-      are listed
-    quote: true
-    section: FAQ
-    rules: [C1]
-  - id: living-document
-    text: Treat AGENTS.md as living documentation that can be updated anytime
-    section: Maintenance
-    rules: [M1]
-  - id: recommended-sections
-    text: 'Popular sections include: project overview, build/test commands, code style, testing, security, commit/PR guidelines,
-      deployment'
-    section: How to use
-    rules: [C1, C3]
-- id: instruction-limits-principles
-  url: https://www.humanlayer.dev/blog/writing-a-good-claude-md
+  title: Agents.md Specification
+- id: claude-code-issue-13579
+  url: https://github.com/anthropics/claude-code/issues/13579
   type: community
-  weight: 0.4
-  accessed: '2026-01-30'
-  claims:
-  - id: instruction-capacity
-    text: Frontier LLMs follow ~150-200 instructions with reasonable consistency
-    quote: true
-    rules: [S1]
-  - id: line-limit
-    text: Less than 300 lines is optimal; shorter performs better
-    rules: [S1]
-  - id: less-is-more
-    text: Less instructions is more - excessive instructions degrade quality uniformly
-    rules: [S1]
-  - id: progressive-files
-    text: Separate task-specific instructions into discrete markdown files
-    rules: [S2]
-- id: spec-writing-for-agents
-  url: https://addyosmani.com/blog/good-spec/
-  type: community
-  weight: 0.4
-  accessed: '2026-01-30'
-  claims:
-  - id: commands-early
-    text: Put executable commands early - full commands with flags
-    quote: true
-    rules: [C1]
-  - id: code-snippet-beats-prose
-    text: One real code snippet showing your style beats three paragraphs
-    quote: true
-    rules: [S3]
-  - id: curse-of-instructions
-    text: Performance degrades when too many rules compete for attention
-    rules: [S1]
-  - id: modularity
-    text: Break specs into focused sections rather than monolithic prompts
-    rules: [S2]
-
-claude:
+  weight: 0.6
+  title: 'Claude Code Issue #13579 - Token Waste'
 - id: claude-code-memory
   url: https://code.claude.com/docs/en/memory
   type: official
   weight: 1.0
-  accessed: '2026-01-30'
-  claims:
-  - id: memory-hierarchy
-    text: 'Four memory locations in hierarchical structure: managed, project, rules, user'
-    section: Determine memory type
-    rules: [CLAUDE_S1]
-  - id: rules-directory
-    text: Use .claude/rules/ for modular, topic-specific project instructions
-    quote: true
-    section: Modular rules
-    rules: [CLAUDE_S1, CLAUDE_S2]
-  - id: path-scoped-rules
-    text: Rules can be scoped to specific files using YAML frontmatter with paths field
-    section: Path-specific rules
-    rules: [CLAUDE_S2]
-  - id: imports-syntax
-    text: CLAUDE.md files can import additional files using @path/to/import syntax
-    section: CLAUDE.md imports
-    rules: [S2, C4]
-  - id: import-max-depth
-    text: Imported files can recursively import with max-depth of 5 hops
-    section: CLAUDE.md imports
-    rules: [E2]
-  - id: recursive-discovery
-    text: Claude reads memories recursively from cwd up to root
-    section: How Claude looks up memories
-    rules: [S2]
-  - id: use-structure
-    text: Format memories as bullet points grouped under descriptive headings
-    section: Memory best practices
-    rules: [S4, C1]
-  - id: review-periodically
-    text: Review memories periodically as your project evolves
-    section: Memory best practices
-    rules: [C5]
-  - id: keep-rules-focused
-    text: 'Keep rules focused: Each file should cover one topic'
-    quote: true
-    section: Best practices
-    rules: [C2, M2]
+  title: Claude Code Memory Documentation
 - id: claude-code-settings
   url: https://code.claude.com/docs/en/settings
   type: official
   weight: 1.0
-  accessed: '2026-01-30'
-  claims:
-  - id: rules-dir-config
-    text: .claude/rules/ directory configuration for path scoping
-    rules: [CLAUDE_S1, CLAUDE_S2]
-- id: using-claude-md-files
-  url: https://claude.com/blog/using-claude-md-files
-  type: official
-  weight: 1.0
-  accessed: '2026-01-30'
-  claims:
-  - id: usage-patterns
-    text: CLAUDE.md usage patterns and practical examples
-    rules: [C1, C3]
-  - id: customized-content
-    text: Customize CLAUDE.md with project-specific content
-    rules: [CLAUDE_M1]
-- id: anthropic-teams-claude-code
-  url: https://claude.com/blog/how-anthropic-teams-use-claude-code
-  type: official
-  weight: 1.0
-  accessed: '2026-01-30'
-  claims:
-  - id: team-onboarding
-    text: New hires feed Claude codebase to get productive quickly via CLAUDE.md files
-    rules: [C3]
-- id: claude-code-issue-13579
-  url: https://github.com/anthropics/claude-code/issues/13579
-  type: research
-  weight: 0.8
-  accessed: '2026-01-30'
-  claims:
-  - id: token-waste-measured
-    text: 700K+ tokens wasted across 2M token project from 7 patterns
-    section: Analysis Results
-    rules: [S1]
-- id: claude-md-optimization-study
-  url: https://arize.com/blog/claude-md-best-practices-learned-from-optimizing-claude-code-with-prompt-learning/
-  type: research
-  weight: 0.8
-  accessed: '2026-01-30'
-  claims:
-  - id: optimization-improvement
-    text: +5.19% general improvement, +10.87% repo-specific from optimization
-    rules: [S1, C1]
-- id: monorepo-claude-md-organization
-  url: https://dev.to/anvodev/how-i-organized-my-claudemd-in-a-monorepo-with-too-many-contexts-37k7
-  type: community
-  weight: 0.4
-  accessed: '2026-01-30'
-  claims:
-  - id: reduction-achieved
-    text: Reduced 47k to 9k words (~80%) through hierarchical structure
-    rules: [S1, S2]
-  - id: service-specific-files
-    text: Use service-specific instruction files in monorepos
-    rules: [S2]
-- id: enterprise-claude-usage
-  url: https://blog.sshh.io/p/how-i-use-every-claude-code-feature
-  type: community
-  weight: 0.4
-  accessed: '2026-01-30'
-  claims:
-  - id: kb-limit
-    text: 13KB limit observed for effective instruction following
-    rules: [S1]
+  title: Claude Code Settings Documentation
 - id: claude-md-guide
   url: https://www.builder.io/blog/claude-md-guide
   type: community
-  weight: 0.4
-  accessed: '2026-01-30'
-  claims:
-  - id: file-placement
-    text: CLAUDE.md placement affects scope and team access
-    rules: [S2, M1]
-  - id: practical-examples
-    text: Include practical examples in instruction files
-    rules: [C1]
-- id: rules-directory-mechanics
-  url: https://claudefa.st/blog/guide/mechanics/rules-directory
-  type: community
-  weight: 0.4
-  accessed: '2026-01-30'
-  claims:
-  - id: rules-mechanics
-    text: .claude/rules/ mechanics with path scoping and YAML frontmatter
-    rules: [CLAUDE_S1, CLAUDE_S2]
-  - id: loading-behavior
-    text: Rules load based on path matching during file operations
-    rules: [CLAUDE_S2]
-- id: dometrain-claude-md-guide
-  url: https://dometrain.com/blog/creating-the-perfect-claudemd-for-claude-code/
-  type: community
-  weight: 0.4
-  accessed: '2026-01-30'
-  claims:
-  - id: lazy-loading-context
-    text: Break lengthy standards into separate files rather than embedding everything - reference external files to load
-      context on demand
-    section: Context Window Efficiency
-    rules: [S2]
-  - id: domain-terminology
-    text: Document architecture patterns, file structure, and domain terminology explicitly so agents avoid guessing
-    section: Architecture Section Requirements
-    rules: [C1, C3]
-  - id: command-specificity
-    text: Include specific flags and parameters in commands - omitting arguments causes agents to run defaults which fail
-    section: Terminal Commands Documentation
-    rules: [C1]
-  - id: duplicate-instruction-waste
-    text: Duplicate instructions add little value and use unnecessary context
-    quote: true
-    section: Context Window Efficiency
-    rules: [C2]
-  - id: living-document-updates
-    text: Update instruction file when noticing repeated agent errors - version control for team consistency
-    section: Living Document Approach
-    rules: [M1]
-- id: osmani-ai-coding-workflow
-  url: https://addyosmani.com/blog/ai-coding-workflow/
-  type: community
-  weight: 0.4
-  accessed: '2026-01-30'
-  claims:
-  - id: planning-before-coding
-    text: Brainstorm a detailed specification with the AI, then outline a step-by-step plan, before writing any actual code
-    quote: true
-    section: Planning & Specification
-    rules: [C1]
-  - id: commit-savepoints
-    text: Commit early and often as save points - never commit code you can't explain
-    section: Version Control Discipline
-    rules: [M1]
-
-codex:
+  weight: 0.6
+  title: Claude.md Guide - Builder.io
+- id: claude-md-optimization-study
+  url: 
+    https://arize.com/blog/claude-md-best-practices-learned-from-optimizing-claude-code-with-prompt-learning/
+  type: research
+  weight: 0.8
+  title: Claude.md Best Practices - Arize
+- id: codex-agent-loop
+  url: https://openai.com/index/unrolling-the-codex-agent-loop/
+  type: official
+  weight: 1.0
+  title: Unrolling the Codex Agent Loop
 - id: codex-agents-md
   url: https://developers.openai.com/codex/guides/agents-md
   type: official
   weight: 1.0
-  accessed: '2026-01-30'
-  claims:
-  - id: size-limit-32kb
-    text: Codex stops adding files once combined size reaches 32 KiB
-    quote: true
-    rules: [S1]
-  - id: discovery-order
-    text: 'Discovery follows: global scope, then project scope from root to cwd'
-    quote: true
-    rules: [S2]
-- id: codex-agent-loop
-  title: Unrolling the Codex agent loop
-  url: https://openai.com/index/unrolling-the-codex-agent-loop/
+  title: Codex Agents.md Guide
+- id: dometrain-claude-md-guide
+  url: https://dometrain.com/blog/creating-the-perfect-claudemd-for-claude-code/
+  type: community
+  weight: 0.6
+  title: Creating the Perfect CLAUDE.md - Dometrain
+- id: enterprise-claude-usage
+  url: https://blog.sshh.io/p/how-i-use-every-claude-code-feature
+  type: community
+  weight: 0.6
+  title: How I Use Every Claude Code Feature
+- id: instruction-limits-principles
+  url: https://www.humanlayer.dev/blog/writing-a-good-claude-md
+  type: community
+  weight: 0.6
+  title: Writing a Good Claude.md - HumanLayer
+- id: monorepo-claude-md-organization
+  url: 
+    https://dev.to/anvodev/how-i-organized-my-claudemd-in-a-monorepo-with-too-many-contexts-37k7
+  type: community
+  weight: 0.6
+  title: Monorepo Claude.md Organization
+- id: osmani-ai-coding-workflow
+  url: https://addyosmani.com/blog/ai-coding-workflow/
+  type: research
+  weight: 0.8
+  title: AI-Assisted Coding Workflow - Addy Osmani
+- id: rules-directory-mechanics
+  url: https://claudefa.st/blog/guide/mechanics/rules-directory
+  type: community
+  weight: 0.6
+  title: Rules Directory Mechanics - ClaudeFast
+- id: spec-writing-for-agents
+  url: https://addyosmani.com/blog/good-spec/
+  type: research
+  weight: 0.8
+  title: Writing Good Specs for AI Agents - Addy Osmani
+- id: using-claude-md-files
+  url: https://claude.com/blog/using-claude-md-files
   type: official
   weight: 1.0
-  accessed: '2026-01-30'
-  claims:
-  - id: cascading-later-wins
-    text: Files closer to current directory override earlier guidance because they appear later in the combined prompt
-    quote: true
-    section: Cascading Behavior
-    rules: [S2]
+  title: Using CLAUDE.md Files - Anthropic

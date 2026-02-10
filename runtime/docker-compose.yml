@@ -1,0 +1,8 @@
+services:
+  test:
+    build:
+      context: .
+    volumes:
+      - ..:/rules:ro
+      - ../../recommended:/recommended:ro
+    working_dir: /rules

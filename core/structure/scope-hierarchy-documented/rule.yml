@@ -1,0 +1,9 @@
+rules:
+  - id: "CORE.S.0008.check.0001"
+    message: "Scope or hierarchy documentation found"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?i)(scope|precedence|hierarchy|override|inherit|parent|child)"
+    paths:
+      include:
+        - "{{instruction_files}}"

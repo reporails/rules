@@ -1,11 +1,11 @@
 ---
 name: manage-levels
-description: Sync, diff, and list level-rule mappings from capability matrix
+description: Sync, diff, and list level-capability mappings from registry
 ---
 
 # /manage-levels
 
-Manage `levels.yml` from the authoritative `docs/capability-levels.md` Capability Assessment Matrix.
+Manage level definitions in `registry/levels.yml` against the capability taxonomy in `registry/capabilities.yml`.
 
 ## Usage
 
@@ -17,17 +17,17 @@ Manage `levels.yml` from the authoritative `docs/capability-levels.md` Capabilit
 
 | Command | Description |
 |---------|-------------|
-| `sync` | Parse matrix from capability-levels.md, regenerate levels.yml |
-| `diff` | Show discrepancies between matrix and current levels.yml without writing |
-| `list [level]` | List rules per level (all levels, or a specific one like `L2`) |
+| `sync` | Regenerate levels.yml from capabilities.yml |
+| `diff` | Show discrepancies between capabilities and levels without writing |
+| `list [level]` | List capabilities per level (all levels, or a specific one like `L2`) |
 
 ## Examples
 
 ```
-/manage-levels sync              # Regenerate levels.yml from matrix
+/manage-levels sync              # Regenerate levels.yml from capabilities
 /manage-levels diff              # Show discrepancies only
-/manage-levels list              # List all levels and their rules
-/manage-levels list L2           # List rules at L2 only
+/manage-levels list              # List all levels and their capabilities
+/manage-levels list L2           # List capabilities at L2 only
 ```
 
 ## Workflow
@@ -36,8 +36,9 @@ Follow: [@.shared/workflows/level-sync.md](../../../.shared/workflows/level-sync
 
 ## Quick Reference
 
-| Source of truth | `backbone.artifacts.capability_levels` |
+| Source of truth | `registry/capabilities.yml` |
 |---|---|
-| Derived artifact | `backbone.artifacts.levels` |
-| Assignment logic | First `+` in a row = rule's introduction level |
-| Level metadata | Name and description from Level Descriptions section |
+| Derived file | `registry/levels.yml` |
+| Assignment logic | Each capability declares its level |
+| Level metadata | Names and descriptions in levels.yml |
+| Schema | `schemas/levels.schema.yml` |

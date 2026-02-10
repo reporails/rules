@@ -4,10 +4,10 @@ globs:
   - "agents/*/rules/**"
 ---
 
-# Backbone Index Sync
+# Coordinate Map Sync
 
-After creating, deleting, or renaming a rule directory, update `rules.index` in `.reporails/backbone.yml` to keep the index complete.
+After creating, deleting, or renaming a rule directory, update `registry/coordinate-map.yml` to keep the mapping complete.
 
-Format: `{ID}: {slug}` (e.g., `M4: backbone-index-completeness`).
+Format: `slug: "COORDINATE"` (e.g., `backbone-index-completeness: "CORE:M:0004"`).
 
-See rule M4 for the completeness requirement.
+See rule CORE:M:0004 for the completeness requirement.

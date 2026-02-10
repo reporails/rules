@@ -1,181 +1,69 @@
-# Rule Template
+# Rule Body Template
 
-Guide for contributors adding new rules to `core/` or `agents/{agent}/rules/`.
+This template defines the body format for rule.md files.
+Structured fields from rule skeletons fill the placeholders below.
 
 ---
 
-## Quick Start
+## Body Format (below YAML frontmatter)
 
-Copy this template and fill in the fields:
+```markdown
+# {title}
 
-```yaml
----
-id: S1
-title: Size Limits
-category: structure
-type: deterministic
-checks:
-  - id: S1-root-too-long
-    name: Root file > 200 lines
-    severity: critical
-    pattern_confidence: very_high
-sources:
-  - "https://docs.anthropic.com/en/docs/claude-code/best-practices"
-see_also: [M7, C1]
----
+{statement}
 
-# Size Limits
+## Pass / Fail
 
-Prevents instruction degradation from token bloat.
+**Pass:** {pass_example}
+**Fail:** {fail_example}
 
-## Why This Matters
+## Limitations
 
-One sentence explaining the impact of violating this rule.
-
-## Pattern
-
-**Good:** Root file under 100 lines with @imports
-**Bad:** 300-line monolithic CLAUDE.md
+{limitations}
 ```
 
----
+## Semantic Rule Additions
 
-## Rule ID Convention
-
-| Scope | Pattern | Example |
-|-------|---------|---------|
-| Core | `{category}{number}` | `S1`, `C2`, `M4` |
-| Agent | `{AGENT}_{category}{number}` | `CLAUDE_S1`, `COPILOT_E1` |
-| Custom | `{PREFIX}_{category}{number}` | `ACME_S1`, `MYTEAM_M1` |
-
-**Categories:**
-- `S` = Structure
-- `C` = Content
-- `E` = Efficiency
-- `M` = Maintenance
-
-**Agent prefixes (reserved):** CLAUDE, COPILOT, CODEX, CURSOR, WINDSURF, CLINE, AIDER, CONTINUE
-
----
-
-## Rule Types
-
-### Deterministic
-
-OpenGrep decides. No LLM involved.
+For semantic rules, `question` and `criteria` are added to the YAML frontmatter
+(machine-parseable for CLI handoff to the coding agent):
 
 ```yaml
-type: deterministic
-checks:
-  - id: S1-root-too-long
-    name: Root file > 200 lines
-    severity: critical
-    pattern_confidence: very_high
-```
-
-**You must also create a matching `.yml` file** with OpenGrep patterns:
-
-```yaml
-# S1-size-limits.yml
-rules:
-  - id: S1-root-too-long
-    message: "Root file exceeds 200 lines"
-    severity: ERROR
-    languages: [generic]
-    pattern-regex: "..."
-    paths:
-      include:
-        - "{{instruction_files}}"
-```
-
-### Semantic
-
-OpenGrep runs first, LLM evaluates what patterns can't determine.
-
-```yaml
-type: semantic
-checks:
-  - id: C2-duplicate-content
-    name: Duplicate content indicators
-    severity: high
-    pattern_confidence: low
-question: "Given what was found, is there contradictory duplicated content?"
+question: "Given the matched content, are there vague or aspirational instructions?"
 criteria:
-  - No contradictory instructions across files
-  - Single authoritative source for each constraint
+  - Each instruction targets a specific observed behavior
+  - No vague qualifiers like "properly" or "well"
 ```
 
-**Semantic rules also need a `.yml` file** — OpenGrep catches what it can, LLM fills gaps.
+These fields are NOT rendered into the body — they stay in frontmatter for the CLI
+to extract and pass to the evaluating agent.
 
----
+## Field Sources
 
-## Severity Levels
+| Placeholder | Skeleton field | Required |
+|-------------|---------------|----------|
+| `{title}` | `title` | Always |
+| `{statement}` | `statement` | Always |
+| `{pass_example}` | `pass_example` | Always |
+| `{fail_example}` | `fail_example` | Always |
+| `{limitations}` | `limitations` | Always |
+| `question` | `question` | Semantic only |
+| `criteria` | `criteria` | Semantic only |
 
-| Severity | When to use |
-|----------|-------------|
-| `critical` | Causes rework loops, major time waste |
-| `high` | Causes clarification loops |
-| `medium` | Causes brief confusion |
-| `low` | Minor friction |
+## Type-Specific Guidance
 
----
+### Mechanical rules
+- `statement` asserts a structural property: "File X must exist", "File must be under N lines"
+- `pass_example` / `fail_example` describe file system state, not content
+- `limitations`: what structural checks miss (e.g., "cannot assess content quality")
 
-## File Structure
+### Deterministic rules
+- `statement` asserts a pattern presence or absence
+- `pass_example` / `fail_example` describe content patterns
+- `limitations`: what patterns can't catch (e.g., "regex can't distinguish code blocks from prose")
 
-Each rule lives in its own directory with tests:
-
-```
-core/
-  structure/
-    S1-size-limits/
-      S1-size-limits.md      # Rule definition (frontmatter + docs)
-      S1-size-limits.yml     # OpenGrep patterns
-      tests/
-        fail.md              # Should trigger (true positive)
-        pass.md              # Should not trigger (true negative)
-```
-
-**Directory:** `{id}-{slug}/`
-**Files:** `{id}-{slug}.md` and `{id}-{slug}.yml`
-**Tests:** `tests/fail.md` and `tests/pass.md`
-
-**The `checks[].id` in `.md` must match `rules[].id` in `.yml`**
-
----
-
-## Sources
-
-Link to supporting references (official docs, articles, research):
-
-```yaml
-sources:
-  - "https://docs.anthropic.com/en/docs/claude-code/best-practices"
-  - "https://dev.to/author/relevant-article"
-```
-
-Good sources:
-- Official agent documentation
-- Well-researched articles
-- Community best practices with evidence
-
----
-
-## Checklist Before Submitting
-
-- [ ] ID follows convention (category + number, or AGENT_category + number)
-- [ ] ID doesn't collide with existing rules
-- [ ] Frontmatter parses as valid YAML
-- [ ] `.yml` file exists with matching check IDs
-- [ ] Type is correct (deterministic or semantic)
-- [ ] If semantic: includes `question` + `criteria`
-- [ ] Sources are URLs, not numbers
-- [ ] `see_also` references valid rule IDs
-- [ ] Title is max 64 characters
-- [ ] Body content is concise (< 40 lines)
-- [ ] `pattern_confidence` assessed for each check
-
----
-
-## Full Schema Reference
-
-See `schemas/rule.schema.yml` for the complete machine-readable schema.
+### Semantic rules
+- `statement` asserts a quality property
+- `pass_example` / `fail_example` describe content characteristics
+- `question` is the LLM evaluation prompt — must be answerable from the matched content
+- `criteria` are independently assessable rubric items
+- `limitations`: what even LLM evaluation can't reliably determine

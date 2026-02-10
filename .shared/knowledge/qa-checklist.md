@@ -10,18 +10,18 @@ After running rule creation workflow:
 
 | Check | Verification | Expected |
 |-------|--------------|----------|
-| Directory exists | `ls -d core/*/SMOKE1-*` | Directory present |
-| Files exist | `ls core/*/SMOKE1-*/*.{md,yml}` | Both .md and .yml present |
-| Tests exist | `ls core/*/SMOKE1-*/tests/` | fail.md and pass.md present |
-| Frontmatter valid | `head -30 core/*/SMOKE1-*/*.md` | id, title, category, type, checks, backed_by, pattern_confidence |
-| Check ID format | Inspect .md | `checks[].id` starts with rule ID + hyphen |
-| YML matches | Inspect .yml | `rules[].id` matches `checks[].id` from .md |
-| OpenGrep validates | `opengrep scan --config core/*/SMOKE1-*/*.yml .` | Exit 0 or 1 |
+| Directory exists | `ls core/{category}/{slug}/` | Directory present |
+| Files exist | `ls core/{category}/{slug}/rule.{md,yml}` | Both rule.md and rule.yml present |
+| Tests exist | `ls core/{category}/{slug}/tests/` | pass/ and fail/ directories present |
+| Frontmatter valid | `head -30 core/{category}/{slug}/rule.md` | id, slug, title, category, type, level, checks, backed_by |
+| Check ID format | Inspect rule.md | `checks[].id` follows `NAMESPACE.CATEGORY.SLOT.check.NNNN` |
+| YML matches | Inspect rule.yml | `rules[].id` matches `checks[].id` from rule.md |
+| OpenGrep validates | `opengrep scan --config core/{category}/{slug}/rule.yml .` | Exit 0 or 1 |
 
 **Fail indicators:**
-- Missing .yml file
+- Missing rule.yml file
 - Frontmatter missing required fields
-- Check ID doesn't match pattern `{RULE_ID}-{suffix}`
+- Check ID doesn't match coordinate pattern (e.g., `CORE.S.0001.check.0001`)
 - OpenGrep exit 2 (syntax error) or 7 (no positive pattern)
 
 ---
@@ -45,43 +45,22 @@ After running validation workflow:
 
 ---
 
-## audit-evidence-chain
-
-After running evidence audit workflow:
-
-| Check | Verification | Expected |
-|-------|--------------|----------|
-| Loads sources | Workflow reads | `docs/sources.yml` accessed |
-| Bidirectional check | Output | Reports E4003/E4004 if mismatched |
-| Confidence check | Output | Reports E4005-E4009 if misaligned |
-| Trust score | Output | Numeric score calculated |
-| Metrics file | `cat .reporails/trust-metrics.yml` | File exists with score |
-
-**Fail indicators:**
-- Can't find sources.yml
-- Score calculation errors
-- Metrics file not created
-
----
-
 ## update-rule
 
 After running rule update workflow:
 
 | Check | Verification | Expected |
 |-------|--------------|----------|
-| Locates rule | Workflow finds | Correct .md and .yml |
-| ID preserved | `grep "id:" core/*/SMOKE1-*/*.md` | ID unchanged |
-| Directory preserved | `ls -d core/*/SMOKE1-*` | Same directory |
-| Pattern updated | `cat core/*/SMOKE1-*/*.yml` | New pattern present |
-| pattern_confidence reassessed | Inspect .md | pattern_confidence updated if patterns changed |
-| OpenGrep validates | `opengrep scan --config core/*/SMOKE1-*/*.yml .` | Exit 0 or 1 |
+| Locates rule | Workflow finds | Correct rule.md and rule.yml |
+| ID preserved | `grep "id:" core/{category}/{slug}/rule.md` | Coordinate unchanged |
+| Directory preserved | `ls -d core/{category}/{slug}/` | Same directory |
+| Pattern updated | `cat core/{category}/{slug}/rule.yml` | New pattern present |
+| OpenGrep validates | `opengrep scan --config core/{category}/{slug}/rule.yml .` | Exit 0 or 1 |
 
 **Fail indicators:**
 - Rule not found
-- ID or filename changed
+- Coordinate or slug changed
 - Pattern not added
-- pattern_confidence not reassessed after pattern change
 - OpenGrep fails after update
 
 ---
@@ -94,9 +73,9 @@ After running rule update workflow:
 | Hallucinated patterns | Knowledge not loaded | Verify .shared/knowledge/ links |
 | Exit code 2 | Invalid YAML | Check syntax, required fields |
 | Exit code 7 | No positive pattern | Add pattern-regex before pattern-not-regex |
-| Wrong tier | backed_by doesn't match expected tier | Check sources.yml weights |
-| Missing .yml | Workflow step skipped | Check contract step in workflow |
-| ID changed on update | Constraint violated | Check rule-update workflow constraints |
+| Wrong tier | backed_by doesn't match expected tier | Check docs/sources.yml weights |
+| Missing rule.yml | Workflow step skipped | Check contract step in workflow |
+| Coordinate changed on update | Constraint violated | Check rule-update workflow constraints |
 
 ---
 

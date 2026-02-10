@@ -8,7 +8,6 @@ Workflow: `.shared/workflows/rule-validation.md`
 
 ### Sequential
 - [ ] `/validate-rules` — all rules pass
-- [ ] `/validate-rules --source-check` — evidence chain intact
 
 ### Sequential (after validation)
 - [ ] Update `CHANGELOG.md` with version
@@ -20,7 +19,6 @@ Workflow: `.shared/workflows/rule-validation.md`
 **Status:** ☐ PASS ☐ FAIL
 **Run #:** ___
 
-**Trust Score:** ___
 **Rules Passing:** ___/___
 **Version:** ___
 

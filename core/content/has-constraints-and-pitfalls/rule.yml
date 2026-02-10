@@ -1,0 +1,11 @@
+rules:
+  - id: "CORE.C.0010.check.0001"
+    message: "Constraint or pitfall documentation found"
+    severity: WARNING
+    languages: [generic]
+    pattern-either:
+      - pattern-regex: "(?i)## (constraint|pitfall|caveat|gotcha)"
+      - pattern-regex: "(?i)(avoid|watch out|be careful|known issue)"
+    paths:
+      include:
+        - "{{instruction_files}}"

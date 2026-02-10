@@ -26,24 +26,19 @@ npx @reporails/cli check
 ## What's here
 ```
 core/
-  structure/     # S1-S4: File organization, size limits
-  content/       # C1-C5: Clarity, completeness
-  efficiency/    # E1-E2: Code blocks, imports
-  maintenance/   # M1-M4: Versioning, review
+  structure/     # 12 rules: File organization, size limits, modularity
+  content/       # 18 rules: Clarity, completeness, specificity
 
 agents/
-  claude/       # Claude Code specific rules (CLAUDE_M1, CLAUDE_S1-S2)
-  codex/        # OpenAI Codex (no rules yet)
+  claude/        # 10 rules: Claude Code specific
+  codex/         # 7 rules: OpenAI Codex specific (CODEX:S:0001-0007)
 
-schemas/        # Rule and config schemas
-
-docs/           # Detailed documentation
-  capability-levels.md
-  methodology-thresholds.md
-  sources.yml
+schemas/         # Rule, agent, and config schemas
+registry/        # Capabilities, levels, coordinate map
+docs/            # Capability levels, sources
 ```
 
-18 core rules. For 26 additional recommended rules, see [reporails/recommended](https://github.com/reporails/recommended).
+47 core rules. For additional recommended rules, see [reporails/recommended](https://github.com/reporails/recommended).
 
 ## Contributing
 
@@ -56,4 +51,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License
 
-[CC BY 4.0](LICENSE)
+[CC BY-SA 4.0](LICENSE)

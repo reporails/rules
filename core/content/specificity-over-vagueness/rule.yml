@@ -1,0 +1,9 @@
+rules:
+  - id: "CORE.C.0006.check.0001"
+    message: "Vague qualifier found in instruction"
+    severity: WARNING
+    languages: [generic]
+    pattern-regex: "(?i)\\b(properly|well|clean|good|nicely|appropriate|correct)\\b"
+    paths:
+      include:
+        - "{{instruction_files}}"
