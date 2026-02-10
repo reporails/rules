@@ -6,26 +6,30 @@ on:
 
 jobs:
   check-release:
-    name: Check if release commit
+    name: Check if release needed
     runs-on: ubuntu-latest
     outputs:
       is_release: ${{ steps.check.outputs.is_release }}
       version: ${{ steps.check.outputs.version }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Detect version branch merge
+      - name: Compare VERSION against existing tags
         id: check
         run: |
-          VERSION=$(grep '^\*\*Version:\*\*' README.md | head -1 | sed 's/.*\*\* *//')
-          MERGE_BRANCH=$(git log -1 --pretty=%s | grep -oP 'Merge.*from.*\K[0-9]+\.[0-9]+\.[0-9]+' || true)
-          if [ "$MERGE_BRANCH" = "$VERSION" ]; then
+          VERSION=$(cat VERSION)
+          if [ -z "$VERSION" ]; then
+            echo "is_release=false" >> "$GITHUB_OUTPUT"
+            echo "VERSION file is empty"
+          elif git rev-parse "$VERSION" >/dev/null 2>&1; then
+            echo "is_release=false" >> "$GITHUB_OUTPUT"
+            echo "Tag $VERSION already exists — not a release"
+          else
             echo "is_release=true" >> "$GITHUB_OUTPUT"
             echo "version=$VERSION" >> "$GITHUB_OUTPUT"
             echo "Release detected: $VERSION"
-          else
-            echo "is_release=false" >> "$GITHUB_OUTPUT"
-            echo "Not a release merge (merge_branch=$MERGE_BRANCH, version=$VERSION)"
           fi
 
   qa:
