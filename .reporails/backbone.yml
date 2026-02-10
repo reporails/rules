@@ -45,6 +45,9 @@ registry:
   coordinate_map: registry/coordinate-map.yml
   tombstones: registry/tombstones.yml
 
+meta:
+  version_file: VERSION
+
 docs:
   sources: docs/sources.yml
   rule_template: docs/rule-template.md
