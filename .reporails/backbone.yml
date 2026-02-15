@@ -9,6 +9,9 @@ agents:
     tasks: .claude/tasks/
   codex:
     config: agents/codex/config.yml
+  copilot:
+    main_instruction_file: .github/copilot-instructions.md
+    config: agents/copilot/config.yml
 
 rules:
   core: core/
