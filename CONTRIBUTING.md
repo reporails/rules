@@ -1,13 +1,13 @@
 # Contributing
 
-Rules define what Reporails checks in AI instruction files (CLAUDE.md, AGENTS.md, .cursorrules). This repo is where those rules live.
+Rules define what Reporails checks in AI instruction files (CLAUDE.md, AGENTS.md, .cursorrules, copilot-instructions.md). This repo is where those rules live.
 
 ## Prerequisites
 
 - **Docker** — for running the test harness
-- **A coding agent** — rules are created and validated through agent skills
+- **A coding agent** — rules are created and validated through agent workflows
 
-Currently supported: **Claude Code**. Codex and Copilot support is planned.
+Currently supported: **Claude Code**, **Codex**, **GitHub Copilot CLI**
 
 ## Rule anatomy
 
@@ -46,17 +46,28 @@ Mechanical rules have `rules: []` in their rule.yml. Deterministic and semantic 
 
 ## Creating a rule
 
+**For Claude Code:**
 ```
 /generate-rule CORE:C:0026 core "My New Rule"
 ```
 
-The skill creates the directory, rule.md, rule.yml, and test fixtures. It walks you through choosing the type, writing patterns, and finding backing sources.
+**For Copilot CLI:**
+Ask "Generate rule CORE:C:0026" and Copilot will follow `.shared/workflows/rule-creation.md`
+
+**For other agents:**
+Manually follow `.shared/workflows/rule-creation.md`
+
+The workflow creates the directory, rule.md, rule.yml, and test fixtures. It walks you through choosing the type, writing patterns, and finding backing sources.
 
 To implement checks and wire up an existing skeleton:
 
+**For Claude Code:**
 ```
 /implement-rule CORE:C:0026
 ```
+
+**For Copilot CLI:**
+Ask "Implement rule CORE:C:0026" and Copilot will follow `.shared/workflows/rule-implementation.md`
 
 ## Testing
 
@@ -98,11 +109,24 @@ core/
 agents/
   claude/rules/    # 10 rules — CLAUDE.md-specific patterns
   codex/rules/     #  7 rules — AGENTS.md-specific patterns
+  copilot/rules/   # 25 rules — copilot-instructions.md patterns
 ```
 
 Opinionated rules (governance, style) live in [reporails/recommended](https://github.com/reporails/recommended) with the `RRAILS_` namespace.
 
-## Skills
+## Workflows
+
+All agents share workflows in `.shared/`:
+- `.shared/workflows/` — Step-by-step process definitions (Mermaid flowcharts)
+- `.shared/knowledge/` — Domain reference (authoring, validation, patterns)
+
+**Claude Code** invokes workflows via `/skills` (e.g., `/generate-rule`)
+**Copilot CLI** reads instructions that reference workflows (e.g., "Follow `.shared/workflows/rule-creation.md`")
+**Other agents** can manually follow workflow files
+
+## Skills (Claude Code)
+
+For Claude Code users, skills provide interactive workflows:
 
 | Task | Skill | Example |
 |------|-------|---------|
@@ -112,6 +136,8 @@ Opinionated rules (governance, style) live in [reporails/recommended](https://gi
 | Validate one rule | `/validate-rules` | `/validate-rules CORE:C:0026` |
 | Level mappings | `/manage-levels` | `/manage-levels diff` |
 | Log a change | `/add-changelog-entry` | `/add-changelog-entry` |
+
+For Copilot CLI and other agents, follow workflows in `.shared/workflows/` directly.
 
 ## Questions?
 
