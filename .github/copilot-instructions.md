@@ -128,6 +128,60 @@ Skills in `.claude/skills/` reference shared workflows.
 
 Skills walk through the process interactively — use them for rule work.
 
+## Workflows for Copilot
+
+Since Copilot doesn't have skill invocation like Claude, follow these workflows directly:
+
+### Generate a Rule
+When asked to generate a new rule:
+1. Read `.shared/workflows/rule-creation.md` for the complete process
+2. Reference `.shared/knowledge/rule-authoring.md` for authoring guidelines
+3. Reference `.shared/knowledge/backbone-resolution.md` for path resolution
+
+### Implement a Rule
+When asked to implement checks for an existing rule skeleton:
+1. Read `.shared/workflows/rule-implementation.md` for the process
+2. Ensure tests/pass/ and tests/fail/ fixtures are created
+
+### Validate Rules
+When asked to validate rules:
+1. Read `.shared/workflows/rule-validation.md` for validation process
+2. Run test harness: `docker compose -f runtime/docker-compose.yml run test`
+
+### Sync Level Definitions
+When asked to sync or manage capability levels:
+1. Read `.shared/workflows/level-sync.md` for the sync process
+2. Update `registry/levels.yml` and `registry/capabilities.yml`
+
+### Add Changelog Entry
+When making changes to rules:
+1. Read `.shared/knowledge/changelog.md` for format requirements
+2. **ALWAYS** update `UNRELEASED.md` (never CHANGELOG.md)
+
+## Context-Specific Constraints
+
+Apply additional constraints based on the work area:
+
+**When working on core rules** (`core/`):
+- Read `.shared/knowledge/rule-authoring.md` for authoring standards
+- Use `{{instruction_files}}` placeholder, never hardcode agent paths
+- Check `registry/coordinate-map.yml` before picking a coordinate slot
+
+**When working on schemas** (`schemas/`):
+- All schemas are defined in `schemas/*.schema.yml`
+- Never duplicate schema definitions in rules
+- Reference canonical schema files only
+
+**When working on agent configs** (`agents/*/config.yml`):
+- Read `.shared/knowledge/backbone-resolution.md` for path resolution
+- Validate against `schemas/agent.schema.yml`
+- Test with `--agent <name>` flag
+
+**When creating or editing workflows** (`.shared/workflows/`):
+- Keep workflows agent-agnostic
+- Both Claude skills and Copilot instructions reference these
+- Use Mermaid flowcharts for complex processes
+
 ## Efficiency Tips
 
 - Read files based on purpose: full view for editing, partial for understanding
