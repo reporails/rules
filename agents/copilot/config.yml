@@ -13,12 +13,11 @@ vars:
   instruction_files:
     - ".github/copilot-instructions.md"
   
-  # Agent-specific
-  # Note: Copilot CLI currently doesn't support path-scoped rules directory
-  # or skills directory like Claude. Instructions are in single file.
+  # Agent-specific (Copilot CLI supports skills and path-scoped rules)
+  skills_dir: ".claude/skills"
   
 excludes:
-  - CORE:S:0010  # Cross-agent compatibility — AGENTS.md is not a Copilot surface
   - CLAUDE:*     # All Claude-specific rules excluded
+  - CODEX:*      # All Codex-specific rules excluded
 
 # No severity overrides — all moved to reporails/recommended
