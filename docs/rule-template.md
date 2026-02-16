@@ -14,8 +14,17 @@ Structured fields from rule skeletons fill the placeholders below.
 
 ## Pass / Fail
 
-**Pass:** {pass_example}
-**Fail:** {fail_example}
+### Pass
+
+~~~~markdown
+{pass_example}
+~~~~
+
+### Fail
+
+~~~~markdown
+{fail_example}
+~~~~
 
 ## Limitations
 

@@ -1,0 +1,1 @@
+Total instruction file size across all discovered AGENTS.md files: 18 KiB (well under 32 KiB limit)

@@ -1,9 +1,0 @@
-rules:
-  - id: "CORE.C.0001.check.0001"
-    message: "File opens with H2 instead of project description"
-    severity: ERROR
-    languages: [generic]
-    pattern-regex: "\\A## "
-    paths:
-      include:
-        - "{{instruction_files}}"

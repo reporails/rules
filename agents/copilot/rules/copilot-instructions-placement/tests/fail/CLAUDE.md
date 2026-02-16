@@ -1,0 +1,1 @@
+A repository relying solely on AGENTS.md for Copilot instructions, missing Copilot-specific features like code review integration

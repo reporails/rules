@@ -35,8 +35,11 @@ core:
     explain-reasoning: "CORE:C:0023"
     provides-pattern-examples: "CORE:C:0025"
   efficiency: {}
-  maintenance: {}
-  governance: {}
+  maintenance:
+    valid-internal-references: "CORE:M:0001"
+    valid-glob-patterns-in-frontmatter: "CORE:M:0002"
+  governance:
+    cross-agent-compatibility: "CORE:G:0001"
 
 agents:
   claude:
@@ -50,6 +53,7 @@ agents:
     settings-files-at-correct-locations: "CLAUDE:S:0010"
     sensitive-files-denied: "CLAUDE:S:0011"
     memory-file-within-200-lines: "CLAUDE:S:0012"
+    import-syntax-for-modular-content: "CLAUDE:C:0001"
   codex:
     agents-md-file-placement: "CODEX:S:0001"
     agents-md-override-mechanics: "CODEX:S:0002"
@@ -58,3 +62,6 @@ agents:
     nested-files-for-subprojects: "CODEX:S:0005"
     global-agents-md-exists: "CODEX:S:0006"
     skills-within-instruction-budget: "CODEX:S:0007"
+  copilot:
+    copilot-path-specific-instructions: "COPILOT:C:0001"
+    copilot-instructions-placement: "COPILOT:S:0001"

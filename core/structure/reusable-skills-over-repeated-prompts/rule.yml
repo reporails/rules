@@ -1,9 +1,0 @@
-rules:
-  - id: "CORE.S.0012.check.0001"
-    message: "Multi-step procedure found inline"
-    severity: WARNING
-    languages: [generic]
-    pattern-regex: "(?i)(first .+ then .+ then|step [0-9]|1\\.|2\\.|3\\.)"
-    paths:
-      include:
-        - "{{instruction_files}}"

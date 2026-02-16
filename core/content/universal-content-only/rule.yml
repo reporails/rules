@@ -1,9 +1,0 @@
-rules:
-  - id: "CORE.C.0007.check.0001"
-    message: "Potentially domain-specific content in main instruction file"
-    severity: WARNING
-    languages: [generic]
-    pattern-regex: "(?i)(when working on|for .+ files|in the .+ directory|specific to)"
-    paths:
-      include:
-        - "{{instruction_files}}"

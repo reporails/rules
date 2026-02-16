@@ -1,0 +1,11 @@
+rules:
+- id: CORE.C.0004.no-generic-advice
+  message: No generic advice
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  pattern-regex: 
+    (?i)\b(follow\s+best\s+practices|use\s+common\s+sense|be\s+careful)\b

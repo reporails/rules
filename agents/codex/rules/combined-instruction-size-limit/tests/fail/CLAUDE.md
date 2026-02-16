@@ -1,0 +1,1 @@
+Total instruction file size across all discovered AGENTS.md files: 45 KiB (exceeds 32 KiB limit — Codex will truncate content, potentially dropping critical instructions)
