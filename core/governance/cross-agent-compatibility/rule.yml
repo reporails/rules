@@ -1,0 +1,10 @@
+rules:
+- id: CORE.G.0001.agent-specific-syntax
+  message: Agent specific syntax
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  pattern-regex: (?:@import|\.\.?claude/rules/|\.github/instructions/)

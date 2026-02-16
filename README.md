@@ -31,7 +31,8 @@ core/
 
 agents/
   claude/        # 10 rules: Claude Code specific
-  codex/         # 7 rules: OpenAI Codex specific (CODEX:S:0001-0007)
+  codex/         # 7 rules: OpenAI Codex specific
+  copilot/       # 25 rules: GitHub Copilot CLI specific
 
 schemas/         # Rule, agent, and config schemas
 registry/        # Capabilities, levels, coordinate map
@@ -43,6 +44,8 @@ docs/            # Capability levels, sources
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)
+
+Supported agents: **Claude Code**, **Codex**, **Copilot CLI**
 
 ## Documentation
 

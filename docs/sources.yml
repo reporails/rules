@@ -5,6 +5,12 @@
   type: official
   weight: 1.0
   title: Agents.md Specification
+- id: awesome-copilot-meta-instructions
+  url: 
+    https://raw.githubusercontent.com/github/awesome-copilot/main/instructions/instructions.instructions.md
+  type: community
+  weight: 0.6
+  title: Awesome Copilot Meta-Instructions
 - id: claude-code-issue-13579
   url: https://github.com/anthropics/claude-code/issues/13579
   type: community
@@ -15,22 +21,11 @@
   type: official
   weight: 1.0
   title: Claude Code Memory Documentation
-- id: claude-code-settings
-  url: https://code.claude.com/docs/en/settings
-  type: official
-  weight: 1.0
-  title: Claude Code Settings Documentation
 - id: claude-md-guide
   url: https://www.builder.io/blog/claude-md-guide
   type: community
   weight: 0.6
   title: Claude.md Guide - Builder.io
-- id: claude-md-optimization-study
-  url: 
-    https://arize.com/blog/claude-md-best-practices-learned-from-optimizing-claude-code-with-prompt-learning/
-  type: research
-  weight: 0.8
-  title: Claude.md Best Practices - Arize
 - id: codex-agent-loop
   url: https://openai.com/index/unrolling-the-codex-agent-loop/
   type: official
@@ -41,6 +36,23 @@
   type: official
   weight: 1.0
   title: Codex Agents.md Guide
+- id: copilot-cli-best-practices
+  url: https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices
+  type: official
+  weight: 1.0
+  title: Copilot CLI Best Practices
+- id: copilot-coding-agent-best-practices
+  url: 
+    https://docs.github.com/copilot/how-tos/agents/copilot-coding-agent/best-practices-for-using-copilot-to-work-on-tasks
+  type: official
+  weight: 1.0
+  title: Best Practices for Using Copilot Coding Agent
+- id: copilot-custom-instructions
+  url: 
+    https://docs.github.com/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot
+  type: official
+  weight: 1.0
+  title: Adding Repository Custom Instructions for GitHub Copilot
 - id: dometrain-claude-md-guide
   url: https://dometrain.com/blog/creating-the-perfect-claudemd-for-claude-code/
   type: community
@@ -56,17 +68,6 @@
   type: community
   weight: 0.6
   title: Writing a Good Claude.md - HumanLayer
-- id: monorepo-claude-md-organization
-  url: 
-    https://dev.to/anvodev/how-i-organized-my-claudemd-in-a-monorepo-with-too-many-contexts-37k7
-  type: community
-  weight: 0.6
-  title: Monorepo Claude.md Organization
-- id: osmani-ai-coding-workflow
-  url: https://addyosmani.com/blog/ai-coding-workflow/
-  type: research
-  weight: 0.8
-  title: AI-Assisted Coding Workflow - Addy Osmani
 - id: rules-directory-mechanics
   url: https://claudefa.st/blog/guide/mechanics/rules-directory
   type: community
@@ -77,8 +78,3 @@
   type: research
   weight: 0.8
   title: Writing Good Specs for AI Agents - Addy Osmani
-- id: using-claude-md-files
-  url: https://claude.com/blog/using-claude-md-files
-  type: official
-  weight: 1.0
-  title: Using CLAUDE.md Files - Anthropic

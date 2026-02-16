@@ -1,0 +1,1 @@
+A repository containing any of: CLAUDE.md, AGENTS.md, .github/copilot-instructions.md, or GEMINI.md at the project root

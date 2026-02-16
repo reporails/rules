@@ -1,9 +1,0 @@
-rules:
-  - id: "CORE.S.0004.check.0001"
-    message: "Possible secret or credential detected in instruction file"
-    severity: WARNING
-    languages: [generic]
-    pattern-regex: "(?i)(api[_-]?key|secret[_-]?key|password|token|credential)\\s*[=:]\\s*['\"]?[A-Za-z0-9+/=_-]{8,}"
-    paths:
-      include:
-        - "{{instruction_files}}"

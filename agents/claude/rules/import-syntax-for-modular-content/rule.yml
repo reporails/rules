@@ -1,0 +1,10 @@
+rules:
+- id: CLAUDE.C.0001.unlinked-file-reference
+  message: Unlinked file reference
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  pattern-regex: (?i)(?:see|reference)\s+(?!@)\w+/

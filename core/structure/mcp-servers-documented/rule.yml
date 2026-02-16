@@ -1,9 +1,0 @@
-rules:
-  - id: "CORE.S.0011.check.0002"
-    message: "MCP server documentation found in instruction file"
-    severity: WARNING
-    languages: [generic]
-    pattern-regex: "(?i)\\bMCP\\b"
-    paths:
-      include:
-        - "{{instruction_files}}"
