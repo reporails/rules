@@ -1,3 +1,5 @@
+# Source Registry — Core Package
+# Schema: schemas/sources.schema.yml
 - id: agents-md-spec
   url: https://agents.md/
   type: official
