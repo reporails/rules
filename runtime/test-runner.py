@@ -67,15 +67,19 @@ class RuleResult:
     messages: list = field(default_factory=list)
 
 
-def load_agent_config(rules_root: Path, agent: str) -> dict:
-    """Load agent config and build template var map."""
+def load_agent_config(rules_root: Path, agent: str) -> tuple[dict, list]:
+    """Load agent config and build template var map.
+    
+    Returns:
+        (vars_dict, excludes_list)
+    """
     config_path = rules_root / "agents" / agent / "config.yml"
     if not config_path.exists():
         print(f"Warning: agent config not found: {config_path}", file=sys.stderr)
-        return {}
+        return {}, []
     with open(config_path) as f:
         config = yaml.safe_load(f)
-    return config.get("vars", {})
+    return config.get("vars", {}), config.get("excludes", [])
 
 
 def resolve_var(template: str, agent_vars: dict) -> list[str]:
@@ -87,6 +91,24 @@ def resolve_var(template: str, agent_vars: dict) -> list[str]:
     if isinstance(value, list):
         return value
     return [value]
+
+
+def rule_matches_exclude(rule_id: str, exclude_patterns: list[str]) -> bool:
+    """Check if a rule ID matches any exclude pattern.
+    
+    Patterns support:
+    - Exact match: "CORE:S:0010"
+    - Wildcard: "CLAUDE:*" (all CLAUDE rules)
+    - Namespace wildcard: "NAMESPACE:*"
+    """
+    for pattern in exclude_patterns:
+        if pattern == rule_id:
+            return True
+        if pattern.endswith(":*"):
+            prefix = pattern[:-1]  # Remove trailing *
+            if rule_id.startswith(prefix):
+                return True
+    return False
 
 
 def _scan_root(root: Path) -> list[Path]:
@@ -114,9 +136,18 @@ def _scan_root(root: Path) -> list[Path]:
 
 
 def discover_rules(rules_root: Path, filter_path: str = None, filter_rule: str = None,
-                   package_roots: list[Path] = None) -> list[RuleInfo]:
-    """Walk core/ and agents/*/rules/ for rule.md files across all roots."""
+                   package_roots: list[Path] = None, excludes: list[str] = None) -> list[RuleInfo]:
+    """Walk core/ and agents/*/rules/ for rule.md files across all roots.
+    
+    Args:
+        rules_root: Primary rules repository root
+        filter_path: Optional path prefix filter
+        filter_rule: Optional rule ID filter
+        package_roots: Additional package roots to scan
+        excludes: List of rule ID patterns to exclude (supports wildcards)
+    """
     rules = []
+    excludes = excludes or []
 
     # Build (root, slug_dir) pairs from primary root + any package roots
     all_roots = [rules_root] + (package_roots or [])
@@ -144,6 +175,10 @@ def discover_rules(rules_root: Path, filter_path: str = None, filter_rule: str =
 
         # Apply rule ID filter
         if filter_rule and rule_id != filter_rule:
+            continue
+        
+        # Apply excludes from agent config
+        if rule_matches_exclude(rule_id, excludes):
             continue
 
         rules.append(RuleInfo(
@@ -462,16 +497,18 @@ def main():
     package_roots = [Path(p).resolve() for p in args.package]
 
     # Load agent config (always from primary rules root)
-    agent_vars = load_agent_config(rules_root, args.agent)
+    agent_vars, excludes = load_agent_config(rules_root, args.agent)
     if args.verbose:
         print(f"Agent: {args.agent}", file=sys.stderr)
         print(f"Vars: {agent_vars}", file=sys.stderr)
+        if excludes:
+            print(f"Excludes: {excludes}", file=sys.stderr)
         if package_roots:
             print(f"Packages: {[str(p) for p in package_roots]}", file=sys.stderr)
 
     # Discover rules
     rules = discover_rules(rules_root, filter_path=args.path, filter_rule=args.rule,
-                           package_roots=package_roots)
+                           package_roots=package_roots, excludes=excludes)
     if not rules:
         print("No rules found.", file=sys.stderr)
         sys.exit(1)
