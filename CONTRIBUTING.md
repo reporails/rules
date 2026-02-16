@@ -14,7 +14,7 @@ Currently supported: **Claude Code**, **Codex**, **GitHub Copilot CLI**
 Each rule lives in its own directory with three parts:
 
 ```
-core/structure/instruction-file-size-limit/
+core/structure/root-instruction-file-presence/
   rule.md          # Definition: frontmatter (id, type, level, checks) + prose
   rule.yml         # OpenGrep patterns (or empty `rules: []` for mechanical)
   tests/
@@ -24,12 +24,12 @@ core/structure/instruction-file-size-limit/
 
 ## Coordinates
 
-Every rule has a coordinate like `CORE:S:0005` — three parts:
+Every rule has a coordinate like `CORE:S:0001` — three parts:
 
 | Part | Meaning | Values |
 |------|---------|--------|
-| Namespace | Who owns it | `CORE`, `CLAUDE`, `CODEX` |
-| Category | What it checks | `S` (structure), `C` (content) |
+| Namespace | Who owns it | `CORE`, `CLAUDE`, `CODEX`, `COPILOT` |
+| Category | What it checks | `S` (structure), `C` (content), `G` (governance), `M` (maintenance) |
 | Slot | Sequence number | `0001`–`9999` |
 
 Check `registry/coordinate-map.yml` to see which slots are taken before picking a new one.
@@ -38,9 +38,9 @@ Check `registry/coordinate-map.yml` to see which slots are taken before picking 
 
 | Type | How it detects | Example |
 |------|---------------|---------|
-| **mechanical** | Python structural checks (file exists, line count, byte size) | CORE:S:0001 — instruction file exists |
-| **deterministic** | OpenGrep pattern matching on file content | CORE:C:0006 — specificity over vagueness |
-| **semantic** | OpenGrep pre-filter + LLM evaluation | CORE:C:0017 — repo-specific content |
+| **mechanical** | Python structural checks (file exists, line count, byte size) | CORE:S:0001 — root instruction file presence |
+| **deterministic** | OpenGrep pattern matching on file content | CORE:C:0004 — avoid generic placeholder content |
+| **semantic** | OpenGrep pre-filter + LLM evaluation | CORE:C:0001 — include project context |
 
 Mechanical rules have `rules: []` in their rule.yml. Deterministic and semantic rules have OpenGrep patterns.
 
@@ -103,13 +103,15 @@ All tests must pass before submitting.
 
 ```
 core/
-  structure/       # 12 rules — file existence, size, format
-  content/         # 18 rules — what instruction files should contain
+  structure/       # 3 rules — file presence, nesting, format
+  content/         # 5 rules — context, commands, architecture, constraints
+  governance/      # 1 rule — cross-agent compatibility
+  maintenance/     # 2 rules — reference integrity, glob validation
 
 agents/
-  claude/rules/    # 10 rules — CLAUDE.md-specific patterns
-  codex/rules/     #  7 rules — AGENTS.md-specific patterns
-  copilot/rules/   # 25 rules — copilot-instructions.md patterns
+  claude/rules/    # 3 rules — CLAUDE.md-specific patterns
+  codex/rules/     # 1 rule — AGENTS.md-specific patterns
+  copilot/rules/   # 2 rules — copilot-instructions.md patterns
 ```
 
 Opinionated rules (governance, style) live in [reporails/recommended](https://github.com/reporails/recommended) with the `RRAILS_` namespace.

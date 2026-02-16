@@ -116,13 +116,13 @@ Rules and capabilities are **separate systems** connected only by the level iden
 
 This means an L3 project is checked against all rules at L1, L2, and L3 — not just L3 rules.
 
-**47 rules** across 3 types:
+**17 rules** across 3 types:
 
 | Type | Count | Detection Method | LLM Cost |
 |------|-------|------------------|----------|
-| Mechanical | 22 | Python structural checks | None |
-| Deterministic | 18 | OpenGrep pattern match | None |
-| Semantic | 7 | OpenGrep gate + LLM evaluation | Per check |
+| Mechanical | 6 | Python structural checks | None |
+| Deterministic | 10 | OpenGrep pattern match | None |
+| Semantic | 1 | OpenGrep gate + LLM evaluation | Per check |
 
 ---
 

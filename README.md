@@ -3,7 +3,7 @@
 Validation rules for AI agent instruction files (CLAUDE.md, .cursorrules, copilot-instructions.md).
 Community-maintained.
 
-**Version:** 0.3.1 <!-- source of truth: VERSION file -->
+**Version:** 0.4.0 <!-- source of truth: VERSION file -->
 
 ### Pre-1.0 — moving fast, API still evolving, feedback welcome.
 
@@ -26,20 +26,24 @@ npx @reporails/cli check
 ## What's here
 ```
 core/
-  structure/     # 12 rules: File organization, size limits, modularity
-  content/       # 18 rules: Clarity, completeness, specificity
+  structure/     # 3 rules: File presence, nesting, format
+  content/       # 5 rules: Context, commands, architecture, constraints
+  governance/    # 1 rule: Cross-agent compatibility
+  maintenance/   # 2 rules: Reference integrity, glob validation
 
 agents/
-  claude/        # 10 rules: Claude Code specific
-  codex/         # 7 rules: OpenAI Codex specific
-  copilot/       # 25 rules: GitHub Copilot CLI specific
+  claude/        # 3 rules: Claude Code specific
+  codex/         # 1 rule: OpenAI Codex specific
+  copilot/       # 2 rules: GitHub Copilot CLI specific
 
 schemas/         # Rule, agent, and config schemas
 registry/        # Capabilities, levels, coordinate map
 docs/            # Capability levels, sources
 ```
 
-47 core rules. For additional recommended rules, see [reporails/recommended](https://github.com/reporails/recommended).
+17 rules. For additional recommended rules, see [reporails/recommended](https://github.com/reporails/recommended).
+
+> **Tombstones**: Old coordinate slots from pre-0.4.0 rules will be backfilled in `registry/tombstones.yml` after 0.5.0.
 
 ## Contributing
 

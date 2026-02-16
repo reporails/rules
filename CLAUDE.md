@@ -59,8 +59,8 @@ docker compose -f runtime/docker-compose.yml run test --verbose
 
 Key paths:
 - @registry/ — Capabilities, levels, coordinate map, tombstones
-- @core/ — Core rules (12 structure, 18 content)
-- @agents/ — Agent-specific config and rules (10 Claude, 7 Codex)
+- @core/ — Core rules (3 structure, 5 content, 1 governance, 2 maintenance)
+- @agents/ — Agent-specific config and rules (3 Claude, 1 Codex, 2 Copilot)
 - @schemas/ — Machine-readable contracts (8 schemas)
 - @docs/ — Contributor guides and source registry
 

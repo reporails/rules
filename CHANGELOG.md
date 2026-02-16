@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2026-02-16
+
+Rules consolidation — 47 rules reduced to 17 focused rules, GitHub Copilot agent added, new governance and maintenance categories.
+
+### Added
+- [AGENT]: GitHub Copilot CLI — agent config, `.github/copilot-instructions.md`, 2 rules (COPILOT:S:0001, COPILOT:C:0001)
+- [CORE]: Governance category — cross-agent-compatibility (CORE:G:0001, moved from structure)
+- [CORE]: Maintenance category — valid-internal-references (CORE:M:0001), valid-glob-patterns-in-frontmatter (CORE:M:0002)
+- [RUNTIME]: Agent exclude patterns — `excludes` list in agent config.yml with wildcard support (`CLAUDE:*`)
+- [RUNTIME]: Agent-scoped rule discovery — `--agent` flag filters to agent's own rules plus core
+- [SOURCES]: 5 Copilot sources added to docs/sources.yml (copilot-cli-best-practices, copilot-coding-agent-best-practices, copilot-custom-instructions, awesome-copilot-meta-instructions, spec-writing-for-agents)
+
+### Changed
+- **BREAKING — Rules consolidation**: 47 rules → 17. Most rules moved to [reporails/recommended](https://github.com/reporails/recommended) or consolidated into broader rules
+- **BREAKING — Coordinate renumbering**: All coordinates reassigned from fresh sequence
+- [CORE:S]: 12 → 3 rules — root-instruction-file-presence (S:0001), monorepo-nested-instruction-files (S:0002), structured-markdown-format (S:0003)
+- [CORE:C]: 18 → 5 rules — include-project-context (C:0001), verification-build-commands (C:0002), project-architecture-documentation (C:0003), avoid-generic-placeholder-content (C:0004), boundary-constraints (C:0005)
+- [CLAUDE]: 10 → 3 rules — rules-directory-for-modular-instructions (S:0001), path-scoped-rules (S:0002), import-syntax-for-modular-content (C:0001)
+- [CODEX]: 7 → 1 rule — combined-instruction-size-limit (S:0001)
+- [REGISTRY]: Coordinate map rewritten for new rule set; tombstones cleared (fresh coordinate space — backfill planned for 0.5.0)
+- [DOCS]: CONTRIBUTING.md updated for multi-agent workflows (Claude Code, Codex, Copilot CLI)
+- [DOCS]: rule-template.md — improved pass/fail example formatting with fenced code blocks
+- [BACKBONE]: Added copilot agent entry (config, no skills directory)
+
+### Removed
+- [CORE:S]: 9 rules consolidated or moved to recommended (S:0002–S:0009, S:0011, S:0012)
+- [CORE:C]: 13 rules consolidated or moved to recommended (C:0004–C:0007, C:0009–C:0012, C:0015–C:0017, C:0019, C:0022–C:0025)
+- [CLAUDE]: 7 rules consolidated or moved to recommended (S:0001, S:0002, S:0004, S:0005, S:0008–S:0012)
+- [CODEX]: 6 rules consolidated or moved to recommended (S:0001–S:0007)
+
+### Metrics
+- Rules: 17 (11 core + 3 Claude + 1 Codex + 2 Copilot)
+- Schemas: 8 (rule, capability, levels, agent, package, project, sources, user)
+- Sources: 15 weighted sources
+- Agents: 3 (Claude, Codex, Copilot)
+
 ## [0.3.0] - 2026-02-10
 
 ### Added
