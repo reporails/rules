@@ -111,8 +111,13 @@ def rule_matches_exclude(rule_id: str, exclude_patterns: list[str]) -> bool:
     return False
 
 
-def _scan_root(root: Path) -> list[Path]:
-    """Find all rule directories under a single root (core/ + agents/*/rules/)."""
+def _scan_root(root: Path, agent: str = None) -> list[Path]:
+    """Find all rule directories under a single root (core/ + agents/*/rules/).
+    
+    Args:
+        root: Repository root path
+        agent: If specified, only scan rules for this agent (e.g., 'copilot')
+    """
     dirs = []
 
     core_dir = root / "core"
@@ -126,6 +131,9 @@ def _scan_root(root: Path) -> list[Path]:
     agents_dir = root / "agents"
     if agents_dir.exists():
         for agent_dir in sorted(agents_dir.iterdir()):
+            # If agent is specified, only scan that agent's rules directory
+            if agent and agent_dir.name != agent:
+                continue
             rules_subdir = agent_dir / "rules"
             if rules_subdir.is_dir():
                 for slug_dir in sorted(rules_subdir.iterdir()):
@@ -136,7 +144,8 @@ def _scan_root(root: Path) -> list[Path]:
 
 
 def discover_rules(rules_root: Path, filter_path: str = None, filter_rule: str = None,
-                   package_roots: list[Path] = None, excludes: list[str] = None) -> list[RuleInfo]:
+                   package_roots: list[Path] = None, excludes: list[str] = None,
+                   agent: str = None) -> list[RuleInfo]:
     """Walk core/ and agents/*/rules/ for rule.md files across all roots.
     
     Args:
@@ -145,6 +154,7 @@ def discover_rules(rules_root: Path, filter_path: str = None, filter_rule: str =
         filter_rule: Optional rule ID filter
         package_roots: Additional package roots to scan
         excludes: List of rule ID patterns to exclude (supports wildcards)
+        agent: Agent name to filter agent-specific rules (e.g., 'copilot')
     """
     rules = []
     excludes = excludes or []
@@ -153,7 +163,7 @@ def discover_rules(rules_root: Path, filter_path: str = None, filter_rule: str =
     all_roots = [rules_root] + (package_roots or [])
     search_pairs = []
     for root in all_roots:
-        for slug_dir in _scan_root(root):
+        for slug_dir in _scan_root(root, agent):
             search_pairs.append((root, slug_dir))
 
     for root, slug_dir in search_pairs:
@@ -508,7 +518,7 @@ def main():
 
     # Discover rules
     rules = discover_rules(rules_root, filter_path=args.path, filter_rule=args.rule,
-                           package_roots=package_roots, excludes=excludes)
+                           package_roots=package_roots, excludes=excludes, agent=args.agent)
     if not rules:
         print("No rules found.", file=sys.stderr)
         sys.exit(1)
