@@ -117,20 +117,20 @@ Skills in `.claude/skills/` reference shared workflows.
 
 ## Skills
 
-| Skill | Purpose | Example |
-|-------|---------|---------|
-| `/generate-rule` | Create rule skeleton | `/generate-rule CORE:C:0026 core "My Rule"` |
-| `/implement-rule` | Implement checks/fixtures | `/implement-rule CORE:C:0026` |
-| `/validate-rules` | Validate against schema | `/validate-rules` or `/validate-rules CORE:C:0026` |
-| `/manage-levels` | Sync level definitions | `/manage-levels diff` |
-| `/manage-agent-config` | Validate agent configs | `/manage-agent-config` |
-| `/add-changelog-entry` | Log changes | `/add-changelog-entry` |
+GitHub Copilot CLI supports Agent Skills stored in `.claude/skills/` (same as Claude Code). Skills reference shared workflows in `.shared/workflows/`.
 
-Skills walk through the process interactively — use them for rule work.
+| Skill | Purpose | Usage |
+|-------|---------|-------|
+| `generate-rule` | Create rule skeleton | Ask: "Generate rule CORE:C:0026 for 'My Rule'" |
+| `implement-rule` | Implement checks/fixtures | Ask: "Implement rule CORE:C:0026" |
+| `validate-rules` | Validate against schema | Ask: "Validate rules" |
+| `manage-levels` | Sync level definitions | Ask: "Sync level definitions" |
+| `manage-agent-config` | Validate agent configs | Ask: "Validate agent config" |
+| `add-changelog-entry` | Log changes | Ask: "Add changelog entry" |
 
-## Workflows for Copilot
+Copilot will automatically use the appropriate skill based on your request.
 
-Since Copilot doesn't have skill invocation like Claude, follow these workflows directly:
+## Workflows (Manual Reference)
 
 ### Generate a Rule
 When asked to generate a new rule:
