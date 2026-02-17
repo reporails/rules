@@ -3,7 +3,7 @@
 Validation rules for AI agent instruction files (CLAUDE.md, .cursorrules, copilot-instructions.md).
 Community-maintained.
 
-**Version:** 0.4.0 <!-- source of truth: VERSION file -->
+**Version:** 0.4.1 <!-- source of truth: VERSION file -->
 
 ### Pre-1.0 — moving fast, API still evolving, feedback welcome.
 
