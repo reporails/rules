@@ -20,15 +20,31 @@ flowchart TD
     CLEANUP --> PASS([PASS])
 ```
 
+## Why This Sequence
+
+The five steps form a progressive confidence chain — each step depends on the previous one succeeding and exercises a different workflow:
+
+1. **Create** exercises `rule-creation` — can we produce a valid rule from scratch?
+2. **Validate all** exercises `rule-validation` — does the new rule coexist with existing rules without breaking anything?
+3. **Update** exercises `rule-update` — can we modify a rule in place without corrupting it?
+4. **Re-validate** is the regression gate — did the update break what creation built? This catches the class of bugs where an update workflow silently damages fields that the creation workflow set correctly.
+5. **Cleanup** ensures the test is self-contained — no artifacts leak into the real rule set.
+
+Skipping step 4 would miss regression bugs. Skipping step 2 would miss cross-rule conflicts. The order mirrors the lifecycle of a real rule: create, validate, modify, re-validate.
+
+## Why Cleanup Must Always Run
+
+Test artifacts (the `CORE:S:9999` smoke test rule) would pollute real validation runs, appear in coordinate map checks, and confuse git status. Even if step 3 fails, the directory from step 1 still exists. Unconditional cleanup prevents stale test rules from accumulating.
+
 ## Test Sequence
 
-| Step | Workflow | Input | Verify With |
-|------|----------|-------|-------------|
-| 1 | rule-creation | `/generate-rule CORE:S:9999 structure "Smoke Test"` | qa-checklist.md#generate-rule |
-| 2 | rule-validation | all rules | qa-checklist.md#validate-rules |
-| 3 | rule-update | `/update-rule CORE:S:9999 "Add test pattern"` | qa-checklist.md#update-rule |
-| 4 | rule-validation | all rules | Test rule still passes |
-| 5 | cleanup | `rm -rf core/structure/smoke-test/` | directory deleted |
+| Step | Workflow        | Input                                            | Verify With                    |
+|------|-----------------|--------------------------------------------------|--------------------------------|
+| 1    | rule-creation   | `/generate-rule CORE:S:9999 structure "Smoke Test"` | qa-checklist.md#generate-rule  |
+| 2    | rule-validation | all rules                                        | qa-checklist.md#validate-rules |
+| 3    | rule-update     | `/update-rule CORE:S:9999 "Add test pattern"`    | qa-checklist.md#update-rule    |
+| 4    | rule-validation | all rules                                        | Test rule still passes         |
+| 5    | cleanup         | `rm -rf core/structure/smoke-test/`              | directory deleted              |
 
 ## When to Run
 
