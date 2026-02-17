@@ -17,6 +17,24 @@ flowchart TD
     NEXT -->|no| SUMMARY[Summary output]
 ```
 
+## Why Three Layers in This Order
+
+Validation runs schema, then contract, then OpenGrep. The ordering is deliberate:
+
+1. **Schema validation** catches structural errors (missing fields, wrong types, bad format) with zero external dependencies. It's the cheapest check and filters out rules that would cause confusing downstream failures.
+
+2. **Contract validation** confirms that `rule.md` and `rule.yml` agree — same coordinate, matching check IDs, consistent type declarations. This catches the class of bugs where one file was updated but the other wasn't. It requires both files to be schema-valid first.
+
+3. **OpenGrep validation** runs the actual patterns against the syntax checker. This is the most expensive step and requires template resolution (file I/O, agent config loading). Running it last means we only pay that cost for rules that are already structurally sound.
+
+Reversing the order would waste time running OpenGrep on rules with missing fields, or mask contract errors behind pattern syntax failures.
+
+## Why Template Resolution Happens Before OpenGrep Only
+
+Schema validation checks the template syntax itself — `{{instruction_files}}` must appear as-is in the stored file. Resolving templates before schema validation would hide template errors.
+
+OpenGrep, however, needs real glob paths to validate pattern syntax. A pattern targeting `{{instruction_files}}` is not a valid path — it must be resolved to `**/CLAUDE.md` (or equivalent) before the pattern engine can parse it.
+
 ## Template Resolution
 
 Before OpenGrep validation:
@@ -25,11 +43,11 @@ Before OpenGrep validation:
 2. Replace variables from `vars:` section
 3. Create temp resolved file for validation
 
-| Template | Example Value (claude) |
-|----------|------------------------|
+| Template                | Example Value (claude)                  |
+|-------------------------|-----------------------------------------|
 | `{{instruction_files}}` | `**/CLAUDE.md`, `.claude/rules/**/*.md` |
-| `{{rules_dir}}` | `.claude/rules` |
-| `{{skills_dir}}` | `.claude/skills` |
+| `{{rules_dir}}`         | `.claude/rules`                         |
+| `{{skills_dir}}`        | `.claude/skills`                        |
 
 ## Output Format
 

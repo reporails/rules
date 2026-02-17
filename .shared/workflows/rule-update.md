@@ -17,6 +17,28 @@ flowchart TD
     UPDATEMD --> REPORT[Report changes]
 ```
 
+## Why Coordinates and Slugs Are Immutable
+
+Rule coordinates (e.g., `CORE:S:0005`) and directory slugs are external references. Other rules, changelogs, documentation, and the coordinate map all point to them. Renaming a coordinate would silently break every reference and create phantom entries in the registry.
+
+If a rule's scope changes enough to warrant a new coordinate, tombstone the old one and create a new rule.
+
+## Why Templates Must Survive the Save
+
+The resolve → validate → save cycle has a critical invariant: **stored files contain templates, never resolved values**.
+
+Templates like `{{instruction_files}}` make rules portable across agents. A core rule resolved for Claude (`**/CLAUDE.md`) would fail for Codex (`codex.md`). Resolution is ephemeral — it exists only for validation. Saving resolved values would lock a rule to a single agent's configuration.
+
+## Why the Fix Loop Exists
+
+OpenGrep exit codes signal distinct problems:
+
+- **Exit 2** (syntax error): The pattern itself is malformed. Fix the YAML/regex and re-validate.
+- **Exit 7** (no positive pattern): OpenGrep requires at least one positive match to anchor the rule. Add a `pattern` or `pattern-regex` before retrying.
+- **Exit 0 or 1** (valid): Pattern is syntactically correct regardless of whether it matched anything.
+
+The loop prevents saving patterns that would fail at runtime in the test harness.
+
 ## Constraints
 
 **NEVER change:**

@@ -18,6 +18,20 @@ flowchart TD
     FILTER -->|no| SHOW_ALL[Display capabilities for all levels]
 ```
 
+## Why a Single Source of Truth
+
+`docs/capability-levels.md` is the authoritative document for which capabilities belong to which level. The registry file `registry/levels.yml` is a generated artifact — never edited directly.
+
+The capability-level mapping is a design decision documented in prose with rationale. If `levels.yml` were editable independently, the prose document and the registry would inevitably drift apart. Generating from one source keeps the mapping consistent and the reasoning discoverable.
+
+## Why Three Subcommands
+
+- **sync** writes the registry — used when the design document changes and the registry must catch up.
+- **diff** reveals drift without modifying anything — safe to run as a check in CI or before a release.
+- **list** is a read-only query for human convenience — no file I/O, just formatted output.
+
+Separating these prevents accidental overwrites when you only wanted to inspect.
+
 ## Parsing Contract
 
 The matrix in `docs/capability-levels.md` under "Capability Assessment Matrix":
@@ -75,5 +89,5 @@ levels:
 ## Constraints
 
 - **Source of truth**: `docs/capability-levels.md` — never edit `registry/levels.yml` directly
-- **Idempotent**: Running `sync` twice produces identical output
-- **No reordering**: Capabilities listed in the order they appear in the matrix
+- **Idempotent**: Running `sync` twice produces identical output — safe to re-run without side effects, and makes CI checks deterministic
+- **No reordering**: Capabilities listed in the order they appear in the matrix — produces stable diffs and predictable output
