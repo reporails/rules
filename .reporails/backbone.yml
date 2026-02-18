@@ -19,7 +19,7 @@ rules:
   patterns:
     rule_dir: "{category}/{slug}/"
     definition: "rule.md"
-    opengrep: "rule.yml"
+    patterns_yml: "rule.yml"
     test_pass: "tests/pass/"
     test_fail: "tests/fail/"
   categories:

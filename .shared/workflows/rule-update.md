@@ -6,7 +6,7 @@ flowchart TD
     LOCATE --> READ[Read current state<br/>frontmatter, patterns]
     READ --> APPLY[Apply instruction to patterns]
     APPLY --> RESOLVE[Resolve templates for validation]
-    RESOLVE --> VALID{OpenGrep exit code?}
+    RESOLVE --> VALID{Pattern validation?}
     VALID -->|0 or 1| CONFLICT[Check for ID conflicts]
     VALID -->|2| FIX2[Fix syntax error] --> RESOLVE
     VALID -->|7| FIX7[Add positive pattern] --> RESOLVE
@@ -31,10 +31,10 @@ Templates like `{{instruction_files}}` make rules portable across agents. A core
 
 ## Why the Fix Loop Exists
 
-OpenGrep exit codes signal distinct problems:
+Pattern validation exit codes signal distinct problems:
 
 - **Exit 2** (syntax error): The pattern itself is malformed. Fix the YAML/regex and re-validate.
-- **Exit 7** (no positive pattern): OpenGrep requires at least one positive match to anchor the rule. Add a `pattern` or `pattern-regex` before retrying.
+- **Exit 7** (no positive pattern): The regex engine requires at least one positive match to anchor the rule. Add a `pattern` or `pattern-regex` before retrying.
 - **Exit 0 or 1** (valid): Pattern is syntactically correct regardless of whether it matched anything.
 
 The loop prevents saving patterns that would fail at runtime in the test harness.

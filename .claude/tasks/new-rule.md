@@ -19,7 +19,7 @@ Knowledge: `.shared/knowledge/rule-authoring.md`
 - [ ] Determine type: deterministic | semantic
 - [ ] Check backing sources → tier is derived (core if max weight >= 0.8, else experimental)
 - [ ] `/generate-rule {ID} {scope} "{title}"`
-- [ ] Verify OpenGrep validates (exit 0 or 1)
+- [ ] Verify patterns validate (exit 0 or 1)
 
 ### Sequential (after generation)
 - [ ] `/validate-rules` — new rule passes

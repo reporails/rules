@@ -7,7 +7,7 @@ Framework for evaluating and maintaining AI agent instruction files.
 
 - Markdown documentation
 - YAML schemas and configuration
-- OpenGrep patterns for detection
+- Regex patterns for detection
 - No application code — framework only
 
 ## Initialization
@@ -37,22 +37,22 @@ Defined in `.reporails/backbone.yml` — the single source of truth for project 
 docker compose -f runtime/docker-compose.yml build
 
 # Run all rules
-docker compose -f runtime/docker-compose.yml run test
+docker compose -f runtime/docker-compose.yml run --rm test
 
 # Run one rule
-docker compose -f runtime/docker-compose.yml run test --rule CORE:S:0001
+docker compose -f runtime/docker-compose.yml run --rm test --rule CORE:S:0001
 
 # Run one category
-docker compose -f runtime/docker-compose.yml run test core/structure/
+docker compose -f runtime/docker-compose.yml run --rm test core/structure/
 
 # Use codex agent vars
-docker compose -f runtime/docker-compose.yml run test --agent codex
+docker compose -f runtime/docker-compose.yml run --rm test --agent codex
 
 # Include recommended package
-docker compose -f runtime/docker-compose.yml run test --package /recommended
+docker compose -f runtime/docker-compose.yml run --rm test --package /recommended
 
-# Verbose (show OpenGrep output)
-docker compose -f runtime/docker-compose.yml run test --verbose
+# Verbose
+docker compose -f runtime/docker-compose.yml run --rm test --verbose
 ```
 
 ## Navigation

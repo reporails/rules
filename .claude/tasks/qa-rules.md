@@ -1,6 +1,6 @@
 # QA Rules
 
-Validate all rules against schema, contracts, and OpenGrep.
+Validate all rules against schema, contracts, and patterns.
 
 Workflow: `.shared/workflows/rule-validation.md`
 Checklist: `.shared/knowledge/qa-checklist.md`
@@ -9,12 +9,12 @@ Checklist: `.shared/knowledge/qa-checklist.md`
 
 ### Sequential
 - [ ] `/validate-rules` — get full error list
-- [ ] Triage errors by type (schema / contract / OpenGrep)
+- [ ] Triage errors by type (schema / contract / pattern)
 
 ### Parallel (run simultaneously)
 - [ ] Fix schema errors (missing fields, invalid values)
 - [ ] Fix contract errors (.md ↔ .yml mismatches)
-- [ ] Fix OpenGrep errors (pattern syntax, exit 2/7)
+- [ ] Fix pattern errors (pattern syntax, exit 2/7)
 
 ### Sequential (after parallel)
 - [ ] `/validate-rules` — confirm all pass
@@ -33,12 +33,12 @@ Checklist: `.shared/knowledge/qa-checklist.md`
 **Before:**
 - Schema errors: ___
 - Contract errors: ___
-- OpenGrep errors: ___
+- Pattern errors: ___
 
 **After:**
 - Schema errors: ___
 - Contract errors: ___
-- OpenGrep errors: ___
+- Pattern errors: ___
 
 ## Run History
 

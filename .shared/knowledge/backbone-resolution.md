@@ -15,7 +15,7 @@ Read `.reporails/backbone.yml` before resolving any paths. All paths are relativ
 | Category dir | `rules.categories.{category}` | `core/structure/` |
 | Rule dir pattern | `rules.patterns.rule_dir` | `{category}/{slug}/` |
 | Rule definition | `rules.patterns.definition` | `rule.md` |
-| Rule OpenGrep | `rules.patterns.opengrep` | `rule.yml` |
+| Rule patterns | `rules.patterns.patterns_yml` | `rule.yml` |
 | Test pass dir | `rules.patterns.test_pass` | `tests/pass/` |
 | Test fail dir | `rules.patterns.test_fail` | `tests/fail/` |
 | Schema files | `schemas.{name}` | `schemas/rule.schema.yml` |
