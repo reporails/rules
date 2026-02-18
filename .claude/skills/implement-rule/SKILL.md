@@ -5,7 +5,7 @@ description: Implement checks, patterns, and fixtures for an existing rule skele
 
 # /implement-rule
 
-Implement checks, OpenGrep patterns, and test fixtures for an existing rule that has a skeleton but empty `checks: []`.
+Implement checks, regex patterns, and test fixtures for an existing rule that has a skeleton but empty `checks: []`.
 
 ## Usage
 
@@ -13,7 +13,7 @@ Implement checks, OpenGrep patterns, and test fixtures for an existing rule that
 /implement-rule <coordinate> [--agent <name>] [--dry-run]
 ```
 
-- `<coordinate>`: Rule coordinate (e.g., CORE:S:0005, CLAUDE:S:0003)
+- `<coordinate>`: Rule coordinate (e.g., CORE:C:0001, CLAUDE:S:0001)
 - `--agent <name>`: Agent for template var resolution (default: `claude`)
 - `--dry-run`: Show what would be generated without writing files
 
@@ -64,7 +64,7 @@ This is the critical step. The goal is to design a check that catches the **clas
 
 - Select check function(s) from the 10 available: `file_exists`, `directory_exists`, `directory_contains`, `git_tracked`, `frontmatter_key`, `file_count`, `line_count`, `byte_size`, `path_resolves`, `extract_imports`
 - Derive `args` from rule description (e.g., `max: 300` for `line_count`)
-- No OpenGrep patterns needed
+- No regex patterns needed
 
 #### Deterministic rules — violation detection
 
@@ -110,7 +110,7 @@ Terminal semantic check uses `prompt` derived from rule's `question`/`criteria` 
 ### 4. Generate checks
 
 Write `checks:` array in `rule.md` frontmatter:
-- IDs follow `{RULE_ID}:check:{SLOT}` format (e.g., `CORE:S:0005:check:0001`)
+- IDs follow `{NAMESPACE}.{CATEGORY}.{SLOT}.{descriptive-name}` format (e.g., `CORE.S.0005.file-exists`)
 - Check types must not exceed rule type ceiling:
   - `mechanical` rule → only `mechanical` checks
   - `deterministic` rule → `mechanical` + `deterministic` checks
@@ -119,7 +119,7 @@ Write `checks:` array in `rule.md` frontmatter:
 
 ### 5. Generate patterns
 
-For deterministic/semantic rules, write OpenGrep rules in `rule.yml`:
+For deterministic/semantic rules, write regex patterns in `rule.yml`:
 - `id` matches the check ID from frontmatter
 - `languages: [generic]` for markdown targets
 - `paths.include` uses template vars (`{{instruction_files}}`)
@@ -162,7 +162,7 @@ docker compose -f runtime/docker-compose.yml run --rm test --rule <coordinate>
 ## Reference
 
 - Schema: `schemas/rule.schema.yml` — check field definitions, mechanical check names, severity enum
-- Patterns: `docs/opengrep-guide.md` — pattern syntax, generic mode, combining patterns
+- Patterns: `docs/pattern-guide.md` — pattern syntax, generic mode, combining patterns
 - Runtime: `runtime/` — test runner, fixture format, mechanical check implementations
 - Agent config: `agents/{agent}/config.yml` — template var values per agent
 - Path resolution: `.shared/knowledge/backbone-resolution.md`
@@ -172,8 +172,8 @@ docker compose -f runtime/docker-compose.yml run --rm test --rule <coordinate>
 | Rule type | Modifies rule.md | Modifies rule.yml | Fixture content |
 |-----------|-----------------|-------------------|-----------------|
 | mechanical | checks with `check` + `args` | No change (`rules: []`) | Files/dirs matching check function expectations |
-| deterministic | checks with `pattern` + `message` | OpenGrep patterns | Content triggering/not triggering pattern |
-| semantic | pre-checks + terminal `prompt` | OpenGrep for pre-checks | Content producing/not producing candidates |
+| deterministic | checks with `pattern` + `message` | Regex patterns | Content triggering/not triggering pattern |
+| semantic | pre-checks + terminal `prompt` | Regex patterns for pre-checks | Content producing/not producing candidates |
 
 ## Severity Mapping
 

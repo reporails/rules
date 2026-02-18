@@ -1,5 +1,5 @@
 # Rule frontmatter schema
-version: "0.1.0"
+version: "0.1.1"
 
 types:
   - mechanical
@@ -105,8 +105,8 @@ fields:
       id:
         required: true
         type: string
-        pattern: "^[A-Z_]+:[SCEMG]:[0-9]{4}:check:[0-9]{4}$"
-        description: "Check coordinate: {rule_id}:check:{slot}"
+        pattern: "^[A-Z_]+\\.[SCEMG]\\.[0-9]{4}\\.[a-z][a-z0-9-]*$"
+        description: "Check coordinate: {NAMESPACE}.{CATEGORY}.{SLOT}.{descriptive-name}"
       type:
         required: true
         type: enum
@@ -146,7 +146,7 @@ fields:
       pattern:
         required_if: "type == deterministic"
         type: string
-        description: "OpenGrep regex pattern to match violations"
+        description: "Regex pattern to match violations"
       message:
         required_if: "type == deterministic"
         type: string
@@ -244,11 +244,11 @@ examples:
       - claude-code-best-practices
     targets: "{{instruction_files}}"
     checks:
-      - id: CORE:M:0001:check:0001
+      - id: CORE.M.0001.file-exists
         type: mechanical
         check: file_exists
         severity: critical
-      - id: CORE:M:0001:check:0002
+      - id: CORE.M.0001.git-tracked
         type: mechanical
         check: git_tracked
         severity: critical
@@ -267,12 +267,12 @@ examples:
       - claude-code-best-practices
     targets: "{{main_instruction_file}}"
     checks:
-      - id: CORE:S:0001:check:0001
+      - id: CORE.S.0001.exceeds-200-lines
         type: deterministic
         pattern: "(?s)(?:[^\\n]*\\n){200,}"
         message: "Root file exceeds 200 lines"
         severity: critical
-      - id: CORE:S:0001:check:0002
+      - id: CORE.S.0001.too-many-sections
         type: deterministic
         pattern: "(?s)(^## [^\\n]+\\n.*){6,}"
         message: "6+ top-level sections in large file"
@@ -292,12 +292,12 @@ examples:
       - claude-code-memory
     targets: "{{instruction_files}}"
     checks:
-      - id: CORE:M:0002:check:0001
+      - id: CORE.M.0002.conflicting-directive
         type: deterministic
         pattern: "(?i)(MUST NOT|NEVER|ALWAYS|MUST)\\s"
         message: "Potentially conflicting directive detected"
         severity: high
-      - id: CORE:M:0002:check:0002
+      - id: CORE.M.0002.semantic-evaluation
         type: semantic
         prompt: "Given the matched directives, are there contradictory or conflicting rules?"
         severity: high
@@ -316,7 +316,7 @@ examples:
       - claude-code-memory
     targets: "{{rules_dir}}/**/*.md"
     checks:
-      - id: CLAUDE:S:0001:check:0001
+      - id: CLAUDE.S.0001.directory-exists
         type: mechanical
         check: directory_exists
         args:
@@ -338,13 +338,13 @@ examples:
       - claude-code-best-practices
     targets: "{{instruction_files}}"
     checks:
-      - id: CORE:C:0002:check:0001
+      - id: CORE.C.0002.duplicate-heading
         type: deterministic
         pattern: "^## .+$"
         cross_file: true
         message: "Duplicate heading across files"
         severity: high
-      - id: CORE:C:0002:check:0002
+      - id: CORE.C.0002.semantic-evaluation
         type: semantic
         prompt: "Are these duplicate headings actual content duplication or scoped context?"
         severity: high

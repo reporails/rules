@@ -19,7 +19,7 @@ Required fields:
 - `type` is mechanical, deterministic, or semantic
 - `level` is L1-L6
 - `checks[]` array exists and non-empty
-- `checks[].id` follows `NAMESPACE.CATEGORY.SLOT.check.NNNN` format
+- `checks[].id` follows `NAMESPACE.CATEGORY.SLOT.descriptive-name` format
 
 Type-specific:
 - Semantic: must have `question` + `criteria`

@@ -132,7 +132,7 @@ examples:
     rules:
       disabled: ["CORE:E:0002"]
       overrides:
-        "CORE:S:0001:check:0001":
+        "CORE.S.0001.file-exists":
           severity: medium
 
   strict: |

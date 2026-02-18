@@ -13,7 +13,7 @@ Generate a rule skeleton with coordinate-based ID, directory structure, and plac
 /generate-rule <coordinate> <scope> <title> [--agent <name>]
 ```
 
-- `<coordinate>`: Rule coordinate (e.g., CORE:S:0005, CLAUDE:S:0003)
+- `<coordinate>`: Rule coordinate (e.g., CORE:C:0001, CLAUDE:S:0001)
 - `<scope>`: `core` or agent name (e.g., `claude`)
 - `<title>`: Short title for the rule
 - `--agent <name>`: Agent for path resolution (default: `claude`)
@@ -21,8 +21,8 @@ Generate a rule skeleton with coordinate-based ID, directory structure, and plac
 ## Examples
 
 ```
-/generate-rule CORE:S:0005 core "My New Rule"
-/generate-rule CLAUDE:S:0003 claude "Some Agent Rule"
+/generate-rule CORE:C:0006 core "My New Rule"
+/generate-rule CLAUDE:C:0002 claude "Some Agent Rule"
 ```
 
 ## Workflow
@@ -33,7 +33,7 @@ Generate a rule skeleton with coordinate-based ID, directory structure, and plac
 4. Resolve directory path from `backbone.rules.patterns` and `backbone.rules.categories`
 5. Create directory: `{category_path}/{slug}/`
 6. Generate `rule.md` with frontmatter (id, slug, title, category, type, level, targets, checks)
-7. Generate `rule.yml` with OpenGrep patterns (if deterministic/semantic)
+7. Generate `rule.yml` with regex patterns (if deterministic/semantic)
 8. Create `tests/pass/` and `tests/fail/` directories with `.gitkeep`
 9. Update `registry/coordinate-map.yml` with new slug→coordinate entry
 
@@ -48,7 +48,7 @@ Generate a rule skeleton with coordinate-based ID, directory structure, and plac
 | Decision | Result |
 |----------|--------|
 | Structural/file checks only | type: mechanical |
-| OpenGrep pattern matching | type: deterministic |
+| Regex pattern matching | type: deterministic |
 | LLM evaluation needed | type: semantic (prompt field on terminal check) |
 | Has backing sources | Add to backed_by with source IDs from docs/sources.yml |
 | No backing sources | Omit backed_by (optional field) |
