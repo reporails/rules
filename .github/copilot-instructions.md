@@ -4,7 +4,7 @@ Framework for validating AI agent instruction files. Community-maintained rule d
 
 ## Tech Stack
 
-- **Markdown + YAML**: Rule definitions with OpenGrep patterns
+- **Markdown + YAML**: Rule definitions with regex patterns
 - **Python**: Test harness and mechanical checks
 - **Docker**: Isolated test environment
 - **No application code**: Framework/schema repository only
@@ -24,7 +24,7 @@ docker compose -f runtime/docker-compose.yml run test --rule CORE:S:0001
 # Run category
 docker compose -f runtime/docker-compose.yml run test core/structure/
 
-# Verbose (shows OpenGrep matches)
+# Verbose
 docker compose -f runtime/docker-compose.yml run test --verbose
 
 # Test with codex agent variables
@@ -46,7 +46,7 @@ Each rule lives in its own directory:
 ```
 core/structure/instruction-file-size-limit/
   rule.md          # Frontmatter (id, type, level, checks) + prose
-  rule.yml         # OpenGrep patterns (or empty `rules: []` for mechanical)
+  rule.yml         # Regex patterns (or empty `rules: []` for mechanical)
   tests/
     pass/          # Fixture that should pass
     fail/          # Fixture that should fail
@@ -56,15 +56,15 @@ core/structure/instruction-file-size-limit/
 
 | Type | Detection Method | Example |
 |------|------------------|---------|
-| **mechanical** | Python structural checks (file exists, line count, byte size) | CORE:S:0001 — instruction file exists |
-| **deterministic** | OpenGrep pattern matching on file content | CORE:C:0006 — specificity over vagueness |
-| **semantic** | OpenGrep pre-filter + LLM evaluation | CORE:C:0017 — repo-specific content |
+| **mechanical** | Python structural checks (file exists, line count, byte size) | CORE:S:0001 — root instruction file presence |
+| **deterministic** | Regex pattern matching on file content | CORE:C:0004 — avoid generic placeholder content |
+| **semantic** | Regex pre-filter + LLM evaluation | CORE:G:0001 — cross-agent compatibility |
 
 Mechanical rules have `rules: []` in rule.yml.
 
 ### Coordinates
 
-Every rule has a coordinate like `CORE:S:0005`:
+Every rule has a coordinate like `CORE:S:0001`:
 - **Namespace**: `CORE` (cross-agent), `CLAUDE`, `CODEX`
 - **Category**: `S` (structure), `C` (content), `E` (efficiency), `M` (maintenance), `G` (governance)
 - **Slot**: `0001`–`9999`
@@ -104,7 +104,7 @@ Always resolve paths from `.reporails/backbone.yml` rather than using find/grep/
 ### Required Files
 When creating a rule:
 1. `rule.md` with proper frontmatter
-2. `rule.yml` with OpenGrep patterns (or `rules: []`)
+2. `rule.yml` with regex patterns (or `rules: []`)
 3. `tests/pass/` and `tests/fail/` fixtures
 4. Update `registry/coordinate-map.yml` with new coordinate
 

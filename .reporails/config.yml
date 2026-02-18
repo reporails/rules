@@ -3,8 +3,4 @@ exclude_dirs:
   - tests
 
 disabled_rules:
-  - "CLAUDE:S:0005"   # Child Files Scoped — single-repo, only 1 CLAUDE.md
-  - "CLAUDE:S:0010"   # Settings File Missing — rules/ is a framework repo, not a Claude Code project
-  - "CORE:S:0006"     # Total Instruction Budget — framework repo with many skills (38KB > 32KB limit)
-  - "CORE:S:0010"     # Cross-Agent Compatibility — excluded in agent config
-  - "CORE:S:0011"     # MCP Servers Documented — no MCP server in this repo
+  - "CORE:G:0001"     # Cross-Agent Compatibility — excluded in agent config

@@ -31,9 +31,9 @@ For each core rule, verify agent supports the underlying feature:
 
 | Rule | Feature Required | Exclude if missing |
 |------|------------------|-------------------|
-| CORE:S:0007 | Multiple instruction files | ✓ (single-file agents) |
+| CORE:G:0001 | Cross-agent compatibility | ✓ (agent-specific instruction files) |
 | CLAUDE:S:0001 | CLAUDE.md file placement | ✓ (non-Claude agents — auto-excluded by namespace) |
-| CLAUDE:S:0003 | Rules directory structure | ✓ (non-Claude agents — auto-excluded by namespace) |
+| CLAUDE:S:0002 | Path-scoped rules | ✓ (non-Claude agents — auto-excluded by namespace) |
 
 ## Overrides Review
 
@@ -52,8 +52,8 @@ Example:
 ```yaml
 # Agent supports the feature but with different expectations
 overrides:
-  CORE:S:0005:
-    severity: medium  # This agent allows longer files
+  CORE:C:0001:
+    severity: low  # This agent has limited instruction file support
 ```
 
 ## Validation Command

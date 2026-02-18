@@ -8,8 +8,8 @@ This document is the source of truth for Reporails threshold interpretations. Wh
 
 | Rule | Threshold | Source says | Our interpretation |
 |------|-----------|-------------|-------------------|
-| CORE:S:0005 | 300 lines max | "< 300 lines is best" | Per-file limit encourages @imports earlier |
-| CORE:S:0006 | 32 KiB total | "hierarchical structure" | Total instruction budget across all files |
+| Per-file size limit (planned) | 300 lines max | "< 300 lines is best" | Per-file limit encourages @imports earlier |
+| Total instruction budget (planned) | 32 KiB total | "hierarchical structure" | Total instruction budget across all files |
 | CLAUDE:S:0002 | 5 hops max | "hierarchical structure" | Import chains beyond 5 hops become confusing |
 
 ## Rationale
@@ -21,7 +21,7 @@ Sources provide general guidance. We provide enforcement.
 "Keep files concise" doesn't fail a lint check. "Over 300 lines" does.
 
 Our thresholds are:
-- **Measurable** — OpenGrep or mechanical checks can detect them
+- **Measurable** — Regex or mechanical checks can detect them
 - **Enforceable** — Clear pass/fail
 - **Conservative** — Better to split early than refactor later
 
@@ -46,6 +46,6 @@ overrides:
 ## Sources
 
 This document is cited by rules that use Reporails-defined thresholds:
-- CORE:S:0005, CORE:S:0006, CLAUDE:S:0002
+- Per-file size limit (planned), total instruction budget (planned), CLAUDE:S:0002
 
 For rules backed by external sources, see `docs/sources.yml`.

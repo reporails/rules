@@ -27,6 +27,6 @@ vars:
   managed_settings_windows: "C:/Program Files/ClaudeCode/managed-settings.json"
 
 excludes:
-  - CORE:S:0010  # Cross-agent compatibility — AGENTS.md is not a Claude surface
+  - CORE:G:0001  # Cross-agent compatibility — AGENTS.md is not a Claude surface
 
 # No severity overrides — all moved to reporails/recommended
