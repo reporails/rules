@@ -4,24 +4,54 @@ Contributor-facing test harness for validating rule implementations against test
 
 ## Quick Start
 
+### Direct (developers with CLI installed)
+
+```bash
+# Run all rules
+ails test --rules-root .
+
+# Run one rule by coordinate
+ails test --rules-root . --rule CORE:S:0001
+
+# Run one category
+ails test --rules-root . core/structure/
+
+# Include recommended rules
+ails test --rules-root . --package ../recommended/
+
+# Verbose output (shows per-check details)
+ails test --rules-root . --verbose
+
+# Use a different agent's config for var resolution
+ails test --rules-root . --agent codex
+```
+
+### Docker (contributors without CLI installed)
+
 ```bash
 # Build the test image
 docker compose -f runtime/docker-compose.yml build
 
 # Run all rules
-docker compose -f runtime/docker-compose.yml run test
+docker compose -f runtime/docker-compose.yml run --rm test
 
 # Run one rule by coordinate
-docker compose -f runtime/docker-compose.yml run test --rule CORE:S:0001
+docker compose -f runtime/docker-compose.yml run --rm test --rule CORE:S:0001
 
 # Run one category
-docker compose -f runtime/docker-compose.yml run test core/structure/
+docker compose -f runtime/docker-compose.yml run --rm test core/structure/
 
-# Use a different agent's config for var resolution
-docker compose -f runtime/docker-compose.yml run test --agent codex
+# Include recommended rules
+docker compose -f runtime/docker-compose.yml run --rm test --package /recommended
 
-# Verbose output (shows OpenGrep output)
-docker compose -f runtime/docker-compose.yml run test --verbose
+# Verbose output
+docker compose -f runtime/docker-compose.yml run --rm test --verbose
+```
+
+### Docker (developers using local CLI source)
+
+```bash
+docker compose -f runtime/docker-compose.yml -f runtime/docker-compose.dev.yml run --rm test
 ```
 
 ## Fixture Format
@@ -54,7 +84,7 @@ instruction-file-exists/tests/
     .gitkeep             # No instruction file → check fails
 ```
 
-### Example: Deterministic Rule (OpenGrep pattern)
+### Example: Deterministic Rule (regex pattern)
 
 ```
 has-project-description/tests/
@@ -68,9 +98,9 @@ has-project-description/tests/
 
 | Type | Engine | Pass fixture | Fail fixture |
 |------|--------|-------------|-------------|
-| Mechanical | Python (`checks.py`) | Check passes | Check fails |
-| Deterministic | OpenGrep via `rule.yml` | 0 findings | 1+ findings |
-| Semantic | Pre-checks only | Skipped (no LLM) | Skipped (no LLM) |
+| Mechanical | Python probes | Check passes | Check fails |
+| Deterministic | Regex via `rule.yml` | 0 findings | 1+ findings |
+| Semantic | Skipped (no LLM) | Skipped | Skipped |
 
 ## Template Variables
 
