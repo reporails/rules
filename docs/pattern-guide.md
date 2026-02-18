@@ -1,16 +1,16 @@
-# OpenGrep Pattern Guide
+# Pattern Guide
 
-Guide for writing OpenGrep patterns in rule `.yml` files.
+Guide for writing regex patterns in rule `.yml` files.
 
 ---
 
 ## Overview
 
-OpenGrep is a static analysis tool that powers deterministic rule detection. It supports 30+ languages including a "generic" mode for markdown files.
+The regex engine powers deterministic rule detection. It uses a "generic" mode for markdown files and supports YAML structural matching.
 
-All rules (deterministic and semantic) use OpenGrep patterns. The difference is what happens after:
-- **Deterministic:** OpenGrep result is final
-- **Semantic:** OpenGrep catches candidates, LLM evaluates gaps
+All rules (deterministic and semantic) use regex patterns. The difference is what happens after:
+- **Deterministic:** Pattern result is final
+- **Semantic:** Patterns catch candidates, LLM evaluates gaps
 
 ---
 
@@ -22,7 +22,7 @@ Use `languages: [generic]` for CLAUDE.md and other instruction files:
 
 ```yaml
 rules:
-  - id: CORE.S.0005.check.0001
+  - id: CORE.S.0005.exceeds-300-lines
     message: "Root file exceeds 300 lines"
     severity: ERROR
     languages: [generic]
@@ -83,11 +83,11 @@ pattern-regex: "```[^\\n]*\\n(?:[^\\n]*\\n){15,}```"
 
 ## YAML Frontmatter Detection
 
-OpenGrep natively parses YAML. Use `languages: [yaml]` for frontmatter:
+The engine natively parses YAML. Use `languages: [yaml]` for frontmatter:
 
 ```yaml
 rules:
-  - id: CORE.S.0008.check.0001
+  - id: CORE.S.0008.has-path-scoping
     message: "Rule file has path scoping"
     languages: [yaml]
     pattern: |
@@ -155,59 +155,58 @@ patterns:
 
 **Important:** Semantic rules are NOT "LLM only."
 
-They are: **OpenGrep first, LLM fills gaps.**
+They are: **Patterns first, LLM fills gaps.**
 
 ```
-OpenGrep catches what it can
+Patterns catch what they can
     ↓
 Results passed to LLM:
   - "Found these patterns"
   - "At these locations"
     ↓
-LLM evaluates only what OpenGrep couldn't determine
+LLM evaluates only what patterns couldn't determine
 ```
 
-**Example: Single Source of Truth (CORE:C:0017)**
+**Example: Cross-Agent Compatibility (CORE:G:0001)**
 
-OpenGrep can detect:
-- Duplicate section headings
-- Repeated constraint patterns
-- Copy-paste indicators
+Patterns can detect:
+- Agent-specific syntax (`@import`, `.claude/rules/`)
+- References to agent-specific directories
 
-OpenGrep can't determine:
-- Is the duplicated content actually contradictory?
-- Is the repetition intentional for emphasis?
+Patterns can't determine:
+- Is the file actually shared across agents, or agent-specific?
+- Is the agent syntax intentional and scoped correctly?
 
 **So you write both:**
 
 ```yaml
-# core/content/repo-specific-content/rule.md (frontmatter)
+# core/governance/cross-agent-compatibility/rule.md (frontmatter)
 type: semantic
 checks:
-  - id: CORE.C.0017.check.0001
-    name: Duplicate content indicators
-    severity: high
-question: "Given what was found, is there contradictory duplicated content?"
+  - id: CORE.G.0001.agent-specific-syntax
+    name: agent-specific-syntax
+    severity: medium
+  - id: CORE.G.0001.semantic-evaluation
+    name: semantic-evaluation
+    severity: medium
+question: "Does this shared instruction file avoid agent-specific syntax?"
 criteria:
-  - No contradictory instructions across files
-  - Single authoritative source for each constraint
+  - File uses standard markdown without agent-specific syntax
+  - No references to agent-specific directories
 ```
 
 ```yaml
-# core/content/repo-specific-content/rule.yml (OpenGrep patterns)
+# core/governance/cross-agent-compatibility/rule.yml (regex patterns)
 rules:
-  - id: CORE.C.0017.check.0001
-    message: "Potential duplicate content found"
+  - id: CORE.G.0001.agent-specific-syntax
+    message: "Agent specific syntax"
     severity: WARNING
     languages: [generic]
-    pattern-either:
-      - pattern-regex: "(?i)(MUST|NEVER|ALWAYS).*\\n.*\\1"
-      - pattern-regex: "CODEOWNERS.*security"
-      - pattern-regex: "security.*owner|owner.*security"
+    pattern-regex: "(?:@import|\\.\\.?claude/rules/|\\.github/instructions/)"
 ```
 
 **The LLM receives:**
-- What OpenGrep found (patterns, locations)
+- What patterns found (matches, locations)
 - What to evaluate (question + criteria)
 - Only decides what patterns couldn't
 
@@ -220,13 +219,12 @@ This minimizes token cost and improves accuracy.
 Test your patterns locally before submitting:
 
 ```bash
-opengrep scan --config your-rule.yml --target test-file.md
+ails test --rule <coordinate>
 ```
 
 ---
 
 ## Resources
 
-- [OpenGrep GitHub](https://github.com/opengrep/opengrep)
 - [Semgrep Generic Pattern Matching](https://semgrep.dev/docs/writing-rules/generic-pattern-matching)
 - [Semgrep Pattern Syntax](https://semgrep.dev/docs/writing-rules/pattern-syntax)
