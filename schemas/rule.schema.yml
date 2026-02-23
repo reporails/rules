@@ -220,7 +220,7 @@ template_variables:
 
 validation:
   - rule: "Every checks[].id in rule.md must match a corresponding entry in rule.yml"
-  - rule: "checks[].id format: {rule_id}:check:{slot}"
+  - rule: "checks[].id format: {NAMESPACE}.{CATEGORY}.{SLOT}.{descriptive-name}"
   - rule: "mechanical type: checks may only contain mechanical"
   - rule: "deterministic type: checks may contain mechanical + deterministic"
   - rule: "semantic type: any types allowed, semantic must be last"

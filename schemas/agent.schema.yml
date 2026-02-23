@@ -147,7 +147,8 @@ examples:
     prefix: CLAUDE
     name: Claude Code
     vars:
-      main_instruction_file: "**/CLAUDE.md"
+      main_instruction_file:
+        - "**/CLAUDE.md"
       instruction_files:
         - "**/CLAUDE.md"
         - ".claude/rules/**/*.md"
@@ -170,7 +171,8 @@ examples:
     prefix: CODEX
     name: OpenAI Codex
     vars:
-      main_instruction_file: "**/AGENTS.md"
+      main_instruction_file:
+        - "**/AGENTS.md"
       instruction_files:
         - "**/AGENTS.md"
         - "**/AGENTS.override.md"
@@ -187,7 +189,8 @@ examples:
     prefix: COPILOT
     name: GitHub Copilot
     vars:
-      main_instruction_file: ".github/copilot-instructions.md"
+      main_instruction_file:
+        - ".github/copilot-instructions.md"
       instruction_files:
         - ".github/copilot-instructions.md"
         - ".github/instructions/**/*.instructions.md"
@@ -200,7 +203,8 @@ examples:
     prefix: CURSOR
     name: Cursor
     vars:
-      main_instruction_file: ".cursorrules"
+      main_instruction_file:
+        - ".cursorrules"
       instruction_files:
         - ".cursorrules"
         - ".cursor/rules/**/*.mdc"

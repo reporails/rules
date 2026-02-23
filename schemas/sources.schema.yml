@@ -21,12 +21,13 @@ fields:
   type:
     required: true
     type: enum
-    values: [official, research, community]
+    values: [official, research, community, internal]
     description: |
-      Source origin type. Determines base weight range:
+      Source origin type. Determines base weight:
         official: 1.0
         research: 0.8
-        community: 0.4-0.6
+        community: 0.6
+        internal: 0.4
 
   weight:
     required: true
