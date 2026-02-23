@@ -1,15 +1,12 @@
 # Agent configuration schema
-version: "0.1.0"
-
-# Simplified from v0.0.2: removed pattern_overrides.
-# instruction_files patterns live here (moved from project config).
+version: "0.2.0"
 
 fields:
   agent:
     required: true
     type: string
     pattern: "^[a-z]+$"
-    description: "Agent identifier. Uppercase = coordinate registry prefix."
+    description: "Agent identifier. Lowercase, used as config directory name."
 
   version:
     required: true
@@ -28,42 +25,103 @@ fields:
     type: string
     description: "Human-readable display name for the agent"
 
+  core:
+    required: false
+    type: boolean
+    description: "If true, this config represents CORE itself"
+
   vars:
     required: true
     type: object
-    description: "Template variables resolved by CLI for rule targets and capability detection"
+    description: >
+      Template variables for rule target resolution and capability detection.
     properties:
+
+      # --- Instruction files (required) ---
       main_instruction_file:
         required: true
         type:
           oneOf: [string, array]
-        description: "Primary instruction file glob(s) (e.g., '**/CLAUDE.md' or list)"
+        description: "Primary instruction file glob(s) (e.g., '**/CLAUDE.md')"
       instruction_files:
         required: true
         type:
           oneOf: [string, array]
-        description: "All instruction files glob(s) (main + nested)"
+        description: "All instruction file globs — main + supplementary + nested"
+
+      # --- Modular rules ---
       supplementary_files:
         required: false
         type:
           oneOf: [string, array]
-        description: "Rule snippet files, excluding main instruction file"
+        description: "Path-scoped rule/instruction snippet file globs"
       rules_dir:
         required: false
         type: string
-        description: "Path-scoped rules directory"
+        description: "Directory containing supplementary rule files"
+
+      # --- Skills ---
       skills_dir:
         required: false
         type: string
-        description: "Skills directory path"
+        description: "Skills directory path (e.g., '.claude/skills', '.agents/skills')"
+
+      # --- Configuration ---
+      settings_file:
+        required: false
+        type: string
+        description: "Agent settings/config file in the repository"
+      mcp_config:
+        required: false
+        type: string
+        description: "MCP server configuration file path (e.g., '.mcp.json')"
+
+      # --- Overrides ---
+      local_file:
+        required: false
+        type:
+          oneOf: [string, array]
+        description: "Local override file(s) — gitignored, highest user precedence"
+      override_file:
+        required: false
+        type:
+          oneOf: [string, array]
+        description: "Override instruction file(s) — may be VCS-tracked, takes priority over main"
+
+      # --- Enterprise/managed ---
+      managed_config:
+        required: false
+        type:
+          oneOf: [string, array]
+        description: "Admin/enterprise managed config path(s) — cannot be overridden by users"
+
+      # --- Memory ---
+      memory_dir:
+        required: false
+        type: string
+        description: "Persistent memory/context directory"
+
+      # --- Limits ---
+      token_budget:
+        required: false
+        type:
+          oneOf: [string, integer]
+        description: "Explicit instruction file size limit (e.g., '32KB')"
+
+      # --- Discovery ---
+      fallback_filenames:
+        required: false
+        type: array
+        description: "Alternative instruction filenames in discovery order"
+
     additionalProperties:
       type: string
-      description: "Agent-specific vars (e.g., settings_file, mcp_config, memory_dir)"
+      description: "Agent-specific vars not yet in the common schema"
 
   excludes:
     required: false
     type: array
-    description: "Glob patterns to exclude from all rule target resolution"
+    description: "Rule coordinates or glob patterns to exclude from resolution"
     items:
       type: string
 
@@ -84,33 +142,66 @@ validation:
 examples:
   claude: |
     agent: claude
-    version: "0.1.0"
+    version: "0.2.0"
+    prefix: CLAUDE
+    name: Claude Code
     vars:
       main_instruction_file: "**/CLAUDE.md"
-      instruction_files: "**/CLAUDE.md"
+      instruction_files:
+        - "**/CLAUDE.md"
+        - ".claude/rules/**/*.md"
       supplementary_files: ".claude/rules/**/*.md"
       rules_dir: ".claude/rules"
       skills_dir: ".claude/skills"
       settings_file: ".claude/settings.json"
       mcp_config: ".mcp.json"
-      memory_dir: "memory"
+      local_file: "CLAUDE.local.md"
+      memory_dir: ".claude/memory"
+      managed_config:
+        - "/etc/claude-code/managed-settings.json"
+        - "/Library/Application Support/ClaudeCode/managed-settings.json"
     excludes:
-      - "node_modules/**"
-      - ".git/**"
-      - "archive/**"
+      - CORE:G:0001
+
+  codex: |
+    agent: codex
+    version: "0.2.0"
+    prefix: CODEX
+    name: OpenAI Codex
+    vars:
+      main_instruction_file: "**/AGENTS.md"
+      instruction_files:
+        - "**/AGENTS.md"
+        - "**/AGENTS.override.md"
+      override_file: "AGENTS.override.md"
+      skills_dir: ".agents/skills"
+      token_budget: "32KB"
+      fallback_filenames:
+        - "TEAM_GUIDE.md"
+        - ".agents.md"
 
   copilot: |
     agent: copilot
-    version: "0.1.0"
+    version: "0.2.0"
+    prefix: COPILOT
+    name: GitHub Copilot
     vars:
       main_instruction_file: ".github/copilot-instructions.md"
-      instruction_files: ".github/copilot-instructions.md"
+      instruction_files:
+        - ".github/copilot-instructions.md"
+        - ".github/instructions/**/*.instructions.md"
+      supplementary_files: ".github/instructions/**/*.instructions.md"
+      rules_dir: ".github/instructions"
 
   cursor: |
     agent: cursor
-    version: "0.1.0"
+    version: "0.2.0"
+    prefix: CURSOR
+    name: Cursor
     vars:
-      main_instruction_file: "**/.cursorrules"
-      instruction_files: "**/.cursorrules"
-      supplementary_files: ".cursor/rules/**/*.md"
+      main_instruction_file: ".cursorrules"
+      instruction_files:
+        - ".cursorrules"
+        - ".cursor/rules/**/*.mdc"
+      supplementary_files: ".cursor/rules/**/*.mdc"
       rules_dir: ".cursor/rules"
