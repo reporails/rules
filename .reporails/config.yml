@@ -1,3 +1,4 @@
+default_agent: claude
 # Project-level configuration for rules/ repo
 exclude_dirs:
   - tests
