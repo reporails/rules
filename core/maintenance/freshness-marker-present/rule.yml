@@ -1,0 +1,14 @@
+rules:
+- id: CORE.M.0001.has_freshness_marker
+  message: Freshness marker not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?i)(?:last[_\s-]?updated?\s*:|<!--\s*(?:last\s*)?updated|version\s*:\s*\d|<!--
+      \d{4}-\d{2}-\d{2}|\b\d{4}-\d{2}-\d{2}\b)

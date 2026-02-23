@@ -1,0 +1,14 @@
+rules:
+- id: CORE.G.0004.has_command_boundaries
+  message: Command boundaries not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?i)(?:(?:forbidden|prohibited|banned|blocked|never\s+run|never\s+use|never\s+execute)\s+(?:command|operation)|(?:rm\s+-rf|DROP\s+TABLE|force[-
+      ]?push|reset\s+--hard|--force|--no-verify)|(?:production|live|prod)\s+(?:database|server|system|environment)\s+(?:never|forbidden|prohibited)|destructive\s+(?:command|operation|action)s?\s+(?:are|is)\s+(?:forbidden|prohibited|never))

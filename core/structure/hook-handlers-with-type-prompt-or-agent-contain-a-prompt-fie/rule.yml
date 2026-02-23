@@ -1,0 +1,12 @@
+rules:
+- id: CORE.S.0029.prompt_hook_has_prompt
+  message: Prompt hook has prompt not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{settings_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: '"prompt"\s*:\s*"[^"]+"'

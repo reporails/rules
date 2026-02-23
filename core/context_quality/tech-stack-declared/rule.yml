@@ -1,0 +1,14 @@
+rules:
+- id: CORE.X.0002.has_version_specifics
+  message: Version specifics not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?i)\b(tech stack|framework|built with|we use|this project 
+      uses|depends on|our stack|language:|stack:|uses:|runtime:)\b
+  - pattern-not-regex: 
+      (?i)\b(?:v\d+\.\d+|version\s+\d|python\s+3|node\s+\d|react\s+\d|next\.?js|typescript|rust|go\s+1|java\s+\d|ruby\s+\d)\b

@@ -1,0 +1,12 @@
+rules:
+- id: CORE.S.0001.has_import_references
+  message: Import references not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{supplementary_files}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: '@[\w./]+'

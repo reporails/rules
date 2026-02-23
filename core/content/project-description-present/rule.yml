@@ -1,0 +1,15 @@
+rules:
+- id: CORE.C.0013.has_project_description
+  message: Project description not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?i)(?:^#{1,3}\s+(?:project|overview|about|description|introduction|what 
+      is)|\b(?:this project|this repo|this codebase|this is a|we are 
+      building)\b)

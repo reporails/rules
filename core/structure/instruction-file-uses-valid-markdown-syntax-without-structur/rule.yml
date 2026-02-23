@@ -1,0 +1,21 @@
+rules:
+- id: CORE.S.0009.no_broken_headings
+  message: No broken headings
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  pattern-regex: '^#{1,6}[^ #\n]'
+- id: CORE.S.0009.no_unclosed_code_blocks
+  message: No unclosed code blocks not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: ^```

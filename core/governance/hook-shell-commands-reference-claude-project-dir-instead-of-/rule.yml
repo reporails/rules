@@ -1,0 +1,13 @@
+rules:
+- id: CORE.G.0005.uses_project_dir_var
+  message: Uses project dir var not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{settings_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?:\$CLAUDE_PROJECT_DIR|\$CLAUDE_ENV_FILE|\$\{CLAUDE_PROJECT_DIR\})

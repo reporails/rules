@@ -1,0 +1,12 @@
+rules:
+- id: CORE.S.0014.extract_filenames
+  message: Filenames not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: '[\w-]+\.(?:md|yml|yaml)'

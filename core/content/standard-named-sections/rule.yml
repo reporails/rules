@@ -1,0 +1,13 @@
+rules:
+- id: CORE.C.0015.has_named_section
+  message: Named section not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?i)^#{1,3}\s+(commands?|project\s+context|testing|build|setup|architecture|gotchas?|warnings?|overview|workflow|usage|getting\s+started|development|deployment|environment)

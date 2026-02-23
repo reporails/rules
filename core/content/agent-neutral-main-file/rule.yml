@@ -1,0 +1,12 @@
+rules:
+- id: CORE.C.0032.no_agent_specific_directives
+  message: No agent specific directives
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  pattern-regex: 
+    (?i)(?:^#{1,3}\s+(?:claude|copilot|cursor|codex)\s+(?:specific|only|settings)|\bonly
+    works? (?:with|in|for) (?:claude|copilot|cursor|codex)\b)

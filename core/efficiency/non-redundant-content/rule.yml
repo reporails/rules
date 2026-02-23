@@ -1,0 +1,15 @@
+rules:
+- id: CORE.E.0003.extract_potentially_redundant
+  message: Potentially redundant not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: (?i)\b(?:this project uses|built with|requires 
+      version|dependencies include|install (?:via|with)|npm install|pip 
+      install|poetry add|cargo 
+      add|package\.json|requirements\.txt|pyproject\.toml)\b

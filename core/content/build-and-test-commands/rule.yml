@@ -1,0 +1,13 @@
+rules:
+- id: CORE.C.0010.commands_in_code_blocks
+  message: Commands in code blocks not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?:npm|yarn|pnpm|pip|poetry|uv|cargo|go |make 
+      |\./|pytest|jest|ruff|eslint|docker |kubectl |gh |git )\w
+  - pattern-not-regex: '```[bash|sh|shell|zsh]?\n[\s\S]*?\n```'

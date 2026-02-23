@@ -1,0 +1,12 @@
+rules:
+- id: CORE.C.0018.has_constraint_keywords
+  message: Constraint keywords not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: \b(MUST NOT?|NEVER|ALWAYS|REQUIRED|PROHIBITED|CRITICAL)\b

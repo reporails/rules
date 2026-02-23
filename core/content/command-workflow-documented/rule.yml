@@ -1,0 +1,15 @@
+rules:
+- id: CORE.C.0021.has_workflow_sequence
+  message: Workflow sequence not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  patterns:
+  - pattern-regex: 
+      (?i)(?:npm|yarn|pip|cargo|make|docker|kubectl|git|run|execute|build|test|deploy)\b
+  - pattern-not-regex: 
+      (?i)(?:(?:step|phase)\s+\d|\d+\.\s+(?:run|execute|build|test)|then\s+run|followed
+      by|&&|before\s+\w+ing.*(?:run|execute))

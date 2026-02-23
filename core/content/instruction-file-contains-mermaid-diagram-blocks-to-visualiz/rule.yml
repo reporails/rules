@@ -1,0 +1,13 @@
+rules:
+- id: CORE.C.0031.has_mermaid_blocks
+  message: Mermaid blocks not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  patterns:
+  - pattern-regex: 
+      (?i)\b(?:workflow|pipeline|decision.tree|state.machine|flowchart|sequence|multi.step|(?:step|phase|stage)\s+\d)\b
+  - pattern-not-regex: (?s)```mermaid\b

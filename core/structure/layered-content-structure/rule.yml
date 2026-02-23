@@ -1,0 +1,13 @@
+rules:
+- id: CORE.S.0017.has_overview_section
+  message: Overview section not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?i)^#{1,2}\s+(?:overview|introduction|about|summary|getting started)

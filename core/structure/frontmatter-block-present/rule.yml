@@ -1,0 +1,12 @@
+rules:
+- id: CORE.S.0006.has_frontmatter_block
+  message: Frontmatter block not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{supplementary_files}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: ^---\n[\s\S]+?\n---

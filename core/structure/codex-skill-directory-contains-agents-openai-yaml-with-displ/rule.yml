@@ -1,0 +1,12 @@
+rules:
+- id: CORE.S.0036.has_openai_yaml
+  message: Openai yaml not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{skills_dir}}/**/*.md'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: (?:display_name|allow_implicit_invocation|brand_color)

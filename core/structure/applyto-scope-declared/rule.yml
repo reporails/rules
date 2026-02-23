@@ -1,0 +1,12 @@
+rules:
+- id: CORE.S.0015.has_applyto_frontmatter
+  message: Applyto frontmatter not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{supplementary_files}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: '^applyTo\s*:'

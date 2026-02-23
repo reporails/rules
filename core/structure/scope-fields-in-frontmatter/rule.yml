@@ -1,0 +1,12 @@
+rules:
+- id: CORE.S.0013.scope_field_present
+  message: Scope field present not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{supplementary_files}}'
+  patterns:
+  - pattern-regex: ^---\n
+  - pattern-not-regex: '^(?:applyTo|paths|globs|excludeAgent)\s*:'

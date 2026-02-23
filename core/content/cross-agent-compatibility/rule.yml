@@ -1,0 +1,14 @@
+rules:
+- id: CORE.C.0026.extract_compat_content
+  message: Compat content not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: (?i)(?:cross[- ]?(?:agent|tool)|(?:agent|tool)[- 
+      ]?(?:agnostic|independent|portable|compatible)|AGENTS\.md|works? 
+      (?:with|across) (?:multiple|different|any) (?:agent|tool))

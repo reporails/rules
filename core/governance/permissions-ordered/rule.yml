@@ -1,0 +1,13 @@
+rules:
+- id: CORE.G.0003.has_permission_section
+  message: Permission section not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?i)(?:(?:allowed|permitted|approved)[_\s-]?(?:tools?|commands?|operations?)|permissions?\s*:|\bpermission)

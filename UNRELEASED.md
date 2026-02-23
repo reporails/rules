@@ -12,6 +12,8 @@
 - [SCHEMAS]: Added `internal` source type to sources schema
 - [SCHEMAS]: Agent config examples updated to use arrays for `main_instruction_file`
 
+- [RULES]: Expanded core rule catalog — 32 content, 36 structure, 7 context_quality, 5 efficiency, 9 governance, 1 maintenance rules with definitions, patterns, and pass/fail fixtures
+
 ## Removed
 
 - [RULES]: Deprecated core rules: avoid-generic-placeholder-content, boundary-constraints, include-project-context, project-architecture-documentation, verification-build-commands, cross-agent-compatibility, valid-glob-patterns-in-frontmatter, valid-internal-references, monorepo-nested-instruction-files, root-instruction-file-presence, structured-markdown-format

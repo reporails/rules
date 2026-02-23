@@ -1,0 +1,16 @@
+rules:
+- id: CORE.C.0008.has_validation_section
+  message: Validation section not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  patterns:
+  - pattern-regex: 
+      (?i)(?:tests?|lints?|checks?|validat|verify|ci|pre.?commit|pre.?push|quality)\b
+  - pattern-not-regex: 
+      (?i)(?:^#{1,3}\s+(?:valid|verif|check|pre.?commit|qa|ci)|\b(?:before 
+      (?:commit|push|submit)|run (?:these|the following) 
+      (?:checks|tests)|validation|pre-commit|pre-push|quality check)\b)

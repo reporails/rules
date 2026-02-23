@@ -1,0 +1,15 @@
+rules:
+- id: CORE.C.0005.has_testing_content
+  message: Testing content not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?i)(?:test(?:ing|s)?\s+(?:framework|command|convention|pattern|suite)|(?:pytest|jest|mocha|vitest|rspec|junit|go
+      test|cargo 
+      test)|(?:run|execute)\s+tests?|test\s+(?:directory|file|layout))

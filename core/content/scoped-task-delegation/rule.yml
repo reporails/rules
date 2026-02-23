@@ -1,0 +1,16 @@
+rules:
+- id: CORE.C.0006.extract_delegation_content
+  message: Delegation content not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  patterns:
+  - pattern-regex: (?i)\b(?:sub[- 
+      ]?agent|delegat|spawn|parallel|background|multi[- 
+      ]?agent|autonomous|worker|orchestrat)\b
+  - pattern-not-regex: (?i)(?:sub[- 
+      ]?(?:agent|task)|delegat(?:e|ion)|spawn|parallel|background|(?:task|agent)
+      (?:scope|boundary|limit))

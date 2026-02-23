@@ -1,0 +1,12 @@
+rules:
+- id: CORE.E.0005.extract_all_content
+  message: All content not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: .+

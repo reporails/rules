@@ -1,0 +1,10 @@
+rules:
+- id: CORE.S.0003.no_deeply_nested_headings
+  message: No deeply nested headings
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  pattern-regex: ^#{5,6}\s+

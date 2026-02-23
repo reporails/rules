@@ -1,0 +1,12 @@
+rules:
+- id: CORE.S.0028.handler_has_type
+  message: Handler has type not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{settings_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: '"type"\s*:\s*"(command|prompt|agent)"'

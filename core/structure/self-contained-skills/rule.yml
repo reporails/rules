@@ -1,0 +1,13 @@
+rules:
+- id: CORE.S.0018.has_skill_entry_point
+  message: Skill entry point not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{skills_dir}}/**/*.md'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?i)(?:^#{1,3}\s+(?:process|workflow|steps|interface|inputs|outputs))

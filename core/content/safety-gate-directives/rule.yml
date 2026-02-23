@@ -1,0 +1,15 @@
+rules:
+- id: CORE.C.0022.has_safety_directives
+  message: Safety directives not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  patterns:
+  - pattern-regex: 
+      (?i)\b(?:git\b|push|deploy|delete|rm\b|remove|drop|force|reset|overwrite|destroy|production|database|credential|secret|permission|sudo)\b
+  - pattern-not-regex: 
+      (?i)(?:(?:confirm|ask|approval|permission|verify)\s+before|(?:never|do 
+      not|don't)\s+(?:delete|remove|overwrite|force|push|drop|destroy)|risky|destructive|dangerous|irreversible)
