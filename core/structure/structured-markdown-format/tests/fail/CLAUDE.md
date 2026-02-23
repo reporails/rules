@@ -1,1 +1,0 @@
-This project uses npm for building. You should run npm run build to build it. For testing we use jest and you can run npm test with the coverage flag. The linter is eslint and prettier combined. We prefer named exports and our error responses use an error and code shape.

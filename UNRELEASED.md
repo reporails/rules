@@ -12,6 +12,11 @@
 - [SCHEMAS]: Added `internal` source type to sources schema
 - [SCHEMAS]: Agent config examples updated to use arrays for `main_instruction_file`
 
+## Removed
+
+- [RULES]: Deprecated core rules: avoid-generic-placeholder-content, boundary-constraints, include-project-context, project-architecture-documentation, verification-build-commands, cross-agent-compatibility, valid-glob-patterns-in-frontmatter, valid-internal-references, monorepo-nested-instruction-files, root-instruction-file-presence, structured-markdown-format
+- [RULES]: Deprecated agent rules: CLAUDE import-syntax-for-modular-content, path-scoped-rules, rules-directory-for-modular-instructions; CODEX combined-instruction-size-limit; COPILOT copilot-instructions-placement, copilot-path-specific-instructions
+
 ## Fixed
 
 - [AGENTS]: Claude config exclude coordinate corrected from `CORE:G:0001` to `CORE:C:0026`
