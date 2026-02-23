@@ -5,91 +5,146 @@ description: Load project context — backbone, registry, and constraints — be
 
 # /bootstrap
 
-Initialize session context by reading the foundational files that all other skills and tasks depend on.
+Initialize session context by building a working mental model of the project — topology, navigation, operations, and constraints.
 
 ## Usage
 
 ```
-/bootstrap [--verbose]
+/bootstrap
 ```
-
-- `--verbose`: Print summaries of each loaded file instead of just confirmation
-
-## When to Use
-
-- At the start of every session before doing any work
-- After switching branches (context may have shifted)
-- When you're unsure whether foundational context is loaded
 
 ## Workflow
 
+Follow: [@.shared/workflows/bootstrap.md](../../../.shared/workflows/bootstrap.md)
+
 ### 1. Load backbone (project topology)
 
-Read `.reporails/backbone.yml`. This is the single source of truth for:
-- Agent configurations and instruction file locations
-- Rule directory patterns and category paths
-- Schema file paths
-- Registry file paths
-- Shared knowledge and workflow locations
+Read `.reporails/backbone.yml`. This is the single source of truth for all paths in the project. After this step you MUST NOT use exploratory commands (find, ls, glob) to discover paths the backbone already provides.
 
-**After this step you MUST NOT use exploratory commands (find, ls, glob) to discover paths the backbone already provides.**
+Extract and hold:
+- **Agents**: which agents exist, their config paths, their instruction file names
+- **Rule categories**: the category → directory mapping (e.g., `structure` → `core/structure/`)
+- **Schemas**: the schema name → path mapping (8 schemas)
+- **Registry**: capabilities, levels, coordinate map, tombstones paths
 
 ### 2. Load registry (architecture)
 
-Read these two files from paths resolved via backbone:
+Read from backbone-resolved paths:
 
-| Backbone Key | File | Purpose |
-|---|---|---|
-| `registry.capabilities` | `registry/capabilities.yml` | Capability taxonomy — what each level requires |
-| `registry.levels` | `registry/levels.yml` | Level definitions — L0 through L6 progression |
+| Backbone Key | Purpose |
+|---|---|
+| `registry.capabilities` | Capability taxonomy — what features each level requires |
+| `registry.levels` | Level definitions — L0 through L6 progression |
 
-These define the scoring and evaluation model that all rules target.
+Build understanding: levels are the horizontal axis (which rules apply), score is the vertical axis (pass-rate against applicable rules). Level is INPUT to rule selection, not output of scoring.
 
 ### 3. Load coordinate map (rule index)
 
 Read `registry/coordinate-map.yml` (from `backbone.registry.coordinate_map`).
 
-This maps every rule slug to its coordinate (e.g., `instruction-file-exists: "CORE:S:0001"`). Required for:
-- Resolving coordinates to filesystem paths
-- Detecting gaps or duplicates when creating rules
-- Understanding what rules exist in each category
+Establish the resolution chain:
+```
+Coordinate (e.g., CORE:S:0001)
+  → coordinate-map → slug (e.g., root-instruction-file-exists)
+  → backbone.rules.categories.{cat} → base path (e.g., core/structure/)
+  → base path + slug + "/" → rule directory
+```
+
+Count rules per category for the report. Flag any coordinate-map entries whose directories don't exist.
 
 ### 4. Load task-scoped constraints
 
 Read all files in `.claude/rules/`:
 
-| File | Scope |
+| File | Constraint |
 |---|---|
 | `core-rules.md` | Coordinate map sync after rule changes |
 | `schemas.md` | Backbone schema sync after schema changes |
 | `skills.md` | Backbone path resolution for skills |
 
-These are context-specific constraints that apply during the session.
+These are active constraints — they apply to every operation in this session.
 
 ### 5. Check project state
 
-Read `VERSION` and `UNRELEASED.md` to understand:
-- Current version number
-- What changes are already staged for the next release
-- Which areas have been recently modified
+Read `VERSION` and `UNRELEASED.md`:
+- Current version number and branch name
+- What changes are staged for next release, grouped by area
+- Whether unreleased changes overlap with any area the agent might touch
 
-### 6. Confirm readiness
+### 6. Report understanding
 
-Report what was loaded:
+Produce a synthesized context report:
 
 ```
 Bootstrap complete.
-- Backbone: v{version}, {n} schemas, {n} registry files
-- Capabilities: {n} capabilities across {n} levels
-- Coordinate map: {n} rules indexed
-- Constraints: {n} rule files loaded
-- Version: {version}, {n} unreleased changes
+
+Project: Reporails Framework v{version} (branch: {branch})
+Rules: {total} ({n} structure, {n} content, {n} context_quality, {n} efficiency, {n} governance, {n} maintenance, {n} agent)
+Levels: L0-L6, {n} capabilities
+Agents: {list from backbone.agents}
+
+Navigation:
+  Coordinate → path: coordinate-map → slug → backbone.rules.categories.{cat}/{slug}/
+  Schemas: backbone.schemas.{name}
+  Agent config: backbone.agents.{agent}.config
+
+Operations:
+  Create rule     → /generate-rule (skeleton + coordinate assignment)
+  Implement rule  → /implement-rule (checks, patterns, fixtures)
+  Test rules      → /test-rules (docker compose local harness, runs fixtures)
+  Validate rules  → /validate-rules (schema + contract validation)
+
+Constraints active:
+  - {constraint summary from each .claude/rules/ file}
+
+Unreleased: {count} changes ({areas touched})
+```
+
+## Examples
+
+```
+> /bootstrap
+
+Bootstrap complete.
+
+Project: Reporails Framework v0.4.1 (branch: 0.5.0)
+Rules: 101 (36 structure, 32 content, 7 context_quality, 5 efficiency, 9 governance, 1 maintenance, 16 agent)
+Levels: L0-L6, 12 capabilities
+Agents: claude, codex, copilot, generic
+
+Navigation:
+  Coordinate → path: coordinate-map → slug → backbone.rules.categories.{cat}/{slug}/
+  Schemas: backbone.schemas.{name}
+  Agent config: backbone.agents.{agent}.config
+
+Operations:
+  Create rule     → /generate-rule
+  Implement rule  → /implement-rule
+  Test rules      → /test-rules (docker local harness)
+  Validate rules  → /validate-rules (schema contracts)
+
+Constraints active:
+  - Coordinate map sync required after rule changes
+  - Backbone schema sync required after schema changes
+  - Skills must resolve paths from backbone
+
+Unreleased: 16 changes (schemas, agents, meta, docs)
 ```
 
 ## Reference
 
-- Backbone: [.reporails/backbone.yml](../../../.reporails/backbone.yml)
-- Path resolution: [@.shared/knowledge/backbone-resolution.md](../../../.shared/knowledge/backbone-resolution.md)
-- Capabilities: [registry/capabilities.yml](../../../registry/capabilities.yml)
-- Levels: [registry/levels.yml](../../../registry/levels.yml)
-- Coordinate map: [registry/coordinate-map.yml](../../../registry/coordinate-map.yml)
+- Backbone: `.reporails/backbone.yml` — project topology, all path resolution
+- Path resolution: `.shared/knowledge/backbone-resolution.md` — coordinate-to-path algorithm
+- Capabilities: `registry/capabilities.yml` — capability taxonomy per level
+- Levels: `registry/levels.yml` — L0-L6 progression definitions
+- Coordinate map: `registry/coordinate-map.yml` — slug-to-coordinate index
+
+## Quick Reference
+
+| Question | Answer |
+|---|---|
+| How do I find a rule by coordinate? | coordinate-map → slug → `backbone.rules.categories.{cat}/{slug}/` |
+| How do I test rules? | `/test-rules` — docker compose local harness, runs pass/fail fixtures |
+| How do I validate rules against schema? | `/validate-rules` — schema + contract checks |
+| What schemas exist? | `backbone.schemas` — 8 schemas (rule, capability, levels, agent, package, project, sources, user) |
+| What constraints apply? | `.claude/rules/` — core-rules.md, schemas.md, skills.md |

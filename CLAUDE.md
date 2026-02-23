@@ -32,27 +32,16 @@ Defined in `.reporails/backbone.yml` — the single source of truth for project 
 
 ### Test Harness
 
+Run `/test-rules` or use docker compose directly. Two harnesses exist:
+
 ```bash
-# Build test image
-docker compose -f runtime/docker-compose.yml build
+# Local harness (mounts local cli/ source) — use during development
+docker compose -f runtime/docker-compose.yml -f runtime/docker-compose.dev.yml run --rm test
+docker compose -f runtime/docker-compose.yml -f runtime/docker-compose.dev.yml run --rm test --rule CORE:S:0001
+docker compose -f runtime/docker-compose.yml -f runtime/docker-compose.dev.yml run --rm test --verbose
 
-# Run all rules
+# CI harness (installs reporails-cli from PyPI) — mirrors CI pipeline
 docker compose -f runtime/docker-compose.yml run --rm test
-
-# Run one rule
-docker compose -f runtime/docker-compose.yml run --rm test --rule CORE:S:0001
-
-# Run one category
-docker compose -f runtime/docker-compose.yml run --rm test core/structure/
-
-# Use codex agent vars
-docker compose -f runtime/docker-compose.yml run --rm test --agent codex
-
-# Include recommended package
-docker compose -f runtime/docker-compose.yml run --rm test --package /recommended
-
-# Verbose
-docker compose -f runtime/docker-compose.yml run --rm test --verbose
 ```
 
 ## Navigation
@@ -103,6 +92,7 @@ Skills in `.claude/skills/` — each has a SKILL.md linking to shared workflows.
 | `/bootstrap` | Load project context — backbone, registry, and constraints — before any work |
 | `/generate-rule` | Create rule skeleton with coordinate, directory, and placeholder files |
 | `/implement-rule` | Implement checks, patterns, and fixtures for an existing rule skeleton |
+| `/test-rules` | Run rules against pass/fail fixtures using the local CLI |
 | `/validate-rules` | Validate rules against schema and contracts |
 | `/manage-levels` | Sync level definitions with capability model |
 | `/manage-agent-config` | Create, update, and validate agent configurations |

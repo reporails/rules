@@ -5,6 +5,9 @@
 - [META]: Pre-commit hook enforces UNRELEASED.md is staged for core/, agents/, schemas/, registry/, docs/ changes
 
 - [REGISTRY]: Rebuilt coordinate map for expanded 0.5.0 rule catalog (102 entries across core + agents)
+- [SKILLS]: Redesigned `/bootstrap` — synthesized context output (navigation, operations, constraints) instead of file counts
+- [SKILLS]: Added bootstrap workflow at `.shared/workflows/bootstrap.md` (mermaid flowchart + key decisions)
+- [SKILLS]: Added `/test-rules` skill for docker compose test harness
 
 ## Changed
 

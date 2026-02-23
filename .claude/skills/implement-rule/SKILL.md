@@ -152,9 +152,9 @@ Remove `.gitkeep` from directories that now have real fixture content.
 
 ### 7. Verify
 
-Run the test harness:
+Run the test harness (`/test-rules`):
 ```bash
-docker compose -f runtime/docker-compose.yml run --rm test --rule <coordinate>
+docker compose -f runtime/docker-compose.yml -f runtime/docker-compose.dev.yml run --rm test --rule <coordinate> --verbose
 ```
 - All checks must pass for both pass and fail fixtures
 - If test fails: re-examine the violation class analysis (step 3), not just the regex. The pattern may be structurally wrong, not just syntactically wrong.
