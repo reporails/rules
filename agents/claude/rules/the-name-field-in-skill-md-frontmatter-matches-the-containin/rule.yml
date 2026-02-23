@@ -1,0 +1,12 @@
+rules:
+- id: CLAUDE.S.0002.name_matches_dir
+  message: Name matches dir not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{skills_dir}}/**/*.md'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: name:\s+[a-z][a-z0-9]*(?:-[a-z0-9]+)*

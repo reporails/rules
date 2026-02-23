@@ -13,6 +13,7 @@
 - [SCHEMAS]: Agent config examples updated to use arrays for `main_instruction_file`
 
 - [RULES]: Expanded core rule catalog — 32 content, 36 structure, 7 context_quality, 5 efficiency, 9 governance, 1 maintenance rules with definitions, patterns, and pass/fail fixtures
+- [RULES]: Added agent-specific rules — 8 Claude (hooks, skills), 2 Codex (file priority, skill structure), 2 Copilot (applyTo scope, setup steps)
 
 ## Removed
 

@@ -1,0 +1,12 @@
+rules:
+- id: CLAUDE.S.0004.command_hook_has_command
+  message: Command hook has command not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{settings_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: '"command"\s*:\s*"[^"]+"'

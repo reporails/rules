@@ -1,0 +1,12 @@
+rules:
+- id: COPILOT.S.0002.has_steps_array
+  message: Steps array not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: '(?:^|\n)steps\s*:'
