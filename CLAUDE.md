@@ -12,7 +12,7 @@ Framework for evaluating and maintaining AI agent instruction files.
 
 ## Initialization
 
-Read these files before searching or modifying anything:
+Run `/bootstrap` to load project context, or manually read these files before searching or modifying anything:
 
 1. Read `.reporails/backbone.yml` for project structure and path resolution
 2. Read `registry/capabilities.yml` and `registry/levels.yml` for architecture
@@ -100,6 +100,7 @@ Skills in `.claude/skills/` — each has a SKILL.md linking to shared workflows.
 
 | Skill | Purpose |
 |-------|---------|
+| `/bootstrap` | Load project context — backbone, registry, and constraints — before any work |
 | `/generate-rule` | Create rule skeleton with coordinate, directory, and placeholder files |
 | `/implement-rule` | Implement checks, patterns, and fixtures for an existing rule skeleton |
 | `/validate-rules` | Validate rules against schema and contracts |

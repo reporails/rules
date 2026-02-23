@@ -1,2 +1,0 @@
-# Don't ignore test files - we need to scan them
-!**/tests/
