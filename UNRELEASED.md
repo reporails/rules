@@ -4,6 +4,8 @@
 
 - [META]: Pre-commit hook enforces UNRELEASED.md is staged for core/, agents/, schemas/, registry/, docs/ changes
 
+- [REGISTRY]: Rebuilt coordinate map for expanded 0.5.0 rule catalog (102 entries across core + agents)
+
 ## Changed
 
 - [SCHEMAS]: Added `context_quality` category (letter `X`) to coordinate patterns and category enums

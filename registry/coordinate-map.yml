@@ -2,28 +2,115 @@
 version: 1
 core:
   content:
-    avoid-generic-placeholder-content: CORE:C:0004
-    boundary-constraints: CORE:C:0005
-    include-project-context: CORE:C:0001
-    project-architecture-documentation: CORE:C:0003
-    verification-build-commands: CORE:C:0002
+    file-includes-security-requirements-constraints-or-patterns-: CORE:C:0011
+    instruction-file-contains-mermaid-diagram-blocks-to-visualiz: CORE:C:0031
+    instruction-file-documents-testing-framework-test-commands-a: CORE:C:0005
+    instruction-file-does-not-contain-temporary-task-specific-or: CORE:C:0029
+    main-instruction-file-avoids-embedding-agent-specific-config: RRAILS:C:0001
+    actionable-instructions: "CORE:C:0001"
+    instruction-rationale-present: "CORE:C:0002"
+    iterative-work-directive: "CORE:C:0003"
+    plan-first-directive: "CORE:C:0004"
+    scoped-task-delegation: "CORE:C:0006"
+    workflow-definitions: "CORE:C:0007"
+    validation-commands-present: "CORE:C:0008"
+    ask-rather-than-guess: "CORE:C:0009"
+    build-and-test-commands: "CORE:C:0010"
+    coding-conventions: "CORE:C:0012"
+    project-description-present: "CORE:C:0013"
+    agent-role-defined: "CORE:C:0014"
+    standard-named-sections: "CORE:C:0015"
+    code-block-examples-present: "CORE:C:0016"
+    no-inline-style-rules: "CORE:C:0017"
+    constraint-keywords-present: "CORE:C:0018"
+    explicit-prohibitions: "CORE:C:0019"
+    detailed-command-examples: "CORE:C:0020"
+    command-workflow-documented: "CORE:C:0021"
+    safety-gate-directives: "CORE:C:0022"
+    error-handling-guidance: "CORE:C:0023"
+    domain-terminology-used: "CORE:C:0024"
+    output-format-specified: "CORE:C:0025"
+    cross-agent-compatibility: "CORE:C:0026"
+    mcp-configuration-documented: "CORE:C:0027"
+    explain-change-reasoning: "CORE:C:0028"
+    no-auto-generated-boilerplate: "CORE:C:0030"
+    agent-neutral-main-file: "CORE:C:0032"
+  efficiency:
+    related-instructions-are-grouped-together-rather-than-scatte: CORE:E:0005
+    static-stable-content-appears-before-dynamic-variable-conten: CORE:E:0004
+    total-instruction-file-size-including-imports-stays-within-r: CORE:E:0001
+    instruction-file-size-limit: "CORE:E:0002"
+    non-redundant-content: "CORE:E:0003"
   governance:
-    cross-agent-compatibility: CORE:G:0001
+    file-defines-forbidden-commands-or-operational-safety-bounda: CORE:G:0004
+    hook-shell-commands-reference-claude-project-dir-instead-of-: CORE:G:0005
+    instruction-files-are-tracked-in-version-control: CORE:G:0001
+    managed-enterprise-config-exists-that-enforces-policies-user: CORE:G:0007
+    mcp-config-file-declares-servers-with-tool-allowlists-or-sco: CORE:G:0009
+    permission-configuration-explicitly-denies-access-to-sensiti: CORE:G:0006
+    project-configuration-is-self-contained-and-does-not-rely-on: CORE:G:0008
+    no-credentials-in-file: "CORE:G:0002"
+    permissions-ordered: "CORE:G:0003"
   maintenance:
-    valid-glob-patterns-in-frontmatter: CORE:M:0002
-    valid-internal-references: CORE:M:0001
+    freshness-marker-present: "CORE:M:0001"
   structure:
-    monorepo-nested-instruction-files: CORE:S:0002
-    root-instruction-file-presence: CORE:S:0001
-    structured-markdown-format: CORE:S:0003
-  efficiency: {}
+    agent-memory-learned-context-is-stored-in-a-dedicated-direct: CORE:S:0031
+    codex-reads-agents-override-md-first-then-agents-md-then-fal: CORE:S:0034
+    codex-skill-directory-contains-agents-openai-yaml-with-displ: CORE:S:0036
+    hook-configuration-uses-recognized-event-type-names-as-keys: CORE:S:0026
+    hook-handler-objects-in-settings-json-contain-a-type-field-w: CORE:S:0028
+    hook-handlers-with-type-command-contain-a-command-field-with: CORE:S:0025
+    hook-handlers-with-type-prompt-or-agent-contain-a-prompt-fie: CORE:S:0029
+    skill-directory-names-follow-kebab-case-convention: CORE:S:0019
+    skill-folder-does-not-contain-readme-md-all-documentation-go: CORE:S:0020
+    skill-yaml-frontmatter-description-field-is-under-1024-chara: CORE:S:0022
+    the-name-field-in-skill-md-frontmatter-matches-the-containin: CORE:S:0021
+    import-references-used: "CORE:S:0001"
+    section-headers-present: "CORE:S:0002"
+    shallow-heading-hierarchy: "CORE:S:0003"
+    exact-filename-convention: "CORE:S:0004"
+    identity-fields-in-frontmatter: "CORE:S:0005"
+    frontmatter-block-present: "CORE:S:0006"
+    root-instruction-file-exists: "CORE:S:0007"
+    expected-directories-exist: "CORE:S:0008"
+    instruction-file-uses-valid-markdown-syntax-without-structur: "CORE:S:0009"
+    modular-file-organization: "CORE:S:0010"
+    child-nested-instruction-files-extend-parent-scope-without-c: "CORE:S:0011"
+    agent-documents-which-filenames-are-checked-and-in-what-prio: "CORE:S:0012"
+    scope-fields-in-frontmatter: "CORE:S:0013"
+    descriptive-filenames: "CORE:S:0014"
+    applyto-scope-declared: "CORE:S:0015"
+    skill-entry-point-present: "CORE:S:0016"
+    layered-content-structure: "CORE:S:0017"
+    self-contained-skills: "CORE:S:0018"
+    single-topic-per-section: "CORE:S:0023"
+    hook-event-handlers-defined: "CORE:S:0024"
+    settings-scope-declared: "CORE:S:0027"
+    local-override-file-present: "CORE:S:0030"
+    import-targets-resolve: "CORE:S:0032"
+    rules-directory-structure: "CORE:S:0033"
+    setup-steps-defined: "CORE:S:0035"
+  context_quality:
+    a-structured-project-manifest-file-exists-that-maps-director: RRAILS:X:0001
+    architecture-overview-present: "CORE:X:0001"
+    tech-stack-declared: "CORE:X:0002"
+    directory-layout-documented: "CORE:X:0003"
+    subdirectory-instruction-files: "CORE:X:0004"
+    path-scope-declared: "CORE:X:0005"
+    priority-ordering: "CORE:X:0006"
 agents:
   claude:
-    import-syntax-for-modular-content: CLAUDE:C:0001
-    path-scoped-rules: CLAUDE:S:0002
-    rules-directory-for-modular-instructions: CLAUDE:S:0001
+    hook-configuration-uses-recognized-event-type-names-as-keys: CLAUDE:S:0005
+    hook-handler-objects-in-settings-json-contain-a-type-field-w: CLAUDE:S:0006
+    hook-handlers-with-type-command-contain-a-command-field-with: CLAUDE:S:0004
+    hook-handlers-with-type-prompt-or-agent-contain-a-prompt-fie: CLAUDE:S:0007
+    hook-shell-commands-reference-claude-project-dir-instead-of-: CLAUDE:G:0001
+    skill-folder-does-not-contain-readme-md-all-documentation-go: CLAUDE:S:0001
+    skill-yaml-frontmatter-description-field-is-under-1024-chara: CLAUDE:S:0003
+    the-name-field-in-skill-md-frontmatter-matches-the-containin: CLAUDE:S:0002
   codex:
-    combined-instruction-size-limit: CODEX:S:0001
+    codex-reads-agents-override-md-first-then-agents-md-then-fal: CODEX:S:0001
+    codex-skill-directory-contains-agents-openai-yaml-with-displ: CODEX:S:0002
   copilot:
-    copilot-instructions-placement: COPILOT:S:0001
-    copilot-path-specific-instructions: COPILOT:C:0001
+    applyto-scope-declared: "COPILOT:S:0001"
+    setup-steps-defined: "COPILOT:S:0002"
