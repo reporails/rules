@@ -39,4 +39,4 @@ vars:
   memory_dir: ".claude/memory"
 
 excludes:
-  - CORE:G:0001  # Cross-agent compatibility — AGENTS.md is not a Claude surface
+  - CORE:C:0026  # Cross-agent compatibility — AGENTS.md is not a Claude surface

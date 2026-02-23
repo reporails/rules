@@ -7,6 +7,12 @@
 ## Changed
 
 - [SCHEMAS]: Added `context_quality` category (letter `X`) to coordinate patterns and category enums
+- [SCHEMAS]: Normalized agent override severity enum syntax and added `critical` value
+- [SCHEMAS]: Added pattern validation to agent config `excludes` items
+
+## Fixed
+
+- [AGENTS]: Claude config exclude coordinate corrected from `CORE:G:0001` to `CORE:C:0026`
 - [META]: Replaced all "OpenGrep" references with "regex" / "pattern matching"; runtime migrated to reporails-cli regex engine
 - [DOCS]: Renamed `docs/opengrep-guide.md` → `docs/pattern-guide.md`
 - [META]: Renamed backbone key `rules.patterns.opengrep` → `rules.patterns.patterns_yml`

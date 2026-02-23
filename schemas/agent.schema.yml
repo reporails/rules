@@ -124,6 +124,7 @@ fields:
     description: "Rule coordinates or glob patterns to exclude from resolution"
     items:
       type: string
+      pattern: "^[A-Z_]+:[SCXEMG*]:[0-9]{4}$|^[A-Z_]+:\\*$"
 
   overrides:
     required: false
@@ -133,8 +134,8 @@ fields:
       type: object
       properties:
         severity:
-          type: string
-          enum: [low, medium, high]
+          type: enum
+          values: [critical, high, medium, low]
 
 validation:
   - rule: "agent uppercase must be in reserved_agent_prefixes (see rule.schema.yml)"
@@ -161,7 +162,7 @@ examples:
         - "/etc/claude-code/managed-settings.json"
         - "/Library/Application Support/ClaudeCode/managed-settings.json"
     excludes:
-      - CORE:G:0001
+      - CORE:C:0026
 
   codex: |
     agent: codex
