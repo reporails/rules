@@ -9,6 +9,7 @@ types:
 categories:
   - structure
   - content
+  - context_quality
   - efficiency
   - maintenance
   - governance
@@ -45,11 +46,11 @@ fields:
     required: true
     type: string
     pattern:
-      core: "^CORE:[SCEMG]:[0-9]{4}$"
-      agent: "^[A-Z]+:[SCEMG]:[0-9]{4}$"
-      package: "^[A-Z]{3,}:[SCEMG]:[0-9]{4}$"
-      package_agent: "^[A-Z]{3,}_[A-Z]+:[SCEMG]:[0-9]{4}$"
-      custom: "^[A-Z]{3,}:[SCEMG]:[0-9]{4}$"
+      core: "^CORE:[SCXEMG]:[0-9]{4}$"
+      agent: "^[A-Z]+:[SCXEMG]:[0-9]{4}$"
+      package: "^[A-Z]{3,}:[SCXEMG]:[0-9]{4}$"
+      package_agent: "^[A-Z]{3,}_[A-Z]+:[SCXEMG]:[0-9]{4}$"
+      custom: "^[A-Z]{3,}:[SCXEMG]:[0-9]{4}$"
     description: "Coordinate: {REGISTRY}:{CATEGORY}:{SLOT}. Immutable, never reused."
 
   slug:
@@ -67,8 +68,8 @@ fields:
   category:
     required: true
     type: enum
-    values: [structure, content, efficiency, maintenance, governance]
-    description: "Rule concern area. Maps to category letter in coordinate: S/C/E/M/G"
+    values: [structure, content, context_quality, efficiency, maintenance, governance]
+    description: "Rule concern area. Maps to category letter in coordinate: S/C/X/E/M/G"
 
   type:
     required: true
@@ -105,7 +106,7 @@ fields:
       id:
         required: true
         type: string
-        pattern: "^[A-Z_]+\\.[SCEMG]\\.[0-9]{4}\\.[a-z][a-z0-9-]*$"
+        pattern: "^[A-Z_]+\\.[SCXEMG]\\.[0-9]{4}\\.[a-z][a-z0-9-]*$"
         description: "Check coordinate: {NAMESPACE}.{CATEGORY}.{SLOT}.{descriptive-name}"
       type:
         required: true
@@ -179,7 +180,7 @@ fields:
   supersedes:
     required: false
     type: string
-    pattern: "^[A-Z_]+:[SCEMG]:[0-9]{4}$"
+    pattern: "^[A-Z_]+:[SCXEMG]:[0-9]{4}$"
     description: "Coordinate of replaced rule. Must be lower level. 1:1 only."
 
   see_also:
@@ -188,7 +189,7 @@ fields:
     description: "Related rule coordinates for cross-referencing"
     items:
       type: string
-      pattern: "^[A-Z_]+:[SCEMG]:[0-9]{4}$"
+      pattern: "^[A-Z_]+:[SCXEMG]:[0-9]{4}$"
 
   conflicts:
     required: false
