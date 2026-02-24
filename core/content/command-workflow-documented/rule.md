@@ -15,7 +15,7 @@ backed_by:
 - developer-context-cursor-study
 - dometrain-claude-md-guide
 - osmani-ai-coding-workflow
-targets: '{{instruction_files}}'
+targets: '{{main_instruction_file}}'
 checks:
 - id: CORE.C.0021.file_in_scope
   type: mechanical

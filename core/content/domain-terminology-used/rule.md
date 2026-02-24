@@ -13,7 +13,7 @@ backed_by:
 - dometrain-claude-md-guide
 - sewell-agents-md-tips
 - spec-writing-for-agents
-targets: '{{instruction_files}}'
+targets: '{{main_instruction_file}}'
 checks:
 - id: CORE.C.0024.file_in_scope
   type: mechanical

@@ -1,12 +1,12 @@
 rules:
-- id: CORE.S.0017.has_overview_section
+- id: CORE.S.0016.has_overview_section
   message: Overview section not found
   severity: WARNING
   languages:
   - generic
   paths:
     include:
-    - '{{instruction_files}}'
+    - '{{main_instruction_file}}'
   patterns:
   - pattern-regex: (?s)\A[\s\S]+
   - pattern-not-regex: 

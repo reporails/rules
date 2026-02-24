@@ -8,7 +8,7 @@ type: deterministic
 level: L2
 backed_by:
 - building-skills-for-claude
-targets: '{{skills_dir}}/**/*.md'
+targets: '{{skill_entry_file}}'
 checks:
 - id: CLAUDE.S.0002.skill_file_exists
   type: mechanical

@@ -6,7 +6,7 @@ rules:
   - generic
   paths:
     include:
-    - '{{instruction_files}}'
+    - '{{main_instruction_file}}'
   patterns:
   - pattern-regex: 
       (?i)(?:npm|yarn|pip|cargo|make|docker|kubectl|git|run|execute|build|test|deploy)\b

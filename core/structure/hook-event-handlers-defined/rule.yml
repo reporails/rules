@@ -1,5 +1,5 @@
 rules:
-- id: CORE.S.0024.has_hook_event_types
+- id: CORE.S.0020.has_hook_event_types
   message: Hook event types not found
   severity: WARNING
   languages:

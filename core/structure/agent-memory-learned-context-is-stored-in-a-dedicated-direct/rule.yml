@@ -1,5 +1,5 @@
 rules:
-- id: CORE.S.0031.memory_content_present
+- id: CORE.S.0023.memory_content_present
   message: Memory content present not found
   severity: WARNING
   languages:

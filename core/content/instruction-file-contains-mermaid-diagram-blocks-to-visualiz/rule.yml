@@ -6,7 +6,7 @@ rules:
   - generic
   paths:
     include:
-    - '{{instruction_files}}'
+    - '{{main_instruction_file}}'
   patterns:
   - pattern-regex: 
       (?i)\b(?:workflow|pipeline|decision.tree|state.machine|flowchart|sequence|multi.step|(?:step|phase|stage)\s+\d)\b

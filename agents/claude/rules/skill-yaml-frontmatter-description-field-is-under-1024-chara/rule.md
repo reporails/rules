@@ -8,7 +8,7 @@ type: mechanical
 level: L1
 backed_by:
 - building-skills-for-claude
-targets: '{{skills_dir}}/**/*.md'
+targets: '{{skill_entry_file}}'
 checks:
 - id: CLAUDE.S.0003.skill_file_exists
   type: mechanical

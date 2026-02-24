@@ -10,7 +10,7 @@ backed_by:
 - claudemd-best-practices-mermaid-for-workflows
 - flowbench-workflow-format-benchmark
 - fowler-pushing-ai-autonomy
-targets: '{{instruction_files}}'
+targets: '{{main_instruction_file}}'
 checks:
 - id: CORE.C.0031.file_in_scope
   type: mechanical

@@ -1,5 +1,5 @@
 ---
-id: CORE:S:0033
+id: CORE:S:0025
 slug: rules-directory-structure
 title: Rules Directory Structure
 category: structure
@@ -10,12 +10,12 @@ backed_by:
 - claude-md-guide
 targets: '{{rules_dir}}/**/*.md'
 checks:
-- id: CORE.S.0033.rules_dir_exists
+- id: CORE.S.0025.rules_dir_exists
   type: mechanical
   severity: medium
   name: rules_dir_exists
   check: glob_match
-- id: CORE.S.0033.has_markdown_rule_files
+- id: CORE.S.0025.has_markdown_rule_files
   type: deterministic
   severity: medium
   name: has_markdown_rule_files

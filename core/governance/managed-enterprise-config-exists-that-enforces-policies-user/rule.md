@@ -1,5 +1,5 @@
 ---
-id: CORE:G:0007
+id: CORE:G:0006
 slug: managed-enterprise-config-exists-that-enforces-policies-user
 title: Managed/Enterprise Config Exists That Enforces Policies Users Cannot 
   Override
@@ -12,7 +12,7 @@ backed_by:
 - copilot-custom-instructions-vscode
 targets: '{{managed_config}}'
 checks:
-- id: CORE.G.0007.managed_config_exists
+- id: CORE.G.0006.managed_config_exists
   type: mechanical
   severity: low
   name: managed_config_exists

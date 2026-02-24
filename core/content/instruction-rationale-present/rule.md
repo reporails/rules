@@ -34,7 +34,7 @@ backed_by:
 - rules-directory-mechanics
 - sewell-agents-md-tips
 - spec-writing-for-agents
-targets: '{{instruction_files}}'
+targets: '{{main_instruction_file}}'
 checks:
 - id: CORE.C.0002.file_in_scope
   type: mechanical

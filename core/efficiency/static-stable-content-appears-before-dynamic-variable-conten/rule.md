@@ -17,7 +17,7 @@ backed_by:
 - lost-in-the-middle-long-contexts
 - monorepo-claude-md-organization
 - spec-writing-for-agents
-targets: '{{instruction_files}}'
+targets: '{{main_instruction_file}}'
 checks:
 - id: CORE.E.0004.file_in_scope
   type: mechanical

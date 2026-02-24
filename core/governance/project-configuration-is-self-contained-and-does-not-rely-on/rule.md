@@ -1,5 +1,5 @@
 ---
-id: CORE:G:0008
+id: CORE:G:0007
 slug: project-configuration-is-self-contained-and-does-not-rely-on
 title: Project Configuration Is Self Contained And Does Not Rely On User Level 
   Settings
@@ -10,16 +10,16 @@ backed_by:
 - claude-code-settings
 targets: '{{main_instruction_file}}'
 checks:
-- id: CORE.G.0008.file_in_scope
+- id: CORE.G.0007.file_in_scope
   type: mechanical
   severity: medium
   name: file_in_scope
   check: file_exists
-- id: CORE.G.0008.extract_settings_refs
+- id: CORE.G.0007.extract_settings_refs
   type: deterministic
   severity: medium
   name: extract_settings_refs
-- id: CORE.G.0008.no_user_dependency
+- id: CORE.G.0007.no_user_dependency
   type: semantic
   severity: medium
   name: no_user_dependency

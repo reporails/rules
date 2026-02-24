@@ -37,7 +37,7 @@ backed_by:
 - sewell-codex-vs-claude
 - spec-writing-for-agents
 - using-claude-md-files
-targets: '{{instruction_files}}'
+targets: '{{main_instruction_file}}'
 checks:
 - id: CORE.S.0004.filename_matches_convention
   type: mechanical

@@ -21,15 +21,10 @@ checks:
   severity: high
   name: file_in_scope
   check: file_exists
-- id: CORE.C.0017.extract_inline_style_rules
+- id: CORE.C.0017.no_inline_style_rules
   type: deterministic
   severity: high
-  name: extract_inline_style_rules
-- id: CORE.C.0017.no_style_ruleset_embedded
-  type: mechanical
-  severity: high
-  name: no_style_ruleset_embedded
-  check: count_at_most
+  name: no_inline_style_rules
 ---
 
 # No Inline Style Rules
@@ -41,15 +36,17 @@ Instruction files MUST code style belongs in linter config files, not instructio
 ### Pass
 
 ````
-Indentation with 4 spaces.
+# Project Setup
+Run npm install to set up the project.
+Use the provided Makefile for builds.
 ````
 
 ### Fail
 
 ````
-# Project Setup
-Run npm install to set up the project.
-Use the provided Makefile for builds.
+# Code Style
+Indentation with 4 spaces.
+Use tabs for indent blocks.
 ````
 
 ## Limitations

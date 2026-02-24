@@ -21,7 +21,7 @@ backed_by:
 - openai-codex-own-agents-md
 - osmani-ai-coding-workflow
 - spec-writing-for-agents
-targets: '{{instruction_files}}'
+targets: '{{main_instruction_file}}'
 checks:
 - id: CORE.E.0001.file_in_scope
   type: mechanical

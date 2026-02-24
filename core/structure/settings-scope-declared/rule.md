@@ -1,5 +1,5 @@
 ---
-id: CORE:S:0027
+id: CORE:S:0021
 slug: settings-scope-declared
 title: Settings Scope Declared
 category: structure
@@ -11,12 +11,12 @@ backed_by:
 - enterprise-claude-usage
 targets: '{{settings_file}}'
 checks:
-- id: CORE.S.0027.settings_file_exists
+- id: CORE.S.0021.settings_file_exists
   type: mechanical
   severity: medium
   name: settings_file_exists
   check: file_exists
-- id: CORE.S.0027.has_config_keys
+- id: CORE.S.0021.has_config_keys
   type: deterministic
   severity: medium
   name: has_config_keys

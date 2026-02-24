@@ -19,6 +19,7 @@ vars:
 
   # Skills
   skills_dir: ".agents/skills"
+  skill_entry_file: ".agents/skills/**/SKILL.md"
 
   # Limits
   token_budget: "32KB"

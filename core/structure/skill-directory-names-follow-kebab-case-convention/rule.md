@@ -1,5 +1,5 @@
 ---
-id: CORE:S:0019
+id: CORE:S:0018
 slug: skill-directory-names-follow-kebab-case-convention
 title: Skill Directory Names Follow Kebab Case Convention
 category: structure
@@ -7,14 +7,14 @@ type: deterministic
 level: L2
 backed_by:
 - building-skills-for-claude
-targets: '{{skills_dir}}/**/*.md'
+targets: '{{skill_entry_file}}'
 checks:
-- id: CORE.S.0019.file_in_scope
+- id: CORE.S.0018.file_in_scope
   type: mechanical
   severity: medium
   name: file_in_scope
   check: file_exists
-- id: CORE.S.0019.kebab_case_names
+- id: CORE.S.0018.kebab_case_names
   type: deterministic
   severity: medium
   name: kebab_case_names

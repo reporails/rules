@@ -1,5 +1,5 @@
 rules:
-- id: CORE.S.0027.has_config_keys
+- id: CORE.S.0021.has_config_keys
   message: Config keys not found
   severity: WARNING
   languages:

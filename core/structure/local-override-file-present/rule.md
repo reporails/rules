@@ -1,5 +1,5 @@
 ---
-id: CORE:S:0030
+id: CORE:S:0022
 slug: local-override-file-present
 title: Local Override File Present
 category: structure
@@ -15,12 +15,12 @@ backed_by:
 - openai-codex-own-agents-md
 targets: '{{local_file}}'
 checks:
-- id: CORE.S.0030.local_override_exists
+- id: CORE.S.0022.local_override_exists
   type: mechanical
   severity: medium
   name: local_override_exists
   check: file_exists
-- id: CORE.S.0030.gitignore_has_local_override
+- id: CORE.S.0022.gitignore_has_local_override
   type: deterministic
   severity: medium
   name: gitignore_has_local_override

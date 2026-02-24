@@ -12,7 +12,7 @@ backed_by:
 - codex-prompting-guide
 - copilot-custom-instructions-vscode
 - openai-codex-own-agents-md
-targets: '{{instruction_files}}'
+targets: '{{main_instruction_file}}'
 checks:
 - id: CORE.S.0012.discovery_documented
   type: deterministic

@@ -1,5 +1,5 @@
 rules:
-- id: CORE.S.0030.gitignore_has_local_override
+- id: CORE.S.0022.gitignore_has_local_override
   message: Gitignore has local override not found
   severity: WARNING
   languages:

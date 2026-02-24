@@ -22,10 +22,6 @@ checks:
   type: deterministic
   severity: high
   name: no_broken_headings
-- id: CORE.S.0009.no_unclosed_code_blocks
-  type: deterministic
-  severity: high
-  name: no_unclosed_code_blocks
 ---
 
 # Instruction File Uses Valid Markdown Syntax Without Structural Errors

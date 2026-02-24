@@ -6,7 +6,7 @@ rules:
   - generic
   paths:
     include:
-    - '{{instruction_files}}'
+    - '{{main_instruction_file}}'
   patterns:
   - pattern-regex: 
       (?i)\b(?:output|response|reply|message|format|verbose|concise|template|markdown|json|yaml)\b

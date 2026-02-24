@@ -1,5 +1,5 @@
 ---
-id: CORE:S:0016
+id: CORE:S:0015
 slug: skill-entry-point-present
 title: Skill Entry Point Present
 category: structure
@@ -13,14 +13,14 @@ backed_by:
 - codex-skills-shell-compaction
 - enterprise-claude-usage
 - fowler-context-engineering-agents
-targets: '{{skills_dir}}/**/*.md'
+targets: '{{skill_entry_file}}'
 checks:
-- id: CORE.S.0016.skill_file_exists
+- id: CORE.S.0015.skill_file_exists
   type: mechanical
   severity: medium
   name: skill_file_exists
   check: file_exists
-- id: CORE.S.0016.has_required_sections
+- id: CORE.S.0015.has_required_sections
   type: deterministic
   severity: medium
   name: has_required_sections

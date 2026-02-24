@@ -6,7 +6,7 @@ rules:
   - generic
   paths:
     include:
-    - '{{instruction_files}}'
+    - '{{main_instruction_file}}'
   patterns:
   - pattern-regex: 
       (?i)\b(?:git\b|push|deploy|delete|rm\b|remove|drop|force|reset|overwrite|destroy|production|database|credential|secret|permission|sudo)\b

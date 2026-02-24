@@ -19,6 +19,10 @@ vars:
     - ".github/instructions/**/*.instructions.md"
   rules_dir: ".github/instructions"
 
+  # Skills
+  skills_dir: ".github/skills"
+  skill_entry_file: ".github/skills/**/SKILL.md"
+
 excludes:
   - CLAUDE:*     # All Claude-specific rules excluded
   - CODEX:*      # All Codex-specific rules excluded

@@ -1,5 +1,5 @@
 rules:
-- id: CORE.G.0006.mentions_deny_policy
+- id: CORE.G.0005.mentions_deny_policy
   message: Mentions deny policy not found
   severity: WARNING
   languages:

@@ -1,5 +1,5 @@
 rules:
-- id: CORE.S.0032.extract_import_refs
+- id: CORE.S.0024.extract_import_refs
   message: Import refs not found
   severity: ERROR
   languages:

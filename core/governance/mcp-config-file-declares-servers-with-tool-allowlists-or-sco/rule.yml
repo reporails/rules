@@ -1,5 +1,5 @@
 rules:
-- id: CORE.G.0009.server_declarations
+- id: CORE.G.0008.server_declarations
   message: Server declarations not found
   severity: WARNING
   languages:

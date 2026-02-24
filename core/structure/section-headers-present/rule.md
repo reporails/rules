@@ -19,7 +19,7 @@ backed_by:
 - copilot-coding-agent-tasks
 - openai-codex-own-agents-md
 - spec-writing-for-agents
-targets: '{{instruction_files}}'
+targets: '{{main_instruction_file}}'
 checks:
 - id: CORE.S.0002.file_in_scope
   type: mechanical

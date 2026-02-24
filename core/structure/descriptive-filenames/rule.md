@@ -17,7 +17,7 @@ backed_by:
 - rules-directory-mechanics
 - spec-writing-for-agents
 - using-claude-md-files
-targets: '{{instruction_files}}'
+targets: '{{main_instruction_file}}'
 checks:
 - id: CORE.S.0014.file_in_scope
   type: mechanical

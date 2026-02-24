@@ -65,6 +65,11 @@ fields:
         required: false
         type: string
         description: "Skills directory path (e.g., '.claude/skills', '.agents/skills')"
+      skill_entry_file:
+        required: false
+        type:
+          oneOf: [string, array]
+        description: "Skill entry point file glob(s) within skills_dir (e.g., '**/SKILL.md')"
 
       # --- Configuration ---
       settings_file:
@@ -155,6 +160,7 @@ examples:
       supplementary_files: ".claude/rules/**/*.md"
       rules_dir: ".claude/rules"
       skills_dir: ".claude/skills"
+      skill_entry_file: ".claude/skills/**/SKILL.md"
       settings_file: ".claude/settings.json"
       mcp_config: ".mcp.json"
       local_file: "CLAUDE.local.md"
@@ -178,6 +184,7 @@ examples:
         - "**/AGENTS.override.md"
       override_file: "AGENTS.override.md"
       skills_dir: ".agents/skills"
+      skill_entry_file: ".agents/skills/**/SKILL.md"
       token_budget: "32KB"
       fallback_filenames:
         - "TEAM_GUIDE.md"
@@ -196,6 +203,8 @@ examples:
         - ".github/instructions/**/*.instructions.md"
       supplementary_files: ".github/instructions/**/*.instructions.md"
       rules_dir: ".github/instructions"
+      skills_dir: ".github/skills"
+      skill_entry_file: ".github/skills/**/SKILL.md"
 
   cursor: |
     agent: cursor
@@ -210,3 +219,5 @@ examples:
         - ".cursor/rules/**/*.mdc"
       supplementary_files: ".cursor/rules/**/*.mdc"
       rules_dir: ".cursor/rules"
+      skills_dir: ".cursor/skills"
+      skill_entry_file: ".cursor/skills/**/SKILL.md"

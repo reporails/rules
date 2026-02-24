@@ -6,7 +6,7 @@ rules:
   - generic
   paths:
     include:
-    - '{{instruction_files}}'
+    - '{{main_instruction_file}}'
   patterns:
   - pattern-regex: (?s)\A[\s\S]+
   - pattern-not-regex: (?i)^[\s*>-]*(?:don't|do not|never|avoid|must not|should 

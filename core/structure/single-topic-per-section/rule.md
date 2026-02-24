@@ -1,5 +1,5 @@
 ---
-id: CORE:S:0023
+id: CORE:S:0019
 slug: single-topic-per-section
 title: Single Topic Per Section
 category: structure
@@ -16,18 +16,18 @@ backed_by:
 - openai-community-agents-md-optimization
 - rules-directory-mechanics
 - spec-writing-for-agents
-targets: '{{instruction_files}}'
+targets: '{{main_instruction_file}}'
 checks:
-- id: CORE.S.0023.file_in_scope
+- id: CORE.S.0019.file_in_scope
   type: mechanical
   severity: medium
   name: file_in_scope
   check: file_exists
-- id: CORE.S.0023.extract_sections
+- id: CORE.S.0019.extract_sections
   type: deterministic
   severity: medium
   name: extract_sections
-- id: CORE.S.0023.sections_are_focused
+- id: CORE.S.0019.sections_are_focused
   type: semantic
   severity: medium
   name: sections_are_focused

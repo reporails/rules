@@ -1,5 +1,5 @@
 ---
-id: CORE:S:0031
+id: CORE:S:0023
 slug: agent-memory-learned-context-is-stored-in-a-dedicated-direct
 title: Agent Memory/Learned Context Is Stored In A Dedicated Directory, Not 
   Mixed Into Instruction Files
@@ -11,12 +11,12 @@ backed_by:
 - copilot-about-coding-agent
 targets: '{{memory_dir}}'
 checks:
-- id: CORE.S.0031.memory_dir_exists
+- id: CORE.S.0023.memory_dir_exists
   type: mechanical
   severity: medium
   name: memory_dir_exists
   check: directory_exists
-- id: CORE.S.0031.memory_content_present
+- id: CORE.S.0023.memory_content_present
   type: deterministic
   severity: medium
   name: memory_content_present

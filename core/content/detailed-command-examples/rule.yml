@@ -6,7 +6,7 @@ rules:
   - generic
   paths:
     include:
-    - '{{instruction_files}}'
+    - '{{main_instruction_file}}'
   patterns:
   - pattern-regex: 
       (?:npm|yarn|pnpm|pip|poetry|uv|cargo|go|make|pytest|jest|ruff|eslint|docker|kubectl|gh|git)\b

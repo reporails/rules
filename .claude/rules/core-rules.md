@@ -1,4 +1,5 @@
 ---
+description: Coordinate map sync constraint for rule directory changes
 globs:
   - "core/**"
   - "agents/*/rules/**"
@@ -6,8 +7,19 @@ globs:
 
 # Coordinate Map Sync
 
-After creating, deleting, or renaming a rule directory, update `registry/coordinate-map.yml` to keep the mapping complete.
+This rule extends the parent scope for core and agent rule directories.
 
-Format: `slug: "COORDINATE"` (e.g., `backbone-index-completeness: "CORE:M:0004"`).
+After creating, deleting, or renaming a rule directory, update @registry/coordinate-map.yml to keep the mapping complete.
 
-See rule CORE:M:0004 for the completeness requirement.
+Format in coordinate-map.yml:
+
+```yaml
+slug: "COORDINATE"
+# e.g., backbone-index-completeness: "CORE:M:0004"
+```
+
+See CORE:M:0004 in the corresponding rule.md for the completeness requirement.
+
+Every rule directory must have these files:
+- rule.md
+- rule.yml

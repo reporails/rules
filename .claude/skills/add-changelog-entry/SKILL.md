@@ -7,7 +7,7 @@ description: Add a changelog entry to UNRELEASED.md
 
 Automatically add a changelog entry to PROJECT_ROOT/UNRELEASED.md.
 
-## Instructions
+## Process
 
 1. Check git diff or recent file modifications
 2. Determine the area from the file path:

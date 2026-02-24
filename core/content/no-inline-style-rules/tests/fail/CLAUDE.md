@@ -1,3 +1,3 @@
-# Project Setup
-Run npm install to set up the project.
-Use the provided Makefile for builds.
+# Code Style
+Indentation with 4 spaces.
+Use tabs for indent blocks.

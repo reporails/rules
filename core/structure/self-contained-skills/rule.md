@@ -1,5 +1,5 @@
 ---
-id: CORE:S:0018
+id: CORE:S:0017
 slug: self-contained-skills
 title: Self-Contained Skills
 category: structure
@@ -18,14 +18,14 @@ backed_by:
 - fowler-pushing-ai-autonomy
 - microsoft-awesome-copilot-blog
 - osmani-ai-coding-workflow
-targets: '{{skills_dir}}/**/*.md'
+targets: '{{skill_entry_file}}'
 checks:
-- id: CORE.S.0018.skill_dir_exists
+- id: CORE.S.0017.skill_dir_exists
   type: mechanical
   severity: medium
   name: skill_dir_exists
   check: glob_match
-- id: CORE.S.0018.has_skill_entry_point
+- id: CORE.S.0017.has_skill_entry_point
   type: deterministic
   severity: medium
   name: has_skill_entry_point

@@ -1,13 +1,11 @@
 rules:
-- id: CORE.C.0017.extract_inline_style_rules
-  message: Inline style rules not found
+- id: CORE.C.0017.no_inline_style_rules
+  message: No inline style rules
   severity: ERROR
   languages:
   - generic
   paths:
     include:
     - '{{instruction_files}}'
-  patterns:
-  - pattern-regex: (?s)\A[\s\S]+
-  - pattern-not-regex: 
-      (?i)(indent(?:ation)?\s+(?:with|using|of)\s+\d+|use\s+(?:tabs?|spaces?)\s+for\s+indent|trailing\s+(?:comma|newline|whitespace)|semicolons?\s+(?:required|optional|always|never)|line[_\s-]?length\s*[=:<>]\s*\d+|quote[_\s-]?style\s*[=:]|brace[_\s-]?style)
+  pattern-regex: 
+    (?i)(indent(?:ation)?\s+(?:with|using|of)\s+\d+|use\s+(?:tabs?|spaces?)\s+for\s+indent|trailing\s+(?:comma|newline|whitespace)|semicolons?\s+(?:required|optional|always|never)|line[_\s-]?length\s*[=:<>]\s*\d+|quote[_\s-]?style\s*[=:]|brace[_\s-]?style)

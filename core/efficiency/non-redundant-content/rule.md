@@ -33,7 +33,7 @@ backed_by:
 - sewell-agents-md-tips
 - spec-writing-for-agents
 - using-claude-md-files
-targets: '{{instruction_files}}'
+targets: '{{main_instruction_file}}'
 checks:
 - id: CORE.E.0003.file_in_scope
   type: mechanical
@@ -44,11 +44,6 @@ checks:
   type: deterministic
   severity: medium
   name: extract_potentially_redundant
-- id: CORE.E.0003.no_large_dependency_block
-  type: mechanical
-  severity: medium
-  name: no_large_dependency_block
-  check: count_at_most
 - id: CORE.E.0003.redundancy_judgment
   type: semantic
   severity: medium

@@ -1,5 +1,5 @@
 ---
-id: CORE:G:0006
+id: CORE:G:0005
 slug: permission-configuration-explicitly-denies-access-to-sensiti
 title: Permission Configuration Explicitly Denies Access To Sensitive Files
 category: governance
@@ -14,12 +14,12 @@ backed_by:
 - copilot-coding-agent-tasks
 targets: '{{settings_file}}'
 checks:
-- id: CORE.G.0006.file_in_scope
+- id: CORE.G.0005.file_in_scope
   type: mechanical
   severity: medium
   name: file_in_scope
   check: file_exists
-- id: CORE.G.0006.mentions_deny_policy
+- id: CORE.G.0005.mentions_deny_policy
   type: deterministic
   severity: medium
   name: mentions_deny_policy

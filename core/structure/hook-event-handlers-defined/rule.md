@@ -1,5 +1,5 @@
 ---
-id: CORE:S:0024
+id: CORE:S:0020
 slug: hook-event-handlers-defined
 title: Hook Event Handlers Defined
 category: structure
@@ -13,12 +13,12 @@ backed_by:
 - instruction-limits-principles
 targets: '{{settings_file}}'
 checks:
-- id: CORE.S.0024.settings_file_exists
+- id: CORE.S.0020.settings_file_exists
   type: mechanical
   severity: medium
   name: settings_file_exists
   check: file_exists
-- id: CORE.S.0024.has_hook_event_types
+- id: CORE.S.0020.has_hook_event_types
   type: deterministic
   severity: medium
   name: has_hook_event_types

@@ -43,14 +43,13 @@ core:
     non-redundant-content: "CORE:E:0003"
   governance:
     file-defines-forbidden-commands-or-operational-safety-bounda: CORE:G:0004
-    hook-shell-commands-reference-claude-project-dir-instead-of-: CORE:G:0005
     instruction-files-are-tracked-in-version-control: CORE:G:0001
-    managed-enterprise-config-exists-that-enforces-policies-user: CORE:G:0007
     mcp-config-file-declares-servers-with-tool-allowlists-or-sco: CORE:G:0009
-    permission-configuration-explicitly-denies-access-to-sensiti: CORE:G:0006
-    project-configuration-is-self-contained-and-does-not-rely-on: CORE:G:0008
     no-credentials-in-file: "CORE:G:0002"
     permissions-ordered: "CORE:G:0003"
+    managed-enterprise-config-exists-that-enforces-policies-user: "CORE:G:0006"
+    project-configuration-is-self-contained-and-does-not-rely-on: "CORE:G:0007"
+    permission-configuration-explicitly-denies-access-to-sensiti: "CORE:G:0005"
   maintenance:
     freshness-marker-present: "CORE:M:0001"
   structure:
@@ -59,12 +58,7 @@ core:
     codex-skill-directory-contains-agents-openai-yaml-with-displ: CORE:S:0036
     hook-configuration-uses-recognized-event-type-names-as-keys: CORE:S:0026
     hook-handler-objects-in-settings-json-contain-a-type-field-w: CORE:S:0028
-    hook-handlers-with-type-command-contain-a-command-field-with: CORE:S:0025
     hook-handlers-with-type-prompt-or-agent-contain-a-prompt-fie: CORE:S:0029
-    skill-directory-names-follow-kebab-case-convention: CORE:S:0019
-    skill-folder-does-not-contain-readme-md-all-documentation-go: CORE:S:0020
-    skill-yaml-frontmatter-description-field-is-under-1024-chara: CORE:S:0022
-    the-name-field-in-skill-md-frontmatter-matches-the-containin: CORE:S:0021
     import-references-used: "CORE:S:0001"
     section-headers-present: "CORE:S:0002"
     shallow-heading-hierarchy: "CORE:S:0003"
@@ -79,17 +73,17 @@ core:
     agent-documents-which-filenames-are-checked-and-in-what-prio: "CORE:S:0012"
     scope-fields-in-frontmatter: "CORE:S:0013"
     descriptive-filenames: "CORE:S:0014"
-    applyto-scope-declared: "CORE:S:0015"
-    skill-entry-point-present: "CORE:S:0016"
-    layered-content-structure: "CORE:S:0017"
-    self-contained-skills: "CORE:S:0018"
-    single-topic-per-section: "CORE:S:0023"
-    hook-event-handlers-defined: "CORE:S:0024"
     settings-scope-declared: "CORE:S:0027"
     local-override-file-present: "CORE:S:0030"
     import-targets-resolve: "CORE:S:0032"
     rules-directory-structure: "CORE:S:0033"
     setup-steps-defined: "CORE:S:0035"
+    skill-entry-point-present: "CORE:S:0015"
+    layered-content-structure: "CORE:S:0016"
+    skill-directory-names-follow-kebab-case-convention: "CORE:S:0018"
+    single-topic-per-section: "CORE:S:0019"
+    hook-event-handlers-defined: "CORE:S:0020"
+    self-contained-skills: "CORE:S:0017"
   context_quality:
     a-structured-project-manifest-file-exists-that-maps-director: RRAILS:X:0001
     architecture-overview-present: "CORE:X:0001"

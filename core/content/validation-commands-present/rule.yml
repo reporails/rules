@@ -6,7 +6,7 @@ rules:
   - generic
   paths:
     include:
-    - '{{instruction_files}}'
+    - '{{main_instruction_file}}'
   patterns:
   - pattern-regex: 
       (?i)(?:tests?|lints?|checks?|validat|verify|ci|pre.?commit|pre.?push|quality)\b

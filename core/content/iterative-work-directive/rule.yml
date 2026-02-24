@@ -6,7 +6,7 @@ rules:
   - generic
   paths:
     include:
-    - '{{instruction_files}}'
+    - '{{main_instruction_file}}'
   patterns:
   - pattern-regex: 
       (?i)(?:(?:implement|develop|build|create|add|write)\s+\w|(?:approach|methodology|strateg|workflow)\s+(?:for|when|to)|step.by.step|incremental|iterative)

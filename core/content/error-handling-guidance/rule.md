@@ -19,7 +19,7 @@ backed_by:
 - openai-community-agents-md-optimization
 - prompthub-cursor-rules-analysis
 - spec-writing-for-agents
-targets: '{{instruction_files}}'
+targets: '{{main_instruction_file}}'
 checks:
 - id: CORE.C.0023.file_in_scope
   type: mechanical

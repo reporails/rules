@@ -1,5 +1,5 @@
 ---
-id: CORE:G:0009
+id: CORE:G:0008
 slug: mcp-config-file-declares-servers-with-tool-allowlists-or-sco
 title: Mcp Config File Declares Servers With Tool Allowlists Or Scope 
   Constraints
@@ -12,12 +12,12 @@ backed_by:
 - fowler-context-engineering-agents
 targets: '{{mcp_config}}'
 checks:
-- id: CORE.G.0009.mcp_config_exists
+- id: CORE.G.0008.mcp_config_exists
   type: mechanical
   severity: medium
   name: mcp_config_exists
   check: file_exists
-- id: CORE.G.0009.server_declarations
+- id: CORE.G.0008.server_declarations
   type: deterministic
   severity: medium
   name: server_declarations

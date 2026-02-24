@@ -1,12 +1,12 @@
 rules:
-- id: CORE.S.0019.kebab_case_names
+- id: CORE.S.0018.kebab_case_names
   message: Kebab case names not found
   severity: WARNING
   languages:
   - generic
   paths:
     include:
-    - '{{skills_dir}}/**/*.md'
+    - '{{skill_entry_file}}'
   patterns:
   - pattern-regex: (?s)\A[\s\S]+
   - pattern-not-regex: (?i)(?:kebab[- ]?case|lowercase[- ]?with[- 

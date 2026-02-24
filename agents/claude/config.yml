@@ -21,6 +21,7 @@ vars:
 
   # Skills
   skills_dir: ".claude/skills"
+  skill_entry_file: ".claude/skills/**/SKILL.md"
 
   # Configuration
   settings_file: ".claude/settings.json"

@@ -1,12 +1,12 @@
 rules:
-- id: CORE.S.0018.has_skill_entry_point
+- id: CORE.S.0017.has_skill_entry_point
   message: Skill entry point not found
   severity: WARNING
   languages:
   - generic
   paths:
     include:
-    - '{{skills_dir}}/**/*.md'
+    - '{{skill_entry_file}}'
   patterns:
   - pattern-regex: (?s)\A[\s\S]+
   - pattern-not-regex: 

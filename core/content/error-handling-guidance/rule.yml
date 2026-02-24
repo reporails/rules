@@ -6,7 +6,7 @@ rules:
   - generic
   paths:
     include:
-    - '{{instruction_files}}'
+    - '{{main_instruction_file}}'
   patterns:
   - pattern-regex: 
       (?i)\b(?:error|exception|fail|crash|retry|fallback|recover|graceful|catch|throw|raise|timeout|abort)\b

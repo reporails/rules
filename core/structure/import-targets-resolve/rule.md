@@ -1,5 +1,5 @@
 ---
-id: CORE:S:0032
+id: CORE:S:0024
 slug: import-targets-resolve
 title: Import Targets Resolve
 category: structure
@@ -10,16 +10,16 @@ backed_by:
 - developer-context-cursor-study
 targets: '{{supplementary_files}}'
 checks:
-- id: CORE.S.0032.file_in_scope
+- id: CORE.S.0024.file_in_scope
   type: mechanical
   severity: high
   name: file_in_scope
   check: file_exists
-- id: CORE.S.0032.extract_import_refs
+- id: CORE.S.0024.extract_import_refs
   type: deterministic
   severity: high
   name: extract_import_refs
-- id: CORE.S.0032.all_imports_resolve
+- id: CORE.S.0024.all_imports_resolve
   type: mechanical
   severity: high
   name: all_imports_resolve

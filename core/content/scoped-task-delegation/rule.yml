@@ -6,7 +6,7 @@ rules:
   - generic
   paths:
     include:
-    - '{{instruction_files}}'
+    - '{{main_instruction_file}}'
   patterns:
   - pattern-regex: (?i)\b(?:sub[- 
       ]?agent|delegat|spawn|parallel|background|multi[- 

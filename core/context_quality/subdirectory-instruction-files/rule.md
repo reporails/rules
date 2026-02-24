@@ -28,7 +28,7 @@ backed_by:
 - sewell-agents-md-tips
 - spec-writing-for-agents
 - using-claude-md-files
-targets: '{{instruction_files}}'
+targets: '{{main_instruction_file}}'
 checks:
 - id: CORE.X.0004.subdir_instruction_exists
   type: mechanical

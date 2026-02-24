@@ -1,5 +1,5 @@
 rules:
-- id: CORE.G.0008.extract_settings_refs
+- id: CORE.G.0007.extract_settings_refs
   message: Settings refs not found
   severity: WARNING
   languages:
