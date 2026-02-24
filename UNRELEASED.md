@@ -27,6 +27,8 @@
 
 ## Fixed
 
+- [SCHEMAS]: Sources schema version corrected from `1.0.0` to `0.1.0` (inherited stale `v3` from pre-semver era)
+- [CI]: Commented out test harness in CI and release workflows until `reporails-cli` 0.5.0 is published
 - [AGENTS]: Claude config exclude coordinate corrected from `CORE:G:0001` to `CORE:C:0026`
 - [SCHEMAS]: Stale check ID validation rule text corrected to `{NAMESPACE}.{CATEGORY}.{SLOT}.{descriptive-name}`
 - [META]: Replaced all "OpenGrep" references with "regex" / "pattern matching"; runtime migrated to reporails-cli regex engine

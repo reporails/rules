@@ -1,7 +1,7 @@
 # Public source registry schema
 # Format: flat YAML list of source entries
 # Location: docs/sources.yml (in each package repo)
-version: "1.0.0"
+version: "0.1.0"
 
 format: list
 

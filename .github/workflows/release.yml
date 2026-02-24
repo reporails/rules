@@ -40,14 +40,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build test image
-        run: docker build -t reporails-test runtime/
-
-      - name: Run test harness
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/rules:ro \
-            reporails-test
+      # TODO: Re-enable when reporails-cli 0.5.0 is published on PyPI
+      # - name: Build test image
+      #   run: docker build -t reporails-test runtime/
+      #
+      # - name: Run test harness
+      #   run: |
+      #     docker run --rm \
+      #       -v ${{ github.workspace }}:/rules:ro \
+      #       reporails-test
 
       - name: Validate schemas have versions
         run: |
