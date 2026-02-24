@@ -1,0 +1,10 @@
+rules:
+- id: CORE.S.0009.no_broken_headings
+  message: No broken headings
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  pattern-regex: '^#{1,6}[^ #\n]'

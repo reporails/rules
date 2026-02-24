@@ -1,0 +1,14 @@
+rules:
+- id: CORE.C.0009.extract_ask_directives
+  message: Ask directives not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: (?i)(?:ask 
+      (?:for|before|rather|instead)|clarif(?:y|ication)|don't 
+      (?:guess|assume)|when (?:unsure|uncertain|unclear|ambiguous))

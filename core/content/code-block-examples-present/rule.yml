@@ -1,0 +1,13 @@
+rules:
+- id: CORE.C.0016.has_code_fences
+  message: Code fences not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: 
+      (?:(?:npm|yarn|pip|cargo|make|docker|kubectl|git|curl)\b|`[^`]+`|\$\w)
+  - pattern-not-regex: '```[\w]*\n[\s\S]+?\n```'

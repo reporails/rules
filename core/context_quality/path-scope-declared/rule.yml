@@ -1,0 +1,12 @@
+rules:
+- id: CORE.X.0005.has_globs_frontmatter_field
+  message: Globs frontmatter field not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{supplementary_files}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: '^globs\s*:'

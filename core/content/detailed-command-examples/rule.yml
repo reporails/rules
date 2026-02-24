@@ -1,0 +1,14 @@
+rules:
+- id: CORE.C.0020.has_detailed_commands
+  message: Detailed commands not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: 
+      (?:npm|yarn|pnpm|pip|poetry|uv|cargo|go|make|pytest|jest|ruff|eslint|docker|kubectl|gh|git)\b
+  - pattern-not-regex: 
+      (?:(?:npm|yarn|pnpm|pip|poetry|uv|cargo|go|make|pytest|jest|ruff|eslint|docker|kubectl|gh|git)\s+\S+\s+--?\w)

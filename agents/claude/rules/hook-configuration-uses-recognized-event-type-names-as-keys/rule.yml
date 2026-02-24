@@ -1,0 +1,13 @@
+rules:
+- id: CLAUDE.S.0005.valid_event_types
+  message: Valid event types not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{settings_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?:PreToolUse|PostToolUse|PostToolUseFailure|PreCompact|SessionStart|SessionEnd|UserPromptSubmit|PermissionRequest|Notification|SubagentStart|SubagentStop|Stop|TeammateIdle|TaskCompleted)

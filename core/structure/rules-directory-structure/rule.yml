@@ -1,0 +1,12 @@
+rules:
+- id: CORE.S.0025.has_markdown_rule_files
+  message: Markdown rule files not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{rules_dir}}/**/*.md'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: \.md$

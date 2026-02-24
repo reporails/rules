@@ -9,6 +9,8 @@ agents:
     tasks: .claude/tasks/
   codex:
     config: agents/codex/config.yml
+  generic:
+    config: agents/generic/config.yml
   copilot:
     main_instruction_file: .github/copilot-instructions.md
     config: agents/copilot/config.yml
@@ -19,18 +21,20 @@ rules:
   patterns:
     rule_dir: "{category}/{slug}/"
     definition: "rule.md"
-    opengrep: "rule.yml"
+    patterns_yml: "rule.yml"
     test_pass: "tests/pass/"
     test_fail: "tests/fail/"
   categories:
     structure: core/structure/
     content: core/content/
+    context_quality: core/context_quality/
     efficiency: core/efficiency/
     maintenance: core/maintenance/
     governance: core/governance/
   agent_rules:
     claude: agents/claude/rules/
     codex: agents/codex/rules/
+    copilot: agents/copilot/rules/
 
 schemas:
   rule: schemas/rule.schema.yml

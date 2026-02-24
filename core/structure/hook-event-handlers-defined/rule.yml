@@ -1,0 +1,13 @@
+rules:
+- id: CORE.S.0020.has_hook_event_types
+  message: Hook event types not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{settings_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?i)(PreToolUse|PostToolUse|Notification|Stop|SubagentTool|UserPromptSubmit)

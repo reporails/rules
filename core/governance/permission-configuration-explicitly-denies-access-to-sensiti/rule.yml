@@ -1,0 +1,13 @@
+rules:
+- id: CORE.G.0005.mentions_deny_policy
+  message: Mentions deny policy not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{settings_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?i)(?:permissions?\.deny|deny\s+(?:access|read|write)|sensitive\s+files?|credentials?\s+(?:file|path)|(?:\.env|secrets?)\s+(?:in|to)\s+(?:deny|permissions?))

@@ -1,0 +1,13 @@
+rules:
+- id: CORE.S.0011.extract_override_content
+  message: Override content not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{supplementary_files}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?i)(?:overrid|extend|inherit|parent|child|nested|subdirectory|scope)

@@ -1,0 +1,14 @@
+rules:
+- id: CORE.X.0001.extract_architecture_content
+  message: Architecture content not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?i)(?:^#{1,3}\s+(?:architecture|overview|design|system|components?)|\b(?:architecture|design
+      pattern|component|service|layer|module|api|database|frontend|backend|client|server)\b)

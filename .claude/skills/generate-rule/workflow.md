@@ -5,7 +5,7 @@ flowchart TD
     START([/generate-rule coordinate scope title]) --> GATHER[Gather: what, why, type]
     GATHER --> TYPE{Detection method?}
     TYPE -->|Structural checks only| MECH[type: mechanical]
-    TYPE -->|OpenGrep fully decides| DET[type: deterministic]
+    TYPE -->|Regex fully decides| DET[type: deterministic]
     TYPE -->|Needs LLM judgment| SEM[type: semantic<br/>Add question + criteria]
     MECH --> GEN[Generate skeleton files]
     DET --> GEN
@@ -22,7 +22,7 @@ flowchart TD
 | File | Content |
 |------|---------|
 | `rule.md` | Frontmatter (id, slug, title, category, type, level, checks, backed_by) + prose |
-| `rule.yml` | OpenGrep patterns (deterministic/semantic) or `rules: []` (mechanical) |
+| `rule.yml` | Regex patterns (deterministic/semantic) or `rules: []` (mechanical) |
 | `tests/pass/` | Empty — populated by `/implement-rule` |
 | `tests/fail/` | Empty — populated by `/implement-rule` |
 
@@ -30,7 +30,7 @@ flowchart TD
 
 ```yaml
 rules:
-  - id: NAMESPACE.CATEGORY.SLOT.check.0001
+  - id: NAMESPACE.CATEGORY.SLOT.descriptive-name
     message: "{description}"
     severity: WARNING
     languages: [generic]
@@ -40,7 +40,7 @@ rules:
         - "{{instruction_files}}"
 ```
 
-Mechanical rules get `rules: []` — no OpenGrep patterns needed.
+Mechanical rules get `rules: []` — no regex patterns needed.
 
 ## Edge Cases
 

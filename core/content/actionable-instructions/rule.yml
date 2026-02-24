@@ -1,0 +1,17 @@
+rules:
+- id: CORE.C.0001.flag_vague_language
+  message: Flag vague language not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  patterns:
+  - pattern-regex: 
+      (?i)^[\s*>-]*(?:always|never|must|should|do|don't|avoid|use|include|make 
+      sure|ensure|when|prefer).{10,}
+  - pattern-not-regex: (?i)\b(?:appropriately|as needed|when relevant|best 
+      practices?|good judgment|be (?:careful|thorough|clear|good)|ensure 
+      (?:quality|correctness|proper)|make sure (?:to|that)|handle (?:this|it) 
+      properly|reasonable|suitable)\b

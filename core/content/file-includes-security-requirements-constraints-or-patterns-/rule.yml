@@ -1,0 +1,16 @@
+rules:
+- id: CORE.C.0011.has_security_content
+  message: Security content not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?i)(?:security|OWASP|(?:input|data)\s+validation|(?:SQL|command|code)\s+injection|cross[-
+      ]?site|XSS|CSRF|auth(?:entication|orization)\s+(?:check|requir|verif)|sanitiz|escap(?:e|ing)\s+(?:user|input)|(?:never|do
+      not|don't)\s+(?:use\s+)?eval|(?:never|do 
+      not|don't)\s+(?:concatenate|interpolate)\s+(?:SQL|queries))

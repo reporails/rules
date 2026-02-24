@@ -1,0 +1,4 @@
+PreToolUse:
+  - command: lint
+PostToolUse:
+  - command: format

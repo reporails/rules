@@ -1,0 +1,14 @@
+rules:
+- id: CORE.C.0024.has_domain_terms
+  message: Domain terms not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?i)(?:^#{1,3}\s+(?:terminology|glossary|domain|concepts)|\b(?:we call|we 
+      define|in our|our term for|domain[- ]specific|ubiquitous language)\b)

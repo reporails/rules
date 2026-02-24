@@ -1,0 +1,13 @@
+rules:
+- id: CORE.C.0027.has_mcp_reference
+  message: Mcp reference not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: (?i)(?:MCP|model context 
+      protocol|mcp[_-]?server|mcpServers)

@@ -1,0 +1,15 @@
+rules:
+- id: CORE.C.0007.has_workflow_content
+  message: Workflow content not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: 
+      (?i)\b(?:workflow|process|procedure|guideline|convention|methodology|practice|feature|bug|debug|refactor|deploy|review|commit|release)\b
+  - pattern-not-regex: 
+      (?i)(?:^#{1,3}\s+(?:workflow|process|procedure)|\b(?:workflow|when\s+(?:you|the
+      agent)|for\s+(?:features?|bugs?|PRs?|testing|debugging|refactoring))\b)

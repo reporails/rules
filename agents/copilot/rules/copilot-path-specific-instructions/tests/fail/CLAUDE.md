@@ -1,1 +1,0 @@
-All testing instructions embedded in the root copilot-instructions.md, loading for every Copilot interaction regardless of whether the user is working on tests

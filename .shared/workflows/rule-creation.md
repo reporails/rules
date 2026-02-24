@@ -3,7 +3,7 @@
 ```mermaid
 flowchart TD
     START([/generate-rule coordinate scope title]) --> GATHER[Gather: what, why, type, patterns]
-    GATHER --> TYPE{OpenGrep fully decides?}
+    GATHER --> TYPE{Regex fully decides?}
     TYPE -->|Yes| DET[type: deterministic]
     TYPE -->|No - needs judgment| SEM[type: semantic<br/>Add question + criteria]
     TYPE -->|No - structural only| MECH[type: mechanical]
@@ -12,7 +12,7 @@ flowchart TD
     MECH --> SOURCES
     SOURCES --> GEN[Generate rule.md + rule.yml + tests/pass/ + tests/fail]
     GEN --> RESOLVE[Resolve templates for validation]
-    RESOLVE --> VALID{OpenGrep exit code?}
+    RESOLVE --> VALID{Pattern validation?}
     VALID -->|0 or 1| SAVE[Save files with templates intact]
     VALID -->|2| FIX2[Fix syntax error] --> RESOLVE
     VALID -->|7| FIX7[Add positive pattern] --> RESOLVE
@@ -25,10 +25,10 @@ flowchart TD
 The type decision (mechanical / deterministic / semantic) sets the ceiling on what detection methods a rule can use:
 
 - **Mechanical** rules check structural facts — file exists, line count thresholds, section presence. No pattern matching. These are the cheapest to run and the most reliable, but can only detect what's countable or locatable.
-- **Deterministic** rules use OpenGrep patterns to match or reject content. They can detect specific textual violations without human judgment. Most rules land here.
+- **Deterministic** rules use regex patterns to match or reject content. They can detect specific textual violations without human judgment. Most rules land here.
 - **Semantic** rules require an LLM judgment call — the violation can't be reduced to a pattern. These are the most expensive and least deterministic, so they're a last resort, not a default.
 
-Choosing the type early prevents over-engineering (writing OpenGrep patterns for a rule that only needs `file_exists`) or under-engineering (trying to pattern-match something that genuinely needs judgment).
+Choosing the type early prevents over-engineering (writing regex patterns for a rule that only needs `file_exists`) or under-engineering (trying to pattern-match something that genuinely needs judgment).
 
 ## Why Sources Before Generation
 
@@ -38,7 +38,7 @@ If no existing source covers the rule, a new source entry must be added first. T
 
 ## Why Validate Before Save
 
-The resolve → validate loop catches broken patterns before they're committed. A rule that passes schema validation but has malformed OpenGrep syntax would fail silently until someone runs the test harness — possibly much later, in a different context. Validating at creation time makes the failure immediate and attributable.
+The resolve → validate loop catches broken patterns before they're committed. A rule that passes schema validation but has malformed pattern syntax would fail silently until someone runs the test harness — possibly much later, in a different context. Validating at creation time makes the failure immediate and attributable.
 
 ## Edge Cases
 

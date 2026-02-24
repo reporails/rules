@@ -42,7 +42,7 @@ Test artifacts (the `CORE:S:9999` smoke test rule) would pollute real validation
 |------|-----------------|--------------------------------------------------|--------------------------------|
 | 1    | rule-creation   | `/generate-rule CORE:S:9999 structure "Smoke Test"` | qa-checklist.md#generate-rule  |
 | 2    | rule-validation | all rules                                        | qa-checklist.md#validate-rules |
-| 3    | rule-update     | `/update-rule CORE:S:9999 "Add test pattern"`    | qa-checklist.md#update-rule    |
+| 3    | rule-update     | Follow `rule-update.md` for CORE:S:9999 with "Add test pattern" | qa-checklist.md#update-rule    |
 | 4    | rule-validation | all rules                                        | Test rule still passes         |
 | 5    | cleanup         | `rm -rf core/structure/smoke-test/`              | directory deleted              |
 
@@ -66,7 +66,7 @@ Test artifacts (the `CORE:S:9999` smoke test rule) would pollute real validation
 
 **Step 4 fails (regression):**
 - Update broke something — compare rule.yml before/after
-- Check OpenGrep validation output
+- Check pattern validation output
 
 ## Cleanup on Failure
 

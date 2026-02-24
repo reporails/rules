@@ -89,7 +89,7 @@ fields:
     type: array
     items:
       type: string
-      pattern: "^CORE:[SCEMG]:[0-9]{4}$"
+      pattern: "^CORE:[SCXEMG]:[0-9]{4}$"
     description: "Core rule IDs this package opts out of" 
 
   overrides:

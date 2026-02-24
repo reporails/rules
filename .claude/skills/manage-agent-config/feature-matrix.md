@@ -35,13 +35,13 @@ Core rules only. For recommended rule excludes, see reporails/recommended.
 ### Copilot
 ```yaml
 excludes:
-  - CORE:S:0007   # Decomposed instruction system — single file only
+  - CORE:G:0001   # Cross-agent compatibility — single instruction file
 ```
 
 ### Codex
 ```yaml
 excludes:
-  - CORE:S:0007   # Decomposed instruction system — single file only
+  - CORE:G:0001   # Cross-agent compatibility — single instruction file
 ```
 
 ### Cursor
@@ -71,7 +71,7 @@ excludes: []
 
 | Rule | Override consideration |
 |------|----------------------|
-| CORE:S:0005 | Single-file agents may need higher line limit |
+| CORE:C:0001 | Single-file agents may need adjusted severity for project context |
 
 ## Adding New Agents
 

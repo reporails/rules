@@ -14,7 +14,7 @@ type: mechanical|deterministic|semantic
 level: L1|L2|L3|L4|L5|L6
 targets: "{{instruction_files}}"
 checks:
-  - id: NAMESPACE.CATEGORY.SLOT.check.NNNN
+  - id: NAMESPACE.CATEGORY.SLOT.descriptive-name
     name: {Description}
     severity: critical|high|medium|low
 backed_by: []                     # source IDs from docs/sources.yml
@@ -49,7 +49,7 @@ criteria:
 
 ```yaml
 rules:
-  - id: NAMESPACE.CATEGORY.SLOT.check.NNNN
+  - id: NAMESPACE.CATEGORY.SLOT.descriptive-name
     message: "{description}"
     severity: WARNING
     languages: [generic]
@@ -59,7 +59,7 @@ rules:
         - "{{instruction_files}}"
 ```
 
-Mechanical rules have `rules: []` — no OpenGrep patterns needed.
+Mechanical rules have `rules: []` — no regex patterns needed.
 
 ## Coordinate Patterns
 
@@ -93,7 +93,7 @@ Mechanical rules have `rules: []` — no OpenGrep patterns needed.
 |---------|-----|
 | Using `{{rules_dir}}` in core rules | Core uses only `{{instruction_files}}` |
 | Missing .yml file | Always create both files |
-| Wrong check ID format | Must be `NAMESPACE.CATEGORY.SLOT.check.NNNN` |
+| Wrong check ID format | Must be `NAMESPACE.CATEGORY.SLOT.descriptive-name` |
 | Semantic without question | Add question + criteria (required for semantic) |
 | Hardcoded paths in .yml | Use `{{instruction_files}}` |
 | Title > 64 characters | Shorten or abbreviate |
@@ -110,7 +110,7 @@ Mechanical rules have `rules: []` — no OpenGrep patterns needed.
 - [ ] `type` is valid (mechanical/deterministic/semantic)
 - [ ] `level` is valid (L1-L6)
 - [ ] `checks` array exists and non-empty
-- [ ] `checks[].id` follows `NAMESPACE.CATEGORY.SLOT.check.NNNN` format
+- [ ] `checks[].id` follows `NAMESPACE.CATEGORY.SLOT.descriptive-name` format
 - [ ] `checks[].severity` is valid
 - [ ] If semantic: `question` and `criteria` exist (required)
 - [ ] If mechanical/deterministic: `question` and `criteria` optional (documentation only)

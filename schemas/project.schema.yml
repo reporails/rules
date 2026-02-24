@@ -53,7 +53,7 @@ fields:
         description: "Rule coordinates to skip entirely"
         items:
           type: string
-          pattern: "^[A-Z_]+:[SCEMG]:[0-9]{4}$"
+          pattern: "^[A-Z_]+:[SCXEMG]:[0-9]{4}$"
       overrides:
         type: object
         description: "Per-check severity adjustments (key = check coordinate)"
@@ -132,7 +132,7 @@ examples:
     rules:
       disabled: ["CORE:E:0002"]
       overrides:
-        "CORE:S:0001:check:0001":
+        "CORE.S.0001.file-exists":
           severity: medium
 
   strict: |

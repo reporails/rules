@@ -2,12 +2,22 @@
 
 Rules define what Reporails checks in AI instruction files (CLAUDE.md, AGENTS.md, .cursorrules, copilot-instructions.md). This repo is where those rules live.
 
-## Prerequisites
+## Setup
 
+**Prerequisites:**
 - **Docker** — for running the test harness
 - **A coding agent** — rules are created and validated through agent workflows
 
-Currently supported: **Claude Code**, **Codex**, **GitHub Copilot CLI**
+Currently supported: **Claude Code**, **Codex**, **GitHub Copilot CLI**, **Generic** (AGENTS.md)
+
+**Developer setup:**
+```bash
+git clone git@github.com:reporails/framework.git rules
+cd rules
+git config core.hooksPath .githooks
+```
+
+The pre-commit hook enforces that `UNRELEASED.md` is staged alongside changes to `core/`, `agents/`, `schemas/`, `registry/`, or `docs/`.
 
 ## Rule anatomy
 
@@ -16,7 +26,7 @@ Each rule lives in its own directory with three parts:
 ```
 core/structure/root-instruction-file-presence/
   rule.md          # Definition: frontmatter (id, type, level, checks) + prose
-  rule.yml         # OpenGrep patterns (or empty `rules: []` for mechanical)
+  rule.yml         # Regex patterns (or empty `rules: []` for mechanical)
   tests/
     pass/          # Fixture that should pass the rule
     fail/          # Fixture that should fail the rule
@@ -29,8 +39,10 @@ Every rule has a coordinate like `CORE:S:0001` — three parts:
 | Part | Meaning | Values |
 |------|---------|--------|
 | Namespace | Who owns it | `CORE`, `CLAUDE`, `CODEX`, `COPILOT` |
-| Category | What it checks | `S` (structure), `C` (content), `G` (governance), `M` (maintenance) |
+| Category | What it checks | `S` (structure), `C` (content), `X` (context_quality), `E` (efficiency), `G` (governance), `M` (maintenance) |
 | Slot | Sequence number | `0001`–`9999` |
+
+Check IDs within a rule use dots and a descriptive name: `CORE.S.0001.file-exists`
 
 Check `registry/coordinate-map.yml` to see which slots are taken before picking a new one.
 
@@ -38,11 +50,11 @@ Check `registry/coordinate-map.yml` to see which slots are taken before picking 
 
 | Type | How it detects | Example |
 |------|---------------|---------|
-| **mechanical** | Python structural checks (file exists, line count, byte size) | CORE:S:0001 — root instruction file presence |
-| **deterministic** | OpenGrep pattern matching on file content | CORE:C:0004 — avoid generic placeholder content |
-| **semantic** | OpenGrep pre-filter + LLM evaluation | CORE:C:0001 — include project context |
+| **mechanical** | Python structural checks (file exists, line count, byte size) | CORE:S:0007 — root instruction file exists |
+| **deterministic** | Regex pattern matching on file content | CORE:C:0018 — constraint keywords present |
+| **semantic** | Regex pre-filter + LLM evaluation | CORE:C:0026 — cross-agent compatibility |
 
-Mechanical rules have `rules: []` in their rule.yml. Deterministic and semantic rules have OpenGrep patterns.
+Mechanical rules have `rules: []` in their rule.yml. Deterministic and semantic rules have regex patterns.
 
 ## Creating a rule
 
@@ -78,16 +90,16 @@ Build and run the Docker test harness:
 docker compose -f runtime/docker-compose.yml build
 
 # Run all rules
-docker compose -f runtime/docker-compose.yml run test
+docker compose -f runtime/docker-compose.yml run --rm test
 
 # Run one rule
-docker compose -f runtime/docker-compose.yml run test --rule CORE:S:0001
+docker compose -f runtime/docker-compose.yml run --rm test --rule CORE:S:0001
 
 # Run one category
-docker compose -f runtime/docker-compose.yml run test core/structure/
+docker compose -f runtime/docker-compose.yml run --rm test core/structure/
 
-# Verbose output (shows OpenGrep matches)
-docker compose -f runtime/docker-compose.yml run test --verbose
+# Verbose output
+docker compose -f runtime/docker-compose.yml run --rm test --verbose
 ```
 
 All tests must pass before submitting.
@@ -96,22 +108,32 @@ All tests must pass before submitting.
 
 1. Create a branch from `main`
 2. Make your changes
-3. Run the test harness — all rules must pass
-4. Open a pull request
+3. Add a changelog entry to `UNRELEASED.md` (the pre-commit hook enforces this for rule/schema/registry changes)
+4. Run the test harness — all rules must pass
+5. Open a pull request
+
+**Changelog format** — use the existing sections in `UNRELEASED.md`:
+- `## Added` — new rules, new capabilities
+- `## Changed` — modifications to existing rules, schemas, docs
+- `## Fixed` — bug fixes in patterns, fixtures, or workflows
+- `## Removed` — tombstoned rules, deleted files
 
 ## Rule layout
 
 ```
 core/
-  structure/       # 3 rules — file presence, nesting, format
-  content/         # 5 rules — context, commands, architecture, constraints
-  governance/      # 1 rule — cross-agent compatibility
-  maintenance/     # 2 rules — reference integrity, glob validation
+  structure/       # 25 rules — file presence, nesting, format, hooks, skills
+  content/         # 32 rules — context, commands, conventions, constraints
+  context_quality/ # 7 rules — architecture, tech stack, directory layout
+  efficiency/      # 5 rules — size limits, redundancy, grouping
+  governance/      # 8 rules — credentials, permissions, MCP, self-contained config
+  maintenance/     # 1 rule — freshness markers
 
 agents/
-  claude/rules/    # 3 rules — CLAUDE.md-specific patterns
-  codex/rules/     # 1 rule — AGENTS.md-specific patterns
-  copilot/rules/   # 2 rules — copilot-instructions.md patterns
+  claude/rules/    # 8 rules — hooks, skills, frontmatter
+  codex/rules/     # 2 rules — file priority, skill structure
+  copilot/rules/   # 2 rules — applyTo scope, setup steps
+  generic/         # config only (default agent)
 ```
 
 Opinionated rules (governance, style) live in [reporails/recommended](https://github.com/reporails/recommended) with the `RRAILS_` namespace.

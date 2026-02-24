@@ -1,0 +1,13 @@
+rules:
+- id: CORE.C.0019.has_negative_directives
+  message: Negative directives not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: (?i)^[\s*>-]*(?:don't|do not|never|avoid|must not|should 
+      not|NEVER|DO NOT|MUST NOT)\s+\w

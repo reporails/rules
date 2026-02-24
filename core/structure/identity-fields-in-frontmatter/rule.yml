@@ -1,0 +1,12 @@
+rules:
+- id: CORE.S.0005.identity_field_present
+  message: Identity field present not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{supplementary_files}}'
+  patterns:
+  - pattern-regex: ^---\n
+  - pattern-not-regex: '^(?:name|description|title|author|version)\s*:'

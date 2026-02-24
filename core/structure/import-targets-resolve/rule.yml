@@ -1,0 +1,12 @@
+rules:
+- id: CORE.S.0024.extract_import_refs
+  message: Import refs not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{supplementary_files}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: '@[\w./]+'

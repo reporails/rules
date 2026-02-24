@@ -1,0 +1,21 @@
+rules:
+- id: CORE.G.0002.no_secret_patterns
+  message: No secret patterns
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  pattern-regex: 
+    (?i)(api[_-]?key|secret[_-]?key|access[_-]?token|password|bearer)\s*[=:][\s"'`]?[A-Za-z0-9+/]{16,}
+- id: CORE.G.0002.no_token_strings
+  message: No token strings
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{instruction_files}}'
+  pattern-regex: 
+    (?:sk-[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{20,}|xox[bpoa]-[A-Za-z0-9-]+)

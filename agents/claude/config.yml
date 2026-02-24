@@ -1,32 +1,43 @@
 # Claude Code Agent Configuration
-# Schema: schemas/agent.schema.yml
+# Schema: schemas/agent.schema.yml v0.2.0
 
 agent: claude
-version: "0.1.0"
+version: "0.2.0"
 prefix: CLAUDE
 name: Claude Code
 
 vars:
-  # Universal (required for all agents)
+  # Instruction files
   main_instruction_file:
     - "**/CLAUDE.md"
   instruction_files:
     - "**/CLAUDE.md"
     - ".claude/rules/**/*.md"
 
-  # Agent-specific (Claude supports rules directory)
+  # Modular rules
   supplementary_files:
     - ".claude/rules/**/*.md"
   rules_dir: ".claude/rules"
-  settings_file: ".claude/settings.json"
-  memory_dir: ".claude/memory"
+
+  # Skills
   skills_dir: ".claude/skills"
+  skill_entry_file: ".claude/skills/**/SKILL.md"
+
+  # Configuration
+  settings_file: ".claude/settings.json"
+  mcp_config: ".mcp.json"
+
+  # Overrides
   local_file: "CLAUDE.local.md"
-  managed_settings_linux: "/etc/claude-code/managed-settings.json"
-  managed_settings_macos: "/Library/Application Support/ClaudeCode/managed-settings.json"
-  managed_settings_windows: "C:/Program Files/ClaudeCode/managed-settings.json"
+
+  # Enterprise/managed
+  managed_config:
+    - "/etc/claude-code/managed-settings.json"
+    - "/Library/Application Support/ClaudeCode/managed-settings.json"
+    - "C:/Program Files/ClaudeCode/managed-settings.json"
+
+  # Memory
+  memory_dir: ".claude/memory"
 
 excludes:
-  - CORE:S:0010  # Cross-agent compatibility — AGENTS.md is not a Claude surface
-
-# No severity overrides — all moved to reporails/recommended
+  - CORE:C:0026  # Cross-agent compatibility — AGENTS.md is not a Claude surface

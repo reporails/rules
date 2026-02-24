@@ -1,0 +1,13 @@
+rules:
+- id: CORE.S.0018.kebab_case_names
+  message: Kebab case names not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{skill_entry_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: (?i)(?:kebab[- ]?case|lowercase[- ]?with[- 
+      ]?hyphens|\b[a-z]+(?:-[a-z]+)+\b)

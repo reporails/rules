@@ -1,0 +1,5 @@
+services:
+  test:
+    volumes:
+      - ../../cli:/cli:ro
+    entrypoint: ["sh", "-c", "pip install --no-cache-dir /cli && ails test --rules-root /rules"]

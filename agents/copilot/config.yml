@@ -1,23 +1,28 @@
-# GitHub Copilot CLI Agent Configuration
-# Schema: schemas/agent.schema.yml
+# GitHub Copilot Agent Configuration
+# Schema: schemas/agent.schema.yml v0.2.0
 
 agent: copilot
-version: "0.1.0"
+version: "0.2.0"
 prefix: COPILOT
-name: GitHub Copilot CLI
+name: GitHub Copilot
 
 vars:
-  # Universal (required for all agents)
+  # Instruction files
   main_instruction_file:
     - ".github/copilot-instructions.md"
   instruction_files:
     - ".github/copilot-instructions.md"
-  
-  # Agent-specific (Copilot CLI supports skills and path-scoped rules)
-  skills_dir: ".claude/skills"
-  
+    - ".github/instructions/**/*.instructions.md"
+
+  # Modular rules
+  supplementary_files:
+    - ".github/instructions/**/*.instructions.md"
+  rules_dir: ".github/instructions"
+
+  # Skills
+  skills_dir: ".github/skills"
+  skill_entry_file: ".github/skills/**/SKILL.md"
+
 excludes:
   - CLAUDE:*     # All Claude-specific rules excluded
   - CODEX:*      # All Codex-specific rules excluded
-
-# No severity overrides — all moved to reporails/recommended

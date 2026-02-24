@@ -14,7 +14,7 @@ flowchart TD
     MECH --> CHECKS[Write checks array in rule.md]
     DET --> CHECKS
     SEM --> CHECKS
-    DET --> PATTERNS[Write OpenGrep rules in rule.yml]
+    DET --> PATTERNS[Write regex patterns in rule.yml]
     SEM --> PATTERNS
     CHECKS --> FIXTURES[Generate realistic pass/ and fail/ fixtures]
     PATTERNS --> FIXTURES
@@ -57,13 +57,13 @@ Use agent-specific template vars in paths (e.g., `{{rules_dir}}`, `{{skills_dir}
 Set `cross_file: true` on the deterministic check. Fixture must contain multiple files in `tests/pass/` and `tests/fail/` to exercise cross-file behavior.
 
 **Mechanical-only rules:**
-Leave `rule.yml` as `rules: []` — no OpenGrep patterns needed. Fixtures must exercise the mechanical check function (e.g., file presence/absence for `file_exists`).
+Leave `rule.yml` as `rules: []` — no regex patterns needed. Fixtures must exercise the mechanical check function (e.g., file presence/absence for `file_exists`).
 
 **Deterministic rules with mechanical pre-checks:**
 Allowed — `deterministic` type ceiling permits both `mechanical` and `deterministic` checks. Order them so mechanical runs first if it narrows the target set.
 
 **Absence-type violations with no structural signature:**
-When the violation is purely "keyword X is missing" and no structural gap pattern exists, `negate: true` is acceptable as a last resort. Document why in the check's `message` field. Use OpenGrep's `patterns` (combined `pattern-regex` + `pattern-not-regex`) over frontmatter `negate` where possible — it keeps the logic in the pattern engine rather than the test runner.
+When the violation is purely "keyword X is missing" and no structural gap pattern exists, `negate: true` is acceptable as a last resort. Document why in the check's `message` field. Use `patterns` (combined `pattern-regex` + `pattern-not-regex`) over frontmatter `negate` where possible — it keeps the logic in the pattern engine rather than the test runner.
 
 ## Fixture Quality Criteria
 

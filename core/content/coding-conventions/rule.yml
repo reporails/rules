@@ -1,0 +1,15 @@
+rules:
+- id: CORE.C.0012.extract_convention_content
+  message: Convention content not found
+  severity: ERROR
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: 
+      (?i)(?:^#{1,3}\s+(?:conventions?|style|standards?|patterns?|naming)|\b(?:convention|code
+      style|naming pattern|preferred (?:approach|pattern|style)|we 
+      (?:use|prefer|follow)|project (?:convention|standard))\b)

@@ -11,7 +11,7 @@ title: {Title}                    # max 64 chars
 category: structure|content|efficiency|maintenance
 type: deterministic|semantic
 checks:
-  - id: "{RULE_ID}:check:{SLOT}"
+  - id: "{NAMESPACE}.{CATEGORY}.{SLOT}.{descriptive-name}"
     name: {Description}
     severity: critical|high|medium|low
 backed_by: []                     # empty by default
@@ -49,7 +49,7 @@ criteria:
 
 ```yaml
 rules:
-  - id: "{RULE_ID}.check.{SLOT}"
+  - id: "{NAMESPACE}.{CATEGORY}.{SLOT}.{descriptive-name}"
     message: "TODO: {description}"
     severity: WARNING
     languages: [generic]
@@ -63,12 +63,12 @@ rules:
 
 | Scope | Pattern | Example |
 |-------|---------|---------|
-| Core | `CORE:{CAT}:{SLOT}` | `CORE:S:0001`, `CORE:C:0010` |
+| Core | `CORE:{CAT}:{SLOT}` | `CORE:S:0001`, `CORE:C:0005` |
 | Agent | `{AGENT}:{CAT}:{SLOT}` | `CLAUDE:S:0001`, `CODEX:S:0003` |
 | Recommended | `RRAILS:{CAT}:{SLOT}` | `RRAILS:C:0008`, `RRAILS:E:0002` |
 | Recommended Agent | `RRAILS_{AGENT}:{CAT}:{SLOT}` | `RRAILS_CLAUDE:S:0001` |
 
-**Check IDs**: `{RULE_ID}:check:{SLOT}` in rule.md (colons), `{RULE_ID}.check.{SLOT}` in rule.yml (dots — colons invalid in OpenGrep).
+**Check IDs**: `{NAMESPACE}.{CATEGORY}.{SLOT}.{descriptive-name}` — dots and kebab-case name in both rule.md and rule.yml.
 
 ## Valid Values
 
@@ -94,7 +94,7 @@ rules:
 |---------|-----|
 | Using `{{rules_dir}}` in core rules | Core uses only `{{instruction_files}}` |
 | Missing .yml file | Always create both files |
-| Wrong check ID format | Must be `{RULE_ID}:check:{SLOT}` (colons in .md, dots in .yml) |
+| Wrong check ID format | Must be `NAMESPACE.CATEGORY.SLOT.descriptive-name` |
 | Semantic without question | Add question + criteria |
 | Deterministic with question | Remove question + criteria |
 | Hardcoded paths in .yml | Use `{{instruction_files}}` |

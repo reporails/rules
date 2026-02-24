@@ -1,0 +1,12 @@
+rules:
+- id: CORE.S.0015.has_required_sections
+  message: Required sections not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{skill_entry_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: (?i)^#{1,3}\s+(name|description|process|workflow|steps)

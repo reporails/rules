@@ -1,0 +1,16 @@
+rules:
+- id: CORE.C.0023.extract_error_content
+  message: Error content not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: 
+      (?i)\b(?:error|exception|fail|crash|retry|fallback|recover|graceful|catch|throw|raise|timeout|abort)\b
+  - pattern-not-regex: 
+      (?i)(?:(?:error|exception|failure|fail|crash|bug|issue)\s+(?:handling|recovery|behavior|strategy)|\b(?:when
+      (?:it|things) fail|if .* fails?|on error|on 
+      failure|graceful|retry|fallback)\b)

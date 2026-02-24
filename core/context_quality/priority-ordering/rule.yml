@@ -1,0 +1,12 @@
+rules:
+- id: CORE.X.0006.extract_early_content
+  message: Early content not found
+  severity: WARNING
+  languages:
+  - generic
+  paths:
+    include:
+    - '{{main_instruction_file}}'
+  patterns:
+  - pattern-regex: (?s)\A[\s\S]+
+  - pattern-not-regex: ^(?:#{1,3}\s+.+|[A-Z][^.!?\n]{10,}[.!?])

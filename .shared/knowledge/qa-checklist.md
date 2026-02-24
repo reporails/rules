@@ -14,15 +14,15 @@ After running rule creation workflow:
 | Files exist | `ls core/{category}/{slug}/rule.{md,yml}` | Both rule.md and rule.yml present |
 | Tests exist | `ls core/{category}/{slug}/tests/` | pass/ and fail/ directories present |
 | Frontmatter valid | `head -30 core/{category}/{slug}/rule.md` | id, slug, title, category, type, level, checks, backed_by |
-| Check ID format | Inspect rule.md | `checks[].id` follows `NAMESPACE.CATEGORY.SLOT.check.NNNN` |
+| Check ID format | Inspect rule.md | `checks[].id` follows `NAMESPACE.CATEGORY.SLOT.descriptive-name` |
 | YML matches | Inspect rule.yml | `rules[].id` matches `checks[].id` from rule.md |
-| OpenGrep validates | `opengrep scan --config core/{category}/{slug}/rule.yml .` | Exit 0 or 1 |
+| Patterns validate | `ails test --rule {coordinate}` | Exit 0 or 1 |
 
 **Fail indicators:**
 - Missing rule.yml file
 - Frontmatter missing required fields
-- Check ID doesn't match coordinate pattern (e.g., `CORE.S.0001.check.0001`)
-- OpenGrep exit 2 (syntax error) or 7 (no positive pattern)
+- Check ID doesn't match coordinate pattern (e.g., `CORE.S.0001.file-exists`)
+- Pattern exit 2 (syntax error) or 7 (no positive pattern)
 
 ---
 
@@ -35,7 +35,7 @@ After running validation workflow:
 | Completes | Workflow finishes | No crash or hang |
 | Schema validation | Output | Reports schema errors if any |
 | Contract validation | Output | Reports .md/.yml mismatches if any |
-| OpenGrep validation | Output | Reports pattern errors if any |
+| Pattern validation | Output | Reports pattern errors if any |
 | Summary format | Output | `Rules: N | Schema: N | Contract: N` |
 
 **Fail indicators:**
@@ -55,13 +55,13 @@ After running rule update workflow:
 | ID preserved | `grep "id:" core/{category}/{slug}/rule.md` | Coordinate unchanged |
 | Directory preserved | `ls -d core/{category}/{slug}/` | Same directory |
 | Pattern updated | `cat core/{category}/{slug}/rule.yml` | New pattern present |
-| OpenGrep validates | `opengrep scan --config core/{category}/{slug}/rule.yml .` | Exit 0 or 1 |
+| Patterns validate | `ails test --rule {coordinate}` | Exit 0 or 1 |
 
 **Fail indicators:**
 - Rule not found
 - Coordinate or slug changed
 - Pattern not added
-- OpenGrep fails after update
+- Pattern validation fails after update
 
 ---
 

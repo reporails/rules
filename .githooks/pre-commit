@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Pre-commit hook: require UNRELEASED.md when staging rule/schema/registry changes.
+
+staged=$(git diff --cached --name-only)
+
+has_content=false
+for f in $staged; do
+    case "$f" in
+        core/*|agents/*|schemas/*|registry/*|docs/*) has_content=true; break ;;
+    esac
+done
+
+if $has_content; then
+    if ! echo "$staged" | grep -q '^UNRELEASED\.md'; then
+        echo "ERROR: Rule, schema, or registry files are staged but UNRELEASED.md is not."
+        echo "Add changelog entries to UNRELEASED.md before committing."
+        exit 1
+    fi
+fi
