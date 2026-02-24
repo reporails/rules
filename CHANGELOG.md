@@ -5,6 +5,49 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-02-24
+
+Major catalog expansion — 90 core rules across 6 categories, agent-specific rules migrated to agent namespaces, context_quality category added, OpenGrep removed.
+
+### Added
+- [RULES]: Expanded core rule catalog — 32 content, 36 structure, 7 context_quality, 5 efficiency, 9 governance, 1 maintenance rules with definitions, patterns, and pass/fail fixtures
+- [RULES]: Agent-specific rules — 8 Claude (hooks, skills), 2 Codex (file priority, skill structure), 2 Copilot (applyTo scope, setup steps)
+- [REGISTRY]: Rebuilt coordinate map for 0.5.0 rule catalog (102 entries across core + agents)
+- [SKILLS]: Redesigned `/bootstrap` — synthesized context output (navigation, operations, constraints)
+- [SKILLS]: Added bootstrap workflow at `.shared/workflows/bootstrap.md`
+- [SKILLS]: Added `/test-rules` skill for docker compose test harness
+- [META]: Pre-commit hook enforces UNRELEASED.md is staged for core/, agents/, schemas/, registry/, docs/ changes
+
+### Changed
+- [SCHEMAS]: Added `context_quality` category (letter `X`) to coordinate patterns and category enums
+- [SCHEMAS]: Normalized agent override severity enum syntax and added `critical` value
+- [SCHEMAS]: Added pattern validation to agent config `excludes` items
+- [SCHEMAS]: Added `internal` source type to sources schema
+- [SCHEMAS]: Agent config examples updated to use arrays for `main_instruction_file`
+
+### Removed
+- [RULES]: Deprecated core rules: avoid-generic-placeholder-content, boundary-constraints, include-project-context, project-architecture-documentation, verification-build-commands, cross-agent-compatibility, valid-glob-patterns-in-frontmatter, valid-internal-references, monorepo-nested-instruction-files, root-instruction-file-presence, structured-markdown-format
+- [RULES]: Deprecated agent rules: CLAUDE import-syntax-for-modular-content, path-scoped-rules, rules-directory-for-modular-instructions; CODEX combined-instruction-size-limit; COPILOT copilot-instructions-placement, copilot-path-specific-instructions
+
+### Fixed
+- [SCHEMAS]: Sources schema version corrected from `1.0.0` to `0.1.0` (inherited stale `v3` from pre-semver era)
+- [SCHEMAS]: Schema version bumped to `0.1.1` (removed "OpenGrep" from pattern field description)
+- [SCHEMAS]: Check ID format canonicalized to `NAMESPACE.CATEGORY.SLOT.descriptive-name`
+- [SCHEMAS]: Stale check ID validation rule text corrected
+- [AGENTS]: Claude config exclude coordinate corrected from `CORE:G:0001` to `CORE:C:0026`
+- [CI]: Test harness commented out in CI and release workflows pending `reporails-cli` 0.5.0
+- [META]: Replaced all "OpenGrep" references with "regex" / "pattern matching"
+- [META]: Renamed backbone key `rules.patterns.opengrep` → `rules.patterns.patterns_yml`
+- [META]: Purged pre-0.4.0 phantom coordinates from config files and skill docs
+- [DOCS]: Renamed `docs/opengrep-guide.md` → `docs/pattern-guide.md`
+- [DOCS]: CONTRIBUTING.md — added developer setup with git hooks
+- [DOCS]: Fixed phantom coordinates in copilot-instructions.md, pattern guide, qa-smoke-test.md
+
+### Metrics
+- Rules: 102 (90 core + 8 Claude + 2 Codex + 2 Copilot)
+- Schemas: 8 (rule, capability, levels, agent, package, project, sources, user) — all 0.x.x
+- Agents: 4 (Claude, Codex, Copilot, Generic)
+
 ## [0.4.1] - 2026-02-17
 
 Workflow documentation — added reasoning prose to all shared workflows.

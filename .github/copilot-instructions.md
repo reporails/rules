@@ -56,17 +56,17 @@ core/structure/instruction-file-size-limit/
 
 | Type | Detection Method | Example |
 |------|------------------|---------|
-| **mechanical** | Python structural checks (file exists, line count, byte size) | CORE:S:0001 — root instruction file presence |
-| **deterministic** | Regex pattern matching on file content | CORE:C:0004 — avoid generic placeholder content |
-| **semantic** | Regex pre-filter + LLM evaluation | CORE:G:0001 — cross-agent compatibility |
+| **mechanical** | Python structural checks (file exists, line count, byte size) | CORE:S:0007 — root instruction file exists |
+| **deterministic** | Regex pattern matching on file content | CORE:C:0018 — constraint keywords present |
+| **semantic** | Regex pre-filter + LLM evaluation | CORE:C:0026 — cross-agent compatibility |
 
 Mechanical rules have `rules: []` in rule.yml.
 
 ### Coordinates
 
 Every rule has a coordinate like `CORE:S:0001`:
-- **Namespace**: `CORE` (cross-agent), `CLAUDE`, `CODEX`
-- **Category**: `S` (structure), `C` (content), `E` (efficiency), `M` (maintenance), `G` (governance)
+- **Namespace**: `CORE` (cross-agent), `CLAUDE`, `CODEX`, `COPILOT`
+- **Category**: `S` (structure), `C` (content), `X` (context_quality), `E` (efficiency), `G` (governance), `M` (maintenance)
 - **Slot**: `0001`–`9999`
 
 Check `registry/coordinate-map.yml` before picking a slot.

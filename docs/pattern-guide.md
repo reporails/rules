@@ -22,8 +22,8 @@ Use `languages: [generic]` for CLAUDE.md and other instruction files:
 
 ```yaml
 rules:
-  - id: CORE.S.0005.exceeds-300-lines
-    message: "Root file exceeds 300 lines"
+  - id: CORE.E.0002.exceeds-300-lines
+    message: "Instruction file exceeds 300 lines"
     severity: ERROR
     languages: [generic]
     pattern-regex: "..."
@@ -87,7 +87,7 @@ The engine natively parses YAML. Use `languages: [yaml]` for frontmatter:
 
 ```yaml
 rules:
-  - id: CORE.S.0008.has-path-scoping
+  - id: CORE.X.0005.has-path-scoping
     message: "Rule file has path scoping"
     languages: [yaml]
     pattern: |
@@ -167,7 +167,7 @@ Results passed to LLM:
 LLM evaluates only what patterns couldn't determine
 ```
 
-**Example: Cross-Agent Compatibility (CORE:G:0001)**
+**Example: Cross-Agent Compatibility (CORE:C:0026)**
 
 Patterns can detect:
 - Agent-specific syntax (`@import`, `.claude/rules/`)
@@ -180,13 +180,13 @@ Patterns can't determine:
 **So you write both:**
 
 ```yaml
-# core/governance/cross-agent-compatibility/rule.md (frontmatter)
+# core/content/cross-agent-compatibility/rule.md (frontmatter)
 type: semantic
 checks:
-  - id: CORE.G.0001.agent-specific-syntax
+  - id: CORE.C.0026.agent-specific-syntax
     name: agent-specific-syntax
     severity: medium
-  - id: CORE.G.0001.semantic-evaluation
+  - id: CORE.C.0026.semantic-evaluation
     name: semantic-evaluation
     severity: medium
 question: "Does this shared instruction file avoid agent-specific syntax?"
@@ -196,9 +196,9 @@ criteria:
 ```
 
 ```yaml
-# core/governance/cross-agent-compatibility/rule.yml (regex patterns)
+# core/content/cross-agent-compatibility/rule.yml (regex patterns)
 rules:
-  - id: CORE.G.0001.agent-specific-syntax
+  - id: CORE.C.0026.agent-specific-syntax
     message: "Agent specific syntax"
     severity: WARNING
     languages: [generic]
@@ -226,5 +226,5 @@ ails test --rule <coordinate>
 
 ## Resources
 
-- [Semgrep Generic Pattern Matching](https://semgrep.dev/docs/writing-rules/generic-pattern-matching)
-- [Semgrep Pattern Syntax](https://semgrep.dev/docs/writing-rules/pattern-syntax)
+- [Python `re` module](https://docs.python.org/3/library/re.html) — regex syntax reference
+- [regex101](https://regex101.com/) — interactive regex testing (use Python flavor)

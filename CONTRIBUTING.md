@@ -8,7 +8,7 @@ Rules define what Reporails checks in AI instruction files (CLAUDE.md, AGENTS.md
 - **Docker** — for running the test harness
 - **A coding agent** — rules are created and validated through agent workflows
 
-Currently supported: **Claude Code**, **Codex**, **GitHub Copilot CLI**
+Currently supported: **Claude Code**, **Codex**, **GitHub Copilot CLI**, **Generic** (AGENTS.md)
 
 **Developer setup:**
 ```bash
@@ -39,7 +39,7 @@ Every rule has a coordinate like `CORE:S:0001` — three parts:
 | Part | Meaning | Values |
 |------|---------|--------|
 | Namespace | Who owns it | `CORE`, `CLAUDE`, `CODEX`, `COPILOT` |
-| Category | What it checks | `S` (structure), `C` (content), `G` (governance), `M` (maintenance) |
+| Category | What it checks | `S` (structure), `C` (content), `X` (context_quality), `E` (efficiency), `G` (governance), `M` (maintenance) |
 | Slot | Sequence number | `0001`–`9999` |
 
 Check IDs within a rule use dots and a descriptive name: `CORE.S.0001.file-exists`
@@ -50,9 +50,9 @@ Check `registry/coordinate-map.yml` to see which slots are taken before picking 
 
 | Type | How it detects | Example |
 |------|---------------|---------|
-| **mechanical** | Python structural checks (file exists, line count, byte size) | CORE:S:0001 — root instruction file presence |
-| **deterministic** | Regex pattern matching on file content | CORE:C:0004 — avoid generic placeholder content |
-| **semantic** | Regex pre-filter + LLM evaluation | CORE:G:0001 — cross-agent compatibility |
+| **mechanical** | Python structural checks (file exists, line count, byte size) | CORE:S:0007 — root instruction file exists |
+| **deterministic** | Regex pattern matching on file content | CORE:C:0018 — constraint keywords present |
+| **semantic** | Regex pre-filter + LLM evaluation | CORE:C:0026 — cross-agent compatibility |
 
 Mechanical rules have `rules: []` in their rule.yml. Deterministic and semantic rules have regex patterns.
 
@@ -122,15 +122,18 @@ All tests must pass before submitting.
 
 ```
 core/
-  structure/       # 3 rules — file presence, nesting, format
-  content/         # 5 rules — context, commands, architecture, constraints
-  governance/      # 1 rule — cross-agent compatibility
-  maintenance/     # 2 rules — reference integrity, glob validation
+  structure/       # 25 rules — file presence, nesting, format, hooks, skills
+  content/         # 32 rules — context, commands, conventions, constraints
+  context_quality/ # 7 rules — architecture, tech stack, directory layout
+  efficiency/      # 5 rules — size limits, redundancy, grouping
+  governance/      # 8 rules — credentials, permissions, MCP, self-contained config
+  maintenance/     # 1 rule — freshness markers
 
 agents/
-  claude/rules/    # 3 rules — CLAUDE.md-specific patterns
-  codex/rules/     # 1 rule — AGENTS.md-specific patterns
-  copilot/rules/   # 2 rules — copilot-instructions.md patterns
+  claude/rules/    # 8 rules — hooks, skills, frontmatter
+  codex/rules/     # 2 rules — file priority, skill structure
+  copilot/rules/   # 2 rules — applyTo scope, setup steps
+  generic/         # config only (default agent)
 ```
 
 Opinionated rules (governance, style) live in [reporails/recommended](https://github.com/reporails/recommended) with the `RRAILS_` namespace.

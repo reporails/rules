@@ -8,9 +8,8 @@ This document is the source of truth for Reporails threshold interpretations. Wh
 
 | Rule | Threshold | Source says | Our interpretation |
 |------|-----------|-------------|-------------------|
-| Per-file size limit (planned) | 300 lines max | "< 300 lines is best" | Per-file limit encourages @imports earlier |
-| Total instruction budget (planned) | 32 KiB total | "hierarchical structure" | Total instruction budget across all files |
-| CLAUDE:S:0002 | 5 hops max | "hierarchical structure" | Import chains beyond 5 hops become confusing |
+| CORE:E:0002 Per-file size limit | 300 lines max | "< 300 lines is best" | Per-file limit encourages @imports earlier |
+| CORE:E:0001 Total instruction budget | 32 KiB total | "hierarchical structure" | Total instruction budget across all files |
 
 ## Rationale
 
@@ -39,13 +38,13 @@ These are defaults. Users can override via `.reporails/config.yml`:
 
 ```yaml
 overrides:
-  CORE:S:0005:
+  CORE:E:0002:
     disabled: true  # "I know my file is long"
 ```
 
 ## Sources
 
 This document is cited by rules that use Reporails-defined thresholds:
-- Per-file size limit (planned), total instruction budget (planned), CLAUDE:S:0002
+- CORE:E:0002 (per-file size limit), CORE:E:0001 (total instruction budget)
 
 For rules backed by external sources, see `docs/sources.yml`.

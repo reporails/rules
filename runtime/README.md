@@ -104,14 +104,14 @@ has-project-description/tests/
 
 ## Template Variables
 
-Variables like `{{instruction_files}}` resolve from agent config files (`agents/{agent}/config.yml`). Default agent is `claude`.
+Variables like `{{instruction_files}}` resolve from agent config files (`agents/{agent}/config.yml`). Default agent is `generic`.
 
-| Variable | Claude value | Codex value |
-|----------|-------------|-------------|
-| `{{main_instruction_file}}` | `**/CLAUDE.md` | `**/AGENTS.md` |
-| `{{instruction_files}}` | `**/CLAUDE.md`, `.claude/rules/**/*.md` | `**/AGENTS.md`, `**/AGENTS.override.md` |
-| `{{rules_dir}}` | `.claude/rules` | — |
-| `{{skills_dir}}` | `.claude/skills` | — |
+| Variable | Claude | Codex | Copilot | Generic |
+|----------|--------|-------|---------|---------|
+| `{{main_instruction_file}}` | `**/CLAUDE.md` | `**/AGENTS.md` | `**/.github/copilot-instructions.md` | `**/AGENTS.md` |
+| `{{instruction_files}}` | `**/CLAUDE.md`, `.claude/rules/**/*.md` | `**/AGENTS.md`, `**/AGENTS.override.md` | `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md` | `**/AGENTS.md` |
+| `{{rules_dir}}` | `.claude/rules` | — | — | — |
+| `{{skills_dir}}` | `.claude/skills` | — | — | — |
 
 ## Graceful Degradation
 
